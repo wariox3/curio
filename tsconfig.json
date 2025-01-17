@@ -2,6 +2,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "strict": false,
     "noImplicitOverride": true,
@@ -21,7 +22,39 @@
     "lib": [
       "ES2022",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@assets": [
+        "src/assets/*"
+      ],
+      "@redux/*": [
+        "src/app/redux/*"
+      ],
+      "@pipe/*": [
+        "src/app/shared/pipes/*"
+      ],
+      "@componentes/*": [
+        "src/app/shared/components/*"
+      ],
+      "@constantes/*": [
+        "src/app/shared/constants/*"
+      ],
+      "@directive/*": [
+        "src/app/core/directive/*"
+      ],
+      "@interceptores/*": [
+        "src/app/core/interceptors/*"
+      ],
+      "@guardias/*": [
+        "src/app/core/guards/*"
+      ],
+      "@interfaces/*": [
+        "src/app/core/model/interface/*"
+      ],
+      "@types/*": [
+        "src/app/core/model/types/*"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
