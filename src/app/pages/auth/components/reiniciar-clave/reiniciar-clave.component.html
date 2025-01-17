@@ -6,25 +6,26 @@
     [formGroup]="formularioReiniciarClave"
     (ngSubmit)="submit()"
   >
-    <!--begin::Heading-->
     <div class="text-center mb-11">
-      <!--begin::Title-->
-      <h1 translate="FORMULARIOS.TITULOS.SEGURIDAD.RESTABLECER" class="text-dark fw-bolder mb-3"></h1>
-      <!--end::Title-->
+      <h1
+        translate="FORMULARIOS.TITULOS.SEGURIDAD."
+        class="text-dark fw-bolder mb-3"
+      >
+        RESTABLECER
+      </h1>
     </div>
-    <!--begin::Heading-->
 
-    <!--begin::Form group-->
     <div class="fv-row mb-8">
       <label
-        translate="FORMULARIOS.TITULOS.SEGURIDAD.TITULO2"
+        translate="FORMULARIOS.TITULOS.SEGURIDAD."
         class="form-label fw-bolder text-dark fs-6"
-      ></label>
+        >Clave</label
+      >
       <div class="input-wrapper">
         <input
           class="form-control bg-transparent"
           [type]="cambiarTipoCampoClave"
-          [placeholder]="'FORMULARIOS.TITULOS.SEGURIDAD.TITULO2' "
+          placeholder="Clave"
           name="password"
           formControlName="clave"
           autocomplete="off"
@@ -51,7 +52,7 @@
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
           validation: 'required',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' ,
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO',
           control: formularioReiniciarClave.controls['clave']
         }"
       ></ng-container>
@@ -59,7 +60,7 @@
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
           validation: 'minlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' ,
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO',
           cantidadCaracteres: '3',
           control: formularioReiniciarClave.controls['clave']
         }"
@@ -68,7 +69,7 @@
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
           validation: 'maxlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' ,
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO',
           cantidadCaracteres: '50',
           control: formularioReiniciarClave.controls['clave']
         }"
@@ -78,12 +79,12 @@
 
     <!--begin::Form group-->
     <div class="fv-row mb-8">
-      <label translate="FORMULARIOS.TITULOS.SEGURIDAD.CONFIRMARCLAVE" class="form-label fw-bolder text-dark fs-6"></label>
+      <label class="form-label fw-bolder text-dark fs-6">CONFIRMARCLAVE</label>
       <div class="input-wrapper">
         <input
           class="form-control bg-transparent"
           [type]="cambiarTipoCampoConfirmarClave"
-          [placeholder]="'FORMULARIOS.TITULOS.SEGURIDAD.CONFIRMARCLAVE' "
+          placeholder="CONFIRMARCLAVE"
           name="cPassword"
           autocomplete="off"
           formControlName="confirmarClave"
@@ -110,7 +111,7 @@
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
           validation: 'required',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' ,
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO',
           control: formularioReiniciarClave.controls['confirmarClave']
         }"
       ></ng-container>
@@ -118,7 +119,7 @@
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
           validation: 'minlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' ,
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO',
           cantidadCaracteres: '3',
           control: formularioReiniciarClave.controls['confirmarClave']
         }"
@@ -127,7 +128,7 @@
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
           validation: 'maxlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' ,
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO',
           cantidadCaracteres: '50',
           control: formularioReiniciarClave.controls['confirmarClave']
         }"
@@ -158,11 +159,13 @@
         id="kt_sign_up_submit"
         class="btn btn-primary"
         *ngIf="visualizarLoader === false; else loader"
-      >
-      </button>
+      ></button>
       <ng-template #loader>
         <button class="btn btn-primary" type="button" disabled>
-          <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+          <span
+            class="spinner-border spinner-border-sm me-2"
+            aria-hidden="true"
+          ></span>
           <span role="status" translate="LISTAS.COMUNES.CARGANDO"></span>
         </button>
       </ng-template>
@@ -170,8 +173,15 @@
     <!--end::Form group-->
 
     <!--begin::Sign up-->
-    <div translate="FORMULARIOS.TITULOS.AUTENTIFICACION.CUENTA" class="text-gray-500 text-center fw-semibold fs-6">
-      <a translate="FORMULARIOS.TITULOS.AUTENTIFICACION.TITULO" routerLink="/auth/login" class="link-primary fw-semibold">
+    <div
+      translate="FORMULARIOS.TITULOS.AUTENTIFICACION.CUENTA"
+      class="text-gray-500 text-center fw-semibold fs-6"
+    >
+      <a
+        translate="FORMULARIOS.TITULOS.AUTENTIFICACION.TITULO"
+        routerLink="/auth/login"
+        class="link-primary fw-semibold"
+      >
       </a>
     </div>
     <!--end::Sign up-->
@@ -188,9 +198,7 @@
     >
       <div class="fv-plugins-message-container">
         <div class="fv-help-block">
-          <span role="alert">
-            {{ message }} {{ cantidadCaracteres }}
-          </span>
+          <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
         </div>
       </div>
     </ng-container>

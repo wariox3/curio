@@ -1,16 +1,13 @@
 import { AfterViewInit, Component, HostBinding, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { HeaderComponent } from './layouts/header/header.component';
 import { FooterComponent } from './layouts/footer/footer.component';
-import { SidebarComponent } from './layouts/sidebar/sidebar.component';
-import { SearchModalComponent } from './partials/search-modal/search-modal.component';
-import KTComponents from '../metronic/core/index';
+import KTComponents from 'src/metronic/core';
 import KTLayout from '../metronic/app/layouts/demo1';
 
 @Component({
 	selector: 'app-root',
 	standalone: true,
-	imports: [RouterOutlet, HeaderComponent, FooterComponent, SidebarComponent, SearchModalComponent],
+	imports: [RouterOutlet, FooterComponent],
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss'
 })
