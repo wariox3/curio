@@ -20,7 +20,7 @@ import { AuthService } from '../../services/auth.service';
         NgTemplateOutlet,
     ],
 })
-export class ForgotPasswordComponent implements OnInit {
+export default class ForgotPasswordComponent implements OnInit {
 
   ocultarFormularioRestablecerClave = false
   formularioRestablecerClave: FormGroup;

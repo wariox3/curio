@@ -23,7 +23,7 @@ import { RouterLink } from '@angular/router';
     RouterLink,
   ],
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export default class LoginComponent implements OnInit, OnDestroy {
   // KeenThemes mock, change it to:
   // defaultAuth: any = {
   //   email: '',

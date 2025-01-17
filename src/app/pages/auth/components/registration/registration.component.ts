@@ -24,7 +24,7 @@ import { AuthService } from '../../services/auth.service';
     RouterLink,
   ],
 })
-export class RegistrationComponent  implements OnInit {
+export default class RegistrationComponent  implements OnInit {
   formularioRegistro: FormGroup;
   cambiarTipoCampoClave: 'text' | 'password' = 'password';
   cambiarTipoCampoConfirmarClave: 'text' | 'password' = 'password';

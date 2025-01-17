@@ -7,7 +7,7 @@ import { AuthService } from '../../services/auth.service';
     styleUrls: ['./logout.component.scss'],
     standalone: true,
 })
-export class LogoutComponent implements OnInit {
+export default class LogoutComponent implements OnInit {
   constructor(private authService: AuthService) {
     this.authService.logout();
   }

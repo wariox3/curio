@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
 })
-export class VerificacionCuentaComponent  implements OnInit {
+export default class VerificacionCuentaComponent  implements OnInit {
   verificacionToken: 'exitosa' | 'error' | 'cargando' = 'cargando';
   verficacionErrorMensaje = '';
   codigoUsuario: number | null = null;

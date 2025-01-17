@@ -16,7 +16,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
     RouterLink,
   ],
 })
-export class AuthComponent implements OnInit, OnDestroy {
+export default class AuthComponent implements OnInit, OnDestroy {
   today: Date = new Date();
   langs = [
     {

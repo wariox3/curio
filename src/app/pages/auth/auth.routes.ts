@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 
-export const routes: Routes = [
+export default [
   {
     path: '',
-    loadComponent: ()=> import('./auth.component').then(c => c.AuthComponent) ,
+    loadComponent: () => import('./auth.component'),
     children: [
       {
         path: '',
@@ -12,34 +12,36 @@ export const routes: Routes = [
       },
       {
         path: 'login',
-        loadComponent: ()=> import('./components/login/login.component').then(c => c.LoginComponent) ,
-      },
-      {
-        path: 'login/:token',
-        loadComponent: ()=> import('./components/login/login.component').then(c => c.LoginComponent) ,
+        loadComponent: () => import('./components/login/login.component'),
       },
       {
         path: 'registration',
-        loadComponent: ()=> import('./components/registration/registration.component').then(c => c.RegistrationComponent) ,
+        loadComponent: () =>
+          import('./components/registration/registration.component'),
       },
       {
         path: 'forgot-password',
-        loadComponent: ()=> import('./components/forgot-password/forgot-password.component').then(c => c.ForgotPasswordComponent) ,
+        loadComponent: () =>
+          import('./components/forgot-password/forgot-password.component'),
       },
       {
         path: 'logout',
-        loadComponent: ()=> import('./components/logout/logout.component').then(c => c.LogoutComponent) ,
+        loadComponent: () => import('./components/logout/logout.component'),
       },
       {
         path: 'verificacion/:token',
-        loadComponent: ()=> import('./components/verificacion-cuenta/verificacion-cuenta.component').then(c => c.VerificacionCuentaComponent) ,
+        loadComponent: () =>
+          import(
+            './components/verificacion-cuenta/verificacion-cuenta.component'
+          ),
       },
       {
         path: 'clave/cambiar/:token',
-        loadComponent: ()=> import('./components/reiniciar-clave/reiniciar-clave.component').then(c => c.ReiniciarClaveComponent) ,
+        loadComponent: () =>
+          import('./components/reiniciar-clave/reiniciar-clave.component'),
       },
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: '**', redirectTo: 'login', pathMatch: 'full' },
     ],
   },
-];
+] as Routes;

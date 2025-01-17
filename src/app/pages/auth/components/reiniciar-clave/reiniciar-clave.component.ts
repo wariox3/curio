@@ -16,7 +16,7 @@ import { RouterLink } from '@angular/router';
         RouterLink,
     ],
 })
-export class ReiniciarClaveComponent implements OnInit {
+export default class ReiniciarClaveComponent implements OnInit {
   codigo_usuario: string = '';
   inhabilitarBtnRestablecer: boolean = true;
   formularioReiniciarClave: FormGroup;
