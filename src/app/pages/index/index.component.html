@@ -1,0 +1,20 @@
+<p>Hello world!</p>
+<section class="container"
+         (swipeleft)="decrease()"
+         (swiperight)="increase()"
+         (press)="increase()"
+         (pressup)="increase()">
+  <h1>{{ number }}</h1>
+<br>
+
+  @if(isOnline){
+    <p>Estás conectado a Internet.</p>
+
+  } @else {
+    <p>No tienes conexión a Internet.</p>
+
+  }
+
+
+</section>
+
