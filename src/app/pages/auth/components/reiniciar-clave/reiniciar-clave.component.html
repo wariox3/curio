@@ -1,0 +1,206 @@
+<div class="card p-20">
+  <form
+    class="form w-100"
+    novalidate="novalidate"
+    id="kt_login_signup_form"
+    [formGroup]="formularioReiniciarClave"
+    (ngSubmit)="submit()"
+  >
+    <div class="text-center mb-11">
+      <h1
+        translate="FORMULARIOS.TITULOS.SEGURIDAD."
+        class="text-dark fw-bolder mb-3"
+      >
+        RESTABLECER
+      </h1>
+    </div>
+
+    <div class="fv-row mb-8">
+      <label
+        translate="FORMULARIOS.TITULOS.SEGURIDAD."
+        class="form-label fw-bolder text-dark fs-6"
+        >Clave</label
+      >
+      <div class="input-wrapper">
+        <input
+          class="form-control bg-transparent"
+          [type]="cambiarTipoCampoClave"
+          placeholder="Clave"
+          name="password"
+          formControlName="clave"
+          autocomplete="off"
+          [ngClass]="{
+            'is-invalid':
+              formularioReiniciarClave.controls['clave'].touched &&
+              formularioReiniciarClave.controls['clave'].invalid,
+            'is-valid':
+              formularioReiniciarClave.controls['clave'].touched &&
+              formularioReiniciarClave.controls['clave'].valid
+          }"
+        />
+        <i
+          (click)="visualizarClave()"
+          class="fa-regular"
+          [ngClass]="{
+            'fa-eye': cambiarTipoCampoClave === 'password',
+            'fa-eye-slash': cambiarTipoCampoClave === 'text'
+          }"
+        ></i>
+      </div>
+
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO',
+          control: formularioReiniciarClave.controls['clave']
+        }"
+      ></ng-container>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'minlength',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO',
+          cantidadCaracteres: '3',
+          control: formularioReiniciarClave.controls['clave']
+        }"
+      ></ng-container>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'maxlength',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO',
+          cantidadCaracteres: '50',
+          control: formularioReiniciarClave.controls['clave']
+        }"
+      ></ng-container>
+    </div>
+    <!--end::Form group-->
+
+    <!--begin::Form group-->
+    <div class="fv-row mb-8">
+      <label class="form-label fw-bolder text-dark fs-6">CONFIRMARCLAVE</label>
+      <div class="input-wrapper">
+        <input
+          class="form-control bg-transparent"
+          [type]="cambiarTipoCampoConfirmarClave"
+          placeholder="CONFIRMARCLAVE"
+          name="cPassword"
+          autocomplete="off"
+          formControlName="confirmarClave"
+          [ngClass]="{
+            'is-invalid':
+              formularioReiniciarClave.controls['confirmarClave'].touched &&
+              formularioReiniciarClave.controls['confirmarClave'].invalid,
+            'is-valid':
+              formularioReiniciarClave.controls['confirmarClave'].touched &&
+              formularioReiniciarClave.controls['confirmarClave'].valid
+          }"
+        />
+        <i
+          (click)="visualizarConfirmarClave()"
+          class="fa-regular"
+          [ngClass]="{
+            'fa-eye': cambiarTipoCampoConfirmarClave === 'password',
+            'fa-eye-slash': cambiarTipoCampoConfirmarClave === 'text'
+          }"
+        ></i>
+      </div>
+
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO',
+          control: formularioReiniciarClave.controls['confirmarClave']
+        }"
+      ></ng-container>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'minlength',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO',
+          cantidadCaracteres: '3',
+          control: formularioReiniciarClave.controls['confirmarClave']
+        }"
+      ></ng-container>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'maxlength',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO',
+          cantidadCaracteres: '50',
+          control: formularioReiniciarClave.controls['confirmarClave']
+        }"
+      ></ng-container>
+      <!-- <div
+        *ngIf="
+          formularioReiniciarClave.controls.confirmarClave?.touched &&
+          formularioReiniciarClave.controls.confirmarClave?.hasError(
+            'clavesDiferentes'
+          )
+        "
+      >
+        <div class="fv-plugins-message-container">
+          <div class="fv-help-block">
+            <span translate="FORMULARIOS.VALIDACIONES.SEGURIDAD.NOCOINCIDENNUEVO" role="alert">
+            </span>
+          </div>
+        </div>
+      </div> -->
+    </div>
+    <!--end::Form group-->
+
+    <!--begin::Form group-->
+    <div class="d-grid mt-8 mb-10">
+      <button
+        translate="FORMULARIOS.BOTONES.COMUNES.RESTABLECER"
+        type="submit"
+        id="kt_sign_up_submit"
+        class="btn btn-primary"
+        *ngIf="visualizarLoader === false; else loader"
+      ></button>
+      <ng-template #loader>
+        <button class="btn btn-primary" type="button" disabled>
+          <span
+            class="spinner-border spinner-border-sm me-2"
+            aria-hidden="true"
+          ></span>
+          <span role="status" translate="LISTAS.COMUNES.CARGANDO"></span>
+        </button>
+      </ng-template>
+    </div>
+    <!--end::Form group-->
+
+    <!--begin::Sign up-->
+    <div
+      translate="FORMULARIOS.TITULOS.AUTENTIFICACION.CUENTA"
+      class="text-gray-500 text-center fw-semibold fs-6"
+    >
+      <a
+        translate="FORMULARIOS.TITULOS.AUTENTIFICACION.TITULO"
+        routerLink="/auth/login"
+        class="link-primary fw-semibold"
+      >
+      </a>
+    </div>
+    <!--end::Sign up-->
+  </form>
+  <ng-template
+    #formError
+    let-control="control"
+    let-message="message"
+    let-validation="validation"
+    let-cantidadCaracteres="cantidadCaracteres"
+  >
+    <ng-container
+      *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+    >
+      <div class="fv-plugins-message-container">
+        <div class="fv-help-block">
+          <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+        </div>
+      </div>
+    </ng-container>
+  </ng-template>
+</div>

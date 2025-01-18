@@ -1,0 +1,34 @@
+<div class="d-flex flex-column flex-lg-row flex-column-fluid">
+  <div
+    class="d-flex flex-column flex-lg-row-fluid w-lg-50 p-10 order-2 order-lg-1"
+  >
+    <div class="d-flex flex-center flex-column flex-lg-row-fluid">
+      <div class="p-10">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+    <div class="d-flex flex-stack flex-wrap px-10 mx-auto">
+      <div class="d-flex fw-semibold text-primary fs-base"></div>
+      <div
+        class="d-flex justify-content-center fw-semibold text-primary fs-base my-3"
+      >
+        <a routerLink="/terminos" class="px-5" target="_blank">TERMINOS</a>
+
+        <a
+          href="#"
+          routerLink="/inicio"
+          fragment="pricing"
+          class="px-5"
+          target="_blank"
+          >PLAN</a
+        >
+
+        <a routerLink="/inicio" fragment="contacto" class="px-5" target="_blank"
+          >CONTACTO</a
+        >
+      </div>
+    </div>
+    <!--end::Footer-->
+  </div>
+  <!--end::Body-->
+</div>
