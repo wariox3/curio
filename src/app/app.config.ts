@@ -11,6 +11,7 @@ import { provideServiceWorker } from '@angular/service-worker';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreApp } from './redux';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -20,6 +21,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     importProvidersFrom(
       HammerModule,
+      HttpClientModule,
       StoreModule.forRoot(StoreApp),
       StoreDevtoolsModule.instrument({
         maxAge: 25, // Retains last 25 states

@@ -1,196 +1,202 @@
-<div class="card p-15">
-  <form
-    class="form w-100"
-    [formGroup]="loginForm"
-    novalidate="novalidate"
-    id="kt_login_signin_form"
-    (ngSubmit)="submit()"
+<section
+  class="antialiased flex h-full text-base text-gray-700 dark:bg-coal-500"
+>
+  <div
+    class="flex items-center justify-center grow bg-center bg-no-repeat page-bg"
   >
-    <div class="text-center mb-11">
-      <h1 class="text-dark fw-bolder mb-3">TITULO</h1>
-      <div class="text-gray-500 fw-semibold fs-6"></div>
-    </div>
-    <div class="row g-3 mb-9">
-      <div class="col-md-6"></div>
-
-      <div class="col-md-6"></div>
-    </div>
-
-    <!-- <ng-container *ngIf="hasError">
-      <div class="mb-lg-15 alert alert-danger">
-        <div class="alert-text font-weight-bold">
-          Los datos de acceso son incorrectos
+    <div class="card max-w-[370px] w-full">
+      <form
+        class="card-body flex flex-col gap-5 p-10"
+        id="sign_in_form"
+        [formGroup]="loginForm"
+        (ngSubmit)="submit()"
+      >
+        <div class="text-center mb-2.5">
+          <h3 class="text-lg font-medium text-gray-900 leading-none mb-2.5">
+            Sign in
+          </h3>
+          <div class="flex items-center justify-center font-medium">
+            <span class="text-2sm text-gray-700 me-1.5">
+              Need an account?
+            </span>
+            <a
+              class="text-2sm link"
+              href="html/demo5/authentication/classic/sign-up.html"
+            >
+              Sign up
+            </a>
+          </div>
         </div>
-      </div>
-    </ng-container> -->
-
-    <div class="fv-row mb-8 h-100px email-movil-margin-button">
-      <label class="form-label fs-6 fw-bolder text-dark">CORREO</label>
-      <input
-        class="form-control bg-transparent"
-        type="email"
-        name="email"
-        placeholder="CORREO"
-        formControlName="email"
-        autocomplete="off"
-        [ngClass]="{
-          'is-invalid':
-            loginForm.controls['email'].touched &&
-            loginForm.controls['email'].invalid,
-          'is-valid':
-            loginForm.controls['email'].touched &&
-            loginForm.controls['email'].valid
-        }"
-      />
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO',
-          control: loginForm.controls['email']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'pattern',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO',
-          control: loginForm.controls['email']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO',
-          cantidadCaracteres: '3',
-          control: loginForm.controls['email']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO',
-          cantidadCaracteres: '100',
-          control: loginForm.controls['email']
-        }"
-      ></ng-container>
-    </div>
-    <div class="fv-row mb-3 h-100px">
-      <label class="form-label fw-bolder text-dark fs-6 mb-0 requerido"
-        >Contraseña</label
-      >
-      <div class="input-wrapper">
-        <input
-          class="form-control bg-transparent"
-          [type]="cambiarTipoCampoClave"
-          name="password"
-          placeholder="Contraseña"
-          autocomplete="off"
-          formControlName="password"
-          [ngClass]="{
-            'is-invalid':
-              loginForm.controls['password'].touched &&
-              loginForm.controls['password'].invalid,
-            'is-valid':
-              loginForm.controls['password'].touched &&
-              loginForm.controls['password'].valid
-          }"
-        />
-        <i
-          (click)="visualizarClave()"
-          class="fa-regular"
-          [ngClass]="{
-            'fa-eye': cambiarTipoCampoClave === 'password',
-            'fa-eye-slash': cambiarTipoCampoClave === 'text'
-          }"
-        ></i>
-      </div>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'required',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO',
-          control: loginForm.controls['password']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'minlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO',
-          cantidadCaracteres: '3',
-          control: loginForm.controls['password']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO',
-          cantidadCaracteres: '100',
-          control: loginForm.controls['password']
-        }"
-      ></ng-container>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'pattern',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO',
-          control: loginForm.controls['password']
-        }"
-      ></ng-container>
-    </div>
-
-    <div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
-      <a routerLink="/auth/forgot-password" class="link-primary">
-        OLVIDARCONTRASENA
-      </a>
-    </div>
-
-    <div class="d-grid mb-10">
-      <button
-        type="submit"
-        id="kt_sign_in_submit"
-        class="btn btn-primary"
-        *ngIf="visualizarLoader === false; else loader"
-      >
-        INGRESAR
-      </button>
-      <ng-template #loader>
-        <button class="btn btn-primary" type="button" disabled>
-          <span
-            class="spinner-border spinner-border-sm me-2"
-            aria-hidden="true"
-          ></span>
-          <span role="status" translate="LISTAS.COMUNES.CARGANDO"></span>
+        <div class="grid grid-cols-2 gap-2.5">
+          <a class="btn btn-light btn-sm justify-center" href="#">
+            <img
+              alt=""
+              class="size-3.5 shrink-0"
+              src="assets/media/brand-logos/google.svg"
+            />
+            Use Google
+          </a>
+          <a class="btn btn-light btn-sm justify-center" href="#">
+            <img
+              alt=""
+              class="size-3.5 shrink-0 dark:hidden"
+              src="assets/media/brand-logos/apple-black.svg"
+            />
+            <img
+              alt=""
+              class="size-3.5 shrink-0 light:hidden"
+              src="assets/media/brand-logos/apple-white.svg"
+            />
+            Use Apple
+          </a>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="border-t border-gray-200 w-full"> </span>
+          <span class="text-2xs text-gray-500 font-medium uppercase"> Or </span>
+          <span class="border-t border-gray-200 w-full"> </span>
+        </div>
+        <div class="flex flex-col gap-1">
+          <label class="form-label font-normal text-gray-900"> Email </label>
+          <input
+            class="input"
+            placeholder="email@email.com"
+            type="text"
+            formControlName="email"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO',
+              control: loginForm.controls['email']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO',
+              control: loginForm.controls['email']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'minlength',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO',
+              cantidadCaracteres: '3',
+              control: loginForm.controls['email']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO',
+              cantidadCaracteres: '100',
+              control: loginForm.controls['email']
+            }"
+          ></ng-container>
+        </div>
+        <div class="flex flex-col gap-1">
+          <div class="flex items-center justify-between gap-1">
+            <label class="form-label font-normal text-gray-900">
+              Password
+            </label>
+            <a
+              class="text-2sm link shrink-0"
+              href="html/demo5/authentication/classic/reset-password/enter-email.html"
+            >
+              Forgot Password?
+            </a>
+          </div>
+          <div class="input" data-toggle-password="true">
+            <input
+              name="user_password"
+              placeholder="Enter Password"
+              type="password"
+              formControlName="password"
+            />
+            <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO',
+              control: loginForm.controls['password']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'minlength',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO',
+              cantidadCaracteres: '3',
+              control: loginForm.controls['password']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO',
+              cantidadCaracteres: '100',
+              control: loginForm.controls['password']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO',
+              control: loginForm.controls['password']
+            }"
+          ></ng-container>
+            <button
+              class="btn btn-icon"
+              data-toggle-password-trigger="true"
+              type="button"
+            >
+              <i
+                class="ki-filled ki-eye text-gray-500 toggle-password-active:hidden"
+              >
+              </i>
+              <i
+                class="ki-filled ki-eye-slash text-gray-500 hidden toggle-password-active:block"
+              >
+              </i>
+            </button>
+          </div>
+        </div>
+        <label class="checkbox-group">
+          <input
+            class="checkbox checkbox-sm"
+            name="check"
+            type="checkbox"
+            value="1"
+          />
+          <span class="checkbox-label"> Remember me </span>
+        </label>
+        <button class="btn btn-primary flex justify-center grow">
+          Sign In
         </button>
-      </ng-template>
+      </form>
     </div>
-
-    <div
-      translate="FORMULARIOS.TITULOS.AUTENTIFICACION.NOCUENTA"
-      class="text-gray-500 text-center fw-semibold fs-6"
-    >
-      <a routerLink="/auth/registration" class="link-primary">REGISTRATE</a>
+  </div>
+</section>
+<ng-template
+#formError
+let-control="control"
+let-message="message"
+let-validation="validation"
+let-cantidadCaracteres="cantidadCaracteres"
+>
+<ng-container
+  *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+>
+  <div class="fv-plugins-message-container">
+    <div class="fv-help-block">
+      <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
     </div>
-  </form>
-  <ng-template
-    #formError
-    let-control="control"
-    let-message="message"
-    let-validation="validation"
-    let-cantidadCaracteres="cantidadCaracteres"
-  >
-    <ng-container
-      *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
-    >
-      <div class="fv-plugins-message-container">
-        <div class="fv-help-block">
-          <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
-        </div>
-      </div>
-    </ng-container>
-  </ng-template>
-</div>
+  </div>
+</ng-container>
+</ng-template>

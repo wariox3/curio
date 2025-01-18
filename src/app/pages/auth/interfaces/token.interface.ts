@@ -1,4 +1,4 @@
-import { Usuario } from '@interfaces/usuario/usuario';
+import { Usuario } from "@interfaces/usuario";
 export interface Token {
   'refresh-token': string;
   token: string;

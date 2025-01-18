@@ -1,10 +1,15 @@
 import { Injectable, OnDestroy, inject } from '@angular/core';
-
-// import { HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
+import { Token } from '../interfaces/token.interface';
+import { API_ENDPOINTS } from '@constantes/api-endpoints.const';
+import { noRequiereToken } from '@interceptores/token.interceptor';
+import { tap } from 'rxjs';
+import { TokenService } from 'src/app/core/services/token.service';
+import { removeCookie } from 'typescript-cookie';
+import { Router } from '@angular/router';
 // import { Router } from '@angular/router';
 // import { noRequiereToken } from '@interceptores/token.interceptor';
 // import { Usuario } from '@interfaces/usuario/usuario';
-// import { Token } from '@modulos/auth/interfaces/token.interface';
 // import { Store } from '@ngrx/store';
 // import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
 // import { asignarDocumentacion } from '@redux/actions/documentacion.actions';
@@ -27,63 +32,49 @@ import { Injectable, OnDestroy, inject } from '@angular/core';
   providedIn: 'root',
 })
 export class AuthService implements OnDestroy {
-  // private fields
-  // private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
-  // private authLocalStorageToken = `${environment.appVersion}-${environment.USERDATA_KEY}`;
-  // private http = inject(HttpClient);
-  // private router = inject(Router);
+
+  private _http = inject(HttpClient);
+  private _tokenService = inject(TokenService);
+  private _router = inject(Router);
   // private tokenService = inject(TokenService);
   // private store = inject(Store);
 
-  // currentUser$: Observable<UserType>;
-  // isLoading$: Observable<boolean>;
-  // currentUserSubject: BehaviorSubject<UserType>;
-  // isLoadingSubject: BehaviorSubject<boolean>;
-
-  // get currentUserValue(): UserType {
-  //   return this.currentUserSubject.value;
-  // }
-
-  // set currentUserValue(user: UserType) {
-  //   this.currentUserSubject.next(user);
-  // }
-
-  constructor() {
-    // this.isLoadingSubject = new BehaviorSubject<boolean>(false);
-    // this.currentUserSubject = new BehaviorSubject<UserType>(undefined);
-    // this.currentUser$ = this.currentUserSubject.asObservable();
-    // this.isLoading$ = this.isLoadingSubject.asObservable();
-  }
+  constructor() {}
 
   login(email: string, password: string) {
-    // return this.http
-    //   .post<Token>(
-    //     `${environment.URL_API_MUUP}/seguridad/login/`,
-    //     { username: email, password: password },
-    //     { context: noRequiereToken() }
-    //   )
-    //   .pipe(
-    //     tap((respuesta: Token) => {
-    //       let calcularTresHoras = new Date(
-    //         new Date().getTime() + 3 * 60 * 60 * 1000
-    //       );
-    //       this.tokenService.guardarToken(respuesta.token, calcularTresHoras);
-    //       this.tokenService.guardarRefreshToken(
-    //         respuesta['refresh-token'],
-    //         calcularTresHoras
-    //       );
-    //     })
-    //   );
+    return this._http
+      .post<Token>(
+        API_ENDPOINTS.SEGURIDAD.LOGIN,
+        { username: email, password: password },
+        { context: noRequiereToken() }
+      )
+      .pipe(
+        tap((respuesta) => {
+
+              this._tokenService.guardarToken(respuesta.token);
+          //    this.tokenService.guardarRefreshToken(
+          //      respuesta['refresh-token'],
+          //      calcularTresHoras
+          //    );
+        })
+      );
   }
 
   logout() {
-    // localStorage.clear();
-    // localStorage.removeItem(this.authLocalStorageToken);
-    // this.tokenService.eliminarToken();
+    this._clearLocalStorage()
+    this._removerCookies()
+    this._tokenService.eliminarToken();
     // this.tokenService.eliminarRefreshToken();
     // this.store.dispatch(asignarDocumentacion({ id: 0, nombre: '' }));
+  }
+
+  private _clearLocalStorage () {
+    localStorage.clear();
+  }
+
+  private _removerCookies(){
     // removeCookie('usuario', { path: '/', domain: environment.dominioApp });
-    // removeCookie('usuario', { path: '/' });
+    removeCookie('usuario', { path: '/' });
     // const patrones = ['empresa-', 'contenedor-', 'configuracion'];
     // document.cookie.split(';').forEach(function (cookie) {
     //   const cookieNombre = cookie.split('=')[0].trim();
@@ -102,7 +93,7 @@ export class AuthService implements OnDestroy {
     //     environment.dominioHttp
     //   }://${environment.dominioApp.slice(1)}/inicio`;
     // } else {
-    //   this.router.navigate(['/inicio']);
+      this._router.navigate(['/inicio']);
     // }
   }
 
@@ -151,7 +142,6 @@ export class AuthService implements OnDestroy {
     //       let calcularTresHoras = new Date(
     //         new Date().getTime() + 3 * 60 * 60 * 1000
     //       );
-
     //       this.tokenService.guardarToken(respuesta.token, calcularTresHoras);
     //       this.tokenService.guardarRefreshToken(
     //         respuesta['refresh-token'],
