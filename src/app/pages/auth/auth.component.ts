@@ -10,7 +10,6 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [
     RouterOutlet,
-
     NgFor,
     NgClass,
     RouterLink,

@@ -8,13 +8,19 @@ import KTComponents from 'src/metronic/core';
 import KTLayout from '../../../metronic/app/layouts/demo1';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-admin-layout',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, FooterComponent, SidebarComponent, SearchModalComponent],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss',
+  imports: [
+    RouterOutlet,
+    HeaderComponent,
+    FooterComponent,
+    SidebarComponent,
+    SearchModalComponent,
+  ],
+  templateUrl: './admin-layout.component.html',
+  styleUrl: './admin-layout.component.scss',
 })
-export class DashboardComponent implements AfterViewInit, OnInit {
+export default class AdminLayoutComponent implements AfterViewInit, OnInit {
   title = 'metronic-tailwind-angular';
   @HostBinding('class') hostClass = 'flex grow';
 
