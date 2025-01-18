@@ -1,5 +1,5 @@
-import { NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,7 +7,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { usuarioActionInit } from '@redux/actions/usuario.actions';
+import { tap } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,12 +22,10 @@ import { RouterLink } from '@angular/router';
     FormsModule,
     ReactiveFormsModule,
     NgIf,
-    NgClass,
     NgTemplateOutlet,
-    RouterLink,
   ],
 })
-export default class LoginComponent implements OnInit, OnDestroy {
+export default class LoginComponent implements OnInit {
   // KeenThemes mock, change it to:
   // defaultAuth: any = {
   //   email: '',
@@ -35,27 +37,13 @@ export default class LoginComponent implements OnInit, OnDestroy {
   visualizarLoader: boolean = false;
   cambiarTipoCampoClave: 'text' | 'password' = 'password';
 
-  // // private fields
-  // private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
-
-  constructor(private fb: FormBuilder) // private authService: AuthService,
-  // private subdominioService: SubdominioService,
-  // private contenedorServices: ContenedorService
-  {
-    //this.isLoading$ = this.authService.isLoading$;
-    // redirect to home if already logged in
-    // if (this.authService.currentUserValue) {
-    //   this.router.navigate(['/']);
-    // }
-  }
+  private _formBuilder = inject(FormBuilder);
+  private _authService = inject(AuthService);
+  private _store = inject(Store);
+  private _router = inject(Router);
 
   ngOnInit(): void {
     this.initForm();
-  }
-
-  // convenience getter for easy access to form fields
-  get f() {
-    return this.loginForm.controls;
   }
 
   visualizarClave() {
@@ -67,7 +55,7 @@ export default class LoginComponent implements OnInit, OnDestroy {
   }
 
   initForm() {
-    this.loginForm = this.fb.group({
+    this.loginForm = this._formBuilder.group({
       email: [
         '',
         Validators.compose([
@@ -91,87 +79,87 @@ export default class LoginComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    // const tokenUrl = this.activatedRoute.snapshot.paramMap.get('token');
-    // if (Swal.isVisible()) {
-    //   Swal.close();
-    // }
-    // if (this.loginForm.valid) {
-    //   this.visualizarLoader = true;
-    //   this.authService
-    //     .login(this.f.email.value, this.f.password.value)
-    //     .pipe(
-    //       tap((respuestaLogin) => {
-    //         //actualizar el store de redux
-    //         this.store.dispatch(
-    //           usuarioActionInit({
-    //             usuario: {
-    //               id: respuestaLogin.user.id,
-    //               username: respuestaLogin.user.username,
-    //               imagen: respuestaLogin.user.imagen,
-    //               nombre_corto: respuestaLogin.user.nombre_corto,
-    //               nombre: respuestaLogin.user.nombre,
-    //               apellido: respuestaLogin.user.apellido,
-    //               telefono: respuestaLogin.user.telefono,
-    //               correo: respuestaLogin.user.correo,
-    //               idioma: respuestaLogin.user.idioma,
-    //               dominio: respuestaLogin.user.dominio,
-    //               fecha_limite_pago: new Date(
-    //                 respuestaLogin.user.fecha_limite_pago
-    //               ),
-    //               vr_saldo: respuestaLogin.user.vr_saldo,
-    //               fecha_creacion: new Date(respuestaLogin.user.fecha_creacion),
-    //               verificado: respuestaLogin.user.verificado,
-    //               es_socio: respuestaLogin.user.es_socio,
-    //               socio_id: respuestaLogin.user.socio_id,
-    //               is_active: respuestaLogin.user.is_active,
-    //             },
-    //           })
-    //         );
-    //       }),
-    //       switchMap(() => {
-    //         if (this.subdominioService.esSubdominioActual()) {
-    //           return this.contenedorServices.varios(
-    //             this.subdominioService.subdominioNombre()
-    //           );
-    //         }
-    //         return of(null);
-    //       }),
-    //       tap((respuesta: any) => {
-    //         if (respuesta?.empresa.acceso_restringido) {
-    //           location.href = `${
-    //             environment.dominioHttp
-    //           }://${environment.dominioApp.slice(1)}/contenedor/lista`;
-    //         } else {
-    //           this.validarSubdominioYrediccionar(respuesta);
-    //         }
-    //       }),
-    //       switchMap(() => {
-    //         if (tokenUrl) {
-    //           return this.authService.confirmarInivitacion(tokenUrl);
-    //         }
-    //         return of(null);
-    //       }),
-    //       tap((respuestaConfirmarInivitacion: any) => {
-    //         if (tokenUrl) {
-    //           if (respuestaConfirmarInivitacion.confirmar) {
-    //             this.alertaService.mensajaExitoso(
-    //               this.translateService.instant(
-    //                 'FORMULARIOS.MENSAJES.CONTENEDOR.INVITACIONACEPTADA'
-    //               )
-    //             );
-    //           }
-    //         }
-    //       }),
-    //       catchError(() => {
-    //         this.visualizarLoader = false;
-    //         this.changeDetectorRef.detectChanges();
-    //         return of(null);
-    //       })
-    //     )
-    //     .subscribe();
-    // } else {
-    //   this.loginForm.markAllAsTouched();
-    // }
+    //const tokenUrl = this.activatedRoute.snapshot.paramMap.get('token');
+    if (this.loginForm.valid) {
+      //this.visualizarLoader = true;
+      this._authService
+        .login(
+          this.loginForm.get('email')?.value,
+          this.loginForm.get('password')?.value
+        )
+        .pipe(
+          tap((respuestaLogin) => {
+            //actualizar el store de redux
+            this._store.dispatch(
+              usuarioActionInit({
+                usuario: {
+                  id: respuestaLogin.user.id,
+                  username: respuestaLogin.user.username,
+                  imagen: respuestaLogin.user.imagen,
+                  nombre_corto: respuestaLogin.user.nombre_corto,
+                  nombre: respuestaLogin.user.nombre,
+                  apellido: respuestaLogin.user.apellido,
+                  telefono: respuestaLogin.user.telefono,
+                  correo: respuestaLogin.user.correo,
+                  idioma: respuestaLogin.user.idioma,
+                  dominio: respuestaLogin.user.dominio,
+                  fecha_limite_pago: new Date(
+                    respuestaLogin.user.fecha_limite_pago
+                  ),
+                  vr_saldo: respuestaLogin.user.vr_saldo,
+                  fecha_creacion: new Date(respuestaLogin.user.fecha_creacion),
+                  verificado: respuestaLogin.user.verificado,
+                  es_socio: respuestaLogin.user.es_socio,
+                  socio_id: respuestaLogin.user.socio_id,
+                  is_active: respuestaLogin.user.is_active,
+                },
+              })
+            );
+          }),
+          // switchMap(() => {
+          //   if (this.subdominioService.esSubdominioActual()) {
+          //     return this.contenedorServices.varios(
+          //       this.subdominioService.subdominioNombre()
+          //     );
+          //   }
+          //   return of(null);
+          // }),
+          tap((respuesta: any) => {
+            //   if (respuesta?.empresa.acceso_restringido) {
+            //     location.href = `${
+            //       environment.dominioHttp
+            //     }://${environment.dominioApp.slice(1)}/contenedor/lista`;
+            //   } else {
+            this.validarSubdominioYrediccionar(respuesta);
+            //   }
+          })
+          // switchMap(() => {
+          //   if (tokenUrl) {
+          //     return this.authService.confirmarInivitacion(tokenUrl);
+          //   }
+          //   return of(null);
+          // }),
+          // tap((respuestaConfirmarInivitacion: any) => {
+          //   if (tokenUrl) {
+          //     if (respuestaConfirmarInivitacion.confirmar) {
+          //       this.alertaService.mensajaExitoso(
+          //         this.translateService.instant(
+          //           'FORMULARIOS.MENSAJES.CONTENEDOR.INVITACIONACEPTADA'
+          //         )
+          //       );
+          //     }
+          //   }
+          // }),
+          // catchError(() => {
+          //   this.visualizarLoader = false;
+          //   this.changeDetectorRef.detectChanges();
+          //   return of(null);
+          // })
+        )
+        .subscribe();
+    } else {
+      this.loginForm.markAllAsTouched();
+    }
   }
 
   validarSubdominioYrediccionar(respuesta: any) {
@@ -209,11 +197,7 @@ export default class LoginComponent implements OnInit, OnDestroy {
     //   );
     //   this.router.navigate(['/dashboard']);
     // } else {
-    //   this.router.navigate(['/contenedor/lista']);
+    this._router.navigate(['/dashboard']);
     // }
-  }
-
-  ngOnDestroy() {
-    //this.unsubscribe.forEach((sb) => sb.unsubscribe());
   }
 }

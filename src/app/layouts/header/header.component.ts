@@ -1,4 +1,5 @@
-import { Component, HostBinding } from '@angular/core';
+import { Component, HostBinding, inject } from '@angular/core';
+import { AuthService } from 'src/app/pages/auth/services/auth.service';
 
 @Component({
 	selector: 'app-header',
@@ -13,4 +14,10 @@ export class HeaderComponent {
 	@HostBinding('attr.data-sticky') dataSticky = 'true';
 	@HostBinding('attr.data-sticky-name') dataStickyName = 'header';
 	@HostBinding('id') hostId = 'header';
+
+  private _authService = inject(AuthService)
+
+  cerrarSeccion(){
+    this._authService.logout()
+  }
 }

@@ -1,35 +1,29 @@
+import { jwtDecode, JwtPayload } from "jwt-decode";
 import { Injectable } from '@angular/core';
-// import { getCookie, setCookie, removeCookie } from 'typescript-cookie';
-// import jwt_decode, { JwtPayload } from 'jwt-decode';
+import { getCookie, setCookie, removeCookie } from 'typescript-cookie';
 // import { environment } from '@env/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TokenService {
-  constructor() {}
 
-  guardarToken(token: string, calcularTresHoras: Date) {
-    // //para calcular las 3 horas la formula es fechaActual * horas * minutos * segundos * milisegundos
-    // if (environment.production) {
-    //   setCookie('token', token, {
-    //     expires: calcularTresHoras,
-    //     path: '/',
-    //     domain: environment.dominioApp,
-    //   });
-    // } else {
-    //   setCookie('token', token, { expires: calcularTresHoras, path: '/' });
-    // }
+  guardarToken(token: string) {
+    let calcularTresHoras = new Date(new Date().getTime() + 3 * 60 * 60 * 1000);
+    setCookie('token', token, {
+      expires: calcularTresHoras,
+      path: '/',
+      //domain: environment.dominioApp,
+    });
   }
 
   obtenerToken() {
-    // const token = getCookie('token');
-    // return token;
+    return getCookie('token');
   }
 
   eliminarToken() {
     // removeCookie('token', { path: '/', domain: environment.dominioApp });
-    // removeCookie('token', { path: '/' });
+    removeCookie('token', { path: '/' });
   }
 
   guardarRefreshToken(RefreshToken: string, calcularTresHoras: Date) {
@@ -58,19 +52,18 @@ export class TokenService {
   }
 
   validarToken() {
-    // const token = this.obtenerToken();
-    // if (!token) {
-    //   return false;
-    // }
-    // const tokenDecodificado = jwt_decode<JwtPayload>(token);
-    // if (tokenDecodificado && tokenDecodificado?.exp) {
-    //   const tokenFecha = new Date(0);
-    //   const fechaActual = new Date();
-    //   tokenFecha.setUTCSeconds(tokenDecodificado.exp);
-
-    //   return tokenFecha.getTime() > fechaActual.getTime();
-    // }
-    // return false;
+    const token = this.obtenerToken();
+    if (!token) {
+      return false;
+    }
+    const tokenDecodificado = jwtDecode<JwtPayload>(token);
+    if (tokenDecodificado && tokenDecodificado?.exp) {
+      const tokenFecha = new Date(0);
+      const fechaActual = new Date();
+      tokenFecha.setUTCSeconds(tokenDecodificado.exp);
+      return tokenFecha.getTime() > fechaActual.getTime();
+    }
+    return false;
   }
 
   validarRefreshToken() {
@@ -83,9 +76,9 @@ export class TokenService {
     //   const tokenFecha = new Date(0);
     //   const fechaActual = new Date();
     //   tokenFecha.setUTCSeconds(tokenDecodificado.exp);
-
     //   return tokenFecha.getTime() > fechaActual.getTime();
     // }
     // return false;
   }
+  
 }
