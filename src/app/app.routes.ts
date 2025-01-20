@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AutentificacionGuard } from '@guardias/auth.guard';
 
 export const routes: Routes = [
   {
@@ -7,6 +8,7 @@ export const routes: Routes = [
   },
   {
     path: '',
+    canActivate: [AutentificacionGuard],
     loadChildren: () => import('./pages/pages.routes'),
   },
   { path: '**', redirectTo: 'auth' },
