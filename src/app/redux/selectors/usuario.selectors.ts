@@ -1,5 +1,5 @@
+import { Usuario } from '@interfaces/usuario';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { Usuario } from '@interfaces/usuario/usuario';
 
 const Usuario = createFeatureSelector<Usuario>('usuario');
 
@@ -39,7 +39,7 @@ export const obtenerUsuarioidioma = createSelector(
 
 export const obtenerUsuarioId = createSelector(
   Usuario,
-  (Usuario) => `${Usuario.id}`
+  (Usuario) => Usuario.id
 );
 
 export const obtenerUsuarioFechaLimitePago = createSelector(

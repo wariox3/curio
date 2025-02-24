@@ -10,8 +10,9 @@ import { routes } from './app.routes';
 import { provideServiceWorker } from '@angular/service-worker';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { StoreApp } from './redux';
+import { EffectsApp, StoreApp } from './redux';
 import { provideHttpClient } from '@angular/common/http';
+import { EffectsModule } from '@ngrx/effects';
 
 
 
@@ -23,6 +24,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(
       HammerModule,
       StoreModule.forRoot(StoreApp),
+      EffectsModule.forRoot(EffectsApp),
       StoreDevtoolsModule.instrument({
         maxAge: 25, // Retains last 25 states
         logOnly: !isDevMode(), // Restrict extension to log-only mode

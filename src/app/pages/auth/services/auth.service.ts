@@ -7,6 +7,8 @@ import { tap } from 'rxjs';
 import { TokenService } from 'src/app/core/services/token.service';
 import { removeCookie } from 'typescript-cookie';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { usuarioActionClear } from '@redux/actions/usuario.actions';
 // import { Router } from '@angular/router';
 // import { noRequiereToken } from '@interceptores/token.interceptor';
 // import { Usuario } from '@interfaces/usuario/usuario';
@@ -37,7 +39,7 @@ export class AuthService implements OnDestroy {
   private _tokenService = inject(TokenService);
   private _router = inject(Router);
   // private tokenService = inject(TokenService);
-  // private store = inject(Store);
+  private _store = inject(Store);
 
   constructor() {}
 
@@ -64,6 +66,7 @@ export class AuthService implements OnDestroy {
     this._clearLocalStorage()
     this._removerCookies()
     this._tokenService.eliminarToken();
+    this._store.dispatch(usuarioActionClear());
     // this.tokenService.eliminarRefreshToken();
     // this.store.dispatch(asignarDocumentacion({ id: 0, nombre: '' }));
   }
