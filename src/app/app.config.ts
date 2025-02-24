@@ -11,7 +11,7 @@ import { provideServiceWorker } from '@angular/service-worker';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreApp } from './redux';
-import { HttpClientModule } from '@angular/common/http';
+import {} from '@angular/common/http';
 
 
 
