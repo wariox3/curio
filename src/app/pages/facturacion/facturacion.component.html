@@ -3,57 +3,11 @@
     <div id="base" class="h-[81vh] w-full bg-aqua">
       <div class="flex flex-row h-full">
         <div class="w-2/3 ">w-2/3</div>
-        <div class="w-1/3 ">w-1/3</div>
+        <div class="w-1/3 "></div>
       </div>
     </div>
-
   </div>
   }
   <div class="tabs" data-tabs="true">
-    @for (tab of tabs(); track idx; let idx = $index) {
-    <button
-      class="tab ps-2"
-      [ngClass]="{ active: tabActivo() === idx }"
-      [attr.data-tab-toggle]="'#' + tab.id"
-      (click)="seleccionarTab(idx)"
-    >
-      <i class="ki-filled ki-document"></i>
-      {{ tab.nombre }}
-      @if( tabActivo() === idx && idx !== 0){
-      <div
-        class="dropdown"
-        data-dropdown="true"
-        data-dropdown-trigger="click"
-        data-dropdown-permanent="true"
-      >
-        <i class="ki-filled ki-dots-vertical dropdown-toggle"></i>
-        <div class="dropdown-content w-full max-w-56 py-2">
-          <div class="menu menu-default flex flex-col w-full">
-            <div class="menu-item">
-              <section class="menu-link" (click)="cambiarNombreTab(idx)">
-                <span class="menu-icon">
-                  <i class="ki-filled ki-message-edit"></i>
-                </span>
-                <span class="menu-title"> Cambiar nombre</span>
-              </section>
-            </div>
-            <div class="menu-item">
-              <section class="menu-link" (click)="cambiarNombreTab(idx)">
-                <span class="menu-icon">
-                  <i class="ki-filled ki-trash"></i>
-                </span>
-                <span class="menu-title" (click)="removerTab(idx, $event)">
-                  Eliminar
-                </span>
-              </section>
-            </div>
-          </div>
-        </div>
-      </div>
-      }
-    </button>
-    }
-    <button class="tab" (click)="agregarTab()">
-      <i class="ki-filled ki-plus-circle"></i>
-    </button>
+    <app-factura-tabs></app-factura-tabs>
   </div>

@@ -1,0 +1,106 @@
+@for (tab of tabs(); track idx; let idx = $index) {
+<button
+  class="tab ps-2"
+  [ngClass]="{ active: tabActivo() === idx }"
+  [attr.data-tab-toggle]="'#' + tab.id"
+  (click)="seleccionarTab(idx)"
+>
+  <i class="ki-filled ki-document"></i>
+  {{ tab.nombre }}
+  @if( tabActivo() === idx && idx !== 0){
+  <div
+    class="dropdown"
+    data-dropdown="true"
+    data-dropdown-trigger="click"
+    data-dropdown-permanent="true"
+    #dropdownTab
+  >
+    <i class="ki-filled ki-dots-vertical dropdown-toggle"></i>
+    <div class="dropdown-content w-full max-w-56 py-2">
+      <div class="menu menu-default flex flex-col w-full">
+        <div class="menu-item">
+          <section class="menu-link" (click)="cambiarNombreTab()">
+            <span class="menu-icon">
+              <i class="ki-filled ki-message-edit"></i>
+            </span>
+            <span class="menu-title"> Cambiar nombre</span>
+          </section>
+        </div>
+        <div class="menu-item">
+          <section class="menu-link" (click)="removerTab()">
+            <span class="menu-icon">
+              <i class="ki-filled ki-trash"></i>
+            </span>
+            <span class="menu-title"> Eliminar </span>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</button>
+}
+<button class="tab" (click)="agregarTab()">
+  <i class="ki-filled ki-plus-circle ms-2"></i>
+</button>
+
+<div class="modal" data-modal="true" id="modal_1" #modalCambiarNombreTab>
+  <div class="modal-content max-w-[600px] top-[20%]">
+    <div class="modal-header">
+      <h3 class="modal-title">Cambiar nombre</h3>
+      <button class="btn btn-xs btn-icon btn-light" data-modal-dismiss="true">
+        <i class="ki-outline ki-cross"> </i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input
+        class="input"
+        placeholder="Ingrese el nombre"
+        type="text"
+        value=""
+        autofocus
+        [(ngModel)]="inputCambiarNombre"
+      />
+    </div>
+    <div class="modal-footer justify-end">
+      <div class="flex gap-4">
+        <button
+          class="btn btn-primary"
+          data-modal-dismiss="true"
+          (click)="actualizarNombreTab()"
+        >
+          Guardar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" data-modal="true" id="modal_2" #modalConfirmacionEliminar>
+  <div class="modal-content max-w-[600px] top-[20%]">
+    <div class="modal-header bg-red-50 ">
+      <h3 class="modal-title text-red-800">Retirar factura</h3>
+      <button class="btn btn-xs btn-icon bg-red-200 text-red-800" data-modal-dismiss="true">
+        <i class="ki-outline ki-cross "> </i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+        <span class="font-medium">¿Seguro que quieres eliminar la venta pendiente? Venta 2</span>
+        <span class="font-medium">Esta acción no tiene revertimiento</span>
+      </div>
+    </div>
+    <div class="modal-footer justify-end bg-red-50">
+      <div class="flex gap-4">
+        <button
+          class="btn btn-danger"
+          data-modal-dismiss="true"
+          (click)="retirarFactura()"
+        >
+          Si
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -102,7 +102,7 @@ export default class LoginComponent implements OnInit {
               })
             );
           }),
-          tap(() => this._router.navigate(['/dashboard']))
+          tap(() => this._router.navigate(['/dashboard/facturacion']))
         )
         .subscribe();
     } else {
