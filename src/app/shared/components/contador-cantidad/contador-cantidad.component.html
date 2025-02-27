@@ -1,0 +1,15 @@
+<div class="input-group w-full">
+  <span class="btn btn-input cursor-pointer" (click)="disminuir()">
+    <i class="ki-filled ki-minus-circle"></i>
+  </span>
+  <input
+    class="input"
+    placeholder="Example input"
+    type="text"
+    [value]="cantidadSignal()"
+    (input)="actualizarCantidad($event)"
+  />
+  <span class="btn btn-input cursor-pointer" (click)="aumentar()">
+    <i class="ki-filled ki-plus-circle"></i>
+  </span>
+</div>
