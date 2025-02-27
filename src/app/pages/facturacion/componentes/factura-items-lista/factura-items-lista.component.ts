@@ -1,11 +1,11 @@
+import { Component, inject, OnInit } from '@angular/core';
+import { FacturaItemsCardComponent } from "../factura-items-card/factura-items-card.component";
 import { ItemApiService } from './../../services/item-api.service';
-import { Component, OnInit, signal, inject } from '@angular/core';
-import { Item } from '@interfaces/item.interface';
 
 @Component({
   selector: 'app-factura-items-lista',
   standalone: true,
-  imports: [],
+  imports: [FacturaItemsCardComponent],
   templateUrl: './factura-items-lista.component.html',
   styleUrl: './factura-items-lista.component.scss',
 })
