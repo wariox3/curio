@@ -19,6 +19,7 @@ export class FacturaReduxService {
 
   constructor() {
     this.obtenerReduxFacturas();
+    this.obtertenerTabActivoFactura()
   }
 
   obtenerReduxFacturas() {
