@@ -1,4 +1,4 @@
-  @for (tab of tabs(); track idx; let idx = $index) {
+@for (tab of tabs(); track idx; let idx = $index) {
   <div [ngClass]="{ hidden: tabActivo() !== idx }" [id]="tab.id">
     <div id="base" class="h-[81vh] w-full bg-aqua">
       <div class="flex flex-row h-full">

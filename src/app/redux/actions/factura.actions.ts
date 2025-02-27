@@ -1,6 +1,23 @@
+import { Factura } from '@interfaces/facturas';
 import { createAction, props } from '@ngrx/store';
 
 export const facturaAction = createAction(
+  '[Factura] lista',
+);
+
+
+export const facturaNuevaAction = createAction(
   '[Factura] nueva',
-  props<{ usuario: any }>()
+  props<{ factura: Factura }>()
+);
+
+export const facturaActualizarNombreAction = createAction(
+  '[Factura] Actualizar Nombre',
+  props<{ index: number; nombre: string }>()
+);
+
+
+export const facturaEliminarAction = createAction(
+  '[Factura] Eliminar',
+  props<{ index: number }>()
 );

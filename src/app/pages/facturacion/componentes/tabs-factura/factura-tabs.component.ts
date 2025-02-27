@@ -1,16 +1,17 @@
-import { FormsModule } from '@angular/forms';
-import { KTDropdown } from './../../../../metronic/core/components/dropdown/dropdown';
-import { KTModal } from './../../../../metronic/core/components/modal/';
+import { KTModal } from './../../../../../metronic/core/components/modal/modal';
+import { KTDropdown } from './../../../../../metronic/core/components/dropdown/dropdown';
 import { NgClass } from '@angular/common';
 import {
   Component,
   ElementRef,
+  inject,
   QueryList,
   signal,
   ViewChild,
   ViewChildren,
-  viewChildren,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { FacturaReduxService } from '../../services/factura-redux.service';
 
 @Component({
   selector: 'app-factura-tabs',
@@ -19,13 +20,10 @@ import {
   templateUrl: './factura-tabs.component.html',
 })
 export class FacturaTabsComponent {
-  tabs = signal([
-    {
-      id: 'facturacionPrincipal',
-      nombre: 'Factura principal',
-    },
-  ]);
-  tabActivo = signal(0);
+  private _facturaReduxService = inject(FacturaReduxService);
+
+  tabs = this._facturaReduxService.arrFacturasSignal;
+  tabActivo = signal<number>(0);
   inputCambiarNombre: string = 'asd';
 
   @ViewChild('modalCambiarNombreTab') modalCambiarNombreTab!: ElementRef;
@@ -34,15 +32,7 @@ export class FacturaTabsComponent {
   @ViewChildren('dropdownTab') dropdownTab!: QueryList<ElementRef>;
 
   agregarTab() {
-    this.tabs.update((values) => {
-      return [
-        ...values,
-        {
-          id: 'Factura' + (this.tabs().length + 1),
-          nombre: 'Factura ' + (this.tabs().length + 1),
-        },
-      ];
-    });
+    this._facturaReduxService.nuevaFactura();
   }
 
   seleccionarTab(index: number) {
@@ -61,27 +51,21 @@ export class FacturaTabsComponent {
   }
 
   actualizarNombreTab(): void {
-    this.tabs.update((tabs) =>
-      tabs.map((tab, idx) =>
-        idx === this.tabActivo()
-          ? { ...tab, nombre: this.inputCambiarNombre }
-          : tab
-      )
+    this._facturaReduxService.cambiarNombre(
+      this.tabActivo(),
+      this.inputCambiarNombre
     );
   }
 
   retirarFactura() {
-    let tabs = this.tabs().filter((tab, idx) => this.tabActivo() !== idx);
-    if (this.tabs.length === 0) {
-      this.tabActivo.set(0);
-    }
-    this.tabs.set(tabs);
+    this._facturaReduxService.retirarFactura(this.tabActivo())
+
   }
 
   private cerrarDropdowns(): void {
-    this.dropdownTab.forEach((item) =>
-      KTDropdown.getInstance(item.nativeElement)?.hide()
-    );
+    this.dropdownTab.forEach((item) => {
+      KTDropdown.getInstance(item.nativeElement)?.hide();
+    });
   }
 
   private toggleModal(modalRef: ElementRef): void {

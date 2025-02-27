@@ -7,7 +7,7 @@ export default [
     children: [
       {
         path: 'facturacion',
-        loadComponent: () => import('./facturacion/facturacion.component'),
+        loadComponent: () => import('./facturacion/componentes/base-facturacion/base-facturacion.component'),
       },
     ],
   },

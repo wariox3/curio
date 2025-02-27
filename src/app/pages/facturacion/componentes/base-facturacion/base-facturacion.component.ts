@@ -1,15 +1,15 @@
 import { NgClass } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { FacturaTabsComponent } from "./factura-tabs/factura-tabs.component";
+import { FacturaTabsComponent } from '../tabs-factura/factura-tabs.component';
 
 @Component({
-  selector: 'app-facturacion',
+  selector: 'app-base-facturacion',
   standalone: true,
   imports: [NgClass, FacturaTabsComponent],
-  templateUrl: './facturacion.component.html',
-  styleUrl: './facturacion.component.scss',
+  templateUrl: './base-facturacion.component.html',
+  styleUrl: './base-facturacion.component.scss',
 })
-export default class FacturacionComponent {
+export default class BaseFacturacionComponent {
   tabs = signal([
     {
       id: 'facturacionPrincipal',
@@ -17,5 +17,4 @@ export default class FacturacionComponent {
     },
   ]);
   tabActivo = signal(0);
-
 }

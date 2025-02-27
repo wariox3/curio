@@ -1,12 +1,16 @@
-@for (tab of tabs(); track idx; let idx = $index) {
+@for (tab of tabs(); track idx; let idx = $index; let first = $first) {
 <button
   class="tab ps-2"
   [ngClass]="{ active: tabActivo() === idx }"
-  [attr.data-tab-toggle]="'#' + tab.id"
+  [attr.data-tab-toggle]="'#' + idx"
   (click)="seleccionarTab(idx)"
 >
   <i class="ki-filled ki-document"></i>
+  @if(first){
   {{ tab.nombre }}
+  } @else {
+  {{ tab.nombre +' '+ idx }}
+  }
   @if( tabActivo() === idx && idx !== 0){
   <div
     class="dropdown"
@@ -76,18 +80,25 @@
   </div>
 </div>
 
-
 <div class="modal" data-modal="true" id="modal_2" #modalConfirmacionEliminar>
   <div class="modal-content max-w-[600px] top-[20%]">
-    <div class="modal-header bg-red-50 ">
+    <div class="modal-header bg-red-50">
       <h3 class="modal-title text-red-800">Retirar factura</h3>
-      <button class="btn btn-xs btn-icon bg-red-200 text-red-800" data-modal-dismiss="true">
-        <i class="ki-outline ki-cross "> </i>
+      <button
+        class="btn btn-xs btn-icon bg-red-200 text-red-800"
+        data-modal-dismiss="true"
+      >
+        <i class="ki-outline ki-cross"> </i>
       </button>
     </div>
     <div class="modal-body">
-      <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-        <span class="font-medium">¿Seguro que quieres eliminar la venta pendiente? Venta 2</span>
+      <div
+        class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+        role="alert"
+      >
+        <span class="font-medium"
+          >¿Seguro que quieres eliminar la venta pendiente? Venta 2</span
+        >
         <span class="font-medium">Esta acción no tiene revertimiento</span>
       </div>
     </div>
