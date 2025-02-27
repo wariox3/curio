@@ -3,3 +3,9 @@ export interface Factura {
   nombre: string,
   data: {}
 }
+
+export interface FacturaReduxState {
+  facturaActiva: number
+  facturas: Factura[]
+}
+

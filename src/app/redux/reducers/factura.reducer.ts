@@ -1,43 +1,44 @@
-import { Factura } from '@interfaces/facturas';
+import { FacturaReduxState } from '@interfaces/facturas';
 import { createReducer, on } from '@ngrx/store';
 import {
   facturaAction,
-  facturaNuevaAction,
   facturaActualizarNombreAction,
   facturaEliminarAction,
+  facturaNuevaAction,
+  seleccionarFacturaActiva
 } from '@redux/actions/factura.actions';
 
-// import { getCookie } from 'typescript-cookie';
-// import { Usuario } from '@interfaces/usuario/usuario';
-
-//let usuarioData = getCookie('usuario');
-
-let parsedState: Factura[] = [
-  {
-    id: 0,
-    nombre: 'Factura principal',
-    data: {},
-  },
-];
-
-// export const initialState: Usuario = usuarioData
-//   ? JSON.parse(usuarioData)
-//   : parsedState;
+export const initialState: FacturaReduxState = {
+  facturas: [
+    {
+      id: 0,
+      nombre: 'Factura principal',
+      data: {},
+    },
+  ],
+  facturaActiva: 0,
+};
 
 export const facturaReducer = createReducer(
-  parsedState,
-  on(facturaAction, (state) => {
-    return state;
-  }),
-  on(facturaNuevaAction, (state, { factura }) => {
-    return [...state, factura];
-  }),
-  on(facturaActualizarNombreAction, (state, { index, nombre }) => {
-    return state.map((factura, i) =>
+  initialState,
+  on(facturaAction, (state) => state),
+  on(facturaNuevaAction, (state, { factura }) => ({
+    ...state,
+    facturas: [...state.facturas, factura],
+  })),
+  on(facturaActualizarNombreAction, (state, { index, nombre }) => ({
+    ...state,
+    facturas: state.facturas.map((factura, i) =>
       i === index ? { ...factura, nombre } : factura
-    );
-  }),
-  on(facturaEliminarAction, (state, { index }) => {
-    return state.filter((_, i) => i !== index);
-  })
+    ),
+  })),
+  on(facturaEliminarAction, (state, { index }) => ({
+    ...state,
+    facturas: state.facturas.filter((_, i) => i !== index),
+    facturaActiva: state.facturaActiva === index ? null : state.facturaActiva,
+  })),
+  on(seleccionarFacturaActiva, (state, { id }) => ({
+    ...state,
+    facturaActiva: id,
+  })),
 );

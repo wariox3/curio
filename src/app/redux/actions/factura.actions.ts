@@ -21,3 +21,8 @@ export const facturaEliminarAction = createAction(
   '[Factura] Eliminar',
   props<{ index: number }>()
 );
+
+export const seleccionarFacturaActiva = createAction(
+  '[Factura] seleccionar tab Factura',
+  props<{ id: number }>()
+)

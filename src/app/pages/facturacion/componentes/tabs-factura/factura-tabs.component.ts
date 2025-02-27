@@ -23,8 +23,8 @@ export class FacturaTabsComponent {
   private _facturaReduxService = inject(FacturaReduxService);
 
   tabs = this._facturaReduxService.arrFacturasSignal;
-  tabActivo = signal<number>(0);
-  inputCambiarNombre: string = 'asd';
+  tabActivo = this._facturaReduxService.facturaTabActivo;
+  inputCambiarNombre: string = '';
 
   @ViewChild('modalCambiarNombreTab') modalCambiarNombreTab!: ElementRef;
   @ViewChild('modalConfirmacionEliminar')
@@ -36,7 +36,7 @@ export class FacturaTabsComponent {
   }
 
   seleccionarTab(index: number) {
-    this.tabActivo.set(index);
+    this._facturaReduxService.seleccionarTabActivoFactura(index)
   }
 
   cambiarNombreTab(): void {

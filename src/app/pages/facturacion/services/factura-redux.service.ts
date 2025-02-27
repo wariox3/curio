@@ -6,12 +6,13 @@ import {
   facturaActualizarNombreAction,
   facturaEliminarAction,
   facturaNuevaAction,
+  seleccionarFacturaActiva,
 } from '@redux/actions/factura.actions';
-import { obtenerFacturas } from '@redux/selectors/factura.selectors';
+import { obtenerFacturaActiva, obtenerFacturas } from '@redux/selectors/factura.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class FacturaReduxService {
-  //public facturaTabActivo = signal<number>(0);
+  public facturaTabActivo = signal<number>(0);
   public arrFacturasSignal = signal<Factura[]>([]);
 
   private _store = inject(Store);
@@ -24,6 +25,10 @@ export class FacturaReduxService {
     this._store
       .select(obtenerFacturas)
       .subscribe((facturas) => this.arrFacturasSignal.set(facturas));
+  }
+
+  obtertenerTabActivoFactura(){
+    this._store.select(obtenerFacturaActiva).subscribe((id)=> this.facturaTabActivo.set(id))
   }
 
   nuevaFactura() {
@@ -52,5 +57,10 @@ export class FacturaReduxService {
   retirarFactura(index: number) {
     this._store.dispatch(facturaEliminarAction({ index }));
     this.obtenerReduxFacturas();
+  }
+
+  seleccionarTabActivoFactura(id: number){
+    this._store.dispatch(seleccionarFacturaActiva({id}));
+    this.obtertenerTabActivoFactura();
   }
 }
