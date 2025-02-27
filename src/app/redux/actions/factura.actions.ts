@@ -1,4 +1,4 @@
-import { Factura } from '@interfaces/facturas';
+import { Factura } from '@interfaces/facturas.interface';
 import { createAction, props } from '@ngrx/store';
 
 export const facturaAction = createAction(

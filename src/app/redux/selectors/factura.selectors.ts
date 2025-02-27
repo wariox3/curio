@@ -1,5 +1,5 @@
 
-import { Factura, FacturaReduxState } from "@interfaces/facturas";
+import { Factura, FacturaReduxState } from "@interfaces/facturas.interface";
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 const Factura = createFeatureSelector<FacturaReduxState>('factura');

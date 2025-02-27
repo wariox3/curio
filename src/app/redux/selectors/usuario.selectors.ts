@@ -1,4 +1,4 @@
-import { Usuario } from '@interfaces/usuario';
+import { Usuario } from '@interfaces/usuario.interfece';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 const Usuario = createFeatureSelector<Usuario>('usuario');

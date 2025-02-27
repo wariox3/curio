@@ -1,6 +1,6 @@
 // factura.service.ts
 import { inject, Injectable, signal } from '@angular/core';
-import { Factura } from '@interfaces/facturas';
+import { Factura } from '@interfaces/facturas.interface';
 import { Store } from '@ngrx/store';
 import {
   facturaActualizarNombreAction,

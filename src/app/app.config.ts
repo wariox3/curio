@@ -11,9 +11,10 @@ import { provideServiceWorker } from '@angular/service-worker';
 import { MetaReducer, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsApp, StoreApp } from './redux';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
 import { localStorageSync } from 'ngrx-store-localstorage';
+import { tokenInterceptor } from '@interceptores/token.interceptor';
 
 
 export function localStorageSyncReducer(reducer: any): any {
@@ -29,7 +30,7 @@ export const appConfig: ApplicationConfig = {
 
   providers: [
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([tokenInterceptor])),
     importProvidersFrom(
       HammerModule,
       StoreModule.forRoot(StoreApp, { metaReducers }),
@@ -50,5 +51,6 @@ export const appConfig: ApplicationConfig = {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
     }),
+
   ],
 };

@@ -13,6 +13,7 @@ export const tokenInterceptor: HttpInterceptorFn = (
   next: HttpHandlerFn
 ) => {
   const tokenService = inject(TokenService);
+
   if (request.context.get(requiereToken)) {
     //validar vigencia
     const tokenValido = tokenService.validarToken();

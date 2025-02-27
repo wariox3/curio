@@ -1,4 +1,4 @@
-import { FacturaReduxState } from '@interfaces/facturas';
+import { FacturaReduxState } from '@interfaces/facturas.interface';
 import { createReducer, on } from '@ngrx/store';
 import {
   facturaAction,
