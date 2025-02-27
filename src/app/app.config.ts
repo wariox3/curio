@@ -8,12 +8,21 @@ import {
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideServiceWorker } from '@angular/service-worker';
-import { StoreModule } from '@ngrx/store';
+import { MetaReducer, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsApp, StoreApp } from './redux';
 import { provideHttpClient } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
+import { localStorageSync } from 'ngrx-store-localstorage';
 
+
+export function localStorageSyncReducer(reducer: any): any {
+  return localStorageSync({
+    keys: ['usuario', 'factura'], // Las partes del estado que quieres persistir
+    rehydrate: true, // Restaura el estado desde el localStorage al iniciar
+  })(reducer);
+}
+export const metaReducers: MetaReducer<any>[] = [localStorageSyncReducer];
 
 
 export const appConfig: ApplicationConfig = {
@@ -23,7 +32,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     importProvidersFrom(
       HammerModule,
-      StoreModule.forRoot(StoreApp),
+      StoreModule.forRoot(StoreApp, { metaReducers }),
       EffectsModule.forRoot(EffectsApp),
       StoreDevtoolsModule.instrument({
         maxAge: 25, // Retains last 25 states
