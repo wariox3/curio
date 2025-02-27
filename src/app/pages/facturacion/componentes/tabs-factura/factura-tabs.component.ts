@@ -1,5 +1,3 @@
-import { KTModal } from './../../../../../metronic/core/components/modal/modal';
-import { KTDropdown } from './../../../../../metronic/core/components/dropdown/dropdown';
 import { NgClass } from '@angular/common';
 import {
   Component,
@@ -12,6 +10,8 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FacturaReduxService } from '../../services/factura-redux.service';
+import { KTDropdown } from '@metronic/components/dropdown/dropdown';
+import { KTModal } from '@metronic/components/modal/modal';
 
 @Component({
   selector: 'app-factura-tabs',
