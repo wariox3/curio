@@ -1,11 +1,12 @@
 import { NgClass } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { FacturaTabsComponent } from '../tabs-factura/factura-tabs.component';
+import { FacturaDetalleComponent } from "../factura-detalle/factura-detalle.component";
 
 @Component({
   selector: 'app-base-facturacion',
   standalone: true,
-  imports: [NgClass, FacturaTabsComponent],
+  imports: [NgClass, FacturaTabsComponent, FacturaDetalleComponent],
   templateUrl: './base-facturacion.component.html',
   styleUrl: './base-facturacion.component.scss',
 })

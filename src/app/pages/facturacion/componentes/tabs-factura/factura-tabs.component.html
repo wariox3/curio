@@ -6,7 +6,7 @@
   (click)="seleccionarTab(idx)"
 >
   <i class="ki-filled ki-document"></i>
-  @if(first){
+  @if(first || tab.nombre !== 'Factura' ){
   {{ tab.nombre }}
   } @else {
   {{ tab.nombre +' '+ idx }}
