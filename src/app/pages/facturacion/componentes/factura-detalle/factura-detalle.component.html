@@ -4,23 +4,26 @@
       <h3 class="card-title">{{ nombre() }}</h3>
     </div>
     <div class="card-body scrollable flex-grow p-2">
-      <!-- @for (item of productos; track $index) {
+      @for (item of items(); track $index) {
       <div class="card-group p-2">
         {{ item.nombre }}
         {{ item.precio }}
       </div>
-      <app-contador-cantidad [cantidad]="item.cantidad" ></app-contador-cantidad>
-      } -->
+      <app-contador-cantidad [cantidad]="0" ></app-contador-cantidad>
+      }
     </div>
     <div class="card-footer p-2">
       <div class="flex flex-col w-full">
-        <!-- <p>Producto: {{productos.length}}</p>
-        <p>Cantidad: {{productos.length}}</p>
-        <p>Iva: {{productos.length}}</p>
-        <hr> -->
+        <div class="flex justify-between">
+          <p>Producto:</p>
+          <p>{{cantidadItemsSignal()}}</p>
+        </div>
+        <div class="flex justify-between">
+          <p>Cantidad:</p>
+          <p>{{totalPrecioSignal() | number: "1.0-0"}}</p>
+        </div>
+        <hr>
         <button class="btn btn-outline btn-success w-full">Pagar</button>
       </div>
-
-    </div>
   </div>
 </div>

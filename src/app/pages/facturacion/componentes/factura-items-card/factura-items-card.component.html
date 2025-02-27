@@ -1,7 +1,7 @@
 <div
   class="bg-white rounded-lg shadow p-4 relative cursor-pointer"
   [ngClass]="{'shadow-teal-500/50': visualizarSeleccionarProductoSignal()}"
-  (click)="seleccionarProducto()"
+  (click)="seleccionarProducto(item)"
 >
   @if(visualizarSeleccionarProductoSignal()){
   <span

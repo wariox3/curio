@@ -26,3 +26,8 @@ export const seleccionarFacturaActiva = createAction(
   '[Factura] seleccionar tab Factura',
   props<{ id: number }>()
 )
+
+export const agregarItemFacturaActiva = createAction(
+  '[Factura] agregar items a la factura activa',
+  props<{ facturaId: number; item: any }>()
+);

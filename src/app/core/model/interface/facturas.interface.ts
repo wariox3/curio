@@ -1,7 +1,11 @@
+import { Item } from "./item.interface"
+
 export interface Factura {
   id: number,
   nombre: string,
-  data: {}
+  data: {
+    itemsAgregados: Item[]
+  }
 }
 
 export interface FacturaReduxState {

@@ -1,3 +1,4 @@
+import { Item } from './../../../core/model/interface/item.interface';
 // factura.service.ts
 import { inject, Injectable, signal } from '@angular/core';
 import { Factura } from '@interfaces/facturas.interface';
@@ -7,14 +8,16 @@ import {
   facturaEliminarAction,
   facturaNuevaAction,
   seleccionarFacturaActiva,
+  agregarItemFacturaActiva
 } from '@redux/actions/factura.actions';
-import { obtenerFacturaActiva, obtenerFacturas, obtenerNombreFacturaActiva } from '@redux/selectors/factura.selectors';
+import { obtenerFacturaActiva, obtenerFacturas, obtenerItemsFacturaActiva, obtenerNombreFacturaActiva } from '@redux/selectors/factura.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class FacturaReduxService {
   public facturaTabActivo = signal<number>(0);
   public arrFacturasSignal = signal<Factura[]>([]);
   public facturaActivaNombre = signal('')
+  public arrItemsSignal = signal<Item[]>([])
 
   private _store = inject(Store);
 
@@ -22,6 +25,7 @@ export class FacturaReduxService {
     this.obtenerReduxFacturas();
     this.obtertenerTabActivoFactura()
     this.obtertenerNombreFactura()
+    this.obtenerItemsFactura()
   }
 
   obtenerReduxFacturas() {
@@ -38,13 +42,19 @@ export class FacturaReduxService {
     this._store.select(obtenerNombreFacturaActiva).subscribe((nombre)=> this.facturaActivaNombre.set(nombre))
   }
 
+  obtenerItemsFactura(){
+    this._store.select(obtenerItemsFacturaActiva).subscribe((items)=> this.arrItemsSignal.set(items))
+  }
+
   nuevaFactura() {
     this._store.dispatch(
       facturaNuevaAction({
         factura: {
           id: 0,
           nombre: 'Factura',
-          data: {},
+          data: {
+            itemsAgregados: []
+          },
         },
       })
     );
@@ -70,4 +80,9 @@ export class FacturaReduxService {
     this._store.dispatch(seleccionarFacturaActiva({id}));
     this.obtertenerTabActivoFactura();
   }
+
+  agregarItem(item: Item){
+    this._store.dispatch(agregarItemFacturaActiva({ facturaId: this.facturaTabActivo(), item }));
+  }
+
 }
