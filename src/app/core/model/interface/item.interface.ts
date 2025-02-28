@@ -18,5 +18,6 @@ export interface Item {
   inventario: boolean;
   existencia: number;
   disponible: number;
-  cantidad: number
+  cantidad: number,
+  subtotal: number,
 }
