@@ -2,6 +2,7 @@ import { FacturaReduxState } from '@interfaces/facturas.interface';
 import { createReducer, on } from '@ngrx/store';
 import {
   actualizarCantidadItemFacturaActiva,
+  actualizarSubtotalItemFacturaActiva,
   agregarItemFacturaActiva,
   facturaAction,
   facturaActualizarNombreAction,
@@ -91,5 +92,22 @@ export const facturaReducer = createReducer(
           }
         : factura
     ),
-  }))
-);
+  })),
+  on(actualizarSubtotalItemFacturaActiva, (state, { itemId }) => ({
+    ...state,
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? {
+            ...factura,
+            data: {
+              ...factura.data,
+              itemsAgregados: factura.data.itemsAgregados.map((item) =>
+                item.id === itemId
+                  ? { ...item, subtotal: item.precio * item.cantidad }
+                  : item
+              )
+            }
+          }
+        : factura
+    )
+  })));

@@ -20,6 +20,7 @@ export class FacturaItemsCardComponent {
   seleccionarProducto(item: Item) {
     this._alternarVistaSeleccionarProducto();
     this._agregarProductoAFactura(item);
+    this._facturaReduxService.calcularSubtotal(item.id)
   }
 
   private _alternarVistaSeleccionarProducto() {
@@ -27,7 +28,8 @@ export class FacturaItemsCardComponent {
   }
 
   _agregarProductoAFactura(item: Item) {
-    item = {...item, cantidad: 1}
     this._facturaReduxService.agregarItem(item);
   }
+
+
 }

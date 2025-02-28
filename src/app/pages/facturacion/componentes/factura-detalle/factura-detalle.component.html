@@ -7,10 +7,13 @@
       @for (item of items(); track $index) {
       <div class="card-group p-2">
         {{ item.nombre }}
-        {{ item.precio | number : "1.0-0"  }}
-        {{ item.precio * item.cantidad }}
+        {{ item.precio | number : "1.0-0" }}
+        {{ item.subtotal | number : "1.0-0" }}
       </div>
-      <app-contador-cantidad [cantidad]="item.cantidad" (emitirCantidad)="actualizarCantidad($event, item.id)"></app-contador-cantidad>
+      <app-contador-cantidad
+        [cantidad]="item.cantidad"
+        (emitirCantidad)="actualizarCantidad($event, item.id)"
+      ></app-contador-cantidad>
       <i
         class="ki-filled ki-trash text-lg cursor-pointer"
         (click)="retirarItem(item.id)"
@@ -26,7 +29,7 @@
         </div>
         <div class="flex justify-between">
           <p>Cantidad:</p>
-          <p>{{ totalPrecioSignal() | number : "1.0-0" }}</p>
+          <p>{{ totalSubtotalSignal() | number : "1.0-0" }}</p>
         </div>
         <hr />
         <button class="btn btn-outline btn-success w-full">Pagar</button>

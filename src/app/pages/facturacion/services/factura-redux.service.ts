@@ -1,7 +1,7 @@
-import { Item } from './../../../core/model/interface/item.interface';
 // factura.service.ts
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { Factura } from '@interfaces/facturas.interface';
+import { Item } from '@interfaces/item.interface';
 import { Store } from '@ngrx/store';
 import {
   facturaActualizarNombreAction,
@@ -11,6 +11,7 @@ import {
   agregarItemFacturaActiva,
   retirarItemDeFacturaActiva,
   actualizarCantidadItemFacturaActiva,
+  actualizarSubtotalItemFacturaActiva,
 } from '@redux/actions/factura.actions';
 import {
   obtenerFacturaActiva,
@@ -21,12 +22,19 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class FacturaReduxService {
+  private _store = inject(Store);
+
   public facturaTabActivo = signal<number>(0);
   public arrFacturasSignal = signal<Factura[]>([]);
   public facturaActivaNombre = signal('');
   public arrItemsSignal = signal<Item[]>([]);
-
-  private _store = inject(Store);
+  public cantidadItemsSignal = computed(() => this.arrItemsSignal().length);
+  public totalSubtotalSignal = computed(() =>
+    this.arrItemsSignal().reduce(
+      (acumulador, item) => acumulador += item.subtotal,
+      0
+    )
+  );
 
   constructor() {
     this.obtenerReduxFacturas();
@@ -95,16 +103,21 @@ export class FacturaReduxService {
   }
 
   agregarItem(item: Item) {
-    this._store.dispatch(
-      agregarItemFacturaActiva({ item })
-    );
+    item = { ...item, cantidad: 1, subtotal: 0 };
+    this._store.dispatch(agregarItemFacturaActiva({ item }));
   }
 
   retirarItem(itemId: number) {
     this._store.dispatch(retirarItemDeFacturaActiva({ itemId }));
   }
 
-  actualizarCantidadItem( itemId: number, cantidad: number){
-    this._store.dispatch(actualizarCantidadItemFacturaActiva({ itemId, cantidad }));
+  actualizarCantidadItem(itemId: number, cantidad: number) {
+    this._store.dispatch(
+      actualizarCantidadItemFacturaActiva({ itemId, cantidad })
+    );
+  }
+
+  calcularSubtotal(itemId: number) {
+    this._store.dispatch(actualizarSubtotalItemFacturaActiva({ itemId }));
   }
 }

@@ -1,8 +1,7 @@
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { FacturaReduxService } from '../../services/factura-redux.service';
 import { ContadorCantidadComponent } from '@componentes/contador-cantidad/contador-cantidad.component';
-import { ItemApiService } from '../../services/item-api.service';
-import { DecimalPipe, JsonPipe } from '@angular/common';
+import { DecimalPipe, } from '@angular/common';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -17,10 +16,8 @@ export class FacturaDetalleComponent  {
   public nombre = this._facturaReduxService.facturaActivaNombre;
   public items = this._facturaReduxService.arrItemsSignal
 
-  public cantidadItemsSignal = computed(() => this._facturaReduxService.arrItemsSignal().length)
-  public totalPrecioSignal = computed(() =>
-    this._facturaReduxService.arrItemsSignal().reduce((acumulador, item) => acumulador + item.precio, 0)
-  );
+  public cantidadItemsSignal = this._facturaReduxService.cantidadItemsSignal
+  public totalSubtotalSignal = this._facturaReduxService.totalSubtotalSignal
 
   retirarItem(itemId: number){
     this._facturaReduxService.retirarItem(itemId)
@@ -28,6 +25,6 @@ export class FacturaDetalleComponent  {
 
   actualizarCantidad(cantidad: number, itemId: number,){
     this._facturaReduxService.actualizarCantidadItem(itemId, cantidad)
-    this.totalPrecioSignal()
+    this._facturaReduxService.calcularSubtotal(itemId)
   }
 }
