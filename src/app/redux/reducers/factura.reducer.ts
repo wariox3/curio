@@ -45,10 +45,10 @@ export const facturaReducer = createReducer(
     ...state,
     facturaActiva: id,
   })),
-  on(agregarItemFacturaActiva, (state, { facturaId, item }) => ({
+  on(agregarItemFacturaActiva, (state, { item }) => ({
     ...state,
-    facturas: state.facturas.map((factura) =>
-      factura.id === facturaId
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
         ? {
             ...factura,
             data: {
