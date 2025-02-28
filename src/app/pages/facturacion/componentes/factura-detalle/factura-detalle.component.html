@@ -9,8 +9,11 @@
         {{ item.nombre }}
         {{ item.precio }}
       </div>
-      <app-contador-cantidad [cantidad]="0" ></app-contador-cantidad>
-      <i class="ki-filled ki-trash text-lg cursor-pointer" (click)="retirarItem(item.id)"></i>
+      <app-contador-cantidad [cantidad]="item.cantidad"></app-contador-cantidad>
+      <i
+        class="ki-filled ki-trash text-lg cursor-pointer"
+        (click)="retirarItem(item.id)"
+      ></i>
 
       }
     </div>
@@ -18,14 +21,15 @@
       <div class="flex flex-col w-full">
         <div class="flex justify-between">
           <p>Producto:</p>
-          <p>{{cantidadItemsSignal()}}</p>
+          <p>{{ cantidadItemsSignal() }}</p>
         </div>
         <div class="flex justify-between">
           <p>Cantidad:</p>
-          <p>{{totalPrecioSignal() | number: "1.0-0"}}</p>
+          <p>{{ totalPrecioSignal() | number : "1.0-0" }}</p>
         </div>
-        <hr>
+        <hr />
         <button class="btn btn-outline btn-success w-full">Pagar</button>
       </div>
+    </div>
   </div>
 </div>

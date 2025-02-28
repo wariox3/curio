@@ -27,6 +27,7 @@ export class FacturaItemsCardComponent {
   }
 
   _agregarProductoAFactura(item: Item) {
+    item = {...item, cantidad: 1}
     this._facturaReduxService.agregarItem(item);
   }
 }

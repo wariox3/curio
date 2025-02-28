@@ -95,7 +95,7 @@ export class FacturaReduxService {
 
   agregarItem(item: Item) {
     this._store.dispatch(
-      agregarItemFacturaActiva({ facturaId: this.facturaTabActivo(), item })
+      agregarItemFacturaActiva({ item })
     );
   }
 
