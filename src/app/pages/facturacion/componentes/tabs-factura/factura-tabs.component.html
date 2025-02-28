@@ -1,7 +1,7 @@
 @for (tab of tabs(); track idx; let idx = $index; let first = $first) {
 <button
-  class="tab ps-2"
-  [ngClass]="{ active: tabActivo() === idx }"
+  class="tab px-2 "
+  [ngClass]="{ 'active bg-blue-50': tabActivo() === idx }"
   [attr.data-tab-toggle]="'#' + idx"
   (click)="seleccionarTab(idx)"
 >
