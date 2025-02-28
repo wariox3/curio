@@ -10,6 +10,7 @@ import {
   seleccionarFacturaActiva,
   agregarItemFacturaActiva,
   retirarItemDeFacturaActiva,
+  actualizarCantidadItemFacturaActiva,
 } from '@redux/actions/factura.actions';
 import {
   obtenerFacturaActiva,
@@ -101,5 +102,9 @@ export class FacturaReduxService {
 
   retirarItem(itemId: number) {
     this._store.dispatch(retirarItemDeFacturaActiva({ itemId }));
+  }
+
+  actualizarCantidadItem( itemId: number, cantidad: number){
+    this._store.dispatch(actualizarCantidadItemFacturaActiva({ itemId, cantidad }));
   }
 }

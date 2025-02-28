@@ -1,6 +1,7 @@
 import { FacturaReduxState } from '@interfaces/facturas.interface';
 import { createReducer, on } from '@ngrx/store';
 import {
+  actualizarCantidadItemFacturaActiva,
   agregarItemFacturaActiva,
   facturaAction,
   facturaActualizarNombreAction,
@@ -67,11 +68,28 @@ export const facturaReducer = createReducer(
             ...factura,
             data: {
               ...factura.data,
-              itemsAgregados: factura.data.itemsAgregados.filter((item) => item.id !== itemId)
-            }
+              itemsAgregados: factura.data.itemsAgregados.filter(
+                (item) => item.id !== itemId
+              ),
+            },
           }
         : factura
-    )
+    ),
+  })),
+  on(actualizarCantidadItemFacturaActiva, (state, { itemId, cantidad }) => ({
+    ...state,
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? {
+            ...factura,
+            data: {
+              ...factura.data,
+              itemsAgregados: factura.data.itemsAgregados.map((item) =>
+                item.id === itemId ? { ...item, cantidad } : item
+              ),
+            },
+          }
+        : factura
+    ),
   }))
-
 );

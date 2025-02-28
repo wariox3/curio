@@ -7,9 +7,10 @@
       @for (item of items(); track $index) {
       <div class="card-group p-2">
         {{ item.nombre }}
-        {{ item.precio }}
+        {{ item.precio | number : "1.0-0"  }}
+        {{ item.precio * item.cantidad }}
       </div>
-      <app-contador-cantidad [cantidad]="item.cantidad"></app-contador-cantidad>
+      <app-contador-cantidad [cantidad]="item.cantidad" (emitirCantidad)="actualizarCantidad($event, item.id)"></app-contador-cantidad>
       <i
         class="ki-filled ki-trash text-lg cursor-pointer"
         (click)="retirarItem(item.id)"

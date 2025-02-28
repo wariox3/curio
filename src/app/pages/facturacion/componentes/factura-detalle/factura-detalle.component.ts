@@ -25,4 +25,9 @@ export class FacturaDetalleComponent  {
   retirarItem(itemId: number){
     this._facturaReduxService.retirarItem(itemId)
   }
+
+  actualizarCantidad(cantidad: number, itemId: number,){
+    this._facturaReduxService.actualizarCantidadItem(itemId, cantidad)
+    this.totalPrecioSignal()
+  }
 }
