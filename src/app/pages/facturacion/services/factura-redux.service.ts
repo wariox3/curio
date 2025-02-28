@@ -8,7 +8,8 @@ import {
   facturaEliminarAction,
   facturaNuevaAction,
   seleccionarFacturaActiva,
-  agregarItemFacturaActiva
+  agregarItemFacturaActiva,
+  retirarItemDeFacturaActiva,
 } from '@redux/actions/factura.actions';
 import { obtenerFacturaActiva, obtenerFacturas, obtenerItemsFacturaActiva, obtenerNombreFacturaActiva } from '@redux/selectors/factura.selectors';
 
@@ -83,6 +84,10 @@ export class FacturaReduxService {
 
   agregarItem(item: Item){
     this._store.dispatch(agregarItemFacturaActiva({ facturaId: this.facturaTabActivo(), item }));
+  }
+
+  retirarItem(facturaId: number, itemId: number) {
+    this._store.dispatch(retirarItemDeFacturaActiva({ facturaId, itemId }));
   }
 
 }

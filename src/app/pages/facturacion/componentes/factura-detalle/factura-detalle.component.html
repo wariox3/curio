@@ -10,6 +10,8 @@
         {{ item.precio }}
       </div>
       <app-contador-cantidad [cantidad]="0" ></app-contador-cantidad>
+      <i class="ki-filled ki-trash text-lg cursor-pointer" (click)="retirarItem(item.id)"></i>
+
       }
     </div>
     <div class="card-footer p-2">

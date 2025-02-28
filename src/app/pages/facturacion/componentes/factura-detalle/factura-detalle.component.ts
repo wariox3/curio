@@ -21,4 +21,8 @@ export class FacturaDetalleComponent  {
   public totalPrecioSignal = computed(() =>
     this._facturaReduxService.arrItemsSignal().reduce((acumulador, item) => acumulador + item.precio, 0)
   );
+
+  retirarItem(itemId: number){
+    this._facturaReduxService.retirarItem(0,itemId)
+  }
 }

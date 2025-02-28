@@ -31,3 +31,8 @@ export const agregarItemFacturaActiva = createAction(
   '[Factura] agregar items a la factura activa',
   props<{ facturaId: number; item: any }>()
 );
+
+export const retirarItemDeFacturaActiva = createAction(
+  '[Factura] retirar Item de Factura activa',
+  props<{ facturaId: number; itemId: number }>()
+);

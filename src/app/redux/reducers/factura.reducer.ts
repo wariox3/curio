@@ -6,6 +6,7 @@ import {
   facturaActualizarNombreAction,
   facturaEliminarAction,
   facturaNuevaAction,
+  retirarItemDeFacturaActiva,
   seleccionarFacturaActiva,
 } from '@redux/actions/factura.actions';
 
@@ -57,5 +58,19 @@ export const facturaReducer = createReducer(
           }
         : factura
     ),
+  })),
+  on(retirarItemDeFacturaActiva, (state, { facturaId, itemId }) => ({
+    ...state,
+    facturas: state.facturas.map((factura) =>
+      factura.id === facturaId
+        ? {
+            ...factura,
+            data: {
+              ...factura.data,
+              itemsAgregados: factura.data.itemsAgregados.filter((item) => item.id !== itemId)
+            }
+          }
+        : factura
+    )
   }))
 );
