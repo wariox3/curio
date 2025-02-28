@@ -27,11 +27,6 @@ export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    // this._store.select(obtenerUsuarioId).subscribe((respuesta) => {
-    //   console.log(respuesta);
-
-    //   this.existeUsuarioId = !!respuesta;
-    // });
   }
 
   ngAfterViewInit(): void {

@@ -16,6 +16,7 @@ import {
 import {
   obtenerFacturaActiva,
   obtenerFacturas,
+  obtenerItemCantidadFacturaActiva,
   obtenerItemsFacturaActiva,
   obtenerNombreFacturaActiva,
 } from '@redux/selectors/factura.selectors';
@@ -31,7 +32,7 @@ export class FacturaReduxService {
   public cantidadItemsSignal = computed(() => this.arrItemsSignal().length);
   public totalSubtotalSignal = computed(() =>
     this.arrItemsSignal().reduce(
-      (acumulador, item) => acumulador += item.subtotal,
+      (acumulador, item) => (acumulador += item.subtotal),
       0
     )
   );
@@ -65,6 +66,11 @@ export class FacturaReduxService {
     this._store
       .select(obtenerItemsFacturaActiva)
       .subscribe((items) => this.arrItemsSignal.set(items));
+  }
+
+  obtenerItemCantidad(itemId: number) {
+    return this._store
+      .select(obtenerItemCantidadFacturaActiva(itemId))
   }
 
   nuevaFactura() {
@@ -102,9 +108,14 @@ export class FacturaReduxService {
     this.obtertenerTabActivoFactura();
   }
 
+  nuevoItem(item: Item): Item {
+    return (item = { ...item, cantidad: 1, subtotal: 0 });
+  }
+
   agregarItem(item: Item) {
-    item = { ...item, cantidad: 1, subtotal: 0 };
-    this._store.dispatch(agregarItemFacturaActiva({ item }));
+    this._store.dispatch(
+      agregarItemFacturaActiva({ item: this.nuevoItem(item) })
+    );
   }
 
   retirarItem(itemId: number) {

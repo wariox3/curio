@@ -4,11 +4,13 @@ import { inject, Injectable, signal } from '@angular/core';
 import { API_ENDPOINTS } from '@constantes/api-endpoints.const';
 import { Item } from '@interfaces/item.interface';
 import { tap } from 'rxjs';
+import { FacturaReduxService } from './factura-redux.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ItemApiService {
+  private _facturaReduxService = inject(FacturaReduxService);
   private _http = inject(HttpClient);
   public arrItemsSignal = signal<Item[]>([]);
 
@@ -24,6 +26,13 @@ export class ItemApiService {
         limite_conteo: 10000,
         modelo: 'GenItem',
       } as ParametrosFiltrosConsultasHttp)
-      .pipe(tap((respuesta) => this.arrItemsSignal.set(respuesta.registros)));
+      .pipe(
+        tap((respuesta) => {
+          const items = respuesta.registros.map((item) =>
+            this._facturaReduxService.nuevoItem(item)
+          );
+          this.arrItemsSignal.set(items);
+        })
+      );
   }
 }

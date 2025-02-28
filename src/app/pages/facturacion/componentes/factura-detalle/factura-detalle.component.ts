@@ -24,7 +24,11 @@ export class FacturaDetalleComponent  {
   }
 
   actualizarCantidad(cantidad: number, itemId: number,){
-    this._facturaReduxService.actualizarCantidadItem(itemId, cantidad)
-    this._facturaReduxService.calcularSubtotal(itemId)
+    if(cantidad > 0){
+      this._facturaReduxService.actualizarCantidadItem(itemId, cantidad)
+      this._facturaReduxService.calcularSubtotal(itemId)
+    } else {
+      this._facturaReduxService.retirarItem(itemId)
+    }
   }
 }
