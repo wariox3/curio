@@ -23,6 +23,6 @@ export class FacturaDetalleComponent  {
   );
 
   retirarItem(itemId: number){
-    this._facturaReduxService.retirarItem(0,itemId)
+    this._facturaReduxService.retirarItem(itemId)
   }
 }

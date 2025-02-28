@@ -11,22 +11,27 @@ import {
   agregarItemFacturaActiva,
   retirarItemDeFacturaActiva,
 } from '@redux/actions/factura.actions';
-import { obtenerFacturaActiva, obtenerFacturas, obtenerItemsFacturaActiva, obtenerNombreFacturaActiva } from '@redux/selectors/factura.selectors';
+import {
+  obtenerFacturaActiva,
+  obtenerFacturas,
+  obtenerItemsFacturaActiva,
+  obtenerNombreFacturaActiva,
+} from '@redux/selectors/factura.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class FacturaReduxService {
   public facturaTabActivo = signal<number>(0);
   public arrFacturasSignal = signal<Factura[]>([]);
-  public facturaActivaNombre = signal('')
-  public arrItemsSignal = signal<Item[]>([])
+  public facturaActivaNombre = signal('');
+  public arrItemsSignal = signal<Item[]>([]);
 
   private _store = inject(Store);
 
   constructor() {
     this.obtenerReduxFacturas();
-    this.obtertenerTabActivoFactura()
-    this.obtertenerNombreFactura()
-    this.obtenerItemsFactura()
+    this.obtertenerTabActivoFactura();
+    this.obtertenerNombreFactura();
+    this.obtenerItemsFactura();
   }
 
   obtenerReduxFacturas() {
@@ -35,16 +40,22 @@ export class FacturaReduxService {
       .subscribe((facturas) => this.arrFacturasSignal.set(facturas));
   }
 
-  obtertenerTabActivoFactura(){
-    this._store.select(obtenerFacturaActiva).subscribe((id)=> this.facturaTabActivo.set(id))
+  obtertenerTabActivoFactura() {
+    this._store
+      .select(obtenerFacturaActiva)
+      .subscribe((id) => this.facturaTabActivo.set(id));
   }
 
-  obtertenerNombreFactura(){
-    this._store.select(obtenerNombreFacturaActiva).subscribe((nombre)=> this.facturaActivaNombre.set(nombre))
+  obtertenerNombreFactura() {
+    this._store
+      .select(obtenerNombreFacturaActiva)
+      .subscribe((nombre) => this.facturaActivaNombre.set(nombre));
   }
 
-  obtenerItemsFactura(){
-    this._store.select(obtenerItemsFacturaActiva).subscribe((items)=> this.arrItemsSignal.set(items))
+  obtenerItemsFactura() {
+    this._store
+      .select(obtenerItemsFacturaActiva)
+      .subscribe((items) => this.arrItemsSignal.set(items));
   }
 
   nuevaFactura() {
@@ -54,7 +65,7 @@ export class FacturaReduxService {
           id: 0,
           nombre: 'Factura',
           data: {
-            itemsAgregados: []
+            itemsAgregados: [],
           },
         },
       })
@@ -77,17 +88,18 @@ export class FacturaReduxService {
     this.obtenerReduxFacturas();
   }
 
-  seleccionarTabActivoFactura(id: number){
-    this._store.dispatch(seleccionarFacturaActiva({id}));
+  seleccionarTabActivoFactura(id: number) {
+    this._store.dispatch(seleccionarFacturaActiva({ id }));
     this.obtertenerTabActivoFactura();
   }
 
-  agregarItem(item: Item){
-    this._store.dispatch(agregarItemFacturaActiva({ facturaId: this.facturaTabActivo(), item }));
+  agregarItem(item: Item) {
+    this._store.dispatch(
+      agregarItemFacturaActiva({ facturaId: this.facturaTabActivo(), item })
+    );
   }
 
-  retirarItem(facturaId: number, itemId: number) {
-    this._store.dispatch(retirarItemDeFacturaActiva({ facturaId, itemId }));
+  retirarItem(itemId: number) {
+    this._store.dispatch(retirarItemDeFacturaActiva({ itemId }));
   }
-
 }
