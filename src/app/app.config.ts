@@ -15,6 +15,8 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
 import { localStorageSync } from 'ngrx-store-localstorage';
 import { tokenInterceptor } from '@interceptores/token.interceptor';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { httpErrorInterceptor } from '@interceptores/manejo-errores/http-error.interceptor';
 
 
 export function localStorageSyncReducer(reducer: any): any {
@@ -30,7 +32,7 @@ export const appConfig: ApplicationConfig = {
 
   providers: [
     provideRouter(routes),
-    provideHttpClient(withInterceptors([tokenInterceptor])),
+    provideHttpClient(withInterceptors([tokenInterceptor, httpErrorInterceptor])),
     importProvidersFrom(
       HammerModule,
       StoreModule.forRoot(StoreApp, { metaReducers }),
@@ -42,6 +44,7 @@ export const appConfig: ApplicationConfig = {
         trace: false, //  If set to true, will include stack trace for every dispatched action, so you can see it in trace tab jumping directly to that part of code
         traceLimit: 75, // maximum stack trace frames to be stored (in case trace option was provided as true)
       }),
+      SweetAlert2Module.forRoot()
     ),
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),
