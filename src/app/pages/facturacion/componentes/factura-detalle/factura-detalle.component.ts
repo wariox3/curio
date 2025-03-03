@@ -16,8 +16,11 @@ export class FacturaDetalleComponent  {
   public mostrarIcono: number | null = null;
   public nombre = this._facturaReduxService.facturaActivaNombre;
   public items = this._facturaReduxService.arrItemsSignal
-  public cantidadItemsSignal = this._facturaReduxService.cantidadItemsSignal
+  public totalProductosSignal = this._facturaReduxService.totalProductosSignal
+  public totalCantidadesSignal = this._facturaReduxService.totalCantidadesSignal
   public totalSubtotalSignal = this._facturaReduxService.totalSubtotalSignal
+
+
 
   retirarItem(itemId: number){
     this._facturaReduxService.retirarItem(itemId)

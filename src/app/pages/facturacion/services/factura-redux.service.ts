@@ -29,10 +29,16 @@ export class FacturaReduxService {
   public arrFacturasSignal = signal<Factura[]>([]);
   public facturaActivaNombre = signal('');
   public arrItemsSignal = signal<Item[]>([]);
-  public cantidadItemsSignal = computed(() => this.arrItemsSignal().length);
+  public totalProductosSignal = computed(() => this.arrItemsSignal().length);
   public totalSubtotalSignal = computed(() =>
     this.arrItemsSignal().reduce(
       (acumulador, item) => (acumulador += item.subtotal),
+      0
+    )
+  );
+  public totalCantidadesSignal = computed(() =>
+    this.arrItemsSignal().reduce(
+      (acumulador, item) => (acumulador += item.cantidad),
       0
     )
   );

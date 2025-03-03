@@ -54,11 +54,15 @@
     <div class="card-footer p-2">
       <div class="flex flex-col w-full">
         <div class="flex justify-between">
-          <p>Producto:</p>
-          <p>{{ cantidadItemsSignal() }}</p>
+          <p>Productos:</p>
+          <p>{{ totalProductosSignal() }}</p>
         </div>
         <div class="flex justify-between">
           <p>Cantidad:</p>
+          <p>{{ totalCantidadesSignal() | number : "1.0-0" }}</p>
+        </div>
+        <div class="flex justify-between">
+          <p>Subtotal:</p>
           <p>{{ totalSubtotalSignal() | number : "1.0-0" }}</p>
         </div>
         <hr />
