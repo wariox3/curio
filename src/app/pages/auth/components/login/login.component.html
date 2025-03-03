@@ -27,35 +27,10 @@
             </a>
           </div>
         </div>
-        <div class="grid grid-cols-2 gap-2.5">
-          <a class="btn btn-light btn-sm justify-center" href="#">
-            <img
-              alt=""
-              class="size-3.5 shrink-0"
-              src="assets/media/brand-logos/google.svg"
-            />
-            Usa Google
-          </a>
-          <a class="btn btn-light btn-sm justify-center" href="#">
-            <img
-              alt=""
-              class="size-3.5 shrink-0 dark:hidden"
-              src="assets/media/brand-logos/apple-black.svg"
-            />
-            <img
-              alt=""
-              class="size-3.5 shrink-0 light:hidden"
-              src="assets/media/brand-logos/apple-white.svg"
-            />
-            Usa Apple
-          </a>
-        </div>
         <div class="flex items-center gap-2">
           <span class="border-t border-gray-200 w-full"> </span>
-          <span class="text-2xs text-gray-500 font-medium uppercase"> O </span>
-          <span class="border-t border-gray-200 w-full"> </span>
         </div>
-        <div class="flex flex-col gap-1">
+        <div class="flex flex-col gap-1 h-[118px]">
           <label class="form-label font-normal text-gray-900">
             Correo electrónico
           </label>
@@ -65,42 +40,31 @@
             type="text"
             formControlName="email"
           />
-          <!-- <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO',
-              control: loginForm.controls['email']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'pattern',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO',
-              control: loginForm.controls['email']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'minlength',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO',
-              cantidadCaracteres: '3',
-              control: loginForm.controls['email']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO',
-              cantidadCaracteres: '100',
-              control: loginForm.controls['email']
-            }"
-          ></ng-container> -->
+          <app-form-error
+            [control]="loginForm.get('email')"
+            [errors]="[
+              {
+                validacionTipo: 'required',
+                mensaje: 'Este campo es obligatorio'
+              },
+              {
+                validacionTipo: 'pattern',
+                mensaje: 'Correo electrónico válido'
+              },
+              {
+                validacionTipo: 'minlength',
+                mensaje: 'Caracteres mínimo es de',
+                cantidadCaracteres: 3
+              },
+              {
+                validacionTipo: 'maxlength',
+                mensaje: 'Caracteres máximo es de',
+                cantidadCaracteres: 100
+              }
+            ]"
+          ></app-form-error>
         </div>
-        <div class="flex flex-col gap-1">
+        <div class="flex flex-col gap-1 h-[118px]">
           <div class="flex items-center justify-between gap-1">
             <label class="form-label font-normal text-gray-900">
               Contraseña
@@ -137,41 +101,30 @@
               </i>
               }
             </button>
-            <!-- <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO',
-              control: loginForm.controls['password']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'minlength',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO',
-              cantidadCaracteres: '3',
-              control: loginForm.controls['password']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO',
-              cantidadCaracteres: '100',
-              control: loginForm.controls['password']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'pattern',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO',
-              control: loginForm.controls['password']
-            }"
-          ></ng-container> -->
           </div>
+          <app-form-error
+          [control]="loginForm.get('password')"
+          [errors]="[
+            {
+              validacionTipo: 'required',
+              mensaje: 'Este campo es obligatorio'
+            },
+            {
+              validacionTipo: 'pattern',
+              mensaje: 'Correo electrónico válido'
+            },
+            {
+              validacionTipo: 'minlength',
+              mensaje: 'Caracteres mínimo es de',
+              cantidadCaracteres: 3
+            },
+            {
+              validacionTipo: 'maxlength',
+              mensaje: 'Caracteres máximo es de',
+              cantidadCaracteres: 100
+            }
+          ]"
+        ></app-form-error>
         </div>
         <label class="checkbox-group">
           <input

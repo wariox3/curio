@@ -12,13 +12,14 @@ import { Store } from '@ngrx/store';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { catchError, of, tap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
+import { FormErrorComponent } from "../../../../shared/components/form-error/form-error.component";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, NgIf, NgTemplateOutlet],
+  imports: [FormsModule, ReactiveFormsModule, NgIf, NgTemplateOutlet, FormErrorComponent],
 })
 export default class LoginComponent implements OnInit {
   loginForm: FormGroup;
