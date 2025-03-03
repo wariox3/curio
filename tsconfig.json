@@ -53,7 +53,10 @@
       ],
       "@types/*": [
         "src/app/core/model/types/*"
-      ]
+      ],
+      "@metronic/components/*": [
+        "src/metronic/core/components/*"
+      ],
     }
   },
   "angularCompilerOptions": {

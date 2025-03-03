@@ -3,17 +3,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: '<body[root]>',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss'],
   standalone: true,
-  imports: [
-    RouterOutlet,
-    NgFor,
-    NgClass,
-    RouterLink,
-  ],
+  imports: [RouterOutlet, RouterLink],
 })
 export default class AuthComponent implements OnInit, OnDestroy {
   today: Date = new Date();

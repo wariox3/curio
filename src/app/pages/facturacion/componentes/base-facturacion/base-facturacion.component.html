@@ -1,0 +1,36 @@
+@for (tab of tabs(); track idx; let idx = $index) {
+<div [ngClass]="{ hidden: tabActivo() !== idx }" [id]="tab.id">
+  <div id="base" class="h-[81vh] w-full">
+    <div class="flex flex-row h-full">
+      <div class="w-2/3 h-full p-2">
+        <div class="input-group w-full">
+          <span class="btn btn-input cursor-pointer">
+            <i class="ki-filled ki-filter-search"></i>
+          </span>
+          <span class="btn btn-input cursor-pointer">
+            <i class="ki-filled ki-scan-barcode"></i>
+          </span>
+          <input
+            class="input"
+            placeholder="Buscar"
+            type="text"
+            value=""
+          />
+          <span class="btn btn-input cursor-pointer">
+            <i class="ki-filled ki-add-files"></i>
+          </span>
+        </div>
+        <app-factura-items-lista class="h-full"></app-factura-items-lista>
+      </div>
+      <div class="w-1/3 h-full">
+        <div class="h-full w-full flex-grow">
+          <app-factura-detalle class="h-full w-full"></app-factura-detalle>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+}
+<div class="tabs border-t-2" data-tabs="true">
+  <app-factura-tabs></app-factura-tabs>
+</div>

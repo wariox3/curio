@@ -1,13 +1,12 @@
+import { Usuario } from '@interfaces/usuario.interfece';
 import { createReducer, on } from '@ngrx/store';
-import { usuarioActionInit } from '@redux/actions/usuario.actions';
+import { usuarioActionInit, usuarioActionClear } from '@redux/actions/usuario.actions';
+import { getCookie } from 'typescript-cookie';
 
-// import { getCookie } from 'typescript-cookie';
-// import { Usuario } from '@interfaces/usuario/usuario';
-
-//let usuarioData = getCookie('usuario');
+let usuarioData = getCookie('usuario');
 
 let parsedState: any = {
-  id: '',
+  id: 0,
   username: '',
   imagen: '',
   nombre_corto: '',
@@ -23,19 +22,24 @@ let parsedState: any = {
   verificado: false,
   es_socio: false,
   socio_id: '',
-  is_active: false
+  is_active: false,
 };
 
-// export const initialState: Usuario = usuarioData
-//   ? JSON.parse(usuarioData)
-//   : parsedState;
+export const initialState: Usuario = usuarioData
+  ? JSON.parse(usuarioData)
+  : parsedState;
 
 export const usuarioReducer = createReducer(
-  parsedState,
+  initialState,
   on(usuarioActionInit, (state, { usuario }) => {
     return {
       ...state,
       ...usuario,
     };
   }),
+    on(usuarioActionClear, (state) => {
+    return {
+      ...parsedState,
+    };
+  })
 );

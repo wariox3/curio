@@ -1,9 +1,4 @@
-import {
-  HttpContext,
-  HttpContextToken,
-  HttpHandlerFn,
-  type HttpInterceptorFn,
-} from '@angular/common/http';
+import { HttpContext, HttpContextToken, HttpHandlerFn, type HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { TokenService } from '../services/token.service';
 
@@ -18,6 +13,7 @@ export const tokenInterceptor: HttpInterceptorFn = (
   next: HttpHandlerFn
 ) => {
   const tokenService = inject(TokenService);
+
   if (request.context.get(requiereToken)) {
     //validar vigencia
     const tokenValido = tokenService.validarToken();

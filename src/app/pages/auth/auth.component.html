@@ -1,34 +1,11 @@
-<div class="d-flex flex-column flex-lg-row flex-column-fluid">
-  <div
-    class="d-flex flex-column flex-lg-row-fluid w-lg-50 p-10 order-2 order-lg-1"
-  >
-    <div class="d-flex flex-center flex-column flex-lg-row-fluid">
-      <div class="p-10">
-        <router-outlet></router-outlet>
-      </div>
-    </div>
-    <div class="d-flex flex-stack flex-wrap px-10 mx-auto">
-      <div class="d-flex fw-semibold text-primary fs-base"></div>
-      <div
-        class="d-flex justify-content-center fw-semibold text-primary fs-base my-3"
-      >
-        <a routerLink="/terminos" class="px-5" target="_blank">TERMINOS</a>
+<div class="flex flex-col justify-center items-center min-h-screen p-10">
+  <!-- Contenido principal -->
+  <router-outlet></router-outlet>
 
-        <a
-          href="#"
-          routerLink="/inicio"
-          fragment="pricing"
-          class="px-5"
-          target="_blank"
-          >PLAN</a
-        >
-
-        <a routerLink="/inicio" fragment="contacto" class="px-5" target="_blank"
-          >CONTACTO</a
-        >
-      </div>
-    </div>
-    <!--end::Footer-->
+  <!-- Footer -->
+  <div class="flex justify-center space-x-5 mt-10 text-primary font-semibold text-base">
+    <a routerLink="/terminos" target="_blank">TERMINOS</a>
+    <a routerLink="/inicio" fragment="pricing" target="_blank">PLAN</a>
+    <a routerLink="/inicio" fragment="contacto" target="_blank">CONTACTO</a>
   </div>
-  <!--end::Body-->
 </div>

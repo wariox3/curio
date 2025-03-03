@@ -1,0 +1,15 @@
+<div
+  class="bg-white rounded-lg shadow p-4 relative cursor-pointer"
+  [ngClass]="{ 'shadow-teal-500/50': cantidadSignal() >= 1 }"
+  (click)="seleccionarProducto(item)"
+>
+  @if(cantidadSignal() >= 1 ){
+  <span
+    class="absolute top-2 right-2 bg-teal-500 text-white text-sm px-2 py-1 rounded-full"
+  >
+    {{ cantidadSignal() }}
+  </span>
+  }
+  <h3 class="text-lg font-semibold">{{ item.nombre }}</h3>
+  <p class="text-xl font-bold">{{ item.precio }}</p>
+</div>

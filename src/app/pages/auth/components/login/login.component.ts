@@ -1,5 +1,5 @@
 import { NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -18,24 +18,12 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    NgIf,
-    NgTemplateOutlet,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, NgIf, NgTemplateOutlet],
 })
 export default class LoginComponent implements OnInit {
-  // KeenThemes mock, change it to:
-  // defaultAuth: any = {
-  //   email: '',
-  //   password: '',
-  // };
   loginForm: FormGroup;
-  // hasError: boolean;
-  // isLoading$: Observable<boolean>;
   visualizarLoader: boolean = false;
-  cambiarTipoCampoClave: 'text' | 'password' = 'password';
+  cambiarTipoCampoClave = signal<'text' | 'password'>('password');
 
   private _formBuilder = inject(FormBuilder);
   private _authService = inject(AuthService);
@@ -47,11 +35,11 @@ export default class LoginComponent implements OnInit {
   }
 
   visualizarClave() {
-    // if (this.cambiarTipoCampoClave === 'password') {
-    //   this.cambiarTipoCampoClave = 'text';
-    // } else {
-    //   this.cambiarTipoCampoClave = 'password';
-    // }
+    if (this.cambiarTipoCampoClave() === 'password') {
+      this.cambiarTipoCampoClave.set('text');
+    } else {
+      this.cambiarTipoCampoClave.set('password');
+    }
   }
 
   initForm() {
@@ -79,7 +67,6 @@ export default class LoginComponent implements OnInit {
   }
 
   submit() {
-    //const tokenUrl = this.activatedRoute.snapshot.paramMap.get('token');
     if (this.loginForm.valid) {
       //this.visualizarLoader = true;
       this._authService
@@ -89,7 +76,6 @@ export default class LoginComponent implements OnInit {
         )
         .pipe(
           tap((respuestaLogin) => {
-            //actualizar el store de redux
             this._store.dispatch(
               usuarioActionInit({
                 usuario: {
@@ -116,88 +102,11 @@ export default class LoginComponent implements OnInit {
               })
             );
           }),
-          // switchMap(() => {
-          //   if (this.subdominioService.esSubdominioActual()) {
-          //     return this.contenedorServices.varios(
-          //       this.subdominioService.subdominioNombre()
-          //     );
-          //   }
-          //   return of(null);
-          // }),
-          tap((respuesta: any) => {
-            //   if (respuesta?.empresa.acceso_restringido) {
-            //     location.href = `${
-            //       environment.dominioHttp
-            //     }://${environment.dominioApp.slice(1)}/contenedor/lista`;
-            //   } else {
-            this.validarSubdominioYrediccionar(respuesta);
-            //   }
-          })
-          // switchMap(() => {
-          //   if (tokenUrl) {
-          //     return this.authService.confirmarInivitacion(tokenUrl);
-          //   }
-          //   return of(null);
-          // }),
-          // tap((respuestaConfirmarInivitacion: any) => {
-          //   if (tokenUrl) {
-          //     if (respuestaConfirmarInivitacion.confirmar) {
-          //       this.alertaService.mensajaExitoso(
-          //         this.translateService.instant(
-          //           'FORMULARIOS.MENSAJES.CONTENEDOR.INVITACIONACEPTADA'
-          //         )
-          //       );
-          //     }
-          //   }
-          // }),
-          // catchError(() => {
-          //   this.visualizarLoader = false;
-          //   this.changeDetectorRef.detectChanges();
-          //   return of(null);
-          // })
+          tap(() => this._router.navigate(['/dashboard/facturacion']))
         )
         .subscribe();
     } else {
       this.loginForm.markAllAsTouched();
     }
-  }
-
-  validarSubdominioYrediccionar(respuesta: any) {
-    // if (this.subdominioService.esSubdominioActual()) {
-    //   const contenedor: Contenedor = {
-    //     nombre: respuesta.empresa.nombre,
-    //     imagen: respuesta.empresa.imagen,
-    //     contenedor_id: respuesta.empresa.id,
-    //     subdominio: respuesta.empresa.subdominio,
-    //     id: respuesta.empresa.id,
-    //     usuario_id: 1,
-    //     seleccion: true,
-    //     rol: respuesta.empresa.rol,
-    //     plan_id: respuesta.empresa.plan_id,
-    //     plan_nombre: respuesta.empresa.plan_nombre,
-    //     usuarios: 1,
-    //     usuarios_base: 0,
-    //     ciudad: 0,
-    //     correo: '',
-    //     direccion: '',
-    //     identificacion: 0,
-    //     nombre_corto: '',
-    //     numero_identificacion: 0,
-    //     telefono: '',
-    //     acceso_restringido: respuesta.empresa.acceso_restringido,
-    //   };
-    //   this.store.dispatch(ContenedorActionInit({ contenedor }));
-    //   this.store.dispatch(selecionModuloAction({ seleccion: 'general' }));
-    //   this.store.dispatch(
-    //     configuracionVisualizarAction({
-    //       configuracion: {
-    //         visualizarApps: true,
-    //       },
-    //     })
-    //   );
-    //   this.router.navigate(['/dashboard']);
-    // } else {
-    this._router.navigate(['/dashboard']);
-    // }
   }
 }

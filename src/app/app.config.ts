@@ -8,21 +8,33 @@ import {
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideServiceWorker } from '@angular/service-worker';
-import { StoreModule } from '@ngrx/store';
+import { MetaReducer, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { StoreApp } from './redux';
-import { HttpClientModule } from '@angular/common/http';
+import { EffectsApp, StoreApp } from './redux';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { EffectsModule } from '@ngrx/effects';
+import { localStorageSync } from 'ngrx-store-localstorage';
+import { tokenInterceptor } from '@interceptores/token.interceptor';
 
+
+export function localStorageSyncReducer(reducer: any): any {
+  return localStorageSync({
+    keys: ['usuario', 'factura'], // Las partes del estado que quieres persistir
+    rehydrate: true, // Restaura el estado desde el localStorage al iniciar
+  })(reducer);
+}
+export const metaReducers: MetaReducer<any>[] = [localStorageSyncReducer];
 
 
 export const appConfig: ApplicationConfig = {
 
   providers: [
     provideRouter(routes),
+    provideHttpClient(withInterceptors([tokenInterceptor])),
     importProvidersFrom(
       HammerModule,
-      HttpClientModule,
-      StoreModule.forRoot(StoreApp),
+      StoreModule.forRoot(StoreApp, { metaReducers }),
+      EffectsModule.forRoot(EffectsApp),
       StoreDevtoolsModule.instrument({
         maxAge: 25, // Retains last 25 states
         logOnly: !isDevMode(), // Restrict extension to log-only mode
@@ -39,5 +51,6 @@ export const appConfig: ApplicationConfig = {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
     }),
+
   ],
 };

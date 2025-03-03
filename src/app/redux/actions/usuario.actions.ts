@@ -5,6 +5,10 @@ export const usuarioActionInit = createAction(
   props<{ usuario: any }>()
 );
 
+export const usuarioActionClear = createAction(
+  '[Usuario] limpiar informacion',
+);
+
 export const usuarioActionBorrarInformacion = createAction(
   '[Usuario] borrar informacion'
 );

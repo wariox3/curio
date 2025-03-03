@@ -1,1 +1,15 @@
-<router-outlet></router-outlet>
+<section
+  [ngClass]="{
+    'antialiased flex h-full demo1 sidebar-fixed header-fixed bg-[#fefefe] dark:bg-coal-500 sidebar-collapse':
+    existeUsuarioId$ | async
+  }"
+>
+  <section
+    [ngClass]="{
+      'flex grow': existeUsuarioId$ | async
+    }"
+  >
+    <router-outlet></router-outlet>
+  </section>
+</section>
+

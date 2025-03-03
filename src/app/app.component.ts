@@ -1,26 +1,42 @@
-import { AfterViewInit, Component, HostBinding, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  HostBinding,
+  inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FooterComponent } from './layouts/footer/footer.component';
 import KTComponents from 'src/metronic/core';
 import KTLayout from '../metronic/app/layouts/demo1';
+import { Store } from '@ngrx/store';
+import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
+import { CommonModule, NgClass } from '@angular/common';
 
 @Component({
-	selector: 'app-root',
-	standalone: true,
-	imports: [RouterOutlet, FooterComponent],
-	templateUrl: './app.component.html',
-	styleUrl: './app.component.scss'
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet, CommonModule],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss',
 })
-export class AppComponent implements AfterViewInit, OnInit {
-	title = 'metronic-tailwind-angular';
-	@HostBinding('class') hostClass = 'flex grow';
+export class AppComponent implements AfterViewInit, OnInit, OnDestroy {
+  title = 'metronic-tailwind-angular';
+  private _store = inject(Store);
+  public existeUsuarioId$ =   this._store.select(obtenerUsuarioId);
 
-	ngAfterViewInit(): void {
-		KTComponents.init();
-		KTLayout.init();
-	}
 
-	ngOnInit(): void {
-	}
+  ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
+    KTComponents.init();
+    KTLayout.init();
+  }
+
+
+  ngOnDestroy(): void {
+   // this.existeUsuarioId = false
+
+  }
 }
-

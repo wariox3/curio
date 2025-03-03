@@ -1,0 +1,39 @@
+<div class="h-full w-full flex flex-col">
+  <div class="card h-full w-full flex flex-col shadow-none rounded-none">
+    <div class="card-header p-2">
+      <h3 class="card-title">{{ nombre() }}</h3>
+    </div>
+    <div class="card-body scrollable flex-grow p-2">
+      @for (item of items(); track $index) {
+      <div class="card-group p-2">
+        {{ item.nombre }}
+        {{ item.precio | number : "1.0-0" }}
+        {{ item.subtotal | number : "1.0-0" }}
+      </div>
+      <app-contador-cantidad
+        [cantidad]="item.cantidad"
+        (emitirCantidad)="actualizarCantidad($event, item.id)"
+      ></app-contador-cantidad>
+      <i
+        class="ki-filled ki-trash text-lg cursor-pointer"
+        (click)="retirarItem(item.id)"
+      ></i>
+
+      }
+    </div>
+    <div class="card-footer p-2">
+      <div class="flex flex-col w-full">
+        <div class="flex justify-between">
+          <p>Producto:</p>
+          <p>{{ cantidadItemsSignal() }}</p>
+        </div>
+        <div class="flex justify-between">
+          <p>Cantidad:</p>
+          <p>{{ totalSubtotalSignal() | number : "1.0-0" }}</p>
+        </div>
+        <hr />
+        <button class="btn btn-outline btn-success w-full">Pagar</button>
+      </div>
+    </div>
+  </div>
+</div>
