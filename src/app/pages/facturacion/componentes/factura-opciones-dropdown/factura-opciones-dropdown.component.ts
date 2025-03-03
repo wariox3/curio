@@ -1,8 +1,8 @@
 import { Component, ElementRef, inject, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { FacturaReduxService } from '../../services/factura-redux.service';
+import { FormsModule } from '@angular/forms';
 import { KTDropdown } from '@metronic/components/dropdown/dropdown';
 import { KTModal } from '@metronic/components/modal/modal';
-import { FormsModule } from '@angular/forms';
+import { FacturaReduxService } from '../../services/factura-redux.service';
 
 @Component({
   selector: 'app-factura-opciones-dropdown',
@@ -14,10 +14,11 @@ import { FormsModule } from '@angular/forms';
 export class FacturaOpcionesDropdownComponent {
 
     private _facturaReduxService = inject(FacturaReduxService);
+    public tabs = this._facturaReduxService.arrFacturasSignal;
+    public tabActivo = this._facturaReduxService.facturaTabActivo;
+    public inputCambiarNombre: string = '';
+    public nombre = this._facturaReduxService.facturaActivaNombre;
 
-    tabs = this._facturaReduxService.arrFacturasSignal;
-    tabActivo = this._facturaReduxService.facturaTabActivo;
-    inputCambiarNombre: string = '';
 
     @ViewChild('modalCambiarNombreTab') modalCambiarNombreTab!: ElementRef;
     @ViewChild('modalConfirmacionEliminar')
@@ -54,5 +55,6 @@ export class FacturaOpcionesDropdownComponent {
 
   retirarFactura() {
     this._facturaReduxService.retirarFactura(this.tabActivo())
+    this._toggleModal(this.modalConfirmacionEliminar);
   }
 }

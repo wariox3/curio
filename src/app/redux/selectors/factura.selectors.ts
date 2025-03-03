@@ -35,5 +35,5 @@ export const obtenerItemsFacturaActiva = createSelector(Factura, (state) => {
 export const obtenerItemCantidadFacturaActiva = (itemId: number) => createSelector(Factura, (state) => {
   const facturaActiva = state.facturas[state.facturaActiva];
   const items = facturaActiva.data.itemsAgregados.find((item) => item.id === itemId);
-  return items ? items.cantidad : 0;
+  return items !== undefined ? items.cantidad : 0;
 });
