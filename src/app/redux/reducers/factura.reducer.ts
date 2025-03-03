@@ -105,9 +105,10 @@ export const facturaReducer = createReducer(
                 item.id === itemId
                   ? { ...item, subtotal: item.precio * item.cantidad }
                   : item
-              )
-            }
+              ),
+            },
           }
         : factura
-    )
-  })));
+    ),
+  }))
+);

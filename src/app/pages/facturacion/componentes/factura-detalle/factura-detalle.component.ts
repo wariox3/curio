@@ -12,15 +12,15 @@ import { DecimalPipe, } from '@angular/common';
 })
 export class FacturaDetalleComponent  {
   private _facturaReduxService = inject(FacturaReduxService);
-
+  public mostrarIcono: number | null = null;
   public nombre = this._facturaReduxService.facturaActivaNombre;
   public items = this._facturaReduxService.arrItemsSignal
-
   public cantidadItemsSignal = this._facturaReduxService.cantidadItemsSignal
   public totalSubtotalSignal = this._facturaReduxService.totalSubtotalSignal
 
   retirarItem(itemId: number){
     this._facturaReduxService.retirarItem(itemId)
+    this.mostrarIcono = null
   }
 
   actualizarCantidad(cantidad: number, itemId: number,){
@@ -31,4 +31,19 @@ export class FacturaDetalleComponent  {
       this._facturaReduxService.retirarItem(itemId)
     }
   }
+
+  alEntrarMouse(itemId: number, div: HTMLDivElement): void {
+    this.mostrarIcono = itemId;
+    this.simularClic(div);
+  }
+
+  alSalirMouse(): void {
+    this.mostrarIcono = null;
+  }
+
+  simularClic(elemento: HTMLDivElement): void {
+    elemento.click();
+  }
+
+
 }
