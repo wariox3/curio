@@ -1,5 +1,4 @@
-import { obtenerItemCantidadFacturaActiva } from './../../../../redux/selectors/factura.selectors';
-import { NgClass } from '@angular/common';
+import { DecimalPipe, NgClass } from '@angular/common';
 import { Component, inject, Input, OnInit, signal } from '@angular/core';
 import { Item } from '@interfaces/item.interface';
 import { FacturaReduxService } from '../../services/factura-redux.service';
@@ -7,7 +6,7 @@ import { FacturaReduxService } from '../../services/factura-redux.service';
 @Component({
   selector: 'app-factura-items-card',
   standalone: true,
-  imports: [NgClass],
+  imports: [NgClass, DecimalPipe],
   templateUrl: './factura-items-card.component.html',
 })
 export class FacturaItemsCardComponent implements OnInit {
