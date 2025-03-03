@@ -2,11 +2,12 @@ import { Component, computed, inject, OnInit } from '@angular/core';
 import { FacturaReduxService } from '../../services/factura-redux.service';
 import { ContadorCantidadComponent } from '@componentes/contador-cantidad/contador-cantidad.component';
 import { DecimalPipe, } from '@angular/common';
+import { FacturaOpcionesDropdownComponent } from "../factura-opciones-dropdown/factura-opciones-dropdown.component";
 
 @Component({
   selector: 'app-factura-detalle',
   standalone: true,
-  imports: [ContadorCantidadComponent,  DecimalPipe],
+  imports: [ContadorCantidadComponent, DecimalPipe, FacturaOpcionesDropdownComponent],
   templateUrl: './factura-detalle.component.html',
   styleUrl: './factura-detalle.component.scss',
 })
