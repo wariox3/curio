@@ -1,22 +1,22 @@
+import { DecimalPipe } from '@angular/common';
 import {
   Component,
-  computed,
   ElementRef,
   inject,
   OnInit,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
-import { FacturaReduxService } from '../../services/factura-redux.service';
-import { ContadorCantidadComponent } from '@componentes/contador-cantidad/contador-cantidad.component';
-import { DecimalPipe, JsonPipe } from '@angular/common';
-import { FacturaOpcionesDropdownComponent } from '../factura-opciones-dropdown/factura-opciones-dropdown.component';
 import { FormsModule } from '@angular/forms';
+import { ContadorCantidadComponent } from '@componentes/contador-cantidad/contador-cantidad.component';
 import { Item } from '@interfaces/item.interface';
 import { KTDrawer } from '@metronic/components/drawer';
-import { FacturaEditarItemComponent } from '../factura-editar-item/factura-editar-item.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ContactoApiService } from '../../services/contacto-api.service';
+import { FacturaReduxService } from '../../services/factura-redux.service';
+import { FacturaEditarItemComponent } from '../factura-editar-item/factura-editar-item.component';
 import { FacturaModalPagarComponent } from "../factura-medios-pago/factura-modal-pagar/factura-modal-pagar.component";
+import { FacturaOpcionesDropdownComponent } from '../factura-opciones-dropdown/factura-opciones-dropdown.component';
+import { DocumentoFacturaDetalleRespuesta } from '@interfaces/facturas.interface';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -43,7 +43,7 @@ export class FacturaDetalleComponent implements OnInit {
   public totalCantidadesSignal =
     this._facturaReduxService.totalCantidadesSignal;
   public totalSubtotalSignal = this._facturaReduxService.totalSubtotalSignal;
-  public itemSeleccionado: Item | null = null;
+  public itemSeleccionado: DocumentoFacturaDetalleRespuesta | null = null;
   public arrContactosSignal = this._contactoApiService.arrContactosSignal
 
 
@@ -79,7 +79,7 @@ export class FacturaDetalleComponent implements OnInit {
     }
   }
 
-  alEntrarMouse(item: Item, div: HTMLDivElement): void {
+  alEntrarMouse(item: DocumentoFacturaDetalleRespuesta, div: HTMLDivElement): void {
     this.mostrarIcono = item.id;
     this.itemSeleccionado = item;
     this.simularClic(div);

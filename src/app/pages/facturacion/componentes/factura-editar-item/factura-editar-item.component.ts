@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { Item } from '@interfaces/item.interface';
 import { FacturaReduxService } from '../../services/factura-redux.service';
+import { DocumentoFacturaDetalleRespuesta } from '@interfaces/facturas.interface';
 
 @Component({
   selector: 'app-factura-editar-item',
@@ -25,7 +26,7 @@ export class FacturaEditarItemComponent {
 
 
 
-  @Input() item: Item;
+  @Input() item: DocumentoFacturaDetalleRespuesta;
   formularioVenta: FormGroup;
 
   ngOnInit(): void {

@@ -1,6 +1,6 @@
 // factura.service.ts
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { DocumentoFactura } from '@interfaces/facturas.interface';
+import { DocumentoFactura, DocumentoFacturaDetalleRespuesta } from '@interfaces/facturas.interface';
 import { Item } from '@interfaces/item.interface';
 import { Store } from '@ngrx/store';
 import {
@@ -20,6 +20,7 @@ import {
   obtenerFacturaActiva,
   obtenerFacturas,
   obtenerItemCantidadFacturaActiva,
+  obtenerItemsFacturaActiva,
   obtenerNombreFacturaActiva
 } from '@redux/selectors/factura.selectors';
 import { documentoFacturaDetalleInit, facturaInit } from 'src/app/core/model/constantes/factura';
@@ -31,7 +32,7 @@ export class FacturaReduxService {
   public facturaTabActivo = signal<number>(0);
   public arrFacturasSignal = signal<DocumentoFactura[]>([]);
   public facturaActivaNombre = signal('');
-  public arrItemsSignal = signal<Item[]>([]);
+  public arrItemsSignal = signal<DocumentoFacturaDetalleRespuesta[]>([]);
   public totalProductosSignal = computed(() => this.arrItemsSignal().length);
   public totalSubtotalSignal = computed(() =>
     this.arrItemsSignal().reduce(
@@ -72,9 +73,9 @@ export class FacturaReduxService {
   }
 
   obtenerItemsFactura() {
-    // this._store
-    //   .select(obtenerItemsFacturaActiva)
-    //   .subscribe((items) => this.arrItemsSignal.set(items));
+     this._store
+       .select(obtenerItemsFacturaActiva)
+       .subscribe((items) => this.arrItemsSignal.set(items));
   }
 
   obtenerItemCantidad(itemId: number) {
