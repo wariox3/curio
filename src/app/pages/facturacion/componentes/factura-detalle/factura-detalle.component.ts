@@ -42,10 +42,13 @@ export class FacturaDetalleComponent {
   @ViewChild('editarItemDrawer')
   editarItemDrawer!: ElementRef;
 
+  editarItem() {
+    this.drawerClose()
+  }
+
   retirarItem(itemId: number) {
     this._facturaReduxService.retirarItem(itemId);
     this.mostrarIcono = null;
-    this.drawerClose()
   }
 
   actualizarCantidad(cantidad: number, itemId: number) {
