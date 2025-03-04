@@ -10,6 +10,7 @@ import {
   facturaNuevaAction,
   retirarItemDeFacturaActiva,
   seleccionarFacturaActiva,
+  actualizarPrecioItemFacturaActiva
 } from '@redux/actions/factura.actions';
 
 export const initialState: FacturaReduxState = {
@@ -87,6 +88,22 @@ export const facturaReducer = createReducer(
               ...factura.data,
               itemsAgregados: factura.data.itemsAgregados.map((item) =>
                 item.id === itemId ? { ...item, cantidad } : item
+              ),
+            },
+          }
+        : factura
+    ),
+  })),
+  on(actualizarPrecioItemFacturaActiva, (state, { itemId, precio }) => ({
+    ...state,
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? {
+            ...factura,
+            data: {
+              ...factura.data,
+              itemsAgregados: factura.data.itemsAgregados.map((item) =>
+                item.id === itemId ? { ...item, precio } : item
               ),
             },
           }

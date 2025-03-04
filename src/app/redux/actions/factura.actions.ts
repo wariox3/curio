@@ -40,6 +40,11 @@ export const actualizarCantidadItemFacturaActiva = createAction(
 );
 
 
+export const actualizarPrecioItemFacturaActiva = createAction(
+  '[Factura] Actualizar Precio del Item de una factura activa',
+  props<{ itemId: number; precio: number }>()
+);
+
 export const actualizarSubtotalItemFacturaActiva = createAction(
   '[Factura] Actualizar Subtotal del Item de una factura activa',
   props<{ itemId: number; }>()

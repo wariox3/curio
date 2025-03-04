@@ -12,6 +12,7 @@ import {
   retirarItemDeFacturaActiva,
   actualizarCantidadItemFacturaActiva,
   actualizarSubtotalItemFacturaActiva,
+  actualizarPrecioItemFacturaActiva,
 } from '@redux/actions/factura.actions';
 import {
   obtenerFacturaActiva,
@@ -133,6 +134,14 @@ export class FacturaReduxService {
       actualizarCantidadItemFacturaActiva({ itemId, cantidad })
     );
   }
+
+  actualizarPrecioItem(itemId: number, precio: number) {
+    this._store.dispatch(
+      actualizarPrecioItemFacturaActiva({ itemId, precio })
+    );
+  }
+
+
 
   calcularSubtotal(itemId: number) {
     this._store.dispatch(actualizarSubtotalItemFacturaActiva({ itemId }));
