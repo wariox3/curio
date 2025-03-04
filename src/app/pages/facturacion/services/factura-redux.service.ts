@@ -89,6 +89,8 @@ export class FacturaReduxService {
           data: {
             itemsAgregados: [],
           },
+          cliente: 0,
+          cliente_nombre: ''
         },
       })
     );

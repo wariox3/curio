@@ -37,3 +37,14 @@ export const obtenerItemCantidadFacturaActiva = (itemId: number) => createSelect
   const items = facturaActiva.data.itemsAgregados.find((item) => item.id === itemId);
   return items !== undefined ? items.cantidad : 0;
 });
+
+export const obtenerClienteFacturaActiva = createSelector(Factura, (state) => {
+  const facturaActiva = state.facturas[state.facturaActiva];
+  return facturaActiva ? facturaActiva.cliente : null;
+});
+
+// Selector para obtener el nombre del cliente de la factura activa
+export const obtenerNombreClienteFacturaActiva = createSelector(Factura, (state) => {
+  const facturaActiva = state.facturas[state.facturaActiva];
+  return facturaActiva ? facturaActiva.cliente_nombre : '';
+});

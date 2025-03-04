@@ -10,7 +10,9 @@ import {
   facturaNuevaAction,
   retirarItemDeFacturaActiva,
   seleccionarFacturaActiva,
-  actualizarPrecioItemFacturaActiva
+  actualizarPrecioItemFacturaActiva,
+  actualizarClienteFacturaActiva,
+  actualizarNombreClienteFacturaActiva
 } from '@redux/actions/factura.actions';
 
 export const initialState: FacturaReduxState = {
@@ -18,6 +20,8 @@ export const initialState: FacturaReduxState = {
     {
       id: 0,
       nombre: 'Factura principal',
+      cliente: 0,
+      cliente_nombre: '',
       data: {
         itemsAgregados: [],
       },
@@ -127,5 +131,21 @@ export const facturaReducer = createReducer(
           }
         : factura
     ),
+  })),
+  on(actualizarClienteFacturaActiva, (state, { cliente }) => ({
+    ...state,
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? { ...factura, cliente }
+        : factura
+    )
+  })),
+  on(actualizarNombreClienteFacturaActiva, (state, { cliente_nombre }) => ({
+    ...state,
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? { ...factura, cliente_nombre }
+        : factura
+    )
   }))
 );
