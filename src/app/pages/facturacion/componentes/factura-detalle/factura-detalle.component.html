@@ -5,7 +5,15 @@
       <app-factura-opciones-dropdown></app-factura-opciones-dropdown>
     </div>
     <div class="card-body scrollable flex-grow p-2">
-      @for (item of items(); track $index; let last = $last) {
+      @if (items().length === 0) {
+      <div class="text-center p-4">
+        <i class="ki-filled ki-purchase text-gray-500 text-3xl"></i>
+        <p class="text-gray-500">
+          No se han agregado productos a la factura. Por favor, añade productos
+          para continuar.
+        </p>
+      </div>
+      } @else { @for (item of items(); track $index; let last = $last) {
       <div
         class="flex justify-between items-center p-2 hover:bg-blue-50 animate-slide-in-left"
       >
@@ -31,6 +39,7 @@
             [attr.data-tooltip]="'#tooltip_editar_hover' + item.id"
             [attr.data-tooltip-trigger]="'hover'"
             [attr.data-drawer-toggle]="'#drawer_6'"
+            (click)="editarItem()"
           ></i>
           <i
             class="ki-filled ki-trash text-xl cursor-pointer text-red-500"
@@ -51,7 +60,7 @@
       </div>
       @if(!last){
       <hr class="border-t-2" />
-      } }
+      } } }
     </div>
     <div class="card-footer p-2">
       <div class="flex flex-col w-full">
