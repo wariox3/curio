@@ -14,19 +14,10 @@ import {
   actualizarClienteFacturaActiva,
   actualizarNombreClienteFacturaActiva
 } from '@redux/actions/factura.actions';
+import { facturaInit } from 'src/app/core/model/constantes/factura';
 
 export const initialState: FacturaReduxState = {
-  facturas: [
-    {
-      id: 0,
-      nombre: 'Factura principal',
-      cliente: 0,
-      cliente_nombre: '',
-      data: {
-        itemsAgregados: [],
-      },
-    },
-  ],
+  facturas: [facturaInit],
   facturaActiva: 0,
 };
 
@@ -54,83 +45,83 @@ export const facturaReducer = createReducer(
   })),
   on(agregarItemFacturaActiva, (state, { item }) => ({
     ...state,
-    facturas: state.facturas.map((factura, index) =>
-      index === state.facturaActiva
-        ? {
-            ...factura,
-            data: {
-              ...factura.data,
-              itemsAgregados: [...(factura.data?.itemsAgregados || []), item],
-            },
-          }
-        : factura
-    ),
+    // facturas: state.facturas.map((factura, index) =>
+    //   index === state.facturaActiva
+    //     ? {
+    //         ...factura,
+    //         data: {
+    //           ...factura.data,
+    //           itemsAgregados: [...(factura.data?.itemsAgregados || []), item],
+    //         },
+    //       }
+    //     : factura
+    // ),
   })),
   on(retirarItemDeFacturaActiva, (state, { itemId }) => ({
     ...state,
-    facturas: state.facturas.map((factura, index) =>
-      index === state.facturaActiva
-        ? {
-            ...factura,
-            data: {
-              ...factura.data,
-              itemsAgregados: factura.data.itemsAgregados.filter(
-                (item) => item.id !== itemId
-              ),
-            },
-          }
-        : factura
-    ),
+    // facturas: state.facturas.map((factura, index) =>
+    //   index === state.facturaActiva
+    //     ? {
+    //         ...factura,
+    //         data: {
+    //           ...factura.data,
+    //           itemsAgregados: factura.data.itemsAgregados.filter(
+    //             (item) => item.id !== itemId
+    //           ),
+    //         },
+    //       }
+    //     : factura
+    // ),
   })),
   on(actualizarCantidadItemFacturaActiva, (state, { itemId, cantidad }) => ({
     ...state,
-    facturas: state.facturas.map((factura, index) =>
-      index === state.facturaActiva
-        ? {
-            ...factura,
-            data: {
-              ...factura.data,
-              itemsAgregados: factura.data.itemsAgregados.map((item) =>
-                item.id === itemId ? { ...item, cantidad } : item
-              ),
-            },
-          }
-        : factura
-    ),
+    // facturas: state.facturas.map((factura, index) =>
+    //   index === state.facturaActiva
+    //     ? {
+    //         ...factura,
+    //         data: {
+    //           ...factura.data,
+    //           itemsAgregados: factura.data.itemsAgregados.map((item) =>
+    //             item.id === itemId ? { ...item, cantidad } : item
+    //           ),
+    //         },
+    //       }
+    //     : factura
+    // ),
   })),
   on(actualizarPrecioItemFacturaActiva, (state, { itemId, precio }) => ({
     ...state,
-    facturas: state.facturas.map((factura, index) =>
-      index === state.facturaActiva
-        ? {
-            ...factura,
-            data: {
-              ...factura.data,
-              itemsAgregados: factura.data.itemsAgregados.map((item) =>
-                item.id === itemId ? { ...item, precio } : item
-              ),
-            },
-          }
-        : factura
-    ),
+    // facturas: state.facturas.map((factura, index) =>
+    //   index === state.facturaActiva
+    //     ? {
+    //         ...factura,
+    //         data: {
+    //           ...factura.data,
+    //           itemsAgregados: factura.data.itemsAgregados.map((item) =>
+    //             item.id === itemId ? { ...item, precio } : item
+    //           ),
+    //         },
+    //       }
+    //     : factura
+    // ),
   })),
   on(actualizarSubtotalItemFacturaActiva, (state, { itemId }) => ({
     ...state,
-    facturas: state.facturas.map((factura, index) =>
-      index === state.facturaActiva
-        ? {
-            ...factura,
-            data: {
-              ...factura.data,
-              itemsAgregados: factura.data.itemsAgregados.map((item) =>
-                item.id === itemId
-                  ? { ...item, subtotal: item.precio * item.cantidad }
-                  : item
-              ),
-            },
-          }
-        : factura
-    ),
+    // facturas: state.facturas.map((factura, index) =>
+    //   index === state.facturaActiva
+    //     ? {
+    //         ...factura,
+    //         data: {
+    //           ...factura.data,
+    //           itemsAgregados: factura.data.itemsAgregados.map((item) =>
+    //             item.id === itemId
+    //               ? { ...item, subtotal: item.precio * item.cantidad }
+    //               : item
+    //           ),
+    //         },
+    //       }
+    //     : factura
+    // ),
   })),
   on(actualizarClienteFacturaActiva, (state, { clienteId }) => ({
     ...state,
@@ -142,10 +133,10 @@ export const facturaReducer = createReducer(
   })),
   on(actualizarNombreClienteFacturaActiva, (state, { cliente_nombre }) => ({
     ...state,
-    facturas: state.facturas.map((factura, index) =>
-      index === state.facturaActiva
-        ? { ...factura, cliente_nombre }
-        : factura
-    )
+    // facturas: state.facturas.map((factura, index) =>
+    //   index === state.facturaActiva
+    //     ? { ...factura, cliente_nombre }
+    //     : factura
+    // )
   }))
 );

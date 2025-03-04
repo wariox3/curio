@@ -1,4 +1,4 @@
-import { Factura } from '@interfaces/facturas.interface';
+import { DocumentoFactura } from '@interfaces/facturas.interface';
 import { Item } from '@interfaces/item.interface';
 import { createAction, props } from '@ngrx/store';
 
@@ -6,7 +6,7 @@ export const facturaAction = createAction('[Factura] lista');
 
 export const facturaNuevaAction = createAction(
   '[Factura] nueva',
-  props<{ factura: Factura }>()
+  props<{ factura: DocumentoFactura }>()
 );
 
 export const facturaActualizarNombreAction = createAction(

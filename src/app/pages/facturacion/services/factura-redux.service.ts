@@ -1,6 +1,6 @@
 // factura.service.ts
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { Factura } from '@interfaces/facturas.interface';
+import { DocumentoFactura } from '@interfaces/facturas.interface';
 import { Item } from '@interfaces/item.interface';
 import { Store } from '@ngrx/store';
 import {
@@ -23,13 +23,14 @@ import {
   obtenerItemsFacturaActiva,
   obtenerNombreFacturaActiva,
 } from '@redux/selectors/factura.selectors';
+import { facturaInit } from 'src/app/core/model/constantes/factura';
 
 @Injectable({ providedIn: 'root' })
 export class FacturaReduxService {
   private _store = inject(Store);
 
   public facturaTabActivo = signal<number>(0);
-  public arrFacturasSignal = signal<Factura[]>([]);
+  public arrFacturasSignal = signal<DocumentoFactura[]>([]);
   public facturaActivaNombre = signal('');
   public arrItemsSignal = signal<Item[]>([]);
   public totalProductosSignal = computed(() => this.arrItemsSignal().length);
@@ -72,9 +73,9 @@ export class FacturaReduxService {
   }
 
   obtenerItemsFactura() {
-    this._store
-      .select(obtenerItemsFacturaActiva)
-      .subscribe((items) => this.arrItemsSignal.set(items));
+    // this._store
+    //   .select(obtenerItemsFacturaActiva)
+    //   .subscribe((items) => this.arrItemsSignal.set(items));
   }
 
   obtenerItemCantidad(itemId: number) {
@@ -86,13 +87,8 @@ export class FacturaReduxService {
     this._store.dispatch(
       facturaNuevaAction({
         factura: {
-          id: 0,
+          ...facturaInit,
           nombre: 'Factura',
-          data: {
-            itemsAgregados: [],
-          },
-          cliente: 0,
-          cliente_nombre: ''
         },
       })
     );

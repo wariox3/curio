@@ -1,4 +1,4 @@
-import { Factura, FacturaReduxState } from '@interfaces/facturas.interface';
+import { FacturaReduxState } from '@interfaces/facturas.interface';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 const Factura = createFeatureSelector<FacturaReduxState>('factura');
@@ -29,22 +29,22 @@ export const obtenerItemsFacturaActiva = createSelector(Factura, (state) => {
   const facturaActiva = state.facturas.find(
     (_, index) => index === state.facturaActiva
   );
-  return facturaActiva.data.itemsAgregados;
+  return facturaActiva.detalles;
 });
 
 export const obtenerItemCantidadFacturaActiva = (itemId: number) => createSelector(Factura, (state) => {
   const facturaActiva = state.facturas[state.facturaActiva];
-  const items = facturaActiva.data.itemsAgregados.find((item) => item.id === itemId);
-  return items !== undefined ? items.cantidad : 0;
+  // const items = facturaActiva.data.itemsAgregados.find((item) => item.id === itemId);
+  // return items !== undefined ? items.cantidad : 0;
 });
 
 export const obtenerClienteFacturaActiva = createSelector(Factura, (state) => {
   const facturaActiva = state.facturas[state.facturaActiva];
-  return facturaActiva ? facturaActiva.cliente : null;
+  // return facturaActiva ? facturaActiva.cliente : null;
 });
 
 // Selector para obtener el nombre del cliente de la factura activa
 export const obtenerNombreClienteFacturaActiva = createSelector(Factura, (state) => {
   const facturaActiva = state.facturas[state.facturaActiva];
-  return facturaActiva ? facturaActiva.cliente_nombre : '';
+  // return facturaActiva ? facturaActiva.cliente_nombre : '';
 });
