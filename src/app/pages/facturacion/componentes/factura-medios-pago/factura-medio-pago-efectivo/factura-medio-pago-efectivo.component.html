@@ -1,0 +1,72 @@
+<form
+[formGroup]="formularioMedioPagoEfectivo"
+(ngSubmit)="submit()"
+>
+<div class="flex items-center justify-center px-2">
+  <div class="bg-white w-full">
+    <button class="btn btn-light mt-2" (click)="regresarAmedioPagos()">
+      <i class="ki-filled ki-arrow-left"></i>
+      Atrás
+    </button>
+    <h2 class="text-center text-2xl font-bold mb-4">TOTAL</h2>
+    <p class="text-center text-4xl font-extrabold text-gray-800 mb-4">
+      $ {{ totalSubtotalSignal() | number : "1.0-0" }}
+    </p>
+    <p class="text-center text-2xl font-light text-red-800 mb-2">
+      <span class="text-gray-900">Por cobrar</span> $ {{ valorRestante() | number : "1.0-0" }}
+    </p>
+
+    <section
+      class="grid grid-cols-2 gap-4"
+    >
+      <div class="flex flex-col">
+        <label class="form-label font-normal text-gray-900">
+          Valor a pagar <span class="text-red-800 me-2"> *</span>
+        </label>
+        <input class="input" type="number" formControlName="valor" />
+        <app-form-error
+          [control]="formularioMedioPagoEfectivo.get('valor')"
+          [errors]="[
+            {
+              validacionTipo: 'required',
+              mensaje: 'Este campo es obligatorio'
+            },
+          ]"
+        ></app-form-error>
+      </div>
+      <div class="flex flex-col">
+        <label class="form-label font-normal text-gray-900"> Asesor </label>
+
+        <ng-select
+        [items]="[{
+          nombre_corto: 'asesor1',
+          id: '1'
+        }]"
+        bindLabel="nombre_corto"
+        bindValue="id"
+        placeholder="Selecciona un asesor"
+        class="select2Custom"
+        formControlName="asesor"
+      >
+      </ng-select>
+
+        <app-form-error
+        [control]="formularioMedioPagoEfectivo.get('asesor')"
+        [errors]="[
+          {
+            validacionTipo: 'required',
+            mensaje: 'Este campo es obligatorio'
+          },
+        ]"
+      ></app-form-error>
+      </div>
+    </section>
+  </div>
+</div>
+<div class="modal-footer justify-end mt-2">
+  <div class="flex gap-4">
+    <button class="btn btn-light" data-modal-dismiss="true">Cancel</button>
+    <button class="btn btn-success" type="submit">Continuar</button>
+  </div>
+</div>
+</form>

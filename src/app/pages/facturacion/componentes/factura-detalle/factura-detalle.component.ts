@@ -16,6 +16,7 @@ import { KTDrawer } from '@metronic/components/drawer';
 import { FacturaEditarItemComponent } from '../factura-editar-item/factura-editar-item.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ContactoApiService } from '../../services/contacto-api.service';
+import { FacturaModalPagarComponent } from "../factura-medios-pago/factura-modal-pagar/factura-modal-pagar.component";
 
 @Component({
   selector: 'app-factura-detalle',
@@ -26,8 +27,9 @@ import { ContactoApiService } from '../../services/contacto-api.service';
     FacturaOpcionesDropdownComponent,
     FormsModule,
     FacturaEditarItemComponent,
-    NgSelectModule
-  ],
+    NgSelectModule,
+    FacturaModalPagarComponent
+],
   templateUrl: './factura-detalle.component.html',
   styleUrl: './factura-detalle.component.scss',
 })
