@@ -4,65 +4,86 @@
       <h3 class="card-title">{{ nombre() }}</h3>
       <app-factura-opciones-dropdown></app-factura-opciones-dropdown>
     </div>
-    <div class="card-body scrollable flex-grow p-2">
-
-      
-      @if (items().length === 0) {
-      <div class="text-center p-4">
-        <i class="ki-filled ki-purchase text-gray-500 text-3xl"></i>
-        <p class="text-gray-500">
-          No se han agregado productos a la factura. Por favor, añade productos
-          para continuar.
-        </p>
-      </div>
-      } @else { @for (item of items(); track $index; let last = $last) {
-      <div
-        class="flex justify-between items-center p-2 hover:bg-blue-50 animate-slide-in-left"
-      >
-        <div class="" style="flex: 1.5">
-          <p>{{ item.nombre }}</p>
-          <p>{{ item.precio | number : "1.0-0" }}</p>
+    <div class="card-body flex-grow p-2">
+      <section class="mb-2">
+        <div class="flex flex-row justify-between align-baseline">
+          <div class="flex-1">
+            <label class="form-label font-normal text-gray-900">
+              Cliente
+            </label>
+            <ng-select
+              [items]="arrContactosSignal()"
+              bindLabel="nombre_corto"
+              bindValue="id"
+              placeholder="Selecciona un cliente"
+              class=" select2Custom"
+              (change)="actualizarCliente($event)"
+            >
+            </ng-select>
+          </div>
+          <span class="btn btn-icon btn-icon-lg btn-input self-end">
+            <i class="ki-outline ki-user-square"> </i>
+          </span>
         </div>
-        <div class="flex-1">
-          <app-contador-cantidad
-            [cantidad]="item.cantidad"
-            (emitirCantidad)="actualizarCantidad($event, item.id)"
-          ></app-contador-cantidad>
+      </section>
+      <section scrollable>
+        @if (items().length === 0) {
+        <div class="text-center p-4">
+          <i class="ki-filled ki-purchase text-gray-500 text-3xl"></i>
+          <p class="text-gray-500">
+            No se han agregado productos a la factura. Por favor, añade
+            productos para continuar.
+          </p>
         </div>
+        } @else { @for (item of items(); track $index; let last = $last) {
         <div
-          class="flex-1 text-right"
-          #div
-          (mouseenter)="alEntrarMouse(item, div)"
-          (mouseleave)="alSalirMouse()"
+          class="flex justify-between items-center p-2 hover:bg-blue-50 animate-slide-in-left"
         >
-          @if (mostrarIcono === item.id) {
-          <i
-            class="ki-filled ki-pencil text-xl cursor-pointer text-blue-500 me-2"
-            [attr.data-tooltip]="'#tooltip_editar_hover' + item.id"
-            [attr.data-tooltip-trigger]="'hover'"
-            [attr.data-drawer-toggle]="'#drawer_6'"
-            (click)="editarItem()"
-          ></i>
-          <i
-            class="ki-filled ki-trash text-xl cursor-pointer text-red-500"
-            (click)="retirarItem(item.id)"
-            [attr.data-tooltip]="'#tooltip_retirar_hover' + item.id"
-            [attr.data-tooltip-trigger]="'hover'"
-          ></i>
-          <div class="tooltip" [id]="'tooltip_editar_hover' + item.id">
-            Editar item para la factura
+          <div class="" style="flex: 1.5">
+            <p>{{ item.nombre }}</p>
+            <p>{{ item.precio | number : "1.0-0" }}</p>
           </div>
-          <div class="tooltip" [id]="'tooltip_retirar_hover' + item.id">
-            Retirar item
+          <div class="flex-1">
+            <app-contador-cantidad
+              [cantidad]="item.cantidad"
+              (emitirCantidad)="actualizarCantidad($event, item.id)"
+            ></app-contador-cantidad>
           </div>
-          } @else {
-          <p>$ {{ item.subtotal | number : "1.0-0" }}</p>
-          }
+          <div
+            class="flex-1 text-right"
+            #div
+            (mouseenter)="alEntrarMouse(item, div)"
+            (mouseleave)="alSalirMouse()"
+          >
+            @if (mostrarIcono === item.id) {
+            <i
+              class="ki-filled ki-pencil text-xl cursor-pointer text-blue-500 me-2"
+              [attr.data-tooltip]="'#tooltip_editar_hover' + item.id"
+              [attr.data-tooltip-trigger]="'hover'"
+              [attr.data-drawer-toggle]="'#drawer_6'"
+              (click)="editarItem()"
+            ></i>
+            <i
+              class="ki-filled ki-trash text-xl cursor-pointer text-red-500"
+              (click)="retirarItem(item.id)"
+              [attr.data-tooltip]="'#tooltip_retirar_hover' + item.id"
+              [attr.data-tooltip-trigger]="'hover'"
+            ></i>
+            <div class="tooltip" [id]="'tooltip_editar_hover' + item.id">
+              Editar item para la factura
+            </div>
+            <div class="tooltip" [id]="'tooltip_retirar_hover' + item.id">
+              Retirar item
+            </div>
+            } @else {
+            <p>$ {{ item.subtotal | number : "1.0-0" }}</p>
+            }
+          </div>
         </div>
-      </div>
-      @if(!last){
-      <hr class="border-t-2" />
-      } } }
+        @if(!last){
+        <hr class="border-t-2" />
+        } } }
+      </section>
     </div>
     <div class="card-footer p-2">
       <div class="flex flex-col w-full">

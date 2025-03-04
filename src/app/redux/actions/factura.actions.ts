@@ -52,7 +52,7 @@ export const actualizarSubtotalItemFacturaActiva = createAction(
 
 export const actualizarClienteFacturaActiva = createAction(
   '[Factura] Actualizar Cliente de Factura Activa',
-  props<{ cliente: number }>()
+  props<{ clienteId: number }>()
 );
 
 export const actualizarNombreClienteFacturaActiva = createAction(

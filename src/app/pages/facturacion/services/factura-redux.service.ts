@@ -13,6 +13,8 @@ import {
   actualizarCantidadItemFacturaActiva,
   actualizarSubtotalItemFacturaActiva,
   actualizarPrecioItemFacturaActiva,
+  actualizarClienteFacturaActiva,
+  actualizarNombreClienteFacturaActiva,
 } from '@redux/actions/factura.actions';
 import {
   obtenerFacturaActiva,
@@ -143,7 +145,17 @@ export class FacturaReduxService {
     );
   }
 
+  actualizarContactoId(clienteId: number){
+    this._store.dispatch(
+      actualizarClienteFacturaActiva({clienteId})
+    )
+  }
 
+  actualizarContactoNombre(cliente_nombre: string){
+    this._store.dispatch(
+      actualizarNombreClienteFacturaActiva({cliente_nombre})
+    )
+  }
 
   calcularSubtotal(itemId: number) {
     this._store.dispatch(actualizarSubtotalItemFacturaActiva({ itemId }));

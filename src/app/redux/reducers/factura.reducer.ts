@@ -132,11 +132,11 @@ export const facturaReducer = createReducer(
         : factura
     ),
   })),
-  on(actualizarClienteFacturaActiva, (state, { cliente }) => ({
+  on(actualizarClienteFacturaActiva, (state, { clienteId }) => ({
     ...state,
     facturas: state.facturas.map((factura, index) =>
       index === state.facturaActiva
-        ? { ...factura, cliente }
+        ? { ...factura, cliente: clienteId }
         : factura
     )
   })),

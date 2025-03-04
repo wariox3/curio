@@ -14,6 +14,8 @@ import { FormsModule } from '@angular/forms';
 import { Item } from '@interfaces/item.interface';
 import { KTDrawer } from '@metronic/components/drawer';
 import { FacturaEditarItemComponent } from '../factura-editar-item/factura-editar-item.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { ContactoApiService } from '../../services/contacto-api.service';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -24,12 +26,14 @@ import { FacturaEditarItemComponent } from '../factura-editar-item/factura-edita
     FacturaOpcionesDropdownComponent,
     FormsModule,
     FacturaEditarItemComponent,
+    NgSelectModule
   ],
   templateUrl: './factura-detalle.component.html',
   styleUrl: './factura-detalle.component.scss',
 })
-export class FacturaDetalleComponent {
+export class FacturaDetalleComponent implements OnInit {
   private _facturaReduxService = inject(FacturaReduxService);
+  private _contactoApiService = inject(ContactoApiService);
   public mostrarIcono: number | null = null;
   public nombre = this._facturaReduxService.facturaActivaNombre;
   public items = this._facturaReduxService.arrItemsSignal;
@@ -38,12 +42,25 @@ export class FacturaDetalleComponent {
     this._facturaReduxService.totalCantidadesSignal;
   public totalSubtotalSignal = this._facturaReduxService.totalSubtotalSignal;
   public itemSeleccionado: Item | null = null;
+  public arrContactosSignal = this._contactoApiService.arrContactosSignal
+
+
+  public selectedItem: any;
 
   @ViewChild('editarItemDrawer')
   editarItemDrawer!: ElementRef;
 
+  ngOnInit(): void {
+    this._contactoApiService.lista().subscribe()
+  }
+
+  actualizarCliente(contacto: any){
+    this._facturaReduxService.actualizarContactoId(contacto.id)
+    this._facturaReduxService.actualizarContactoNombre(contacto.nombre_corto)
+  }
+
   editarItem() {
-    this.drawerClose()
+    this.drawerClose();
   }
 
   retirarItem(itemId: number) {
@@ -74,7 +91,7 @@ export class FacturaDetalleComponent {
     elemento.click();
   }
 
-  drawerClose(){
+  drawerClose() {
     const drawer = KTDrawer.getInstance(this.editarItemDrawer.nativeElement);
     if (drawer.isOpen) {
       drawer.toggle();
