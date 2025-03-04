@@ -38,7 +38,7 @@ export class FacturaItemsCardComponent implements OnInit {
   }
 
   private _agregarProductoAFactura(item: Item) {
-    this._facturaReduxService.agregarItem();
+    this._facturaReduxService.agregarItem(item);
   }
 
   private _itemCantidad(itemId: number) {

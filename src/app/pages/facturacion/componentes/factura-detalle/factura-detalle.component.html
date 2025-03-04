@@ -4,7 +4,7 @@
       <h3 class="card-title">{{ nombre() }}</h3>
       <app-factura-opciones-dropdown></app-factura-opciones-dropdown>
     </div>
-    <div class="card-body flex-grow p-2">
+    <div class="card-body flex-grow p-2 scrollable">
       <section class="mb-2">
         <div class="flex flex-row justify-between align-baseline">
           <div class="flex-1">
@@ -26,7 +26,7 @@
           </span>
         </div>
       </section>
-      <section scrollable>
+      <section >
         @if (items().length === 0) {
         <div class="text-center p-4">
           <i class="ki-filled ki-purchase text-gray-500 text-3xl"></i>
@@ -65,7 +65,7 @@
             ></i>
             <i
               class="ki-filled ki-trash text-xl cursor-pointer text-red-500"
-              (click)="retirarItem(item.id)"
+              (click)="retirarItem(item.item)"
               [attr.data-tooltip]="'#tooltip_retirar_hover' + item.id"
               [attr.data-tooltip-trigger]="'hover'"
             ></i>

@@ -1,6 +1,9 @@
 // factura.service.ts
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { DocumentoFactura, DocumentoFacturaDetalleRespuesta } from '@interfaces/facturas.interface';
+import {
+  DocumentoFactura,
+  DocumentoFacturaDetalleRespuesta,
+} from '@interfaces/facturas.interface';
 import { Item } from '@interfaces/item.interface';
 import { Store } from '@ngrx/store';
 import {
@@ -21,9 +24,12 @@ import {
   obtenerFacturas,
   obtenerItemCantidadFacturaActiva,
   obtenerItemsFacturaActiva,
-  obtenerNombreFacturaActiva
+  obtenerNombreFacturaActiva,
 } from '@redux/selectors/factura.selectors';
-import { documentoFacturaDetalleInit, facturaInit } from 'src/app/core/model/constantes/factura';
+import {
+  documentoFacturaDetalleInit,
+  facturaInit,
+} from 'src/app/core/model/constantes/factura';
 
 @Injectable({ providedIn: 'root' })
 export class FacturaReduxService {
@@ -73,14 +79,13 @@ export class FacturaReduxService {
   }
 
   obtenerItemsFactura() {
-     this._store
-       .select(obtenerItemsFacturaActiva)
-       .subscribe((items) => this.arrItemsSignal.set(items));
+    this._store
+      .select(obtenerItemsFacturaActiva)
+      .subscribe((items) => this.arrItemsSignal.set(items));
   }
 
   obtenerItemCantidad(itemId: number) {
-    return this._store
-      .select(obtenerItemCantidadFacturaActiva(itemId))
+    return this._store.select(obtenerItemCantidadFacturaActiva(itemId));
   }
 
   nuevaFactura() {
@@ -115,14 +120,19 @@ export class FacturaReduxService {
     this.obtertenerTabActivoFactura();
   }
 
-  nuevoItem() {
-    return documentoFacturaDetalleInit;
+  nuevoItem(item: Item): DocumentoFacturaDetalleRespuesta {
+    return {
+      ...documentoFacturaDetalleInit,
+      cantidad: 1,
+      item: item.id,
+      item_nombre: item.nombre,
+      precio: item.precio,
+    };
   }
 
-  agregarItem() {
-    this._store.dispatch(
-      agregarItemFacturaActiva({ item: this.nuevoItem() })
-    );
+  agregarItem(item: Item) {
+    const nuevoItem = this.nuevoItem(item);
+    this._store.dispatch(agregarItemFacturaActiva({ item: nuevoItem }));
   }
 
   retirarItem(itemId: number) {
@@ -136,21 +146,17 @@ export class FacturaReduxService {
   }
 
   actualizarPrecioItem(itemId: number, precio: number) {
+    this._store.dispatch(actualizarPrecioItemFacturaActiva({ itemId, precio }));
+  }
+
+  actualizarContactoId(clienteId: number) {
+    this._store.dispatch(actualizarClienteFacturaActiva({ clienteId }));
+  }
+
+  actualizarContactoNombre(cliente_nombre: string) {
     this._store.dispatch(
-      actualizarPrecioItemFacturaActiva({ itemId, precio })
+      actualizarNombreClienteFacturaActiva({ cliente_nombre })
     );
-  }
-
-  actualizarContactoId(clienteId: number){
-    this._store.dispatch(
-      actualizarClienteFacturaActiva({clienteId})
-    )
-  }
-
-  actualizarContactoNombre(cliente_nombre: string){
-    this._store.dispatch(
-      actualizarNombreClienteFacturaActiva({cliente_nombre})
-    )
   }
 
   calcularSubtotal(itemId: number) {

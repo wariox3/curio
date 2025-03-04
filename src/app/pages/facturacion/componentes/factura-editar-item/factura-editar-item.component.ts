@@ -7,9 +7,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Item } from '@interfaces/item.interface';
-import { FacturaReduxService } from '../../services/factura-redux.service';
 import { DocumentoFacturaDetalleRespuesta } from '@interfaces/facturas.interface';
+import { FacturaReduxService } from '../../services/factura-redux.service';
 
 @Component({
   selector: 'app-factura-editar-item',
@@ -23,8 +22,6 @@ export class FacturaEditarItemComponent {
   private _facturaReduxService = inject(FacturaReduxService);
 
   public emitirAccionFormulario = output<boolean>();
-
-
 
   @Input() item: DocumentoFacturaDetalleRespuesta;
   formularioVenta: FormGroup;
