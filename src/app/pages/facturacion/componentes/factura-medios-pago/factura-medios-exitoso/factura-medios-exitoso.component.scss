@@ -1,0 +1,33 @@
+@keyframes drawCircle {
+  from {
+      stroke-dasharray: 0, 283;
+      stroke-dashoffset: 283;
+  }
+  to {
+      stroke-dasharray: 283, 283;
+      stroke-dashoffset: 0;
+  }
+}
+
+@keyframes drawCheck {
+  from {
+      stroke-dasharray: 0, 100;
+      stroke-dashoffset: 100;
+  }
+  to {
+      stroke-dasharray: 100, 100;
+      stroke-dashoffset: 0;
+  }
+}
+
+.circle {
+  stroke-dasharray: 283;
+  stroke-dashoffset: 283;
+  animation: drawCircle 1.5s ease-out forwards;
+}
+
+.checkmark {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: drawCheck 0.8s ease-out 1.5s forwards;
+}
