@@ -31,9 +31,10 @@ export class FacturaItemsCardComponent implements OnInit {
   }
 
   private _agregarNuevaCantidad(item: Item) {
+    this.cantidadSignal.update((cantidad) => (cantidad += 1));
     this._facturaReduxService.actualizarCantidadItem(
       item.id,
-      (item.cantidad += 1)
+      this.cantidadSignal()
     );
   }
 
@@ -42,13 +43,13 @@ export class FacturaItemsCardComponent implements OnInit {
   }
 
   private _itemCantidad(itemId: number) {
-    // this._facturaReduxService
-    //   .obtenerItemCantidad(itemId)
-    //   .subscribe((cantidad) => {
-    //     this.cantidadSignal.set(cantidad);
-    //     if (this.cantidadSignal() === 0) {
-    //       this.cantidadSignal.set(0);
-    //     }
-    //   });
+    this._facturaReduxService
+      .obtenerItemCantidad(itemId)
+      .subscribe((cantidad) => {
+        this.cantidadSignal.set(cantidad);
+        if (this.cantidadSignal() === 0) {
+          this.cantidadSignal.set(0);
+        }
+      });
   }
 }

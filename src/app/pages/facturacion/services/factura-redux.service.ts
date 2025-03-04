@@ -140,6 +140,7 @@ export class FacturaReduxService {
   }
 
   actualizarCantidadItem(itemId: number, cantidad: number) {
+
     this._store.dispatch(
       actualizarCantidadItemFacturaActiva({ itemId, cantidad })
     );

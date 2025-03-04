@@ -32,11 +32,17 @@ export const obtenerItemsFacturaActiva = createSelector(Facturacion, (state) => 
   return facturaActiva.detalles;
 });
 
-export const obtenerItemCantidadFacturaActiva = (itemId: number) => createSelector(Facturacion, (state) => {
-  const facturaActiva = state.facturas[state.facturaActiva];
-  // const items = facturaActiva.data.itemsAgregados.find((item) => item.id === itemId);
-  // return items !== undefined ? items.cantidad : 0;
-});
+export const obtenerItemCantidadFacturaActiva = (itemId: number) =>
+  createSelector(Facturacion, (state) => {
+    const facturaActiva = state.facturas[state.facturaActiva];
+    if (!facturaActiva || !facturaActiva.detalles) {
+      return 0; // Si no hay factura activa o no tiene detalles, devuelve 0
+    }
+
+    const detalle = facturaActiva.detalles.find((detalle) => detalle.item === itemId);
+    return detalle ? detalle.cantidad : 0; // Si no encuentra el item, devuelve 0
+  });
+
 
 export const obtenerClienteFacturaActiva = createSelector(Facturacion, (state) => {
   const facturaActiva = state.facturas[state.facturaActiva];

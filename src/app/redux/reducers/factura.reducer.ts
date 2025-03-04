@@ -67,19 +67,16 @@ export const facturaReducer = createReducer(
   })),
   on(actualizarCantidadItemFacturaActiva, (state, { itemId, cantidad }) => ({
     ...state,
-    // facturas: state.facturas.map((factura, index) =>
-    //   index === state.facturaActiva
-    //     ? {
-    //         ...factura,
-    //         data: {
-    //           ...factura.data,
-    //           itemsAgregados: factura.data.itemsAgregados.map((item) =>
-    //             item.id === itemId ? { ...item, cantidad } : item
-    //           ),
-    //         },
-    //       }
-    //     : factura
-    // ),
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? {
+            ...factura,
+            detalles: factura.detalles.map((detalle) =>
+              detalle.item === itemId ? { ...detalle, cantidad } : detalle
+            ),
+          }
+        : factura
+    ),
   })),
   on(actualizarPrecioItemFacturaActiva, (state, { itemId, precio }) => ({
     ...state,
