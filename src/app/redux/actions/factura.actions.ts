@@ -1,4 +1,4 @@
-import { DocumentoFactura } from '@interfaces/facturas.interface';
+import { DocumentoFactura, DocumentoFacturaDetalleRespuesta } from '@interfaces/facturas.interface';
 import { Item } from '@interfaces/item.interface';
 import { createAction, props } from '@ngrx/store';
 
@@ -26,7 +26,7 @@ export const seleccionarFacturaActiva = createAction(
 
 export const agregarItemFacturaActiva = createAction(
   '[Factura] agregar items a la factura activa',
-  props<{ item: Item }>()
+  props<{ item: DocumentoFacturaDetalleRespuesta }>()
 );
 
 export const retirarItemDeFacturaActiva = createAction(

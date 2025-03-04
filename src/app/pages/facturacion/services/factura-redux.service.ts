@@ -4,26 +4,25 @@ import { DocumentoFactura } from '@interfaces/facturas.interface';
 import { Item } from '@interfaces/item.interface';
 import { Store } from '@ngrx/store';
 import {
+  actualizarCantidadItemFacturaActiva,
+  actualizarClienteFacturaActiva,
+  actualizarNombreClienteFacturaActiva,
+  actualizarPrecioItemFacturaActiva,
+  actualizarSubtotalItemFacturaActiva,
+  agregarItemFacturaActiva,
   facturaActualizarNombreAction,
   facturaEliminarAction,
   facturaNuevaAction,
-  seleccionarFacturaActiva,
-  agregarItemFacturaActiva,
   retirarItemDeFacturaActiva,
-  actualizarCantidadItemFacturaActiva,
-  actualizarSubtotalItemFacturaActiva,
-  actualizarPrecioItemFacturaActiva,
-  actualizarClienteFacturaActiva,
-  actualizarNombreClienteFacturaActiva,
+  seleccionarFacturaActiva,
 } from '@redux/actions/factura.actions';
 import {
   obtenerFacturaActiva,
   obtenerFacturas,
   obtenerItemCantidadFacturaActiva,
-  obtenerItemsFacturaActiva,
-  obtenerNombreFacturaActiva,
+  obtenerNombreFacturaActiva
 } from '@redux/selectors/factura.selectors';
-import { facturaInit } from 'src/app/core/model/constantes/factura';
+import { documentoFacturaDetalleInit, facturaInit } from 'src/app/core/model/constantes/factura';
 
 @Injectable({ providedIn: 'root' })
 export class FacturaReduxService {
@@ -115,13 +114,13 @@ export class FacturaReduxService {
     this.obtertenerTabActivoFactura();
   }
 
-  nuevoItem(item: Item): Item {
-    return (item = { ...item, cantidad: 1, subtotal: 0 });
+  nuevoItem() {
+    return documentoFacturaDetalleInit;
   }
 
-  agregarItem(item: Item) {
+  agregarItem() {
     this._store.dispatch(
-      agregarItemFacturaActiva({ item: this.nuevoItem(item) })
+      agregarItemFacturaActiva({ item: this.nuevoItem() })
     );
   }
 

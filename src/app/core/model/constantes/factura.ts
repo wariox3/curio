@@ -1,4 +1,4 @@
-import { DocumentoFactura } from "@interfaces/facturas.interface"
+import { DocumentoFactura, DocumentoFacturaDetalleRespuesta } from "@interfaces/facturas.interface"
 
 export const facturaInit: DocumentoFactura = {
   id: 0,
@@ -56,4 +56,54 @@ export const facturaInit: DocumentoFactura = {
   almacen_id: 0,
   almacen_nombre: "",
   nombre: "Factura principal"
+}
+
+
+export const documentoFacturaDetalleInit: DocumentoFacturaDetalleRespuesta = {
+  id: 0,
+  documento_id: 0,
+  item: 0,
+  item_nombre: "",
+  cuenta: undefined,
+  cuenta_codigo: "",
+  cuenta_nombre: "",
+  cantidad: 0,
+  precio: 0,
+  pago: 0,
+  pago_operado: 0,
+  porcentaje: 0,
+  porcentaje_descuento: 0,
+  descuento: 0,
+  subtotal: 0,
+  total_bruto: 0,
+  base_impuesto: 0,
+  base: 0,
+  impuesto: 0,
+  impuesto_operado: 0,
+  impuesto_retencion: 0,
+  total: 0,
+  hora: 0,
+  dias: 0,
+  devengado: 0,
+  deducion: 0,
+  operacion: 0,
+  base_cotizacion: 0,
+  base_prestacion: 0,
+  documento_afectado_id: undefined,
+  documento_afectado_numero: "",
+  documento_afectado_contacto_nombre_corto: "",
+  contacto_id: undefined,
+  contacto_nombre_corto: "",
+  naturaleza: undefined,
+  detalle: undefined,
+  numero: undefined,
+  concepto_id: undefined,
+  concepto_nombre: "",
+  tipo_registro: "",
+  credito_id: undefined,
+  grupo_id: 0,
+  grupo_nombre: "",
+  almacen_id: 0,
+  almacen_nombre: "",
+  impuestos: []
 }
