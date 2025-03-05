@@ -26,6 +26,7 @@ import {
   obtenerItemCantidadFacturaActiva,
   obtenerItemsFacturaActiva,
   obtenerNombreFacturaActiva,
+  obtenerClienteFacturaActiva
 } from '@redux/selectors/factura.selectors';
 import {
   documentoFacturaDetalleInit,
@@ -41,6 +42,7 @@ export class FacturaReduxService {
   public facturaTabActivo = signal<number>(0);
   public arrFacturasSignal = signal<DocumentoFactura[]>([]);
   public facturaActivaNombre = signal('');
+  public facturaActivaContacto = signal<number|null>(null);
   public arrItemsSignal = signal<DocumentoFacturaDetalleRespuesta[]>([]);
   public totalProductosSignal = computed(() => this.arrItemsSignal().length);
   public totalSubtotalSignal = computed(() =>
@@ -61,6 +63,7 @@ export class FacturaReduxService {
     this.obtertenerTabActivoFactura();
     this.obtertenerNombreFactura();
     this.obtenerItemsFactura();
+    this.obtertenerClienteFactura()
   }
 
   obtenerReduxFacturas() {
@@ -79,6 +82,12 @@ export class FacturaReduxService {
     this._store
       .select(obtenerNombreFacturaActiva)
       .subscribe((nombre) => this.facturaActivaNombre.set(nombre));
+  }
+
+  obtertenerClienteFactura() {
+    this._store
+      .select(obtenerClienteFacturaActiva)
+      .subscribe((nombre) => this.facturaActivaContacto.set(nombre));
   }
 
   obtenerItemsFactura() {

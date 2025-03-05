@@ -8,18 +8,7 @@
       <section class="mb-2">
         <div class="flex flex-row justify-between align-baseline">
           <div class="flex-1">
-            <label class="form-label font-normal text-gray-900">
-              Cliente
-            </label>
-            <ng-select
-              [items]="arrContactosSignal()"
-              bindLabel="nombre_corto"
-              bindValue="id"
-              placeholder="Selecciona un cliente"
-              class=" select2Custom"
-              (change)="actualizarCliente($event)"
-            >
-            </ng-select>
+            <app-seleccionar-cliente></app-seleccionar-cliente>
           </div>
           <span class="btn btn-icon btn-icon-lg btn-input self-end">
             <i class="ki-outline ki-user-square"> </i>

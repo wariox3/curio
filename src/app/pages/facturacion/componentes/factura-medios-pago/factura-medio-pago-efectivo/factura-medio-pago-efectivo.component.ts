@@ -8,7 +8,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { FormErrorComponent } from '../../../../../shared/components/form-error/form-error.component';
+import { FormErrorComponent } from '../../../../../shared/components/form/form-error/form-error.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FacturaApiService } from '../../../services/factura-api.service';
 import { switchMap, tap } from 'rxjs';

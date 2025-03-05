@@ -7,7 +7,7 @@ export const facturaInit: DocumentoFactura = {
   fecha_vence: "",
   fecha_hasta: undefined,
   impuesto_operado: 0,
-  contacto_id: 0,
+  contacto_id: null,
   contacto_numero_identificacion: "",
   contacto_nombre_corto: "",
   descuento: 0,

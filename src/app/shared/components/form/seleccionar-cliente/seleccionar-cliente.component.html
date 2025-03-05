@@ -1,0 +1,11 @@
+<label class="form-label font-normal text-gray-900"> Cliente <span class="text-red-800 me-2"> *</span></label>
+<ng-select
+  [items]="arrContactosSignal()"
+  bindLabel="nombre_corto"
+  bindValue="id"
+  placeholder="Selecciona un cliente"
+  class="select2Custom"
+  [(ngModel)]="contactoFactura"
+  (change)="actualizarCliente($event)"
+>
+</ng-select>

@@ -12,7 +12,7 @@ import { Store } from '@ngrx/store';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { catchError, of, tap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { FormErrorComponent } from "../../../../shared/components/form-error/form-error.component";
+import { FormErrorComponent } from "../../../../shared/components/form/form-error/form-error.component";
 
 @Component({
   selector: 'app-login',

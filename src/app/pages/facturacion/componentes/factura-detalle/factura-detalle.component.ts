@@ -3,21 +3,17 @@ import {
   Component,
   ElementRef,
   inject,
-  OnInit,
   ViewChild
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ContadorCantidadComponent } from '@componentes/contador-cantidad/contador-cantidad.component';
-import { Item } from '@interfaces/item.interface';
+import { SeleccionarClienteComponent } from "@componentes/form/seleccionar-cliente/seleccionar-cliente.component";
+import { ContadorCantidadComponent } from '@componentes/ui/contador-cantidad/contador-cantidad.component';
+import { DocumentoFacturaDetalleRespuesta } from '@interfaces/facturas.interface';
 import { KTDrawer } from '@metronic/components/drawer';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { ContactoApiService } from '../../services/contacto-api.service';
 import { FacturaReduxService } from '../../services/factura-redux.service';
 import { FacturaEditarItemComponent } from '../factura-editar-item/factura-editar-item.component';
 import { FacturaModalPagarComponent } from "../factura-medios-pago/factura-modal-pagar/factura-modal-pagar.component";
 import { FacturaOpcionesDropdownComponent } from '../factura-opciones-dropdown/factura-opciones-dropdown.component';
-import { DocumentoFacturaDetalleRespuesta } from '@interfaces/facturas.interface';
-import { Contacto } from '@interfaces/contacto';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -28,15 +24,14 @@ import { Contacto } from '@interfaces/contacto';
     FacturaOpcionesDropdownComponent,
     FormsModule,
     FacturaEditarItemComponent,
-    NgSelectModule,
-    FacturaModalPagarComponent
+    FacturaModalPagarComponent,
+    SeleccionarClienteComponent
 ],
   templateUrl: './factura-detalle.component.html',
   styleUrl: './factura-detalle.component.scss',
 })
-export class FacturaDetalleComponent implements OnInit {
+export class FacturaDetalleComponent {
   private _facturaReduxService = inject(FacturaReduxService);
-  private _contactoApiService = inject(ContactoApiService);
   public mostrarIcono: number | null = null;
   public nombre = this._facturaReduxService.facturaActivaNombre;
   public items = this._facturaReduxService.arrItemsSignal;
@@ -45,21 +40,8 @@ export class FacturaDetalleComponent implements OnInit {
     this._facturaReduxService.totalCantidadesSignal;
   public totalSubtotalSignal = this._facturaReduxService.totalSubtotalSignal;
   public itemSeleccionado: DocumentoFacturaDetalleRespuesta | null = null;
-  public arrContactosSignal = this._contactoApiService.arrContactosSignal
-
-
-  public selectedItem: any;
-
   @ViewChild('editarItemDrawer')
   editarItemDrawer!: ElementRef;
-
-  ngOnInit(): void {
-    this._contactoApiService.lista().subscribe()
-  }
-
-  actualizarCliente(contacto: Contacto){
-    this._facturaReduxService.actualizarConctato(contacto)
-  }
 
   editarItem() {
     this.drawerClose();
