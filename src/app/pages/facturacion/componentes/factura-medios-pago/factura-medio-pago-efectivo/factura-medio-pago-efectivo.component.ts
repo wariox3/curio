@@ -11,7 +11,7 @@ import {
 import { FormErrorComponent } from '../../../../../shared/components/form-error/form-error.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FacturaApiService } from '../../../services/factura-api.service';
-import { switchMap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-factura-medio-pago-efectivo',
@@ -84,11 +84,10 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit {
             empresa: 1,
             contacto: data.contacto_id,
           })
-        )
+        ),
+        tap(() => this.emitirPagoExito.emit(true))
       )
       .subscribe();
-
-    //this.emitirPagoExito.emit(true);
   }
 
   regresarAmedioPagos() {
