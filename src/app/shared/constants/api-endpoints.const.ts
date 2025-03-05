@@ -9,5 +9,6 @@ export const API_ENDPOINTS = {
   },
   GENERAL: {
     FUNCIONALIDAD_LISTAS: `${URL_API_SUBDOMINIO}/general/funcionalidad/lista/`,
+    DOCUMENTO: `${URL_API_SUBDOMINIO}/general/documento/`,
   }
 };

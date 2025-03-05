@@ -50,9 +50,9 @@ export interface DocumentoFactura {
   contrato_id: any;
   detalles: DocumentoFacturaDetalleRespuesta[];
   pagos: PagoRespuestaFormulario[];
-  referencia_cue: string;
+  referencia_cue: string | null;
   referencia_numero: number;
-  referencia_prefijo: string;
+  referencia_prefijo: string | null;
   grupo_contabilidad_id: number;
   almacen_id: number;
   almacen_nombre: string;

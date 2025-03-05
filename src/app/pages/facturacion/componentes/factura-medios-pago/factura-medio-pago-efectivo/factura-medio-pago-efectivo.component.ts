@@ -10,17 +10,26 @@ import {
 } from '@angular/forms';
 import { FormErrorComponent } from '../../../../../shared/components/form-error/form-error.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { FacturaApiService } from '../../../services/factura-api.service';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-factura-medio-pago-efectivo',
   standalone: true,
-  imports: [DecimalPipe, FormsModule, ReactiveFormsModule, FormErrorComponent, NgSelectModule],
+  imports: [
+    DecimalPipe,
+    FormsModule,
+    ReactiveFormsModule,
+    FormErrorComponent,
+    NgSelectModule,
+  ],
   templateUrl: './factura-medio-pago-efectivo.component.html',
   styleUrl: './factura-medio-pago-efectivo.component.scss',
 })
 export class FacturaMedioPagoEfectivoComponent implements OnInit {
-
   private _facturaReduxService = inject(FacturaReduxService);
+  private _facturaApiService = inject(FacturaApiService);
+
   private _formBuilder = inject(FormBuilder);
 
   public totalSubtotalSignal = this._facturaReduxService.totalSubtotalSignal;
@@ -64,10 +73,23 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit {
   }
 
   submit() {
-    this.emitirPagoExito.emit(true);
+    this._facturaReduxService
+      .obtenerDataFactura()
+      .pipe(
+        switchMap((data) =>
+          this._facturaApiService.nuevo({
+            ...data,
+            documento_tipo: 1,
+            numero: null,
+            empresa: 1,
+            contacto: data.contacto_id,
+          })
+        )
+      )
+      .subscribe();
 
+    //this.emitirPagoExito.emit(true);
   }
-
 
   regresarAmedioPagos() {
     this.emitirMedio.emit(null);

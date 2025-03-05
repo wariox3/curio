@@ -17,9 +17,10 @@ import {
   facturaEliminarAction,
   facturaNuevaAction,
   retirarItemDeFacturaActiva,
-  seleccionarFacturaActiva
+  seleccionarFacturaActiva,
 } from '@redux/actions/factura.actions';
 import {
+  obtenerDataFacturaActiva,
   obtenerFacturaActiva,
   obtenerFacturas,
   obtenerItemCantidadFacturaActiva,
@@ -86,6 +87,10 @@ export class FacturaReduxService {
       .subscribe((items) => this.arrItemsSignal.set(items));
   }
 
+  obtenerDataFactura() {
+    return this._store.select(obtenerDataFacturaActiva);
+  }
+
   obtenerItemCantidad(itemId: number) {
     return this._store.select(obtenerItemCantidadFacturaActiva(itemId));
   }
@@ -100,7 +105,7 @@ export class FacturaReduxService {
           ...facturaInit,
           nombre: 'Factura',
           fecha: fechaVencimientoInicial,
-          fecha_vence: fechaVencimientoInicial
+          fecha_vence: fechaVencimientoInicial,
         },
       })
     );
@@ -147,7 +152,6 @@ export class FacturaReduxService {
   }
 
   actualizarCantidadItem(itemId: number, cantidad: number) {
-
     this._store.dispatch(
       actualizarCantidadItemFacturaActiva({ itemId, cantidad })
     );
