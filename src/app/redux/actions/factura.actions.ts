@@ -1,6 +1,5 @@
 import { Contacto } from '@interfaces/contacto';
 import { DocumentoFactura, DocumentoFacturaDetalleRespuesta } from '@interfaces/facturas.interface';
-import { Item } from '@interfaces/item.interface';
 import { createAction, props } from '@ngrx/store';
 
 export const facturaAction = createAction('[Factura] lista');
@@ -51,7 +50,7 @@ export const actualizarSubtotalItemFacturaActiva = createAction(
   props<{ itemId: number; }>()
 );
 
-export const actualizarInformacionContactoFacturaActiva = createAction(
+export const actualizarClienteFacturaActiva = createAction(
   '[Factura] Actualizar Cliente de Factura Activa',
   props<{ contacto: Contacto }>()
 );

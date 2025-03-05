@@ -17,6 +17,7 @@ import { FacturaEditarItemComponent } from '../factura-editar-item/factura-edita
 import { FacturaModalPagarComponent } from "../factura-medios-pago/factura-modal-pagar/factura-modal-pagar.component";
 import { FacturaOpcionesDropdownComponent } from '../factura-opciones-dropdown/factura-opciones-dropdown.component';
 import { DocumentoFacturaDetalleRespuesta } from '@interfaces/facturas.interface';
+import { Contacto } from '@interfaces/contacto';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -56,8 +57,8 @@ export class FacturaDetalleComponent implements OnInit {
     this._contactoApiService.lista().subscribe()
   }
 
-  actualizarCliente(contacto: any){
-    this._facturaReduxService.actualizarContacto(contacto.id)
+  actualizarCliente(contacto: Contacto){
+    this._facturaReduxService.actualizarConctato(contacto)
   }
 
   editarItem() {

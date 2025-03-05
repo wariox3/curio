@@ -9,7 +9,7 @@ import { Item } from '@interfaces/item.interface';
 import { Store } from '@ngrx/store';
 import {
   actualizarCantidadItemFacturaActiva,
-  actualizarInformacionContactoFacturaActiva,
+  actualizarClienteFacturaActiva,
   actualizarPrecioItemFacturaActiva,
   actualizarSubtotalItemFacturaActiva,
   agregarItemFacturaActiva,
@@ -17,7 +17,7 @@ import {
   facturaEliminarAction,
   facturaNuevaAction,
   retirarItemDeFacturaActiva,
-  seleccionarFacturaActiva,
+  seleccionarFacturaActiva
 } from '@redux/actions/factura.actions';
 import {
   obtenerFacturaActiva,
@@ -150,9 +150,8 @@ export class FacturaReduxService {
     this._store.dispatch(actualizarPrecioItemFacturaActiva({ itemId, precio }));
   }
 
-  actualizarContacto(contacto: Contacto) {
-    
-    this._store.dispatch(actualizarInformacionContactoFacturaActiva({ contacto }));
+  actualizarConctato(contacto: Contacto) {
+    this._store.dispatch(actualizarClienteFacturaActiva({ contacto }));
   }
 
   calcularSubtotal(itemId: number) {

@@ -11,7 +11,7 @@ import {
   retirarItemDeFacturaActiva,
   seleccionarFacturaActiva,
   actualizarPrecioItemFacturaActiva,
-  actualizarInformacionContactoFacturaActiva
+  actualizarClienteFacturaActiva,
 } from '@redux/actions/factura.actions';
 import { facturaInit } from 'src/app/core/model/constantes/factura';
 
@@ -107,18 +107,19 @@ export const facturaReducer = createReducer(
         : factura
     ),
   })),
-  on(actualizarInformacionContactoFacturaActiva, (state, { contacto }) => ({
+  on(actualizarClienteFacturaActiva, (state, { contacto }) => ({
     ...state,
     facturas: state.facturas.map((factura, index) =>
       index === state.facturaActiva
         ? {
             ...factura, // Mantiene todas las propiedades existentes de la factura
-            contacto_id: contacto.id,
-            contacto_nombre_corto: contacto.nombre_corto,
-            contacto_numero_identificacion: contacto.numero_identificacion,
+            ...{
+              contacto_id: contacto.id,
+              contacto_nombre_corto: contacto.nombre_corto,
+              contacto_numero_identificacion: contacto.numero_identificacion,
+            },
           }
         : factura
     ),
-  })),
-
+  }))
 );
