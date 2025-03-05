@@ -7,7 +7,7 @@ import Swal, { SweetAlertResult } from 'sweetalert2';
 })
 export class AlertaService {
 
-  //TODO: colores del core de tailwindcss en su tono 500 
+  //TODO: colores del core de tailwindcss en su tono 500
   colorRed = 'oklch(0.637 0.237 25.331)'
   colorBlue = 'oklch(0.685 0.169 237.323)'
   colorGris = 'oklch(0.551 0.027 264.364)'
@@ -183,9 +183,10 @@ export class AlertaService {
   }
 
   confirmarSinReversa(): Observable<SweetAlertResult> {
+
     return from(
       Swal.fire({
-        title: '¿Está seguro de que desea aprobar el registro?',
+        title: '¿Está seguro?',
         text: ' Esta acción es irreversible.',
         icon: 'warning',
         showCancelButton: true,

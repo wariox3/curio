@@ -12,6 +12,7 @@ import {
   seleccionarFacturaActiva,
   actualizarPrecioItemFacturaActiva,
   actualizarClienteFacturaActiva,
+  retirarDetallesFacturaActiva,
 } from '@redux/actions/factura.actions';
 import { facturaInit } from '@constantes/factura.const';
 
@@ -121,5 +122,16 @@ export const facturaReducer = createReducer(
           }
         : factura
     ),
-  }))
-);
+  })),
+  on(retirarDetallesFacturaActiva, (state) => ({
+    ...state,
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? {
+            ...factura,
+            detalles: [], // Reinicia el array de detalles
+          }
+        : factura
+    ),
+  })),
+  );

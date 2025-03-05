@@ -55,3 +55,7 @@ export const actualizarClienteFacturaActiva = createAction(
   props<{ contacto: Contacto }>()
 );
 
+export const retirarDetallesFacturaActiva = createAction(
+  '[Factura] Retirar Detalles de Factura Activa',
+);
+

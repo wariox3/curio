@@ -16,6 +16,7 @@ import {
   facturaActualizarNombreAction,
   facturaEliminarAction,
   facturaNuevaAction,
+  retirarDetallesFacturaActiva,
   retirarItemDeFacturaActiva,
   seleccionarFacturaActiva,
 } from '@redux/actions/factura.actions';
@@ -178,5 +179,9 @@ export class FacturaReduxService {
 
   calcularSubtotal(itemId: number) {
     this._store.dispatch(actualizarSubtotalItemFacturaActiva({ itemId }));
+  }
+
+  reiniciarDetalles() {
+    this._store.dispatch(retirarDetallesFacturaActiva());
   }
 }
