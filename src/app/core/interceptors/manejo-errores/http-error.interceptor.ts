@@ -5,7 +5,7 @@ import type {
 import { inject } from '@angular/core';;
 import { catchError, throwError } from 'rxjs';
 import { ErrorHandlerService } from './http-error.service';
-import { AlertaService } from '../../services/alerta.service';
+import { AlertaService } from '../../../shared/services/alerta.service';
 import { AuthService } from 'src/app/pages/auth/services/auth.service';
 
 export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {

@@ -1,6 +1,6 @@
 import { HttpContext, HttpContextToken, HttpHandlerFn, type HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { TokenService } from '../services/token.service';
+import { TokenService } from '../../shared/services/token.service';
 
 const requiereToken = new HttpContextToken<boolean>(() => true);
 

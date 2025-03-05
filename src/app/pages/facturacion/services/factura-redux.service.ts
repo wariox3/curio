@@ -29,7 +29,7 @@ import {
 import {
   documentoFacturaDetalleInit,
   facturaInit,
-} from 'src/app/core/model/constantes/factura';
+} from '@constantes/factura.const';
 
 @Injectable({ providedIn: 'root' })
 export class FacturaReduxService {

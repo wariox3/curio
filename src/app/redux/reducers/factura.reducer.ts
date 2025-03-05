@@ -13,7 +13,7 @@ import {
   actualizarPrecioItemFacturaActiva,
   actualizarClienteFacturaActiva,
 } from '@redux/actions/factura.actions';
-import { facturaInit } from 'src/app/core/model/constantes/factura';
+import { facturaInit } from '@constantes/factura.const';
 
 export const initialState: FacturaReduxState = {
   facturas: [facturaInit],
