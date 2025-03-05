@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable, map, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +35,6 @@ export class FechasService {
     ],
   };
 
-  constructor(private store: Store) {}
 
   obtenerPrimerDiaDelMes(date: Date): string {
     // Obtener el primer día del mes

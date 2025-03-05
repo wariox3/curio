@@ -30,10 +30,12 @@ import {
   documentoFacturaDetalleInit,
   facturaInit,
 } from '@constantes/factura.const';
+import { FechasService } from 'src/app/shared/services/fechas.service';
 
 @Injectable({ providedIn: 'root' })
 export class FacturaReduxService {
   private _store = inject(Store);
+  private _fechasService = inject(FechasService);
 
   public facturaTabActivo = signal<number>(0);
   public arrFacturasSignal = signal<DocumentoFactura[]>([]);
@@ -89,11 +91,16 @@ export class FacturaReduxService {
   }
 
   nuevaFactura() {
+    const fechaVencimientoInicial =
+      this._fechasService.getFechaVencimientoInicial();
+
     this._store.dispatch(
       facturaNuevaAction({
         factura: {
           ...facturaInit,
           nombre: 'Factura',
+          fecha: fechaVencimientoInicial,
+          fecha_vence: fechaVencimientoInicial
         },
       })
     );
