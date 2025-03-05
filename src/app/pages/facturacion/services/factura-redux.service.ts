@@ -1,5 +1,6 @@
 // factura.service.ts
 import { computed, inject, Injectable, signal } from '@angular/core';
+import { Contacto } from '@interfaces/contacto';
 import {
   DocumentoFactura,
   DocumentoFacturaDetalleRespuesta,
@@ -8,8 +9,7 @@ import { Item } from '@interfaces/item.interface';
 import { Store } from '@ngrx/store';
 import {
   actualizarCantidadItemFacturaActiva,
-  actualizarClienteFacturaActiva,
-  actualizarNombreClienteFacturaActiva,
+  actualizarInformacionContactoFacturaActiva,
   actualizarPrecioItemFacturaActiva,
   actualizarSubtotalItemFacturaActiva,
   agregarItemFacturaActiva,
@@ -150,14 +150,9 @@ export class FacturaReduxService {
     this._store.dispatch(actualizarPrecioItemFacturaActiva({ itemId, precio }));
   }
 
-  actualizarContactoId(clienteId: number) {
-    this._store.dispatch(actualizarClienteFacturaActiva({ clienteId }));
-  }
-
-  actualizarContactoNombre(cliente_nombre: string) {
-    this._store.dispatch(
-      actualizarNombreClienteFacturaActiva({ cliente_nombre })
-    );
+  actualizarContacto(contacto: Contacto) {
+    
+    this._store.dispatch(actualizarInformacionContactoFacturaActiva({ contacto }));
   }
 
   calcularSubtotal(itemId: number) {

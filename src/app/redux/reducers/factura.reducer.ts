@@ -11,8 +11,7 @@ import {
   retirarItemDeFacturaActiva,
   seleccionarFacturaActiva,
   actualizarPrecioItemFacturaActiva,
-  actualizarClienteFacturaActiva,
-  actualizarNombreClienteFacturaActiva
+  actualizarInformacionContactoFacturaActiva
 } from '@redux/actions/factura.actions';
 import { facturaInit } from 'src/app/core/model/constantes/factura';
 
@@ -60,7 +59,9 @@ export const facturaReducer = createReducer(
       index === state.facturaActiva
         ? {
             ...factura,
-            detalles: factura.detalles.filter((detalle) => detalle.item !== itemId),
+            detalles: factura.detalles.filter(
+              (detalle) => detalle.item !== itemId
+            ),
           }
         : factura
     ),
@@ -80,52 +81,44 @@ export const facturaReducer = createReducer(
   })),
   on(actualizarPrecioItemFacturaActiva, (state, { itemId, precio }) => ({
     ...state,
-    // facturas: state.facturas.map((factura, index) =>
-    //   index === state.facturaActiva
-    //     ? {
-    //         ...factura,
-    //         data: {
-    //           ...factura.data,
-    //           itemsAgregados: factura.data.itemsAgregados.map((item) =>
-    //             item.id === itemId ? { ...item, precio } : item
-    //           ),
-    //         },
-    //       }
-    //     : factura
-    // ),
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? {
+            ...factura,
+            detalles: factura.detalles.map((detalle) =>
+              detalle.item === itemId ? { ...detalle, precio } : detalle
+            ),
+          }
+        : factura
+    ),
   })),
   on(actualizarSubtotalItemFacturaActiva, (state, { itemId }) => ({
     ...state,
-    // facturas: state.facturas.map((factura, index) =>
-    //   index === state.facturaActiva
-    //     ? {
-    //         ...factura,
-    //         data: {
-    //           ...factura.data,
-    //           itemsAgregados: factura.data.itemsAgregados.map((item) =>
-    //             item.id === itemId
-    //               ? { ...item, subtotal: item.precio * item.cantidad }
-    //               : item
-    //           ),
-    //         },
-    //       }
-    //     : factura
-    // ),
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? {
+            ...factura,
+            detalles: factura.detalles.map((detalle) =>
+              detalle.item === itemId
+                ? { ...detalle, subtotal: detalle.precio * detalle.cantidad }
+                : detalle
+            ),
+          }
+        : factura
+    ),
   })),
-  on(actualizarClienteFacturaActiva, (state, { clienteId }) => ({
+  on(actualizarInformacionContactoFacturaActiva, (state, { contacto }) => ({
     ...state,
     facturas: state.facturas.map((factura, index) =>
       index === state.facturaActiva
-        ? { ...factura, cliente: clienteId }
+        ? {
+            ...factura, // Mantiene todas las propiedades existentes de la factura
+            contacto_id: contacto.id,
+            contacto_nombre_corto: contacto.nombre_corto,
+            contacto_numero_identificacion: contacto.numero_identificacion,
+          }
         : factura
-    )
+    ),
   })),
-  on(actualizarNombreClienteFacturaActiva, (state, { cliente_nombre }) => ({
-    ...state,
-    // facturas: state.facturas.map((factura, index) =>
-    //   index === state.facturaActiva
-    //     ? { ...factura, cliente_nombre }
-    //     : factura
-    // )
-  }))
+
 );

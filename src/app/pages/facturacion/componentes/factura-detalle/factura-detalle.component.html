@@ -55,10 +55,10 @@
             (mouseenter)="alEntrarMouse(item, div)"
             (mouseleave)="alSalirMouse()"
           >
-            @if (mostrarIcono === item.id) {
+            @if (mostrarIcono === item.item) {
             <i
               class="ki-filled ki-pencil text-xl cursor-pointer text-blue-500 me-2"
-              [attr.data-tooltip]="'#tooltip_editar_hover' + item.id"
+              [attr.data-tooltip]="'#tooltip_editar_hover' + item.item"
               [attr.data-tooltip-trigger]="'hover'"
               [attr.data-drawer-toggle]="'#drawer_6'"
               (click)="editarItem()"
@@ -66,13 +66,13 @@
             <i
               class="ki-filled ki-trash text-xl cursor-pointer text-red-500"
               (click)="retirarItem(item.item)"
-              [attr.data-tooltip]="'#tooltip_retirar_hover' + item.id"
+              [attr.data-tooltip]="'#tooltip_retirar_hover' + item.item"
               [attr.data-tooltip-trigger]="'hover'"
             ></i>
-            <div class="tooltip" [id]="'tooltip_editar_hover' + item.id">
+            <div class="tooltip" [id]="'tooltip_editar_hover' + item.item">
               Editar item para la factura
             </div>
-            <div class="tooltip" [id]="'tooltip_retirar_hover' + item.id">
+            <div class="tooltip" [id]="'tooltip_retirar_hover' + item.item">
               Retirar item
             </div>
             } @else {

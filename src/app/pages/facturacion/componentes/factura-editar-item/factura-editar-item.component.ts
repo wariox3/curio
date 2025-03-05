@@ -59,9 +59,9 @@ export class FacturaEditarItemComponent {
 
   guardar(): void {
     if (this.formularioVenta.valid) {
-      this._facturaReduxService.actualizarCantidadItem(this.item.id, this.formularioVenta.get('cantidad').value)
-      this._facturaReduxService.actualizarPrecioItem(this.item.id, this.formularioVenta.get('precio').value)
-      this._facturaReduxService.calcularSubtotal(this.item.id)
+      this._facturaReduxService.actualizarCantidadItem(this.item.item, this.formularioVenta.get('cantidad').value)
+      this._facturaReduxService.actualizarPrecioItem(this.item.item, this.formularioVenta.get('precio').value)
+      this._facturaReduxService.calcularSubtotal(this.item.item)
       this.emitirAccionFormulario.emit(true)
     }
   }

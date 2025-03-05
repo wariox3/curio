@@ -57,8 +57,7 @@ export class FacturaDetalleComponent implements OnInit {
   }
 
   actualizarCliente(contacto: any){
-    this._facturaReduxService.actualizarContactoId(contacto.id)
-    this._facturaReduxService.actualizarContactoNombre(contacto.nombre_corto)
+    this._facturaReduxService.actualizarContacto(contacto.id)
   }
 
   editarItem() {
@@ -80,7 +79,7 @@ export class FacturaDetalleComponent implements OnInit {
   }
 
   alEntrarMouse(item: DocumentoFacturaDetalleRespuesta, div: HTMLDivElement): void {
-    this.mostrarIcono = item.id;
+    this.mostrarIcono = item.item;
     this.itemSeleccionado = item;
     this.simularClic(div);
   }
