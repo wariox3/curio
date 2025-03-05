@@ -112,7 +112,7 @@ export const facturaReducer = createReducer(
     facturas: state.facturas.map((factura, index) =>
       index === state.facturaActiva
         ? {
-            ...factura, // Mantiene todas las propiedades existentes de la factura
+            ...factura,
             ...{
               contacto_id: contacto.id,
               contacto_nombre_corto: contacto.nombre_corto,

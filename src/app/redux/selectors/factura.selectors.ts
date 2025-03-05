@@ -55,16 +55,7 @@ export const obtenerClienteFacturaActiva = createSelector(
   Facturacion,
   (state) => {
     const facturaActiva = state.facturas[state.facturaActiva];
-    return facturaActiva ? facturaActiva.contacto_id : null;
-  }
-);
-
-// Selector para obtener el nombre del cliente de la factura activa
-export const obtenerNombreClienteFacturaActiva = createSelector(
-  Facturacion,
-  (state) => {
-    const facturaActiva = state.facturas[state.facturaActiva];
-    // return facturaActiva ? facturaActiva.cliente_nombre : '';
+    return facturaActiva ? facturaActiva.contacto_id : 150;
   }
 );
 

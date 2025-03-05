@@ -1,5 +1,5 @@
 export interface Contacto {
-  readonly id?: number;
+  id: number;
   identificacion: number;
   numero_identificacion: string;
   identificacion_abreviatura: string;
