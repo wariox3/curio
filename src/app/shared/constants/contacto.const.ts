@@ -50,7 +50,7 @@ export const contactoConsumidorFinal: Pick<
   Contacto,
   'id' | 'nombre_corto' | 'numero_identificacion'
 > = {
-  id: 150,
+  id: 1,
   nombre_corto: 'Consumidor final',
   numero_identificacion: '222222222222222222',
 };

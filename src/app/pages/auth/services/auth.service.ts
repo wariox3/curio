@@ -2,7 +2,7 @@ import { Injectable, OnDestroy, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Token } from '../interfaces/token.interface';
 import { API_ENDPOINTS } from '@constantes/api-endpoints.const';
-import { noRequiereToken } from '@interceptores/token.interceptor';
+import { noRequiereToken } from '@interceptores/token/token.interceptor';
 import { tap } from 'rxjs';
 import { TokenService } from 'src/app/shared/services/token.service';
 import { removeCookie } from 'typescript-cookie';

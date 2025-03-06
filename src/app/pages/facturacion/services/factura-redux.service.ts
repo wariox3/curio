@@ -43,7 +43,7 @@ export class FacturaReduxService {
   public facturaTabActivo = signal<number>(0);
   public arrFacturasSignal = signal<DocumentoFactura[]>([]);
   public facturaActivaNombre = signal('');
-  public facturaActivaContacto = signal<number|null>(150);
+  public facturaActivaContacto = signal<number|null>(1);
   public arrItemsSignal = signal<DocumentoFacturaDetalleRespuesta[]>([]);
   public totalProductosSignal = computed(() => this.arrItemsSignal().length);
   public totalSubtotalSignal = computed(() =>

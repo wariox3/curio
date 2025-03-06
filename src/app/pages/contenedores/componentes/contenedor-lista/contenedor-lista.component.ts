@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { ButtonComponent } from '@componentes/ui/button/button.component';
 import {
-  Contenedor,
   ContenedorDetalle,
   ListaContenedoresRespuesta,
 } from '@interfaces/contenedores.interface';
@@ -9,49 +9,27 @@ import { Store } from '@ngrx/store';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { AlertaService } from 'src/app/shared/services/alerta.service';
-import { ContenedorService } from '../../services/contenedor.service';
-import { ContenedorActionInit } from '@redux/actions/contenedor.actions';
-import { Router } from '@angular/router';
+import { ContenedorApiService } from '../../services/contenedor-api.service';
+import { ContenedorReduxService } from '../../services/contenedor-redux.service';
 
 @Component({
   selector: 'app-contenedor-lista',
   standalone: true,
-  imports: [
-    // CommonModule,
-    ButtonComponent,
-    // RouterLink,
-    // ModalDefaultComponent,
-    // ContenedorEliminarComponent,
-  ],
+  imports: [ButtonComponent],
   templateUrl: './contenedor-lista.component.html',
 })
 export default class ContenedorListaComponent implements OnInit {
-  // @ViewChild("contentTemplate") contentTemplate: TemplateRef<any>;
-  private _contenedorService = inject(ContenedorService);
+  private _contenedorService = inject(ContenedorApiService);
+  private _contenedorReduxService = inject(ContenedorReduxService);
   private _store = inject(Store);
   private _alertaService = inject(AlertaService);
   private _router = inject(Router);
-
-  // private menuService = inject(NbMenuService);
-  // private windowService = inject(NbWindowService);
-  // private destroy$ = new Subject<void>();
-  // windowRef: NbWindowRef | null;
   public arrConectando: boolean[] = [];
   public arrContenedores = signal<any[]>([]);
-  // contenedor: Contenedor;
-  // dominioApp = environment.dominioApp;
-  // public toggleModal$ = new BehaviorSubject(false);
 
   ngOnInit() {
     this.consultarLista();
-    // this.menu();
-    // this.limpiarContenedores();
   }
-
-  // limpiarContenedores() {
-  //   this.store.dispatch(ContenedorActionBorrarInformacion());
-  //   this.changeDetectorRef.detectChanges();
-  // }
 
   consultarLista() {
     this._store
@@ -88,28 +66,9 @@ export default class ContenedorListaComponent implements OnInit {
         })
       )
       .subscribe((respuesta: ContenedorDetalle) => {
-        const contenedor: Contenedor = {
-          nombre: respuesta.nombre,
-          imagen: respuesta.imagen,
-          contenedor_id: respuesta.id,
-          subdominio: respuesta.subdominio,
-          id: respuesta.id,
-          usuario_id: respuesta.usuario_id,
-          seleccion: true,
-          rol: '',
-          plan_id: respuesta.plan_id,
-          plan_nombre: respuesta.plan_nombre,
-          usuarios: respuesta.plan_limite_usuarios,
-          usuarios_base: respuesta.plan_usuarios_base,
-          reddoc: respuesta.reddoc,
-          ruteo: respuesta.ruteo,
-          acceso_restringido: respuesta.acceso_restringido,
-        };
-        this._store.dispatch(ContenedorActionInit({ contenedor }));
+        this._contenedorReduxService.cargarContenedor(respuesta);
         this.arrConectando[indexContenedor] = false;
-        this._router.navigate(['/dashboard/facturacion'])
+        this._router.navigate(['/dashboard/facturacion']);
       });
   }
-
-
 }

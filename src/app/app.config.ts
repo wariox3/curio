@@ -14,10 +14,10 @@ import { EffectsApp, StoreApp } from './redux';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
 import { localStorageSync } from 'ngrx-store-localstorage';
-import { tokenInterceptor } from '@interceptores/token.interceptor';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { httpErrorInterceptor } from '@interceptores/manejo-errores/http-error.interceptor';
-
+import { tokenInterceptor } from '@interceptores/token/token.interceptor';
+import { reemplazarUrlInterceptor } from '@interceptores/url-contenedor/reemplazar-url.interceptor';
 
 export function localStorageSyncReducer(reducer: any): any {
   return localStorageSync({
@@ -27,12 +27,16 @@ export function localStorageSyncReducer(reducer: any): any {
 }
 export const metaReducers: MetaReducer<any>[] = [localStorageSyncReducer];
 
-
 export const appConfig: ApplicationConfig = {
-
   providers: [
     provideRouter(routes),
-    provideHttpClient(withInterceptors([tokenInterceptor, httpErrorInterceptor])),
+    provideHttpClient(
+      withInterceptors([
+        tokenInterceptor,
+        httpErrorInterceptor,
+        reemplazarUrlInterceptor,
+      ])
+    ),
     importProvidersFrom(
       HammerModule,
       StoreModule.forRoot(StoreApp, { metaReducers }),
@@ -54,6 +58,5 @@ export const appConfig: ApplicationConfig = {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',
     }),
-
   ],
 };

@@ -1,14 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { API_ENDPOINTS } from '@constantes/api-endpoints.const';
-import { ContenedorDetalle, ListaContenedoresRespuesta } from '@interfaces/contenedores.interface';
+import {
+  ContenedorDetalle,
+  ListaContenedoresRespuesta,
+} from '@interfaces/contenedores.interface';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class ContenedorService {
-
-  constructor(private http : HttpClient,) { }
+export class ContenedorApiService {
+  constructor(private http: HttpClient) {}
 
   lista(usuario_id: string) {
     return this.http.post<ListaContenedoresRespuesta>(
@@ -21,9 +23,8 @@ export class ContenedorService {
   }
 
   detalle(codigoContenedor: string) {
-   return this.http.get<ContenedorDetalle>(
-       `${API_ENDPOINTS.CONTENEDORES.DETALLE}${codigoContenedor}/`
-     );
+    return this.http.get<ContenedorDetalle>(
+      `${API_ENDPOINTS.CONTENEDORES.DETALLE}${codigoContenedor}/`
+    );
   }
-
 }

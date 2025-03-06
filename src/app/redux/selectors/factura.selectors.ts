@@ -55,7 +55,7 @@ export const obtenerClienteFacturaActiva = createSelector(
   Facturacion,
   (state) => {
     const facturaActiva = state.facturas[state.facturaActiva];
-    return facturaActiva ? facturaActiva.contacto_id : 150;
+    return facturaActiva ? facturaActiva.contacto_id : 1;
   }
 );
 
