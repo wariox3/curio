@@ -32,4 +32,12 @@ export class ItemApiService {
         })
       );
   }
+
+  detalle(itemId: number) {
+    return this._http.post<any>(API_ENDPOINTS.GENERAL.ITEM.DETALLE, {
+      compra: false,
+      id: itemId,
+      venta: true,
+    });
+  }
 }

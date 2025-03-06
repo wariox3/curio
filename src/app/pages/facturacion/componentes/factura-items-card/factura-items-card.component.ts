@@ -2,6 +2,8 @@ import { DecimalPipe, NgClass } from '@angular/common';
 import { Component, inject, Input, OnInit, signal } from '@angular/core';
 import { Item } from '@interfaces/item.interface';
 import { FacturaReduxService } from '../../services/factura-redux.service';
+import { ItemApiService } from '../../services/item-api.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-factura-items-card',
@@ -11,6 +13,7 @@ import { FacturaReduxService } from '../../services/factura-redux.service';
 })
 export class FacturaItemsCardComponent implements OnInit {
   private _facturaReduxService = inject(FacturaReduxService);
+  private _itemApiService = inject(ItemApiService);
   public cantidadSignal = signal(0);
 
   @Input() item: Item;
@@ -20,16 +23,24 @@ export class FacturaItemsCardComponent implements OnInit {
   }
 
   seleccionarProducto(item: Item) {
-    if (this.cantidadSignal() === 0) {
-      this._agregarProductoAFactura(item);
-      this._itemCantidad(item.id);
-    } else {
-      this._agregarNuevaCantidad(item);
-      this._itemCantidad(item.id);
-    }
-    this._facturaReduxService.calcularValoresFacturaActivaDetalle(item.id);
-    this._facturaReduxService.calcularValoresFacturaActivaEncabezado();
-
+    this._itemApiService
+      .detalle(item.id)
+      .pipe(
+        tap((respuestaItemDetalle) => {
+          if (this.cantidadSignal() === 0) {
+            this._agregarProductoAFactura(respuestaItemDetalle.item);
+            this._itemCantidad(item.id);
+          } else {
+            this._agregarNuevaCantidad(respuestaItemDetalle.item);
+            this._itemCantidad(item.id);
+          }
+          this._facturaReduxService.calcularValoresFacturaActivaDetalle(
+            item.id
+          );
+          this._facturaReduxService.calcularValoresFacturaActivaEncabezado();
+        })
+      )
+      .subscribe();
   }
 
   private _agregarNuevaCantidad(item: Item) {

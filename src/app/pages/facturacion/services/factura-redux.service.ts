@@ -146,18 +146,10 @@ export class FacturaReduxService {
     this.obtertenerTabActivoFactura();
   }
 
-  nuevoItem(item: Item): DocumentoFacturaDetalleRespuesta {
-    return {
-      ...documentoFacturaDetalleInit,
-      cantidad: 1,
-      item: item.id,
-      item_nombre: item.nombre,
-      precio: item.precio,
-    };
-  }
+
 
   agregarItem(item: Item) {
-    const nuevoItem = this.nuevoItem(item);
+    const nuevoItem = this._itemAdapter(item);
     this._store.dispatch(agregarItemFacturaActiva({ item: nuevoItem }));
   }
 
@@ -214,5 +206,16 @@ export class FacturaReduxService {
 
   private calcularSubtotalItem(itemId: number) {
     this._store.dispatch(actualizarSubtotalItemFacturaActiva({ itemId }));
+  }
+
+  private _itemAdapter(item: Item): DocumentoFacturaDetalleRespuesta {
+    return {
+      ...documentoFacturaDetalleInit,
+      cantidad: 1,
+      item: item.id,
+      item_nombre: item.nombre,
+      precio: item.precio,
+      impuestos: [item.impuestos[0]]
+    };
   }
 }
