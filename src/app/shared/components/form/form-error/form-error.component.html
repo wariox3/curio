@@ -1,0 +1,8 @@
+@for (error of errors; track $index) {
+@if(control?.hasError(error.validacionTipo) && (control.dirty ||
+control.touched)){
+<p class="mt-2 text-xs text-red-600 dark:text-red-500 b-1">
+  {{ error.mensaje }}
+  {{ error.cantidadCaracteres ?? "" }}
+</p>
+} }

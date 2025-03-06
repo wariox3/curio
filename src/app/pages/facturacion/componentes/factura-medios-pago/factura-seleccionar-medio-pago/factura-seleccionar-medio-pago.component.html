@@ -1,0 +1,51 @@
+<div class="flex items-center justify-center">
+  <div class="bg-white">
+    <div class="bg-white w-full">
+      <h2 class="text-center text-2xl font-bold mb-6">TOTAL</h2>
+      <p class="text-center text-4xl font-extrabold text-gray-800 mb-8">
+        $ {{ totalSubtotalSignal() | number: "1.0-0" }}
+      </p>
+    <div class="grid grid-cols-2 gap-4">
+      <div
+        class="flex flex-col items-center bg-gray-200 p-4 rounded-lg cursor-pointer text-center hover:bg-teal-500 hover:text-white"
+        (click)="selecionarMedio('efectivo')"
+      >
+        <i class="ki-filled ki-wallet text-2xl"></i>
+
+        Efectivo
+      </div>
+      <div
+        class="flex flex-col items-center bg-gray-200 p-4 rounded-lg cursor-pointer text-center hover:bg-teal-500 hover:text-white"
+        (click)="selecionarMedio('tarjetaCredito')"
+      >
+        <i class="ki-filled ki-credit-cart text-2xl"></i>
+
+        Tarjeta de crédito
+      </div>
+      <div
+        class="flex flex-col items-center bg-gray-200 p-4 rounded-lg cursor-pointer text-center hover:bg-teal-500 hover:text-white"
+        (click)="selecionarMedio('tranferencia')"
+      >
+
+        <i class="ki-filled ki-bank text-2xl"></i>
+        Transferencia
+      </div>
+      <div
+        class="flex flex-col items-center bg-gray-200 p-4 rounded-lg cursor-pointer text-center hover:bg-teal-500 hover:text-white"
+        (click)="selecionarMedio('tarjetaDebito')"
+      >
+        <i class="ki-filled ki-bill text-2xl"></i>
+
+        Tarjeta débito
+      </div>
+      <div
+        class="flex flex-col items-center bg-gray-200 p-4 rounded-lg cursor-pointer text-center hover:bg-teal-500 hover:text-white"
+        (click)="selecionarMedio('combinado')"
+      >
+        <i class="ki-filled ki-theta-theta text-2xl"></i>
+
+        Combinado
+      </div>
+    </div>
+  </div>
+</div>

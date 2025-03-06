@@ -1,0 +1,56 @@
+import { Contacto } from '@interfaces/contacto';
+
+export const contactoInit: Contacto = {
+  identificacion: 0,
+  numero_identificacion: '',
+  identificacion_abreviatura: '',
+  nombre_corto: '',
+  direccion: '',
+  ciudad: 0,
+  ciudad_nombre: 0,
+  telefono: 0,
+  celular: 0,
+  tipo_persona_id: 0,
+  tipo_persona: 0,
+  regimen_id: 0,
+  regimen_nombre: '',
+  digito_verificacion: '',
+  nombre1: '',
+  nombre2: '',
+  apellido1: '',
+  apellido2: '',
+  codigo_postal: '',
+  correo: '',
+  codigo_ciuu: '',
+  barrio: '',
+  plazo_pago_id: 0,
+  plazo_pago_nombre: '',
+  precio_id: 0,
+  precio_nombre: '',
+  asesor_id: 0,
+  asesor_nombre_corto: '',
+  plazo_pago_proveedor_id: 0,
+  plazo_pago_proveedor_nombre: '',
+  cliente: false,
+  proveedor: false,
+  empleado: false,
+  identificacion_id: 0,
+  ciudad_id: 0,
+  codigo: 0,
+  correo_facturacion_electronica: '',
+  banco_id: 0,
+  banco_nombre: '',
+  cuenta_banco_clase_id: 0,
+  cuenta_banco_clase_nombre: '',
+  numero_cuenta: '',
+  id: 0
+};
+
+export const contactoConsumidorFinal: Pick<
+  Contacto,
+  'id' | 'nombre_corto' | 'numero_identificacion'
+> = {
+  id: 1,
+  nombre_corto: 'Consumidor final',
+  numero_identificacion: '222222222222222222',
+};

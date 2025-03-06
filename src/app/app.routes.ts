@@ -3,6 +3,11 @@ import { AutentificacionGuard } from '@guardias/auth.guard';
 
 export const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'auth',
+    pathMatch: 'full',
+  },
+  {
     path: 'auth',
     loadChildren: () => import('./pages/auth/auth.routes'),
   },

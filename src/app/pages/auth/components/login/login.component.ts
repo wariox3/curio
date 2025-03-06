@@ -1,4 +1,4 @@
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import {
   FormBuilder,
@@ -10,7 +10,8 @@ import {
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
-import { tap } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
+import { FormErrorComponent } from "../../../../shared/components/form/form-error/form-error.component";
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -18,11 +19,11 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, NgIf, NgTemplateOutlet],
+  imports: [FormsModule, ReactiveFormsModule, NgIf, FormErrorComponent],
 })
 export default class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  visualizarLoader: boolean = false;
+  visualizarLoader =  signal(false);
   cambiarTipoCampoClave = signal<'text' | 'password'>('password');
 
   private _formBuilder = inject(FormBuilder);
@@ -68,7 +69,7 @@ export default class LoginComponent implements OnInit {
 
   submit() {
     if (this.loginForm.valid) {
-      //this.visualizarLoader = true;
+      this.visualizarLoader.set(true);
       this._authService
         .login(
           this.loginForm.get('email')?.value,
@@ -102,7 +103,11 @@ export default class LoginComponent implements OnInit {
               })
             );
           }),
-          tap(() => this._router.navigate(['/dashboard/facturacion']))
+          tap(() => this._router.navigate(['/contenedor'])),
+          catchError(() => {
+            this.visualizarLoader.set(false);
+            return of(null);
+          })
         )
         .subscribe();
     } else {

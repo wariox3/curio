@@ -2,9 +2,9 @@ import { Injectable, OnDestroy, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Token } from '../interfaces/token.interface';
 import { API_ENDPOINTS } from '@constantes/api-endpoints.const';
-import { noRequiereToken } from '@interceptores/token.interceptor';
+import { noRequiereToken } from '@interceptores/token/token.interceptor';
 import { tap } from 'rxjs';
-import { TokenService } from 'src/app/core/services/token.service';
+import { TokenService } from 'src/app/shared/services/token.service';
 import { removeCookie } from 'typescript-cookie';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -63,12 +63,10 @@ export class AuthService implements OnDestroy {
   }
 
   logout() {
+    this._store.dispatch(usuarioActionClear());
     this._clearLocalStorage()
     this._removerCookies()
     this._tokenService.eliminarToken();
-    this._store.dispatch(usuarioActionClear());
-    // this.tokenService.eliminarRefreshToken();
-    // this.store.dispatch(asignarDocumentacion({ id: 0, nombre: '' }));
   }
 
   private _clearLocalStorage () {

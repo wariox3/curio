@@ -10,13 +10,12 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FacturaReduxService } from '../../services/factura-redux.service';
-import { KTDropdown } from '@metronic/components/dropdown/dropdown';
-import { KTModal } from '@metronic/components/modal/modal';
+import { FacturaOpcionesDropdownComponent } from "../factura-opciones-dropdown/factura-opciones-dropdown.component";
 
 @Component({
   selector: 'app-factura-tabs',
   standalone: true,
-  imports: [NgClass, FormsModule],
+  imports: [NgClass, FacturaOpcionesDropdownComponent],
   templateUrl: './factura-tabs.component.html',
 })
 export class FacturaTabsComponent {
@@ -24,7 +23,6 @@ export class FacturaTabsComponent {
 
   tabs = this._facturaReduxService.arrFacturasSignal;
   tabActivo = this._facturaReduxService.facturaTabActivo;
-  inputCambiarNombre: string = '';
 
   @ViewChild('modalCambiarNombreTab') modalCambiarNombreTab!: ElementRef;
   @ViewChild('modalConfirmacionEliminar')
@@ -39,36 +37,4 @@ export class FacturaTabsComponent {
     this._facturaReduxService.seleccionarTabActivoFactura(index)
   }
 
-  cambiarNombreTab(): void {
-    this.inputCambiarNombre = '';
-    this.cerrarDropdowns();
-    this.toggleModal(this.modalCambiarNombreTab);
-  }
-
-  removerTab(): void {
-    this.cerrarDropdowns();
-    this.toggleModal(this.modalConfirmacionEliminar);
-  }
-
-  actualizarNombreTab(): void {
-    this._facturaReduxService.cambiarNombre(
-      this.tabActivo(),
-      this.inputCambiarNombre
-    );
-  }
-
-  retirarFactura() {
-    this._facturaReduxService.retirarFactura(this.tabActivo())
-
-  }
-
-  private cerrarDropdowns(): void {
-    this.dropdownTab.forEach((item) => {
-      KTDropdown.getInstance(item.nativeElement)?.hide();
-    });
-  }
-
-  private toggleModal(modalRef: ElementRef): void {
-    KTModal.getInstance(modalRef.nativeElement)?.toggle();
-  }
 }

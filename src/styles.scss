@@ -13,3 +13,33 @@
 @import "./metronic/vendors/keenicons/filled/style.css";
 @import "./metronic/vendors/keenicons/outline/style.css";
 @import "./metronic/vendors/keenicons/solid/style.css";
+@import "@ng-select/ng-select/themes/default.theme.css";
+
+.select2Custom {
+  border-radius: 0.375rem;
+  border: 1px solid var(--tw-gray-300);
+  font-weight: 500;
+  height: 2.5rem;
+  line-height: 1;
+  color: var(--tw-gray-700);
+  background-color: var(--tw-light-active);
+  font-size: 0.8125rem;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+  top: 10px !important;
+  cursor: pointer;
+}
+
+.ng-select-container {
+  border: none !important;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: none !important;
+    border: none !important;
+  }
+}

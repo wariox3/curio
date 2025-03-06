@@ -2,38 +2,115 @@
   <div class="card h-full w-full flex flex-col shadow-none rounded-none">
     <div class="card-header p-2">
       <h3 class="card-title">{{ nombre() }}</h3>
+      <app-factura-opciones-dropdown></app-factura-opciones-dropdown>
     </div>
-    <div class="card-body scrollable flex-grow p-2">
-      @for (item of items(); track $index) {
-      <div class="card-group p-2">
-        {{ item.nombre }}
-        {{ item.precio | number : "1.0-0" }}
-        {{ item.subtotal | number : "1.0-0" }}
-      </div>
-      <app-contador-cantidad
-        [cantidad]="item.cantidad"
-        (emitirCantidad)="actualizarCantidad($event, item.id)"
-      ></app-contador-cantidad>
-      <i
-        class="ki-filled ki-trash text-lg cursor-pointer"
-        (click)="retirarItem(item.id)"
-      ></i>
-
-      }
+    <div class="card-body flex-grow p-2 scrollable">
+      <section class="mb-2">
+        <div class="flex flex-row justify-between align-baseline">
+          <div class="flex-1">
+            <app-seleccionar-cliente></app-seleccionar-cliente>
+          </div>
+          <span class="btn btn-icon btn-icon-lg btn-input self-end">
+            <i class="ki-outline ki-user-square"> </i>
+          </span>
+        </div>
+      </section>
+      <section >
+        @if (items().length === 0) {
+        <div class="text-center p-4">
+          <i class="ki-filled ki-purchase text-gray-500 text-3xl"></i>
+          <p class="text-gray-500">
+            No se han agregado productos a la factura. Por favor, añade
+            productos para continuar.
+          </p>
+        </div>
+        } @else { @for (item of items(); track $index; let last = $last) {
+        <div
+          class="flex justify-between items-center p-2 hover:bg-blue-50 animate-slide-in-left"
+        >
+          <div class="" style="flex: 1.5">
+            <p>{{ item.item_nombre }}</p>
+            <p>{{ item.precio | number : "1.0-0" }}</p>
+          </div>
+          <div class="flex-1">
+            <app-contador-cantidad
+              [cantidad]="item.cantidad"
+              (emitirCantidad)="actualizarCantidad($event, item.item)"
+            ></app-contador-cantidad>
+          </div>
+          <div
+            class="flex-1 text-right"
+            #div
+            (mouseenter)="alEntrarMouse(item, div)"
+            (mouseleave)="alSalirMouse()"
+          >
+            @if (mostrarIcono === item.item) {
+            <i
+              class="ki-filled ki-pencil text-xl cursor-pointer text-blue-500 me-2"
+              [attr.data-tooltip]="'#tooltip_editar_hover' + item.item"
+              [attr.data-tooltip-trigger]="'hover'"
+              [attr.data-drawer-toggle]="'#drawer_6'"
+              (click)="editarItem()"
+            ></i>
+            <i
+              class="ki-filled ki-trash text-xl cursor-pointer text-red-500"
+              (click)="retirarItem(item.item)"
+              [attr.data-tooltip]="'#tooltip_retirar_hover' + item.item"
+              [attr.data-tooltip-trigger]="'hover'"
+            ></i>
+            <div class="tooltip" [id]="'tooltip_editar_hover' + item.item">
+              Editar item para la factura
+            </div>
+            <div class="tooltip" [id]="'tooltip_retirar_hover' + item.item">
+              Retirar item
+            </div>
+            } @else {
+            <p>$ {{ item.subtotal | number : "1.0-0" }}</p>
+            }
+          </div>
+        </div>
+        @if(!last){
+        <hr class="border-t-2" />
+        } } }
+      </section>
     </div>
     <div class="card-footer p-2">
       <div class="flex flex-col w-full">
         <div class="flex justify-between">
-          <p>Producto:</p>
-          <p>{{ cantidadItemsSignal() }}</p>
+          <p>Productos:</p>
+          <p>{{ totalProductosSignal() }}</p>
         </div>
         <div class="flex justify-between">
           <p>Cantidad:</p>
+          <p>{{ totalCantidadesSignal() | number : "1.0-0" }}</p>
+        </div>
+        <div class="flex justify-between">
+          <p>Subtotal:</p>
           <p>{{ totalSubtotalSignal() | number : "1.0-0" }}</p>
         </div>
         <hr />
-        <button class="btn btn-outline btn-success w-full">Pagar</button>
+        <app-factura-modal-pagar></app-factura-modal-pagar>
       </div>
     </div>
+  </div>
+</div>
+<div
+  class="drawer drawer-end border-r drawer-open:shadow-lg flex flex-col max-w-[90%] w-[35%]"
+  data-drawer="true"
+  data-drawer-backdrop="false"
+  id="drawer_6"
+  #editarItemDrawer
+>
+  <div class="flex items-center justify-between p-5 border-b">
+    <h3 class="text-base font-semibold text-gray-900">Editar registro</h3>
+    <button class="btn btn-xs btn-icon btn-light" data-drawer-dismiss="true">
+      <i class="ki-outline ki-cross"> </i>
+    </button>
+  </div>
+  <div class="p-2 h-full">
+    <app-factura-editar-item
+      [item]="itemSeleccionado"
+      (emitirAccionFormulario)="drawerClose()"
+    ></app-factura-editar-item>
   </div>
 </div>

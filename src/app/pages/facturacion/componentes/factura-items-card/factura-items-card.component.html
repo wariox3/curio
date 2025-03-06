@@ -1,15 +1,20 @@
 <div
-  class="bg-white rounded-lg shadow p-4 relative cursor-pointer"
+  class="bg-white rounded-lg shadow relative cursor-pointer"
   [ngClass]="{ 'shadow-teal-500/50': cantidadSignal() >= 1 }"
   (click)="seleccionarProducto(item)"
 >
   @if(cantidadSignal() >= 1 ){
-  <span
-    class="absolute top-2 right-2 bg-teal-500 text-white text-sm px-2 py-1 rounded-full"
+    <span
+    class="absolute top-2 right-2 bg-teal-500 text-white text-sm w-6 h-6 flex items-center justify-center rounded-full"
   >
-    {{ cantidadSignal() }}
+    {{ cantidadSignal() > 99 ? '99+' : cantidadSignal() }}
   </span>
   }
-  <h3 class="text-lg font-semibold">{{ item.nombre }}</h3>
-  <p class="text-xl font-bold">{{ item.precio }}</p>
+  <div class="text-center">
+    <img src="https://placehold.co/80x80" width="80" height="80" class="rounded-t-lg w-full object-cover"    >
+
+    <h3 class="text-lg font-light">{{ item.nombre }}</h3>
+    <p class="text-xl font-bold">$ {{ item.precio | number: '1.0-0' }}</p>
+  </div>
+
 </div>

@@ -10,18 +10,14 @@ import {
   facturaNuevaAction,
   retirarItemDeFacturaActiva,
   seleccionarFacturaActiva,
+  actualizarPrecioItemFacturaActiva,
+  actualizarClienteFacturaActiva,
+  retirarDetallesFacturaActiva,
 } from '@redux/actions/factura.actions';
+import { facturaInit } from '@constantes/factura.const';
 
 export const initialState: FacturaReduxState = {
-  facturas: [
-    {
-      id: 0,
-      nombre: 'Factura principal',
-      data: {
-        itemsAgregados: [],
-      },
-    },
-  ],
+  facturas: [facturaInit],
   facturaActiva: 0,
 };
 
@@ -41,7 +37,7 @@ export const facturaReducer = createReducer(
   on(facturaEliminarAction, (state, { index }) => ({
     ...state,
     facturas: state.facturas.filter((_, i) => i !== index),
-    facturaActiva: state.facturaActiva === index ? null : state.facturaActiva,
+    facturaActiva: state.facturaActiva === index ? 0 : state.facturaActiva,
   })),
   on(seleccionarFacturaActiva, (state, { id }) => ({
     ...state,
@@ -53,10 +49,7 @@ export const facturaReducer = createReducer(
       index === state.facturaActiva
         ? {
             ...factura,
-            data: {
-              ...factura.data,
-              itemsAgregados: [...(factura.data?.itemsAgregados || []), item],
-            },
+            detalles: [...(factura.detalles || []), item], // Agrega el item a "detalles"
           }
         : factura
     ),
@@ -67,12 +60,9 @@ export const facturaReducer = createReducer(
       index === state.facturaActiva
         ? {
             ...factura,
-            data: {
-              ...factura.data,
-              itemsAgregados: factura.data.itemsAgregados.filter(
-                (item) => item.id !== itemId
-              ),
-            },
+            detalles: factura.detalles.filter(
+              (detalle) => detalle.item !== itemId
+            ),
           }
         : factura
     ),
@@ -83,12 +73,22 @@ export const facturaReducer = createReducer(
       index === state.facturaActiva
         ? {
             ...factura,
-            data: {
-              ...factura.data,
-              itemsAgregados: factura.data.itemsAgregados.map((item) =>
-                item.id === itemId ? { ...item, cantidad } : item
-              ),
-            },
+            detalles: factura.detalles.map((detalle) =>
+              detalle.item === itemId ? { ...detalle, cantidad } : detalle
+            ),
+          }
+        : factura
+    ),
+  })),
+  on(actualizarPrecioItemFacturaActiva, (state, { itemId, precio }) => ({
+    ...state,
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? {
+            ...factura,
+            detalles: factura.detalles.map((detalle) =>
+              detalle.item === itemId ? { ...detalle, precio } : detalle
+            ),
           }
         : factura
     ),
@@ -99,15 +99,39 @@ export const facturaReducer = createReducer(
       index === state.facturaActiva
         ? {
             ...factura,
-            data: {
-              ...factura.data,
-              itemsAgregados: factura.data.itemsAgregados.map((item) =>
-                item.id === itemId
-                  ? { ...item, subtotal: item.precio * item.cantidad }
-                  : item
-              )
-            }
+            detalles: factura.detalles.map((detalle) =>
+              detalle.item === itemId
+                ? { ...detalle, subtotal: detalle.precio * detalle.cantidad }
+                : detalle
+            ),
           }
         : factura
-    )
-  })));
+    ),
+  })),
+  on(actualizarClienteFacturaActiva, (state, { contacto }) => ({
+    ...state,
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? {
+            ...factura,
+            ...{
+              contacto_id: contacto.id,
+              contacto_nombre_corto: contacto.nombre_corto,
+              contacto_numero_identificacion: contacto.numero_identificacion,
+            },
+          }
+        : factura
+    ),
+  })),
+  on(retirarDetallesFacturaActiva, (state) => ({
+    ...state,
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? {
+            ...factura,
+            detalles: [], // Reinicia el array de detalles
+          }
+        : factura
+    ),
+  })),
+  );

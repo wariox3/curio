@@ -1,0 +1,59 @@
+<form
+  [formGroup]="formularioVenta"
+  (ngSubmit)="guardar()"
+  class="w-full h-full"
+>
+  <div class="flex items-center space-x-4 mb-4">
+    <img
+      src="https://placehold.co/80x80"
+      width="65"
+      height="65"
+      class="object-cover"
+    />
+    <div>
+      <h2 class="text-lg font-bold">
+        {{ item?.item_nombre || "Nombre del producto" }}
+      </h2>
+    </div>
+  </div>
+  <section>
+    <div class="col-span-2">
+      <label class="form-label font-normal text-gray-900"> Precio </label>
+      <input type="number" formControlName="precio" class="input" />
+    </div>
+    <div class="col-span-2">
+      <label class="form-label font-normal text-gray-900"> Cantidad </label>
+      <input type="number" formControlName="cantidad" class="input" />
+    </div>
+    <div class="col-span-2 flex justify-end space-x-2">
+      <div class="flex flex-col w-full">
+        <div class="flex justify-between">
+          <p>Cantidad:</p>
+          <p>{{ formularioVenta.get("cantidad").value | number : "1.0-0" }}</p>
+        </div>
+        <div class="flex justify-between">
+          <p>Subtotal:</p>
+          <p>
+            $ {{ formularioVenta.get("subtotal").value | number : "1.0-0" }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="col-span-2 flex justify-end space-x-2">
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="cancelar()"
+    >
+      Cancelar
+    </button>
+    <button
+      type="submit"
+      class="btn btn-success"
+      (click)="guardar()"
+    >
+      Guardar
+    </button>
+  </div>
+</form>

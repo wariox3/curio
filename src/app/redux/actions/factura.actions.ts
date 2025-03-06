@@ -1,12 +1,12 @@
-import { Factura } from '@interfaces/facturas.interface';
-import { Item } from '@interfaces/item.interface';
+import { Contacto } from '@interfaces/contacto';
+import { DocumentoFactura, DocumentoFacturaDetalleRespuesta } from '@interfaces/facturas.interface';
 import { createAction, props } from '@ngrx/store';
 
 export const facturaAction = createAction('[Factura] lista');
 
 export const facturaNuevaAction = createAction(
   '[Factura] nueva',
-  props<{ factura: Factura }>()
+  props<{ factura: DocumentoFactura }>()
 );
 
 export const facturaActualizarNombreAction = createAction(
@@ -26,7 +26,7 @@ export const seleccionarFacturaActiva = createAction(
 
 export const agregarItemFacturaActiva = createAction(
   '[Factura] agregar items a la factura activa',
-  props<{ item: Item }>()
+  props<{ item: DocumentoFacturaDetalleRespuesta }>()
 );
 
 export const retirarItemDeFacturaActiva = createAction(
@@ -40,7 +40,22 @@ export const actualizarCantidadItemFacturaActiva = createAction(
 );
 
 
+export const actualizarPrecioItemFacturaActiva = createAction(
+  '[Factura] Actualizar Precio del Item de una factura activa',
+  props<{ itemId: number; precio: number }>()
+);
+
 export const actualizarSubtotalItemFacturaActiva = createAction(
   '[Factura] Actualizar Subtotal del Item de una factura activa',
   props<{ itemId: number; }>()
 );
+
+export const actualizarClienteFacturaActiva = createAction(
+  '[Factura] Actualizar Cliente de Factura Activa',
+  props<{ contacto: Contacto }>()
+);
+
+export const retirarDetallesFacturaActiva = createAction(
+  '[Factura] Retirar Detalles de Factura Activa',
+);
+

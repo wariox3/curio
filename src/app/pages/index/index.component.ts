@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NetworkService } from './NetworkService';
+import { NetworkService } from '../../shared/services/networkService';
 
 @Component({
   selector: 'app-index',

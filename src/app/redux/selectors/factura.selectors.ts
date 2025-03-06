@@ -1,39 +1,66 @@
-import { Factura, FacturaReduxState } from '@interfaces/facturas.interface';
+import { FacturaReduxState } from '@interfaces/facturas.interface';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-const Factura = createFeatureSelector<FacturaReduxState>('factura');
+const Facturacion = createFeatureSelector<FacturaReduxState>('facturacion');
 
 export const obtenerFacturas = createSelector(
-  Factura,
-  (Factura) => Factura.facturas
+  Facturacion,
+  (Facturacion) => Facturacion.facturas
 );
 
 export const obtenerFacturaActiva = createSelector(
-  Factura,
-  (Factura) => Factura.facturaActiva
+  Facturacion,
+  (Facturacion) => Facturacion.facturaActiva
 );
 
-export const obtenerNombreFacturaActiva = createSelector(Factura, (state) => {
-  let nombre = '';
-  const facturaActiva = state.facturas.find(
-    (_, index) => index === state.facturaActiva
-  );
-  nombre = facturaActiva.nombre;
-  if (state.facturaActiva > 0 && nombre === 'Factura') {
-    nombre += ` ${state.facturaActiva}`;
+export const obtenerNombreFacturaActiva = createSelector(
+  Facturacion,
+  (state) => {
+    let nombre = '';
+    const facturaActiva = state.facturas.find(
+      (_, index) => index === state.facturaActiva
+    );
+    nombre = facturaActiva.nombre;
+    if (state.facturaActiva > 0 && nombre === 'Facturacion') {
+      nombre += ` ${state.facturaActiva}`;
+    }
+    return nombre;
   }
-  return nombre;
-});
+);
 
-export const obtenerItemsFacturaActiva = createSelector(Factura, (state) => {
-  const facturaActiva = state.facturas.find(
-    (_, index) => index === state.facturaActiva
-  );
-  return facturaActiva.data.itemsAgregados;
-});
+export const obtenerItemsFacturaActiva = createSelector(
+  Facturacion,
+  (state) => {
+    const facturaActiva = state.facturas.find(
+      (_, index) => index === state.facturaActiva
+    );
+    return facturaActiva.detalles;
+  }
+);
 
-export const obtenerItemCantidadFacturaActiva = (itemId: number) => createSelector(Factura, (state) => {
+export const obtenerItemCantidadFacturaActiva = (itemId: number) =>
+  createSelector(Facturacion, (state) => {
+    const facturaActiva = state.facturas[state.facturaActiva];
+    if (!facturaActiva || !facturaActiva.detalles) {
+      return 0; // Si no hay factura activa o no tiene detalles, devuelve 0
+    }
+
+    const detalle = facturaActiva.detalles.find(
+      (detalle) => detalle.item === itemId
+    );
+    return detalle ? detalle.cantidad : 0; // Si no encuentra el item, devuelve 0
+  });
+
+export const obtenerClienteFacturaActiva = createSelector(
+  Facturacion,
+  (state) => {
+    const facturaActiva = state.facturas[state.facturaActiva];
+    return facturaActiva ? facturaActiva.contacto_id : 1;
+  }
+);
+
+// Selector para obtener la factura activa
+export const obtenerDataFacturaActiva = createSelector(Facturacion, (state) => {
   const facturaActiva = state.facturas[state.facturaActiva];
-  const items = facturaActiva.data.itemsAgregados.find((item) => item.id === itemId);
-  return items ? items.cantidad : 0;
+  return facturaActiva ? facturaActiva : null;
 });

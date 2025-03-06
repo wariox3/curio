@@ -28,10 +28,7 @@ export class ItemApiService {
       } as ParametrosFiltrosConsultasHttp)
       .pipe(
         tap((respuesta) => {
-          const items = respuesta.registros.map((item) =>
-            this._facturaReduxService.nuevoItem(item)
-          );
-          this.arrItemsSignal.set(items);
+          this.arrItemsSignal.set(respuesta.registros);
         })
       );
   }
