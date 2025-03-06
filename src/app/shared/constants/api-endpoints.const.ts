@@ -10,5 +10,12 @@ export const API_ENDPOINTS = {
   GENERAL: {
     FUNCIONALIDAD_LISTAS: `${URL_API_SUBDOMINIO}/general/funcionalidad/lista/`,
     DOCUMENTO: `${URL_API_SUBDOMINIO}/general/documento/`,
+  },
+  CONTENEDORES: {
+    LISTA: `${URL_API_SUBDOMINIO}/contenedor/usuariocontenedor/consulta-usuario/`,
+    DETALLE: `${URL_API_SUBDOMINIO}/contenedor/contenedor/`,
   }
+
+
+
 };

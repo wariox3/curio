@@ -21,7 +21,7 @@ import { httpErrorInterceptor } from '@interceptores/manejo-errores/http-error.i
 
 export function localStorageSyncReducer(reducer: any): any {
   return localStorageSync({
-    keys: ['facturacion'], // Las partes del estado que quieres persistir
+    keys: ['facturacion', 'contenedor'], // Las partes del estado que quieres persistir
     rehydrate: true, // Restaura el estado desde el localStorage al iniciar
   })(reducer);
 }

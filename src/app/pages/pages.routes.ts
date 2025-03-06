@@ -11,4 +11,14 @@ export default [
       },
     ],
   },
+  {
+    path: 'contenedor',
+    loadComponent: () => import('./contenedores-layout/contenedores-layout.component'),
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./contenedores/contenedor.routes'),
+      },
+    ],
+  },
 ] as Routes;

@@ -1,4 +1,4 @@
-import { NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import {
   FormBuilder,
@@ -11,15 +11,15 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { catchError, of, tap } from 'rxjs';
-import { AuthService } from '../../services/auth.service';
 import { FormErrorComponent } from "../../../../shared/components/form/form-error/form-error.component";
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, NgIf, NgTemplateOutlet, FormErrorComponent],
+  imports: [FormsModule, ReactiveFormsModule, NgIf, FormErrorComponent],
 })
 export default class LoginComponent implements OnInit {
   loginForm: FormGroup;
@@ -103,7 +103,7 @@ export default class LoginComponent implements OnInit {
               })
             );
           }),
-          tap(() => this._router.navigate(['/dashboard/facturacion'])),
+          tap(() => this._router.navigate(['/contenedor'])),
           catchError(() => {
             this.visualizarLoader.set(false);
             return of(null);

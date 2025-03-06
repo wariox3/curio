@@ -1,42 +1,42 @@
-<button class="btn btn-outline btn-success w-full" data-modal-toggle="#modal_2" (click)="mostrarTemplate(null)">
+<button
+  class="btn btn-outline btn-success w-full "
+  data-modal-toggle="#modal_2"
+  (click)="mostrarTemplate(null)"
+  [disabled]="totalProductosSignal() === 0"
+  [ngClass]="{'cursor-not-allowed': totalProductosSignal() === 0}"
+>
   Pagar
 </button>
 <div class="modal" data-modal="true" id="modal_2">
   <div class="modal-content modal-center-y max-w-[600px]">
     <div class="modal-header">
       <h3 class="modal-title">
-        @if(templateActual === 'pagoExitoso'){
-          Factura pagada
-        } @else {
-          Pagar
-        }
+        @if(templateActual === 'pagoExitoso'){ Factura pagada } @else { Pagar }
       </h3>
       <button class="btn btn-xs btn-icon btn-light" data-modal-dismiss="true">
         <i class="ki-outline ki-cross"> </i>
       </button>
     </div>
     <div class="modal-body p-0">
-      @switch (templateActual) {
-        @case('efectivo') {
-          @defer(){
-            <app-factura-medio-pago-efectivo (emitirMedio)="mostrarTemplate($event)" (emitirPagoExito)="pagoExito()"></app-factura-medio-pago-efectivo>
-          }
-        }
-        @case('pagoExitoso'){
-          <app-factura-medios-exitoso></app-factura-medios-exitoso>
-        }
-        @default {
-          <app-factura-seleccionar-medio-pago (emitirMedio)="mostrarTemplate($event)"></app-factura-seleccionar-medio-pago>
-        }
-      }
+      @switch (templateActual) { @case('efectivo') { @defer(){
+      <app-factura-medio-pago-efectivo
+        (emitirMedio)="mostrarTemplate($event)"
+        (emitirPagoExito)="pagoExito()"
+      ></app-factura-medio-pago-efectivo>
+      } } @case('pagoExitoso'){
+      <app-factura-medios-exitoso></app-factura-medios-exitoso>
+      } @default {
+      <app-factura-seleccionar-medio-pago
+        (emitirMedio)="mostrarTemplate($event)"
+      ></app-factura-seleccionar-medio-pago>
+      } }
     </div>
     @if(templateActual === null){
-      <div class="modal-footer justify-end mt-2">
-        <div class="flex gap-4">
-          <button class="btn btn-light" data-modal-dismiss="true">Cancel</button>
-        </div>
+    <div class="modal-footer justify-end mt-2">
+      <div class="flex gap-4">
+        <button class="btn btn-light" data-modal-dismiss="true">Cancel</button>
       </div>
+    </div>
     }
-
   </div>
 </div>
