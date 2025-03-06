@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { KTModal } from '@metronic/components/modal/modal';
 import { FacturaReduxService } from '../../../services/factura-redux.service';
 
 @Component({
@@ -18,7 +17,6 @@ export class FacturaMediosExitosoComponent {
       this._facturaReduxService.reiniciarDetalles();
     } else {
       this._facturaReduxService.retirarFactura(this.tabActivo());
-
     }
   }
 

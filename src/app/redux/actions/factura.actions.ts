@@ -67,3 +67,14 @@ export const actualizarTotalFacturaActiva = createAction(
   '[Factura] Calcular el total de Factura Activa',
 );
 
+export const actualizarMetodoPagoFacturaActiva = createAction(
+  '[Factura] Actualizar Método de Pago de Factura Activa',
+  props<{ metodo_pago_id: number }>()
+);
+
+export const actualizarPlazoPagoFacturaActiva = createAction(
+  '[Factura] Actualizar Plazo de Pago de Factura Activa',
+  props<{ plazo_pago_id: number }>()
+);
+
+

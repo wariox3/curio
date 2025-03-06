@@ -17,5 +17,14 @@ export class FacturaSeleccionarMedioPagoComponent {
 
   selecionarMedio(medio: string) {
     this.emitirMedio.emit(medio);
+    let selecionarMedioCodigo = 0;
+    let selecionarPlazo = 0;
+    switch (medio) {
+      default:
+        selecionarMedioCodigo = 10;
+        selecionarPlazo = 1;
+    }
+    this._facturaReduxService.actualizarMetodoPago(selecionarMedioCodigo);
+    this._facturaReduxService.actualizarPlazoPago(selecionarPlazo);
   }
 }

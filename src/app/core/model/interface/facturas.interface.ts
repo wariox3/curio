@@ -25,6 +25,7 @@ export interface DocumentoFactura {
   salario: number;
   estado_aprobado: boolean;
   documento_tipo_id: number;
+  metodo_pago: number;
   metodo_pago_id: number;
   metodo_pago_nombre: string;
   forma_pago_id: number;
@@ -36,6 +37,7 @@ export interface DocumentoFactura {
   estado_electronico_notificado: boolean;
   soporte: any;
   orden_compra: any;
+  plazo_pago: number;
   plazo_pago_id: number;
   plazo_pago_nombre: string;
   documento_referencia_id: any;

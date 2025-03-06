@@ -14,7 +14,9 @@ import {
   actualizarClienteFacturaActiva,
   retirarDetallesFacturaActiva,
   actualizarSubtotalFacturaActiva,
-  actualizarTotalFacturaActiva
+  actualizarTotalFacturaActiva,
+  actualizarMetodoPagoFacturaActiva,
+  actualizarPlazoPagoFacturaActiva
 } from '@redux/actions/factura.actions';
 import { facturaInit } from '@constantes/factura.const';
 
@@ -163,5 +165,21 @@ export const facturaReducer = createReducer(
           }
         : factura
     ),
-  }))
+  })),
+  on(actualizarMetodoPagoFacturaActiva, (state, { metodo_pago_id }) => ({
+    ...state,
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? { ...factura, metodo_pago: metodo_pago_id }
+        : factura
+    ),
+  })),
+  on(actualizarPlazoPagoFacturaActiva, (state, { plazo_pago_id }) => ({
+    ...state,
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? { ...factura, plazo_pago: plazo_pago_id }
+        : factura
+    ),
+  })),
 );

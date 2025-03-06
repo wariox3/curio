@@ -10,6 +10,8 @@ import { Store } from '@ngrx/store';
 import {
   actualizarCantidadItemFacturaActiva,
   actualizarClienteFacturaActiva,
+  actualizarMetodoPagoFacturaActiva,
+  actualizarPlazoPagoFacturaActiva,
   actualizarPrecioItemFacturaActiva,
   actualizarSubtotalFacturaActiva,
   actualizarSubtotalItemFacturaActiva,
@@ -29,7 +31,7 @@ import {
   obtenerItemCantidadFacturaActiva,
   obtenerItemsFacturaActiva,
   obtenerNombreFacturaActiva,
-  obtenerClienteFacturaActiva
+  obtenerClienteFacturaActiva,
 } from '@redux/selectors/factura.selectors';
 import {
   documentoFacturaDetalleInit,
@@ -45,7 +47,7 @@ export class FacturaReduxService {
   public facturaTabActivo = signal<number>(0);
   public arrFacturasSignal = signal<DocumentoFactura[]>([]);
   public facturaActivaNombre = signal('');
-  public facturaActivaContacto = signal<number|null>(1);
+  public facturaActivaContacto = signal<number | null>(1);
   public arrItemsSignal = signal<DocumentoFacturaDetalleRespuesta[]>([]);
   public totalProductosSignal = computed(() => this.arrItemsSignal().length);
   public totalSubtotalSignal = computed(() =>
@@ -66,7 +68,7 @@ export class FacturaReduxService {
     this.obtertenerTabActivoFactura();
     this.obtertenerNombreFactura();
     this.obtenerItemsFactura();
-    this.obtertenerClienteFactura()
+    this.obtertenerClienteFactura();
   }
 
   obtenerReduxFacturas() {
@@ -88,11 +90,9 @@ export class FacturaReduxService {
   }
 
   obtertenerClienteFactura() {
-    this._store
-      .select(obtenerClienteFacturaActiva)
-      .subscribe((nombre) => {
-        this.facturaActivaContacto.set(nombre)
-      });
+    this._store.select(obtenerClienteFacturaActiva).subscribe((nombre) => {
+      this.facturaActivaContacto.set(nombre);
+    });
   }
 
   obtenerItemsFactura() {
@@ -179,31 +179,40 @@ export class FacturaReduxService {
     this._store.dispatch(actualizarClienteFacturaActiva({ contacto }));
   }
 
-  calcularValoresFacturaActivaEncabezado(){
-    this._calcularSubtotalFactura()
-    this._calcularTotalFactura()
+  actualizarMetodoPago(metodoPagoId: number) {
+    this._store.dispatch(
+      actualizarMetodoPagoFacturaActiva({ metodo_pago_id: metodoPagoId })
+    );
   }
 
-  calcularValoresFacturaActivaDetalle(itemId: number){
-    this.calcularSubtotalItem(itemId)
+  actualizarPlazoPago(plazoPagoId: number){
+    this._store.dispatch(
+      actualizarPlazoPagoFacturaActiva({ plazo_pago_id: plazoPagoId })
+    );
   }
 
-
-  private _calcularSubtotalFactura(){
-    this._store.dispatch(actualizarSubtotalFacturaActiva())
+  calcularValoresFacturaActivaEncabezado() {
+    this._calcularSubtotalFactura();
+    this._calcularTotalFactura();
   }
 
-  private _calcularTotalFactura(){
-    this._store.dispatch(actualizarTotalFacturaActiva())
-  }
-
-  private calcularSubtotalItem(itemId: number) {
-    this._store.dispatch(actualizarSubtotalItemFacturaActiva({ itemId }));
+  calcularValoresFacturaActivaDetalle(itemId: number) {
+    this.calcularSubtotalItem(itemId);
   }
 
   reiniciarDetalles() {
     this._store.dispatch(retirarDetallesFacturaActiva());
   }
 
+  private _calcularSubtotalFactura() {
+    this._store.dispatch(actualizarSubtotalFacturaActiva());
+  }
 
+  private _calcularTotalFactura() {
+    this._store.dispatch(actualizarTotalFacturaActiva());
+  }
+
+  private calcularSubtotalItem(itemId: number) {
+    this._store.dispatch(actualizarSubtotalItemFacturaActiva({ itemId }));
+  }
 }
