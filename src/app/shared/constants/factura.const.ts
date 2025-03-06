@@ -1,15 +1,27 @@
-import { DocumentoFactura, DocumentoFacturaDetalleRespuesta } from "@interfaces/facturas.interface"
+import {
+  DocumentoFactura,
+  DocumentoFacturaDetalleRespuesta,
+} from '@interfaces/facturas.interface';
+
+const fechaActual = new Date();
+const fullAnio = fechaActual.getFullYear();
+const mes = fechaActual.getMonth() + 1;
+
+const fecha = `${fullAnio}-${mes.toString().padStart(2, '0')}-${fechaActual
+  .getDate()
+  .toString()
+  .padStart(2, '0')}`;
 
 export const facturaInit: DocumentoFactura = {
   id: 0,
   numero: undefined,
-  fecha: "",
-  fecha_vence: "",
+  fecha: fecha,
+  fecha_vence: fecha,
   fecha_hasta: undefined,
   impuesto_operado: 0,
   contacto_id: 1,
-  contacto_numero_identificacion: "22222222222222222222222222222222222222",
-  contacto_nombre_corto: "Consumidor final",
+  contacto_numero_identificacion: '22222222222222222222222222222222222222',
+  contacto_nombre_corto: 'Consumidor final',
   descuento: 0,
   base_impuesto: 0,
   subtotal: 0,
@@ -25,9 +37,9 @@ export const facturaInit: DocumentoFactura = {
   estado_aprobado: false,
   documento_tipo_id: 0,
   metodo_pago_id: 0,
-  metodo_pago_nombre: "",
+  metodo_pago_nombre: '',
   forma_pago_id: 0,
-  forma_pago_nombre: "",
+  forma_pago_nombre: '',
   estado_anulado: false,
   comentario: undefined,
   estado_electronico: false,
@@ -36,9 +48,9 @@ export const facturaInit: DocumentoFactura = {
   soporte: undefined,
   orden_compra: undefined,
   plazo_pago_id: 0,
-  plazo_pago_nombre: "",
+  plazo_pago_nombre: '',
   documento_referencia_id: undefined,
-  documento_referencia_numero: "",
+  documento_referencia_numero: '',
   cue: undefined,
   electronico_id: undefined,
   asesor: undefined,
@@ -54,19 +66,18 @@ export const facturaInit: DocumentoFactura = {
   referencia_prefijo: null,
   grupo_contabilidad_id: 0,
   almacen_id: 0,
-  almacen_nombre: "",
-  nombre: "Factura principal"
-}
-
+  almacen_nombre: '',
+  nombre: 'Factura principal',
+};
 
 export const documentoFacturaDetalleInit: DocumentoFacturaDetalleRespuesta = {
   id: 0,
   documento_id: 0,
   item: 0,
-  item_nombre: "",
+  item_nombre: '',
   cuenta: undefined,
-  cuenta_codigo: "",
-  cuenta_nombre: "",
+  cuenta_codigo: '',
+  cuenta_nombre: '',
   cantidad: 0,
   precio: 0,
   pago: 0,
@@ -90,20 +101,20 @@ export const documentoFacturaDetalleInit: DocumentoFacturaDetalleRespuesta = {
   base_cotizacion: 0,
   base_prestacion: 0,
   documento_afectado_id: undefined,
-  documento_afectado_numero: "",
-  documento_afectado_contacto_nombre_corto: "",
+  documento_afectado_numero: '',
+  documento_afectado_contacto_nombre_corto: '',
   contacto_id: undefined,
-  contacto_nombre_corto: "",
+  contacto_nombre_corto: '',
   naturaleza: undefined,
   detalle: undefined,
   numero: undefined,
   concepto_id: undefined,
-  concepto_nombre: "",
-  tipo_registro: "I",
+  concepto_nombre: '',
+  tipo_registro: 'I',
   credito_id: undefined,
   grupo_id: 0,
-  grupo_nombre: "",
+  grupo_nombre: '',
   almacen_id: 0,
-  almacen_nombre: "",
-  impuestos: []
-}
+  almacen_nombre: '',
+  impuestos: [],
+};
