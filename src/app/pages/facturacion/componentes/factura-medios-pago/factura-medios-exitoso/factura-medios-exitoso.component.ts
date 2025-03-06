@@ -14,7 +14,12 @@ export class FacturaMediosExitosoComponent {
   public tabActivo = this._facturaReduxService.facturaTabActivo;
 
   gestionNuevaFactura(){
-    this._facturaReduxService.retirarFactura(this.tabActivo());
+    if(this.tabActivo() === 0){
+      this._facturaReduxService.reiniciarDetalles();
+    } else {
+      this._facturaReduxService.retirarFactura(this.tabActivo());
+
+    }
   }
 
 }
