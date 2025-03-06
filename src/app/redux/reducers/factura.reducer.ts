@@ -13,6 +13,8 @@ import {
   actualizarPrecioItemFacturaActiva,
   actualizarClienteFacturaActiva,
   retirarDetallesFacturaActiva,
+  actualizarSubtotalFacturaActiva,
+  actualizarTotalFacturaActiva
 } from '@redux/actions/factura.actions';
 import { facturaInit } from '@constantes/factura.const';
 
@@ -108,6 +110,34 @@ export const facturaReducer = createReducer(
         : factura
     ),
   })),
+  on(actualizarSubtotalFacturaActiva, (state) => ({
+    ...state,
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? {
+            ...factura,
+            subtotal: factura.detalles.reduce(
+              (total, detalle) => total + (detalle.subtotal || 0),
+              0
+            ),
+          }
+        : factura
+    ),
+  })),
+  on(actualizarTotalFacturaActiva, (state) => ({
+    ...state,
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? {
+            ...factura,
+            total: factura.detalles.reduce(
+              (total, detalle) => total + (detalle.total || 0),
+              0
+            ),
+          }
+        : factura
+    ),
+  })),
   on(actualizarClienteFacturaActiva, (state, { contacto }) => ({
     ...state,
     facturas: state.facturas.map((factura, index) =>
@@ -133,5 +163,5 @@ export const facturaReducer = createReducer(
           }
         : factura
     ),
-  })),
-  );
+  }))
+);

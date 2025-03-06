@@ -59,3 +59,11 @@ export const retirarDetallesFacturaActiva = createAction(
   '[Factura] Retirar Detalles de Factura Activa',
 );
 
+export const actualizarSubtotalFacturaActiva = createAction(
+  '[Factura] Calcular el subtotal de Factura Activa',
+);
+
+export const actualizarTotalFacturaActiva = createAction(
+  '[Factura] Calcular el total de Factura Activa',
+);
+

@@ -11,7 +11,9 @@ import {
   actualizarCantidadItemFacturaActiva,
   actualizarClienteFacturaActiva,
   actualizarPrecioItemFacturaActiva,
+  actualizarSubtotalFacturaActiva,
   actualizarSubtotalItemFacturaActiva,
+  actualizarTotalFacturaActiva,
   agregarItemFacturaActiva,
   facturaActualizarNombreAction,
   facturaEliminarAction,
@@ -177,11 +179,31 @@ export class FacturaReduxService {
     this._store.dispatch(actualizarClienteFacturaActiva({ contacto }));
   }
 
-  calcularSubtotal(itemId: number) {
+  calcularValoresFacturaActivaEncabezado(){
+    this._calcularSubtotalFactura()
+    this._calcularTotalFactura()
+  }
+
+  calcularValoresFacturaActivaDetalle(itemId: number){
+    this.calcularSubtotalItem(itemId)
+  }
+
+
+  private _calcularSubtotalFactura(){
+    this._store.dispatch(actualizarSubtotalFacturaActiva())
+  }
+
+  private _calcularTotalFactura(){
+    this._store.dispatch(actualizarTotalFacturaActiva())
+  }
+
+  private calcularSubtotalItem(itemId: number) {
     this._store.dispatch(actualizarSubtotalItemFacturaActiva({ itemId }));
   }
 
   reiniciarDetalles() {
     this._store.dispatch(retirarDetallesFacturaActiva());
   }
+
+
 }

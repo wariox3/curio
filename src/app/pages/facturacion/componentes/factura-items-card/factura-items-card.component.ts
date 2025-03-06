@@ -27,7 +27,9 @@ export class FacturaItemsCardComponent implements OnInit {
       this._agregarNuevaCantidad(item);
       this._itemCantidad(item.id);
     }
-    this._facturaReduxService.calcularSubtotal(item.id);
+    this._facturaReduxService.calcularValoresFacturaActivaDetalle(item.id);
+    this._facturaReduxService.calcularValoresFacturaActivaEncabezado();
+
   }
 
   private _agregarNuevaCantidad(item: Item) {
