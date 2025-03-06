@@ -12,8 +12,8 @@ export const API_ENDPOINTS = {
     DOCUMENTO: `${URL_API_SUBDOMINIO}/general/documento/`,
   },
   CONTENEDORES: {
-    LISTA: `${URL_API_SUBDOMINIO}/contenedor/usuariocontenedor/consulta-usuario/`,
-    DETALLE: `${URL_API_SUBDOMINIO}/contenedor/contenedor/`,
+    LISTA: `${API_BASE_URL}/contenedor/usuariocontenedor/consulta-usuario/`,
+    DETALLE: `${API_BASE_URL}/contenedor/contenedor/`,
   }
 
 

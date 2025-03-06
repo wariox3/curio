@@ -63,12 +63,10 @@ export class AuthService implements OnDestroy {
   }
 
   logout() {
+    this._store.dispatch(usuarioActionClear());
     this._clearLocalStorage()
     this._removerCookies()
     this._tokenService.eliminarToken();
-    this._store.dispatch(usuarioActionClear());
-    // this.tokenService.eliminarRefreshToken();
-    // this.store.dispatch(asignarDocumentacion({ id: 0, nombre: '' }));
   }
 
   private _clearLocalStorage () {
