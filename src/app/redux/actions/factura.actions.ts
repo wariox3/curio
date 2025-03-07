@@ -92,4 +92,9 @@ export const actualizarPlazoPagoFacturaActiva = createAction(
   props<{ plazo_pago_id: number }>()
 );
 
+export const actualizarTotalesImpuestosItemFacturaActiva = createAction(
+  '[Factura] Actualizar Totales de Impuestos de Item de Factura Activa',
+  props<{ itemId: number }>()
+);
+
 
