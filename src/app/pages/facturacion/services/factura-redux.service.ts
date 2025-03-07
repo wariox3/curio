@@ -204,9 +204,9 @@ export class FacturaReduxService {
   }
 
   calcularValoresFacturaActivaDetalle(itemId: number) {
-    this.calcularSubtotalItem(itemId);
+    this._calcularSubtotalItem(itemId);
     this._calcularImpuestoItem(itemId)
-    this.calculartotalItem(itemId);
+    this._calculartotalItem(itemId);
   }
 
   reiniciarDetalles() {
@@ -225,7 +225,7 @@ export class FacturaReduxService {
     this._store.dispatch(actualizarImpuestoOperadoFacturaActiva());
   }
 
-  private calcularSubtotalItem(itemId: number) {
+  private _calcularSubtotalItem(itemId: number) {
     this._store.dispatch(actualizarSubtotalItemFacturaActiva({ itemId }));
   }
 
@@ -233,7 +233,7 @@ export class FacturaReduxService {
     this._store.dispatch(actualizarImpuestosItemFacturaActiva({ itemId }));
   }
 
-  private calculartotalItem(itemId: number) {
+  private _calculartotalItem(itemId: number) {
     this._store.dispatch(actualizarTotalItemFacturaActiva({ itemId }));
   }
 
