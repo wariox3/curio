@@ -32,7 +32,7 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
 
   private _formBuilder = inject(FormBuilder);
 
-  public totalSubtotalSignal = this._facturaReduxService.totalSubtotalSignal;
+  public totalGeneralSignal = this._facturaReduxService.totalGeneralSignal;
   public emitirMedio = output<string>();
   public emitirPagoExito = output<boolean>();
   private destroy$ = new Subject<void>();
@@ -41,7 +41,7 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
   public formularioMedioPagoEfectivo!: FormGroup;
   public valorRestante = computed(
     () =>
-      this.totalSubtotalSignal() -
+      this.totalGeneralSignal() -
       (this.formularioMedioPagoEfectivo?.get('valor')?.value || 0)
   );
 
@@ -53,7 +53,7 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
     this.formularioMedioPagoEfectivo = this._formBuilder.group({
       asesor: [null, Validators.required],
       valor: [
-        this.totalSubtotalSignal(),
+        this.totalGeneralSignal(),
         [Validators.required, Validators.min(0)],
       ],
     });
@@ -64,11 +64,11 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
         if (isNaN(value) || value < 0) {
           this.formularioMedioPagoEfectivo
             .get('valor')
-            ?.setValue(this.totalSubtotalSignal(), { emitEvent: false });
+            ?.setValue(this.totalGeneralSignal(), { emitEvent: false });
         }
         this.valorRestante = computed(
           () =>
-            this.totalSubtotalSignal() -
+            this.totalGeneralSignal() -
             (this.formularioMedioPagoEfectivo?.get('valor')?.value || 0)
         );
       });

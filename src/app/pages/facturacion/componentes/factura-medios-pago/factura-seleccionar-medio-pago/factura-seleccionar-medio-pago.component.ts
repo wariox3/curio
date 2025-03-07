@@ -12,7 +12,7 @@ import { DecimalPipe } from '@angular/common';
 export class FacturaSeleccionarMedioPagoComponent {
   private _facturaReduxService = inject(FacturaReduxService);
 
-  public totalSubtotalSignal = this._facturaReduxService.totalSubtotalSignal;
+  public totalGeneralSignal = this._facturaReduxService.totalGeneralSignal;
   public emitirMedio = output<string>();
 
   selecionarMedio(medio: string) {
