@@ -1,4 +1,4 @@
-import { Component, computed, inject, OnInit, output } from '@angular/core';
+import { Component, computed, inject, OnDestroy, OnInit, output } from '@angular/core';
 import { FacturaReduxService } from '../../../services/factura-redux.service';
 import { DecimalPipe } from '@angular/common';
 import {
@@ -11,7 +11,7 @@ import {
 import { FormErrorComponent } from '../../../../../shared/components/form/form-error/form-error.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FacturaApiService } from '../../../services/factura-api.service';
-import { switchMap, tap } from 'rxjs';
+import { Subject, switchMap, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'app-factura-medio-pago-efectivo',
@@ -26,7 +26,7 @@ import { switchMap, tap } from 'rxjs';
   templateUrl: './factura-medio-pago-efectivo.component.html',
   styleUrl: './factura-medio-pago-efectivo.component.scss',
 })
-export class FacturaMedioPagoEfectivoComponent implements OnInit {
+export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
   private _facturaReduxService = inject(FacturaReduxService);
   private _facturaApiService = inject(FacturaApiService);
 
@@ -35,6 +35,8 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit {
   public totalSubtotalSignal = this._facturaReduxService.totalSubtotalSignal;
   public emitirMedio = output<string>();
   public emitirPagoExito = output<boolean>();
+  private destroy$ = new Subject<void>();
+
 
   public formularioMedioPagoEfectivo!: FormGroup;
   public valorRestante = computed(
@@ -76,6 +78,7 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit {
     this._facturaReduxService
       .obtenerDataFactura()
       .pipe(
+        takeUntil(this.destroy$),
         switchMap((data) =>
           this._facturaApiService.nuevo({
             ...data,
@@ -92,5 +95,10 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit {
 
   regresarAmedioPagos() {
     this.emitirMedio.emit(null);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
