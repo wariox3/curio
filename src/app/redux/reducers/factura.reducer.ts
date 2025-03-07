@@ -16,7 +16,8 @@ import {
   actualizarSubtotalFacturaActiva,
   actualizarTotalFacturaActiva,
   actualizarMetodoPagoFacturaActiva,
-  actualizarPlazoPagoFacturaActiva
+  actualizarPlazoPagoFacturaActiva,
+  actualizarTotalItemFacturaActiva
 } from '@redux/actions/factura.actions';
 import { facturaInit } from '@constantes/factura.const';
 
@@ -106,6 +107,21 @@ export const facturaReducer = createReducer(
             detalles: factura.detalles.map((detalle) =>
               detalle.item === itemId
                 ? { ...detalle, subtotal: detalle.precio * detalle.cantidad }
+                : detalle
+            ),
+          }
+        : factura
+    ),
+  })),
+  on(actualizarTotalItemFacturaActiva, (state, { itemId }) => ({
+    ...state,
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? {
+            ...factura,
+            detalles: factura.detalles.map((detalle) =>
+              detalle.item === itemId
+                ? { ...detalle, total: detalle.precio * 1 }
                 : detalle
             ),
           }

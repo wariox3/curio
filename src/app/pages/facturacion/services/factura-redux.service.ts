@@ -16,6 +16,7 @@ import {
   actualizarSubtotalFacturaActiva,
   actualizarSubtotalItemFacturaActiva,
   actualizarTotalFacturaActiva,
+  actualizarTotalItemFacturaActiva,
   agregarItemFacturaActiva,
   facturaActualizarNombreAction,
   facturaEliminarAction,
@@ -199,6 +200,7 @@ export class FacturaReduxService {
   }
 
   calcularValoresFacturaActivaDetalle(itemId: number) {
+    this.calculartotalItem(itemId);
     this.calcularSubtotalItem(itemId);
   }
 
@@ -216,6 +218,10 @@ export class FacturaReduxService {
 
   private calcularSubtotalItem(itemId: number) {
     this._store.dispatch(actualizarSubtotalItemFacturaActiva({ itemId }));
+  }
+
+  private calculartotalItem(itemId: number) {
+    this._store.dispatch(actualizarTotalItemFacturaActiva({ itemId }));
   }
 
   private _itemAdapter(item: Item): DocumentoFacturaDetalleRespuesta {
