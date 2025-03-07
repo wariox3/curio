@@ -50,6 +50,11 @@ export const actualizarSubtotalItemFacturaActiva = createAction(
   props<{ itemId: number; }>()
 );
 
+export const actualizarImpuestosItemFacturaActiva = createAction(
+  '[Factura] Actualizar valor impuesto del Item de una factura activa',
+  props<{ itemId: number; }>()
+)
+
 export const actualizarTotalItemFacturaActiva = createAction(
   '[Factura] Actualizar Total del Item de una factura activa',
   props<{ itemId: number; }>()
@@ -59,6 +64,10 @@ export const actualizarTotalItemFacturaActiva = createAction(
 export const actualizarClienteFacturaActiva = createAction(
   '[Factura] Actualizar Cliente de Factura Activa',
   props<{ contacto: Contacto }>()
+);
+
+export const actualizarImpuestoOperadoFacturaActiva = createAction(
+  '[Factura] actualizar impuesto operado factura activa',
 );
 
 export const retirarDetallesFacturaActiva = createAction(

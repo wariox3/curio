@@ -132,6 +132,7 @@ export interface DocumentoImpuestoFacturaRespuesta {
   porcentaje: number;
   base: number;
   operacion: number;
+  impuesto_operacion: number;
   porcentaje_base: number;
   venta: boolean;
   compra: boolean;

@@ -11,6 +11,8 @@ import { Store } from '@ngrx/store';
 import {
   actualizarCantidadItemFacturaActiva,
   actualizarClienteFacturaActiva,
+  actualizarImpuestoOperadoFacturaActiva,
+  actualizarImpuestosItemFacturaActiva,
   actualizarMetodoPagoFacturaActiva,
   actualizarPlazoPagoFacturaActiva,
   actualizarPrecioItemFacturaActiva,
@@ -198,11 +200,13 @@ export class FacturaReduxService {
   calcularValoresFacturaActivaEncabezado() {
     this._calcularSubtotalFactura();
     this._calcularTotalFactura();
+    this._calcularImpuestooperadoFactura()
   }
 
   calcularValoresFacturaActivaDetalle(itemId: number) {
-    this.calculartotalItem(itemId);
     this.calcularSubtotalItem(itemId);
+    this._calcularImpuestoItem(itemId)
+    this.calculartotalItem(itemId);
   }
 
   reiniciarDetalles() {
@@ -217,8 +221,16 @@ export class FacturaReduxService {
     this._store.dispatch(actualizarTotalFacturaActiva());
   }
 
+  private _calcularImpuestooperadoFactura() {
+    this._store.dispatch(actualizarImpuestoOperadoFacturaActiva());
+  }
+
   private calcularSubtotalItem(itemId: number) {
     this._store.dispatch(actualizarSubtotalItemFacturaActiva({ itemId }));
+  }
+
+  private _calcularImpuestoItem(itemId: number){
+    this._store.dispatch(actualizarImpuestosItemFacturaActiva({ itemId }));
   }
 
   private calculartotalItem(itemId: number) {
@@ -226,7 +238,18 @@ export class FacturaReduxService {
   }
 
   private _itemAdapter(item: Item): DocumentoFacturaDetalleRespuesta {
-    const impustos = this._adaptarImpuesto(item.impuestos[0]);
+    let impuesto: any = {};
+    let porcentaje = 0;
+    let porcentajeBase = 0;
+    let impuestoCalculado = 0;
+
+    if (item.impuestos[0]) {
+      impuesto = this._adaptarImpuesto(item.impuestos[0]);
+
+      porcentaje = impuesto.porcentaje || 0;
+      porcentajeBase = impuesto.porcentaje_base || 100;
+      impuestoCalculado = item.precio * (porcentaje / porcentajeBase);
+    }
 
     return {
       ...documentoFacturaDetalleInit,
@@ -234,7 +257,9 @@ export class FacturaReduxService {
       item: item.id,
       item_nombre: item.nombre,
       precio: item.precio,
-      impuestos: [impustos],
+      impuesto: impuestoCalculado,
+      impuestos: [impuesto],
+      base_impuesto: item.precio * 1,
     };
   }
 
@@ -249,9 +274,10 @@ export class FacturaReduxService {
       nombre: impuesto.impuesto_nombre,
       nombre_extendido: impuesto.impuesto_nombre_extendido,
       porcentaje_base: impuesto.impuesto_porcentaje_base,
-      operacion: impuesto.impuesto_operacion,
+      impuesto_operacion: impuesto.impuesto_operacion,
       venta: false,
       compra: false,
+      operacion: 0,
     };
   }
 }

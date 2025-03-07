@@ -17,7 +17,9 @@ import {
   actualizarTotalFacturaActiva,
   actualizarMetodoPagoFacturaActiva,
   actualizarPlazoPagoFacturaActiva,
-  actualizarTotalItemFacturaActiva
+  actualizarTotalItemFacturaActiva,
+  actualizarImpuestosItemFacturaActiva,
+  actualizarImpuestoOperadoFacturaActiva,
 } from '@redux/actions/factura.actions';
 import { facturaInit } from '@constantes/factura.const';
 
@@ -113,6 +115,30 @@ export const facturaReducer = createReducer(
         : factura
     ),
   })),
+  on(actualizarImpuestosItemFacturaActiva, (state, { itemId }) => ({
+    ...state,
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? {
+            ...factura,
+            detalles: factura.detalles.map((detalle) =>
+              detalle.item === itemId
+                ? {
+                    ...detalle,
+                    impuesto:
+                      detalle.subtotal *
+                      (detalle.impuestos[0].porcentaje / 100),
+                    impuesto_operado:
+                      detalle.subtotal *
+                      (detalle.impuestos[0].porcentaje / 100) *
+                      detalle.impuestos[0].impuesto_operacion,
+                  }
+                : detalle
+            ),
+          }
+        : factura
+    ),
+  })),
   on(actualizarTotalItemFacturaActiva, (state, { itemId }) => ({
     ...state,
     facturas: state.facturas.map((factura, index) =>
@@ -121,7 +147,11 @@ export const facturaReducer = createReducer(
             ...factura,
             detalles: factura.detalles.map((detalle) =>
               detalle.item === itemId
-                ? { ...detalle, total: detalle.precio * 1 }
+                ? {
+                    ...detalle,
+                    total: detalle.subtotal + detalle.impuesto,
+                    neto: detalle.subtotal + detalle.impuesto,
+                  }
                 : detalle
             ),
           }
@@ -150,6 +180,20 @@ export const facturaReducer = createReducer(
             ...factura,
             total: factura.detalles.reduce(
               (total, detalle) => total + (detalle.total || 0),
+              0
+            ),
+          }
+        : factura
+    ),
+  })),
+  on(actualizarImpuestoOperadoFacturaActiva, (state) => ({
+    ...state,
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? {
+            ...factura,
+            impuesto_operado: factura.detalles.reduce(
+              (impuesto_operado, detalle) => impuesto_operado + (detalle.impuesto_operado || 0),
               0
             ),
           }
@@ -197,5 +241,5 @@ export const facturaReducer = createReducer(
         ? { ...factura, plazo_pago: plazo_pago_id }
         : factura
     ),
-  })),
+  }))
 );
