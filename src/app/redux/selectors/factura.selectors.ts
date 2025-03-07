@@ -80,13 +80,13 @@ export const obtenerImpuestosFacturaActiva = createSelector(
       const subtotal = detalle.subtotal || 0;
 
       detalle.impuestos.forEach((impuesto) => {
-        if (!impuesto?.impuesto_nombre_extendido) {
+        if (!impuesto?.nombre_extendido) {
           return; // Ignorar impuestos sin nombre
         }
 
-        const clave = impuesto.impuesto_nombre_extendido;
-        const porcentaje = impuesto.impuesto_porcentaje || 0;
-        const porcentajeBase = impuesto.impuesto_porcentaje_base || 100;
+        const clave = impuesto.nombre_extendido;
+        const porcentaje = impuesto.porcentaje || 0;
+        const porcentajeBase = impuesto.porcentaje_base || 100;
 
         if (!acc[clave]) {
           acc[clave] = {

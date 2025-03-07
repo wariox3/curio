@@ -4,6 +4,7 @@ import { Contacto } from '@interfaces/contacto';
 import {
   DocumentoFactura,
   DocumentoFacturaDetalleRespuesta,
+  DocumentoImpuestoFacturaRespuesta,
 } from '@interfaces/facturas.interface';
 import { Item } from '@interfaces/item.interface';
 import { Store } from '@ngrx/store';
@@ -225,13 +226,32 @@ export class FacturaReduxService {
   }
 
   private _itemAdapter(item: Item): DocumentoFacturaDetalleRespuesta {
+    const impustos = this._adaptarImpuesto(item.impuestos[0]);
+
     return {
       ...documentoFacturaDetalleInit,
       cantidad: 1,
       item: item.id,
       item_nombre: item.nombre,
       precio: item.precio,
-      impuestos: [item.impuestos[0]],
+      impuestos: [impustos],
+    };
+  }
+
+  private _adaptarImpuesto(impuesto: any): DocumentoImpuestoFacturaRespuesta {
+    return {
+      id: null,
+      impuesto: impuesto.impuesto_id,
+      porcentaje: impuesto.impuesto_porcentaje,
+      total: 0,
+      total_operado: 0,
+      base: 0,
+      nombre: impuesto.impuesto_nombre,
+      nombre_extendido: impuesto.impuesto_nombre_extendido,
+      porcentaje_base: impuesto.impuesto_porcentaje_base,
+      operacion: impuesto.impuesto_operacion,
+      venta: false,
+      compra: false,
     };
   }
 }
