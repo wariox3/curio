@@ -22,6 +22,7 @@ import {
   actualizarImpuestoOperadoFacturaActiva,
   actualizarTotalesImpuestosItemFacturaActiva,
   actualizarBaseImpuestoItemFacturaActiva,
+  actualizarBaseImpuestoFacturaActiva,
 } from '@redux/actions/factura.actions';
 import { facturaInit } from '@constantes/factura.const';
 
@@ -195,7 +196,8 @@ export const facturaReducer = createReducer(
         ? {
             ...factura,
             impuesto_operado: factura.detalles.reduce(
-              (impuesto_operado, detalle) => impuesto_operado + (detalle.impuesto_operado || 0),
+              (impuesto_operado, detalle) =>
+                impuesto_operado + (detalle.impuesto_operado || 0),
               0
             ),
           }
@@ -256,7 +258,8 @@ export const facturaReducer = createReducer(
                     ...detalle,
                     impuestos: detalle.impuestos.map((impuesto) => ({
                       ...impuesto,
-                      total: (detalle.subtotal || 0) * (impuesto.porcentaje / 100),
+                      total:
+                        (detalle.subtotal || 0) * (impuesto.porcentaje / 100),
                       total_operado:
                         (detalle.subtotal || 0) *
                         (impuesto.porcentaje / 100) *
@@ -281,7 +284,8 @@ export const facturaReducer = createReducer(
                     ...detalle,
                     impuestos: detalle.impuestos.map((impuesto) => ({
                       ...impuesto,
-                      base_impuesto: detalle.subtotal * impuesto.porcentaje_base,
+                      base_impuesto:
+                        detalle.subtotal * impuesto.porcentaje_base,
                     })),
                   }
                 : detalle
@@ -290,5 +294,18 @@ export const facturaReducer = createReducer(
         : factura
     ),
   })),
-
+  on(actualizarBaseImpuestoFacturaActiva, (state) => ({
+    ...state,
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? {
+            ...factura,
+            base_impuesto: factura.detalles.reduce(
+              (total, detalle) => total + detalle.base_impuesto,
+              0
+            ),
+          }
+        : factura
+    ),
+  }))
 );
