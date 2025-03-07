@@ -21,6 +21,7 @@ import {
   actualizarImpuestosItemFacturaActiva,
   actualizarImpuestoOperadoFacturaActiva,
   actualizarTotalesImpuestosItemFacturaActiva,
+  actualizarBaseImpuestoItemFacturaActiva,
 } from '@redux/actions/factura.actions';
 import { facturaInit } from '@constantes/factura.const';
 
@@ -268,4 +269,26 @@ export const facturaReducer = createReducer(
         : factura
     ),
   })),
+  on(actualizarBaseImpuestoItemFacturaActiva, (state, { itemId }) => ({
+    ...state,
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? {
+            ...factura,
+            detalles: factura.detalles.map((detalle) =>
+              detalle.item === itemId
+                ? {
+                    ...detalle,
+                    impuestos: detalle.impuestos.map((impuesto) => ({
+                      ...impuesto,
+                      base_impuesto: detalle.subtotal * impuesto.porcentaje_base,
+                    })),
+                  }
+                : detalle
+            ),
+          }
+        : factura
+    ),
+  })),
+
 );

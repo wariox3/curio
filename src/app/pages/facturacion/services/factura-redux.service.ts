@@ -9,6 +9,7 @@ import {
 import { Item } from '@interfaces/item.interface';
 import { Store } from '@ngrx/store';
 import {
+  actualizarBaseImpuestoItemFacturaActiva,
   actualizarCantidadItemFacturaActiva,
   actualizarClienteFacturaActiva,
   actualizarImpuestoOperadoFacturaActiva,
@@ -213,6 +214,7 @@ export class FacturaReduxService {
     this._calcularImpuestoItem(itemId)
     this._calculartotalItem(itemId);
     this._totalesImpuestosItem(itemId);
+    this._baseImpuestosItem(itemId);
   }
 
   reiniciarDetalles() {
@@ -245,7 +247,10 @@ export class FacturaReduxService {
 
   private _totalesImpuestosItem(itemId: number) {
     this._store.dispatch(actualizarTotalesImpuestosItemFacturaActiva({ itemId }));
+  }
 
+  private _baseImpuestosItem(itemId: number) {
+    this._store.dispatch(actualizarBaseImpuestoItemFacturaActiva({ itemId }));
   }
 
   private _itemAdapter(item: Item): DocumentoFacturaDetalleRespuesta {
