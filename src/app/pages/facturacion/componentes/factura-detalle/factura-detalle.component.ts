@@ -40,6 +40,7 @@ export class FacturaDetalleComponent {
   public items = this._facturaReduxService.arrItemsSignal;
   public arrImpuestos = this._facturaReduxService.arrImpuestos
   public totalProductosSignal = this._facturaReduxService.totalProductosSignal;
+  public totalGeneralSignal = this._facturaReduxService.totalGeneralSignal;
   public totalCantidadesSignal =
     this._facturaReduxService.totalCantidadesSignal;
   public totalSubtotalSignal = this._facturaReduxService.totalSubtotalSignal;

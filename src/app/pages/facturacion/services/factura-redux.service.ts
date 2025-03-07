@@ -71,6 +71,10 @@ export class FacturaReduxService {
       0
     )
   );
+  public totalGeneralSignal = computed(() => this.arrItemsSignal().reduce(
+    (total, item) => (total += item.total),
+    0
+  ))
 
   constructor() {
     this.obtenerReduxFacturas();

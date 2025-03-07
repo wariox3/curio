@@ -59,6 +59,15 @@ export const obtenerClienteFacturaActiva = createSelector(
   }
 );
 
+export const obtenerTotalFacturaActiva = createSelector(
+  Facturacion,
+  (state) => {
+    const facturaActiva = state.facturas[state.facturaActiva];
+    return facturaActiva ? facturaActiva.total : 0;
+  }
+);
+
+
 export const obtenerDataFacturaActiva = createSelector(Facturacion, (state) => {
   const facturaActiva = state.facturas[state.facturaActiva];
   return facturaActiva ? facturaActiva : null;
