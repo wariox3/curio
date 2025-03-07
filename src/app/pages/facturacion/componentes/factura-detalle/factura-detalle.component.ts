@@ -1,4 +1,4 @@
-import { DecimalPipe } from '@angular/common';
+import { CurrencyPipe, DecimalPipe, JsonPipe, KeyValuePipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -25,7 +25,10 @@ import { FacturaOpcionesDropdownComponent } from '../factura-opciones-dropdown/f
     FormsModule,
     FacturaEditarItemComponent,
     FacturaModalPagarComponent,
-    SeleccionarClienteComponent
+    SeleccionarClienteComponent,
+    JsonPipe,
+    KeyValuePipe,
+    CurrencyPipe
 ],
   templateUrl: './factura-detalle.component.html',
   styleUrl: './factura-detalle.component.scss',
@@ -35,6 +38,7 @@ export class FacturaDetalleComponent {
   public mostrarIcono: number | null = null;
   public nombre = this._facturaReduxService.facturaActivaNombre;
   public items = this._facturaReduxService.arrItemsSignal;
+  public arrImpuestos = this._facturaReduxService.arrImpuestos
   public totalProductosSignal = this._facturaReduxService.totalProductosSignal;
   public totalCantidadesSignal =
     this._facturaReduxService.totalCantidadesSignal;

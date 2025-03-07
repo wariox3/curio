@@ -1,4 +1,4 @@
-import { FacturaReduxState } from '@interfaces/facturas.interface';
+import { DocumentoImpuestoFacturaRespuesta, FacturaReduxState } from '@interfaces/facturas.interface';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 const Facturacion = createFeatureSelector<FacturaReduxState>('facturacion');
@@ -59,8 +59,50 @@ export const obtenerClienteFacturaActiva = createSelector(
   }
 );
 
-// Selector para obtener la factura activa
 export const obtenerDataFacturaActiva = createSelector(Facturacion, (state) => {
   const facturaActiva = state.facturas[state.facturaActiva];
   return facturaActiva ? facturaActiva : null;
 });
+
+export const obtenerImpuestosFacturaActiva = createSelector(
+  Facturacion,
+  (state) => {
+    const facturaActiva = state.facturas[state.facturaActiva];
+    if (!facturaActiva || !facturaActiva.detalles) {
+      return {};
+    }
+
+    return facturaActiva.detalles.reduce((acc, detalle) => {
+      if (!detalle.impuestos?.length) {
+        return acc; // Ignorar si no hay impuestos
+      }
+
+      const subtotal = detalle.subtotal || 0;
+
+      detalle.impuestos.forEach((impuesto) => {
+        if (!impuesto?.impuesto_nombre_extendido) {
+          return; // Ignorar impuestos sin nombre
+        }
+
+        const clave = impuesto.impuesto_nombre_extendido;
+        const porcentaje = impuesto.impuesto_porcentaje || 0;
+        const porcentajeBase = impuesto.impuesto_porcentaje_base || 100;
+
+        if (!acc[clave]) {
+          acc[clave] = {
+            impuesto: clave,
+            total: 0,
+          };
+        }
+
+        const impuestoCalculado = subtotal * (porcentaje / porcentajeBase);
+        acc[clave].total += impuestoCalculado;
+      });
+
+      return acc;
+    }, {} as Record<string, { impuesto: string; total: number }>);
+  }
+);
+
+
+

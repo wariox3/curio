@@ -32,6 +32,7 @@ import {
   obtenerItemsFacturaActiva,
   obtenerNombreFacturaActiva,
   obtenerClienteFacturaActiva,
+  obtenerImpuestosFacturaActiva,
 } from '@redux/selectors/factura.selectors';
 import {
   documentoFacturaDetalleInit,
@@ -49,6 +50,9 @@ export class FacturaReduxService {
   public facturaActivaNombre = signal('');
   public facturaActivaContacto = signal<number | null>(1);
   public arrItemsSignal = signal<DocumentoFacturaDetalleRespuesta[]>([]);
+  public arrImpuestos = signal<
+    Record<string, { impuesto: string | number; total: number }>
+  >({});
   public totalProductosSignal = computed(() => this.arrItemsSignal().length);
   public totalSubtotalSignal = computed(() =>
     this.arrItemsSignal().reduce(
@@ -68,7 +72,9 @@ export class FacturaReduxService {
     this.obtertenerTabActivoFactura();
     this.obtertenerNombreFactura();
     this.obtenerItemsFactura();
+    this.obtenerImpuestoFactura();
     this.obtertenerClienteFactura();
+    this.obtenerImpuestoFactura();
   }
 
   obtenerReduxFacturas() {
@@ -103,6 +109,12 @@ export class FacturaReduxService {
 
   obtenerDataFactura() {
     return this._store.select(obtenerDataFacturaActiva);
+  }
+
+  obtenerImpuestoFactura() {
+    this._store
+      .select(obtenerImpuestosFacturaActiva)
+      .subscribe((impuestos) => this.arrImpuestos.set(impuestos));
   }
 
   obtenerItemCantidad(itemId: number) {
@@ -146,8 +158,6 @@ export class FacturaReduxService {
     this.obtertenerTabActivoFactura();
   }
 
-
-
   agregarItem(item: Item) {
     const nuevoItem = this._itemAdapter(item);
     this._store.dispatch(agregarItemFacturaActiva({ item: nuevoItem }));
@@ -177,7 +187,7 @@ export class FacturaReduxService {
     );
   }
 
-  actualizarPlazoPago(plazoPagoId: number){
+  actualizarPlazoPago(plazoPagoId: number) {
     this._store.dispatch(
       actualizarPlazoPagoFacturaActiva({ plazo_pago_id: plazoPagoId })
     );
@@ -215,7 +225,7 @@ export class FacturaReduxService {
       item: item.id,
       item_nombre: item.nombre,
       precio: item.precio,
-      impuestos: [item.impuestos[0]]
+      impuestos: [item.impuestos[0]],
     };
   }
 }
