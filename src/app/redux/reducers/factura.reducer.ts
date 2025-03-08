@@ -307,5 +307,19 @@ export const facturaReducer = createReducer(
           }
         : factura
     ),
+  })),
+  on(actualizarBaseImpuestoFacturaActiva, (state) => ({
+    ...state,
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? {
+            ...factura,
+            impuesto: factura.detalles.reduce(
+              (impuesto, detalle) => impuesto + detalle.impuesto,
+              0
+            ),
+          }
+        : factura
+    ),
   }))
 );

@@ -70,6 +70,10 @@ export const actualizarImpuestoOperadoFacturaActiva = createAction(
   '[Factura] actualizar impuesto operado factura activa',
 );
 
+export const actualizarImpuestoFacturaActiva = createAction(
+  '[Factura] actualizar impuesto factura activa',
+);
+
 export const retirarDetallesFacturaActiva = createAction(
   '[Factura] Retirar Detalles de Factura Activa',
 );
