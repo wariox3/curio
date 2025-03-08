@@ -114,3 +114,7 @@ export const actualizarTotalBrutoItemFacturaActiva = createAction(
 export const actualizarBaseImpuestoFacturaActiva = createAction(
   '[Factura] Actualizar Base del Impuesto Acumulada de Factura Activa'
 );
+
+export const actualizarTotalBrutoFacturaActiva = createAction(
+  '[Factura] Actualizar Total Bruto Acumulado de Factura Activa'
+);

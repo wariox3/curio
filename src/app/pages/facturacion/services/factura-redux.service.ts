@@ -21,6 +21,7 @@ import {
   actualizarPrecioItemFacturaActiva,
   actualizarSubtotalFacturaActiva,
   actualizarSubtotalItemFacturaActiva,
+  actualizarTotalBrutoFacturaActiva,
   actualizarTotalBrutoItemFacturaActiva,
   actualizarTotalesImpuestosItemFacturaActiva,
   actualizarTotalFacturaActiva,
@@ -212,6 +213,7 @@ export class FacturaReduxService {
     this._calcularImpuestoOperadoFactura()
     this._calcularBaseImpuestoFactura()
     this._calcularImpuestoFactura()
+    this._calcularTotalBrutoFactura()
   }
 
   calcularValoresFacturaActivaDetalle(itemId: number) {
@@ -242,6 +244,11 @@ export class FacturaReduxService {
   private _calcularImpuestoFactura() {
     this._store.dispatch(actualizarImpuestoFacturaActiva());
   }
+
+  private _calcularTotalBrutoFactura() {
+    this._store.dispatch(actualizarTotalBrutoFacturaActiva());
+  }
+
 
   private _calcularImpuestoOperadoFactura() {
     this._store.dispatch(actualizarImpuestoOperadoFacturaActiva());
