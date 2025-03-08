@@ -106,6 +106,11 @@ export const actualizarBaseImpuestoItemFacturaActiva = createAction(
   props<{ itemId: number }>()
 );
 
+export const actualizarTotalBrutoItemFacturaActiva = createAction(
+  '[Factura] Actualizar Total Bruto de Item de Factura Activa',
+  props<{ itemId: number }>()
+);
+
 export const actualizarBaseImpuestoFacturaActiva = createAction(
   '[Factura] Actualizar Base del Impuesto Acumulada de Factura Activa'
 );

@@ -23,6 +23,7 @@ import {
   actualizarTotalesImpuestosItemFacturaActiva,
   actualizarBaseImpuestoItemFacturaActiva,
   actualizarBaseImpuestoFacturaActiva,
+  actualizarTotalBrutoItemFacturaActiva,
 } from '@redux/actions/factura.actions';
 import { facturaInit } from '@constantes/factura.const';
 
@@ -321,5 +322,25 @@ export const facturaReducer = createReducer(
           }
         : factura
     ),
-  }))
+  })),
+  on(actualizarTotalBrutoItemFacturaActiva, (state, { itemId }) => ({
+    ...state,
+    facturas: state.facturas.map((factura, index) =>
+      index === state.facturaActiva
+        ? {
+            ...factura,
+            detalles: factura.detalles.map((detalle) =>
+              detalle.item === itemId
+                ? {
+                    ...detalle,
+                    total_bruto:
+                      (detalle.subtotal || 0) +
+                      (detalle.impuestos?.reduce((sum, impuesto) => sum + (impuesto.total || 0), 0) || 0),
+                  }
+                : detalle
+            ),
+          }
+        : factura
+    ),
+  })),
 );
