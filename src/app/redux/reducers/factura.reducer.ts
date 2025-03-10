@@ -126,24 +126,27 @@ export const facturaReducer = createReducer(
       index === state.facturaActiva
         ? {
             ...factura,
-            detalles: factura.detalles.map((detalle) =>
-              detalle.item === itemId
+            detalles: factura.detalles.map((detalle) => {
+              const primerImpuesto = detalle.impuestos?.[0]; // Validar si existe el impuesto en la posición 0
+
+              return detalle.item === itemId
                 ? {
                     ...detalle,
                     impuesto:
-                      detalle.subtotal *
-                      (detalle.impuestos[0].porcentaje / 100),
+                      (detalle.subtotal || 0) *
+                      ((primerImpuesto?.porcentaje || 0) / 100),
                     impuesto_operado:
-                      detalle.subtotal *
-                      (detalle.impuestos[0].porcentaje / 100) *
-                      detalle.impuestos[0].impuesto_operacion,
+                      (detalle.subtotal || 0) *
+                      ((primerImpuesto?.porcentaje || 0) / 100) *
+                      (primerImpuesto?.impuesto_operacion || 0),
                   }
-                : detalle
-            ),
+                : detalle;
+            }),
           }
         : factura
     ),
   })),
+
   on(actualizarTotalItemFacturaActiva, (state, { itemId }) => ({
     ...state,
     facturas: state.facturas.map((factura, index) =>
