@@ -56,6 +56,7 @@ export interface DocumentoFactura {
   referencia_numero: number;
   referencia_prefijo: string | null;
   grupo_contabilidad_id: number;
+  almacen: number
   almacen_id: number;
   almacen_nombre: string;
 }
@@ -105,6 +106,7 @@ export interface DocumentoFacturaDetalleRespuesta {
   credito_id: any;
   grupo_id: number;
   grupo_nombre: string;
+  almacen: number;
   almacen_id: number;
   almacen_nombre: string;
   impuestos: DocumentoImpuestoFacturaRespuesta[];

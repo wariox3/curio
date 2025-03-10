@@ -292,7 +292,7 @@ export class FacturaReduxService {
       venta: false,
       compra: false,
       total: 0,
-      total_operado: 0
+      total_operado: 0,
     };
     let arrImpuesto: DocumentoImpuestoFacturaRespuesta[] = []
     let porcentaje = 0;
@@ -317,6 +317,7 @@ export class FacturaReduxService {
       impuesto: impuestoCalculado,
       impuestos: arrImpuesto,
       base_impuesto: item.precio * 1,
+      almacen: 1
     };
   }
 

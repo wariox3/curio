@@ -67,6 +67,7 @@ export const facturaInit: DocumentoFactura = {
   referencia_numero: 0,
   referencia_prefijo: null,
   grupo_contabilidad_id: 0,
+  almacen: 1,
   almacen_id: 0,
   almacen_nombre: '',
   nombre: 'Factura principal',
@@ -119,4 +120,5 @@ export const documentoFacturaDetalleInit: DocumentoFacturaDetalleRespuesta = {
   almacen_id: 0,
   almacen_nombre: '',
   impuestos: [],
+  almacen: 1
 };

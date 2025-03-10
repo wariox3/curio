@@ -290,8 +290,7 @@ export const facturaReducer = createReducer(
                     ...detalle,
                     impuestos: detalle.impuestos.map((impuesto) => ({
                       ...impuesto,
-                      base_impuesto:
-                        detalle.subtotal * impuesto.porcentaje_base,
+                      base_impuesto: detalle.precio * detalle.cantidad
                     })),
                   }
                 : detalle
