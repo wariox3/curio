@@ -279,7 +279,22 @@ export class FacturaReduxService {
   }
 
   private _itemAdapter(item: Item): DocumentoFacturaDetalleRespuesta {
-    let impuesto: any = {};
+    let impuesto: DocumentoImpuestoFacturaRespuesta = {
+      id: 0,
+      impuesto: null,
+      nombre: '',
+      nombre_extendido: '',
+      porcentaje: 0,
+      base: 0,
+      operacion: 0,
+      impuesto_operacion: 0,
+      porcentaje_base: 0,
+      venta: false,
+      compra: false,
+      total: 0,
+      total_operado: 0
+    };
+    let arrImpuesto: DocumentoImpuestoFacturaRespuesta[] = []
     let porcentaje = 0;
     let porcentajeBase = 0;
     let impuestoCalculado = 0;
@@ -290,6 +305,7 @@ export class FacturaReduxService {
       porcentaje = impuesto.porcentaje || 0;
       porcentajeBase = impuesto.porcentaje_base || 100;
       impuestoCalculado = item.precio * (porcentaje / porcentajeBase);
+      arrImpuesto.push(impuesto)
     }
 
     return {
@@ -299,7 +315,7 @@ export class FacturaReduxService {
       item_nombre: item.nombre,
       precio: item.precio,
       impuesto: impuestoCalculado,
-      impuestos: [impuesto],
+      impuestos: arrImpuesto,
       base_impuesto: item.precio * 1,
     };
   }
