@@ -15,7 +15,7 @@
           </span>
         </div>
       </section>
-      <section >
+      <section>
         @if (items().length === 0) {
         <div class="text-center p-4">
           <i class="ki-filled ki-purchase text-gray-500 text-3xl"></i>
@@ -86,7 +86,17 @@
         </div>
         <div class="flex justify-between">
           <p>Subtotal:</p>
-          <p>{{ totalSubtotalSignal() | number : "1.0-0" }}</p>
+          <p>$ {{ totalSubtotalSignal() | number : "1.0-0" }}</p>
+        </div>
+        @for (impuesto of (arrImpuestos() | keyvalue); track $index) {
+        <div class="flex justify-between">
+          <p>{{ impuesto.value.impuesto }}:</p>
+          <p>$ {{ impuesto.value.total | number : "1.0-0"  }}</p>
+        </div>
+        }
+        <div class="flex justify-between">
+          <p>Total general:</p>
+          <p>$ {{ totalGeneralSignal() | number : "1.0-0" }}</p>
         </div>
         <hr />
         <app-factura-modal-pagar></app-factura-modal-pagar>

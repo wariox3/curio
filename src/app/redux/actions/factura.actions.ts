@@ -50,12 +50,71 @@ export const actualizarSubtotalItemFacturaActiva = createAction(
   props<{ itemId: number; }>()
 );
 
+export const actualizarImpuestosItemFacturaActiva = createAction(
+  '[Factura] Actualizar valor impuesto del Item de una factura activa',
+  props<{ itemId: number; }>()
+)
+
+export const actualizarTotalItemFacturaActiva = createAction(
+  '[Factura] Actualizar Total del Item de una factura activa',
+  props<{ itemId: number; }>()
+);
+
+
 export const actualizarClienteFacturaActiva = createAction(
   '[Factura] Actualizar Cliente de Factura Activa',
   props<{ contacto: Contacto }>()
+);
+
+export const actualizarImpuestoOperadoFacturaActiva = createAction(
+  '[Factura] actualizar impuesto operado factura activa',
+);
+
+export const actualizarImpuestoFacturaActiva = createAction(
+  '[Factura] actualizar impuesto factura activa',
 );
 
 export const retirarDetallesFacturaActiva = createAction(
   '[Factura] Retirar Detalles de Factura Activa',
 );
 
+export const actualizarSubtotalFacturaActiva = createAction(
+  '[Factura] Calcular el subtotal de Factura Activa',
+);
+
+export const actualizarTotalFacturaActiva = createAction(
+  '[Factura] Calcular el total de Factura Activa',
+);
+
+export const actualizarMetodoPagoFacturaActiva = createAction(
+  '[Factura] Actualizar Método de Pago de Factura Activa',
+  props<{ metodo_pago_id: number }>()
+);
+
+export const actualizarPlazoPagoFacturaActiva = createAction(
+  '[Factura] Actualizar Plazo de Pago de Factura Activa',
+  props<{ plazo_pago_id: number }>()
+);
+
+export const actualizarTotalesImpuestosItemFacturaActiva = createAction(
+  '[Factura] Actualizar Totales de Impuestos de Item de Factura Activa',
+  props<{ itemId: number }>()
+);
+
+export const actualizarBaseImpuestoItemFacturaActiva = createAction(
+  '[Factura] Actualizar Base del Impuesto de Item de Factura Activa',
+  props<{ itemId: number }>()
+);
+
+export const actualizarTotalBrutoItemFacturaActiva = createAction(
+  '[Factura] Actualizar Total Bruto de Item de Factura Activa',
+  props<{ itemId: number }>()
+);
+
+export const actualizarBaseImpuestoFacturaActiva = createAction(
+  '[Factura] Actualizar Base del Impuesto Acumulada de Factura Activa'
+);
+
+export const actualizarTotalBrutoFacturaActiva = createAction(
+  '[Factura] Actualizar Total Bruto Acumulado de Factura Activa'
+);

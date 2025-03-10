@@ -4,14 +4,28 @@ import { Contacto } from '@interfaces/contacto';
 import {
   DocumentoFactura,
   DocumentoFacturaDetalleRespuesta,
+  DocumentoImpuestoFacturaRespuesta,
 } from '@interfaces/facturas.interface';
 import { Item } from '@interfaces/item.interface';
 import { Store } from '@ngrx/store';
 import {
+  actualizarBaseImpuestoFacturaActiva,
+  actualizarBaseImpuestoItemFacturaActiva,
   actualizarCantidadItemFacturaActiva,
   actualizarClienteFacturaActiva,
+  actualizarImpuestoFacturaActiva,
+  actualizarImpuestoOperadoFacturaActiva,
+  actualizarImpuestosItemFacturaActiva,
+  actualizarMetodoPagoFacturaActiva,
+  actualizarPlazoPagoFacturaActiva,
   actualizarPrecioItemFacturaActiva,
+  actualizarSubtotalFacturaActiva,
   actualizarSubtotalItemFacturaActiva,
+  actualizarTotalBrutoFacturaActiva,
+  actualizarTotalBrutoItemFacturaActiva,
+  actualizarTotalesImpuestosItemFacturaActiva,
+  actualizarTotalFacturaActiva,
+  actualizarTotalItemFacturaActiva,
   agregarItemFacturaActiva,
   facturaActualizarNombreAction,
   facturaEliminarAction,
@@ -27,7 +41,8 @@ import {
   obtenerItemCantidadFacturaActiva,
   obtenerItemsFacturaActiva,
   obtenerNombreFacturaActiva,
-  obtenerClienteFacturaActiva
+  obtenerClienteFacturaActiva,
+  obtenerImpuestosFacturaActiva,
 } from '@redux/selectors/factura.selectors';
 import {
   documentoFacturaDetalleInit,
@@ -43,8 +58,11 @@ export class FacturaReduxService {
   public facturaTabActivo = signal<number>(0);
   public arrFacturasSignal = signal<DocumentoFactura[]>([]);
   public facturaActivaNombre = signal('');
-  public facturaActivaContacto = signal<number|null>(1);
+  public facturaActivaContacto = signal<number | null>(1);
   public arrItemsSignal = signal<DocumentoFacturaDetalleRespuesta[]>([]);
+  public arrImpuestos = signal<
+    Record<string, { impuesto: string | number; total: number }>
+  >({});
   public totalProductosSignal = computed(() => this.arrItemsSignal().length);
   public totalSubtotalSignal = computed(() =>
     this.arrItemsSignal().reduce(
@@ -58,13 +76,19 @@ export class FacturaReduxService {
       0
     )
   );
+  public totalGeneralSignal = computed(() => this.arrItemsSignal().reduce(
+    (total, item) => (total += item.total),
+    0
+  ))
 
   constructor() {
     this.obtenerReduxFacturas();
     this.obtertenerTabActivoFactura();
     this.obtertenerNombreFactura();
     this.obtenerItemsFactura();
-    this.obtertenerClienteFactura()
+    this.obtenerImpuestoFactura();
+    this.obtertenerClienteFactura();
+    this.obtenerImpuestoFactura();
   }
 
   obtenerReduxFacturas() {
@@ -86,11 +110,9 @@ export class FacturaReduxService {
   }
 
   obtertenerClienteFactura() {
-    this._store
-      .select(obtenerClienteFacturaActiva)
-      .subscribe((nombre) => {
-        this.facturaActivaContacto.set(nombre)
-      });
+    this._store.select(obtenerClienteFacturaActiva).subscribe((nombre) => {
+      this.facturaActivaContacto.set(nombre);
+    });
   }
 
   obtenerItemsFactura() {
@@ -101,6 +123,12 @@ export class FacturaReduxService {
 
   obtenerDataFactura() {
     return this._store.select(obtenerDataFacturaActiva);
+  }
+
+  obtenerImpuestoFactura() {
+    this._store
+      .select(obtenerImpuestosFacturaActiva)
+      .subscribe((impuestos) => this.arrImpuestos.set(impuestos));
   }
 
   obtenerItemCantidad(itemId: number) {
@@ -144,18 +172,8 @@ export class FacturaReduxService {
     this.obtertenerTabActivoFactura();
   }
 
-  nuevoItem(item: Item): DocumentoFacturaDetalleRespuesta {
-    return {
-      ...documentoFacturaDetalleInit,
-      cantidad: 1,
-      item: item.id,
-      item_nombre: item.nombre,
-      precio: item.precio,
-    };
-  }
-
   agregarItem(item: Item) {
-    const nuevoItem = this.nuevoItem(item);
+    const nuevoItem = this._itemAdapter(item);
     this._store.dispatch(agregarItemFacturaActiva({ item: nuevoItem }));
   }
 
@@ -177,11 +195,130 @@ export class FacturaReduxService {
     this._store.dispatch(actualizarClienteFacturaActiva({ contacto }));
   }
 
-  calcularSubtotal(itemId: number) {
-    this._store.dispatch(actualizarSubtotalItemFacturaActiva({ itemId }));
+  actualizarMetodoPago(metodoPagoId: number) {
+    this._store.dispatch(
+      actualizarMetodoPagoFacturaActiva({ metodo_pago_id: metodoPagoId })
+    );
+  }
+
+  actualizarPlazoPago(plazoPagoId: number) {
+    this._store.dispatch(
+      actualizarPlazoPagoFacturaActiva({ plazo_pago_id: plazoPagoId })
+    );
+  }
+
+  calcularValoresFacturaActivaEncabezado() {
+    this._calcularSubtotalFactura();
+    this._calcularTotalFactura();
+    this._calcularImpuestoOperadoFactura()
+    this._calcularBaseImpuestoFactura()
+    this._calcularImpuestoFactura()
+    this._calcularTotalBrutoFactura()
+  }
+
+  calcularValoresFacturaActivaDetalle(itemId: number) {
+    this._calcularSubtotalItem(itemId);
+    this._calcularImpuestoItem(itemId)
+    this._calculartotalItem(itemId);
+    this._totalesImpuestosItem(itemId);
+    this._calcularTotalBrutoItem(itemId)
+    this._baseImpuestosItem(itemId);
   }
 
   reiniciarDetalles() {
     this._store.dispatch(retirarDetallesFacturaActiva());
+  }
+
+  private _calcularSubtotalFactura() {
+    this._store.dispatch(actualizarSubtotalFacturaActiva());
+  }
+
+  private _calcularTotalFactura() {
+    this._store.dispatch(actualizarTotalFacturaActiva());
+  }
+
+  private _calcularBaseImpuestoFactura() {
+    this._store.dispatch(actualizarBaseImpuestoFacturaActiva());
+  }
+
+  private _calcularImpuestoFactura() {
+    this._store.dispatch(actualizarImpuestoFacturaActiva());
+  }
+
+  private _calcularTotalBrutoFactura() {
+    this._store.dispatch(actualizarTotalBrutoFacturaActiva());
+  }
+
+
+  private _calcularImpuestoOperadoFactura() {
+    this._store.dispatch(actualizarImpuestoOperadoFacturaActiva());
+  }
+
+  private _calcularSubtotalItem(itemId: number) {
+    this._store.dispatch(actualizarSubtotalItemFacturaActiva({ itemId }));
+  }
+
+  private _calcularTotalBrutoItem(itemId: number) {
+    this._store.dispatch(actualizarTotalBrutoItemFacturaActiva({ itemId }));
+  }
+
+  private _calcularImpuestoItem(itemId: number){
+    this._store.dispatch(actualizarImpuestosItemFacturaActiva({ itemId }));
+  }
+
+  private _calculartotalItem(itemId: number) {
+    this._store.dispatch(actualizarTotalItemFacturaActiva({ itemId }));
+  }
+
+  private _totalesImpuestosItem(itemId: number) {
+    this._store.dispatch(actualizarTotalesImpuestosItemFacturaActiva({ itemId }));
+  }
+
+  private _baseImpuestosItem(itemId: number) {
+    this._store.dispatch(actualizarBaseImpuestoItemFacturaActiva({ itemId }));
+  }
+
+  private _itemAdapter(item: Item): DocumentoFacturaDetalleRespuesta {
+    let impuesto: any = {};
+    let porcentaje = 0;
+    let porcentajeBase = 0;
+    let impuestoCalculado = 0;
+
+    if (item.impuestos[0]) {
+      impuesto = this._adaptarImpuesto(item.impuestos[0]);
+
+      porcentaje = impuesto.porcentaje || 0;
+      porcentajeBase = impuesto.porcentaje_base || 100;
+      impuestoCalculado = item.precio * (porcentaje / porcentajeBase);
+    }
+
+    return {
+      ...documentoFacturaDetalleInit,
+      cantidad: 1,
+      item: item.id,
+      item_nombre: item.nombre,
+      precio: item.precio,
+      impuesto: impuestoCalculado,
+      impuestos: [impuesto],
+      base_impuesto: item.precio * 1,
+    };
+  }
+
+  private _adaptarImpuesto(impuesto: any): DocumentoImpuestoFacturaRespuesta {
+    return {
+      id: null,
+      impuesto: impuesto.impuesto_id,
+      porcentaje: impuesto.impuesto_porcentaje,
+      total: 0,
+      total_operado: 0,
+      base: 0,
+      nombre: impuesto.impuesto_nombre,
+      nombre_extendido: impuesto.impuesto_nombre_extendido,
+      porcentaje_base: impuesto.impuesto_porcentaje_base,
+      impuesto_operacion: impuesto.impuesto_operacion,
+      venta: false,
+      compra: false,
+      operacion: 0,
+    };
   }
 }

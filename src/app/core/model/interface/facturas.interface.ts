@@ -25,6 +25,7 @@ export interface DocumentoFactura {
   salario: number;
   estado_aprobado: boolean;
   documento_tipo_id: number;
+  metodo_pago: number;
   metodo_pago_id: number;
   metodo_pago_nombre: string;
   forma_pago_id: number;
@@ -36,6 +37,7 @@ export interface DocumentoFactura {
   estado_electronico_notificado: boolean;
   soporte: any;
   orden_compra: any;
+  plazo_pago: number;
   plazo_pago_id: number;
   plazo_pago_nombre: string;
   documento_referencia_id: any;
@@ -124,16 +126,16 @@ export interface FacturaReduxState {
 
 export interface DocumentoImpuestoFacturaRespuesta {
   id: number;
-  impuesto_id: number;
-  impuesto_nombre: string;
-  impuesto_nombre_extendido: string;
-  impuesto_porcentaje: number;
-  impuesto_operacion: number;
-  impuesto_porcentaje_base: number;
-  impuesto_venta: boolean;
-  impuesto_compra: boolean;
-  base: number;
+  impuesto: number;
+  nombre: string;
+  nombre_extendido: string;
   porcentaje: number;
+  base: number;
+  operacion: number;
+  impuesto_operacion: number;
+  porcentaje_base: number;
+  venta: boolean;
+  compra: boolean;
   total: number;
   total_operado: number;
 }

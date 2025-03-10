@@ -1,4 +1,4 @@
-import { DecimalPipe } from '@angular/common';
+import { CurrencyPipe, DecimalPipe, JsonPipe, KeyValuePipe } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -25,7 +25,10 @@ import { FacturaOpcionesDropdownComponent } from '../factura-opciones-dropdown/f
     FormsModule,
     FacturaEditarItemComponent,
     FacturaModalPagarComponent,
-    SeleccionarClienteComponent
+    SeleccionarClienteComponent,
+    JsonPipe,
+    KeyValuePipe,
+    CurrencyPipe
 ],
   templateUrl: './factura-detalle.component.html',
   styleUrl: './factura-detalle.component.scss',
@@ -35,7 +38,9 @@ export class FacturaDetalleComponent {
   public mostrarIcono: number | null = null;
   public nombre = this._facturaReduxService.facturaActivaNombre;
   public items = this._facturaReduxService.arrItemsSignal;
+  public arrImpuestos = this._facturaReduxService.arrImpuestos
   public totalProductosSignal = this._facturaReduxService.totalProductosSignal;
+  public totalGeneralSignal = this._facturaReduxService.totalGeneralSignal;
   public totalCantidadesSignal =
     this._facturaReduxService.totalCantidadesSignal;
   public totalSubtotalSignal = this._facturaReduxService.totalSubtotalSignal;
@@ -55,7 +60,7 @@ export class FacturaDetalleComponent {
   actualizarCantidad(cantidad: number, itemId: number) {
     if (cantidad > 0) {
       this._facturaReduxService.actualizarCantidadItem(itemId, cantidad);
-      this._facturaReduxService.calcularSubtotal(itemId);
+      this._facturaReduxService.calcularValoresFacturaActivaDetalle(itemId);
     } else {
       this._facturaReduxService.retirarItem(itemId);
     }

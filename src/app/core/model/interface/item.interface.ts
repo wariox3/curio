@@ -1,6 +1,8 @@
+import { DocumentoImpuestoFacturaRespuesta } from "./facturas.interface";
+
 export interface Item {
-  readonly id: number;
-  readonly impuesto: number;
+  id: number;
+  impuestos: DocumentoImpuestoFacturaRespuesta[];
   nombre: string;
   codigo: string | null;
   referencia: string | null;
