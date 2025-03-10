@@ -13,20 +13,36 @@ import { catchError, of, tap } from 'rxjs';
 export class FacturaItemsListaComponent implements OnInit {
   private _itemApi = inject(ItemApiService);
   public visualizarLoader = signal(false);
-
   public arrItemsSignal = this._itemApi.arrItemsSignal;
 
   ngOnInit(): void {
+    this._mostrarLoader();
+    this._cargarLista();
+  }
+
+  private _mostrarLoader(): void {
     this.visualizarLoader.set(true);
+  }
+
+  private _ocultarLoader(): void {
+    setTimeout(() => this.visualizarLoader.set(false), 300);
+  }
+
+  private _cargarLista(): void {
     this._itemApi
       .lista()
       .pipe(
-        tap(() => setTimeout(() => this.visualizarLoader.set(false), 300)),
-        catchError(() => {
-          this.visualizarLoader.set(false);
+        tap(() => this._ocultarLoader()),
+        catchError((error) => {
+          this._manejarError(error);
           return of(null);
         })
       )
       .subscribe();
+  }
+
+  private _manejarError(error: any): void {
+    this._ocultarLoader();
+    console.error('Error al cargar la lista:', error);
   }
 }
