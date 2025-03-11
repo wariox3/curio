@@ -26,7 +26,6 @@
       #campoBusqueda
       placeholder="Right icon"
       type="text"
-      value=""
       (input)="buscarCampo()"
       [(ngModel)]="inputBusqueda"
       [placeholder]="
@@ -34,8 +33,9 @@
           ? 'Buscar por id'
           : 'Buscar por código barras'
       "
+      appSoloNumeros
     />
-    @if(inputBusqueda ){
+    @if(campoBusqueda.value !== ''){
     <button class="btn btn-icon" (click)="limpiarBusqueda()">
       <i class="ki-filled ki-cross text-red-500"> </i>
     </button>

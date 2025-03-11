@@ -41,13 +41,15 @@ export class ItemApiService {
     return this._http
       .post<any>(API_ENDPOINTS.GENERAL.FUNCIONALIDAD_LISTAS, {
         ...this._parametrosConsultaItem,
-        filtros: [
-          {
-            propiedad: 'id',
-            valor1: valor,
-            operador: 'exact',
-          }
-        ],
+        ...{
+          filtros: [
+            {
+              propiedad: 'id',
+              valor1: valor,
+              operador: 'exact',
+            },
+          ],
+        },
       } as ParametrosFiltrosConsultasHttp)
       .pipe(
         tap((respuesta) => {
