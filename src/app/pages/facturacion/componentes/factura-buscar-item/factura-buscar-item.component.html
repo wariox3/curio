@@ -2,12 +2,12 @@
   <button
     class="btn btn-input cursor-pointer"
     type="button"
-    [ngClass]="{ 'btn-primary': tipoBusqueda() === 'id_nombre' }"
-    (click)="seleccionarTipoBusqueda('id_nombre')"
+    [ngClass]="{ 'btn-primary': tipoBusqueda() === 'id' }"
+    (click)="seleccionarTipoBusqueda('id')"
   >
     <i
       class="ki-filled ki-filter-search"
-      [ngClass]="{ 'text-white': tipoBusqueda() === 'id_nombre' }"
+      [ngClass]="{ 'text-white': tipoBusqueda() === 'id' }"
     ></i>
   </button>
   <button
@@ -21,17 +21,26 @@
       [ngClass]="{ 'text-white': tipoBusqueda() === 'codigoBarras' }"
     ></i>
   </button>
-  <input
-    class="input"
-    [(ngModel)]="inputBusqueda"
-    [placeholder]="
-      tipoBusqueda() === 'id_nombre'
-        ? 'Buscar por nombre o código'
-        : 'Buscar por código barras'
-    "
-    type="text"
-    value=""
-  />
+  <div class="input">
+    <input
+      placeholder="Right icon"
+      type="text"
+      value=""
+      (keyup)="buscarCampo()"
+      [(ngModel)]="inputBusqueda"
+      [placeholder]="
+        tipoBusqueda() === 'id'
+          ? 'Buscar por código'
+          : 'Buscar por código barras'
+      "
+    />
+    @if(inputBusqueda ){
+    <button class="btn btn-icon" (click)="limpiarBusqueda()">
+      <i class="ki-filled ki-cross text-red-500"> </i>
+    </button>
+    }
+  </div>
+
   <span class="btn btn-input cursor-pointer">
     <i class="ki-filled ki-add-files"></i>
   </span>
