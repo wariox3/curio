@@ -26,7 +26,7 @@
       placeholder="Right icon"
       type="text"
       value=""
-      (keyup)="buscarCampo()"
+      (input)="buscarCampo()"
       [(ngModel)]="inputBusqueda"
       [placeholder]="
         tipoBusqueda() === 'id'

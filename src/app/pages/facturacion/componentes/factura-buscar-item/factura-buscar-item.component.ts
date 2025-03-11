@@ -21,11 +21,16 @@ export class FacturaBuscarItemComponent {
   }
 
   buscarCampo(){
-    if(this.inputBusqueda !== ''){
-      this._itemApi.busquedaId(this.inputBusqueda).subscribe()
+    if(this.tipoBusqueda() === 'id'){
+      if(this.inputBusqueda !== ''){
+        this._itemApi.busquedaId(this.inputBusqueda).subscribe()
+      } else {
+        this._itemApi.lista().subscribe()
+      }
     } else {
-      this._itemApi.lista().subscribe()
+
     }
+
   }
 
   limpiarBusqueda(){
