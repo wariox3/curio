@@ -286,13 +286,16 @@ export const facturaReducer = createReducer(
         ? {
             ...factura,
             detalles: factura.detalles.map((detalle) => {
+              const primerImpuesto = detalle.impuestos?.[0]; // Obtener el primer impuesto si existe
+
               return detalle.item === itemId
                 ? {
                     ...detalle,
-                    base_impuesto:
-                      (detalle.subtotal *
-                        detalle.impuestos[0].porcentaje_base) /
-                      100,
+                    base_impuesto: primerImpuesto
+                      ? (detalle.subtotal || 0) *
+                        (primerImpuesto.porcentaje_base || 0) /
+                        100
+                      : 0, // Si no hay impuestos, base_impuesto será 0
                   }
                 : detalle;
             }),
