@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FacturaTiposBusqueda } from '@type/factura-tipos-busqueda.type';
 import { ItemApiService } from '../../services/item-api.service';
@@ -15,9 +15,11 @@ export class FacturaBuscarItemComponent {
   private _itemApi = inject(ItemApiService);
   public tipoBusqueda = signal<FacturaTiposBusqueda>('id');
   public inputBusqueda: string| null = null
+  @ViewChild('campoBusqueda') campoBusqueda: ElementRef
 
   seleccionarTipoBusqueda(tipoBusqueda: FacturaTiposBusqueda) {
     this._actualizarTipoBusqueda(tipoBusqueda);
+    this.campoBusqueda.nativeElement.focus()
   }
 
   buscarCampo(){
