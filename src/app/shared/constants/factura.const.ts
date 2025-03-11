@@ -14,6 +14,7 @@ const fecha = `${fullAnio}-${mes.toString().padStart(2, '0')}-${fechaActual
 
 export const facturaInit: DocumentoFactura = {
   id: 0,
+  contenedor: 0,
   numero: undefined,
   fecha: fecha,
   fecha_vence: fecha,

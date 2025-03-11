@@ -49,11 +49,13 @@ import {
   facturaInit,
 } from '@constantes/factura.const';
 import { FechasService } from 'src/app/shared/services/fechas.service';
+import { ContenedorReduxService } from '../../contenedores/services/contenedor-redux.service';
 
 @Injectable({ providedIn: 'root' })
 export class FacturaReduxService {
   private _store = inject(Store);
   private _fechasService = inject(FechasService);
+  private _contenedorReduxService = inject(ContenedorReduxService);
 
   public facturaTabActivo = signal<number>(0);
   public arrFacturasSignal = signal<DocumentoFactura[]>([]);
@@ -146,6 +148,7 @@ export class FacturaReduxService {
           nombre: 'Factura',
           fecha: fechaVencimientoInicial,
           fecha_vence: fechaVencimientoInicial,
+          contenedor: this._contenedorReduxService.contendorId()
         },
       })
     );

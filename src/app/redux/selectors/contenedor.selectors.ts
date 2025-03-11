@@ -20,7 +20,7 @@ export const obtenerContenedorImagen = createSelector(
 
 export const obtenerContenedorId = createSelector(
   Contenedor,
-  (Contenedor) => `${Contenedor.id}`
+  (Contenedor) => Contenedor.id
 );
 
 export const obtenerContenedorSubdominio = createSelector(

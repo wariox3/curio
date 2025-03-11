@@ -1,8 +1,9 @@
-import { Item } from "./item.interface"
+import { Item } from './item.interface';
 
 export interface DocumentoFactura {
   id: number;
-  nombre: string,
+  contenedor: number;
+  nombre: string;
   numero: any;
   fecha: string;
   fecha_vence: string;
@@ -56,11 +57,10 @@ export interface DocumentoFactura {
   referencia_numero: number;
   referencia_prefijo: string | null;
   grupo_contabilidad_id: number;
-  almacen: number
+  almacen: number;
   almacen_id: number;
   almacen_nombre: string;
 }
-
 
 export interface DocumentoFacturaDetalleRespuesta {
   id: number;
@@ -112,7 +112,6 @@ export interface DocumentoFacturaDetalleRespuesta {
   impuestos: DocumentoImpuestoFacturaRespuesta[];
 }
 
-
 export interface PagoRespuestaFormulario {
   id: number | null;
   documento_id: number;
@@ -122,8 +121,8 @@ export interface PagoRespuestaFormulario {
 }
 
 export interface FacturaReduxState {
-  facturaActiva: number
-  facturas: DocumentoFactura[]
+  facturaActiva: number;
+  facturas: DocumentoFactura[];
 }
 
 export interface DocumentoImpuestoFacturaRespuesta {
