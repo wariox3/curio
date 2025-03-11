@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { FacturaTabsComponent } from '../tabs-factura/factura-tabs.component';
+import { FacturaTabsComponent } from '../factura-tabs/factura-tabs.component';
 import { FacturaDetalleComponent } from "../factura-detalle/factura-detalle.component";
 import { FacturaItemsListaComponent } from "../factura-items-lista/factura-items-lista.component";
 
