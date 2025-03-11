@@ -3,9 +3,10 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 const Facturacion = createFeatureSelector<FacturaReduxState>('facturacion');
 
-export const obtenerFacturas = createSelector(
+export const obtenerFacturas = (contenedor: number) => createSelector(
   Facturacion,
-  (Facturacion) => Facturacion.facturas
+  (Facturacion) => Facturacion.facturas.filter((factura) => factura.contenedor === contenedor)
+
 );
 
 export const obtenerFacturaActiva = createSelector(

@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   inject,
+  OnInit,
   QueryList,
   signal,
   ViewChild,
@@ -18,7 +19,7 @@ import { FacturaOpcionesDropdownComponent } from "../factura-opciones-dropdown/f
   imports: [NgClass, FacturaOpcionesDropdownComponent],
   templateUrl: './factura-tabs.component.html',
 })
-export class FacturaTabsComponent {
+export class FacturaTabsComponent implements OnInit {
   private _facturaReduxService = inject(FacturaReduxService);
 
   tabs = this._facturaReduxService.arrFacturasSignal;
@@ -28,6 +29,10 @@ export class FacturaTabsComponent {
   @ViewChild('modalConfirmacionEliminar')
   modalConfirmacionEliminar!: ElementRef;
   @ViewChildren('dropdownTab') dropdownTab!: QueryList<ElementRef>;
+
+  ngOnInit(): void {
+    this._facturaReduxService.obtenerReduxFacturas()
+  }
 
   agregarTab() {
     this._facturaReduxService.nuevaFactura();

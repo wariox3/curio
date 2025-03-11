@@ -1,5 +1,9 @@
 // factura.service.ts
 import { computed, inject, Injectable, signal } from '@angular/core';
+import {
+  documentoFacturaDetalleInit,
+  facturaInit,
+} from '@constantes/factura.const';
 import { Contacto } from '@interfaces/contacto';
 import {
   DocumentoFactura,
@@ -35,19 +39,15 @@ import {
   seleccionarFacturaActiva,
 } from '@redux/actions/factura.actions';
 import {
+  obtenerClienteFacturaActiva,
   obtenerDataFacturaActiva,
   obtenerFacturaActiva,
   obtenerFacturas,
+  obtenerImpuestosFacturaActiva,
   obtenerItemCantidadFacturaActiva,
   obtenerItemsFacturaActiva,
   obtenerNombreFacturaActiva,
-  obtenerClienteFacturaActiva,
-  obtenerImpuestosFacturaActiva,
 } from '@redux/selectors/factura.selectors';
-import {
-  documentoFacturaDetalleInit,
-  facturaInit,
-} from '@constantes/factura.const';
 import { FechasService } from 'src/app/shared/services/fechas.service';
 import { ContenedorReduxService } from '../../contenedores/services/contenedor-redux.service';
 
@@ -78,13 +78,11 @@ export class FacturaReduxService {
       0
     )
   );
-  public totalGeneralSignal = computed(() => this.arrItemsSignal().reduce(
-    (total, item) => (total += item.total),
-    0
-  ))
+  public totalGeneralSignal = computed(() =>
+    this.arrItemsSignal().reduce((total, item) => (total += item.total), 0)
+  );
 
   constructor() {
-    this.obtenerReduxFacturas();
     this.obtertenerTabActivoFactura();
     this.obtertenerNombreFactura();
     this.obtenerItemsFactura();
@@ -95,8 +93,12 @@ export class FacturaReduxService {
 
   obtenerReduxFacturas() {
     this._store
-      .select(obtenerFacturas)
-      .subscribe((facturas) => this.arrFacturasSignal.set(facturas));
+      .select(obtenerFacturas(this._contenedorReduxService.contendorId()))
+      .subscribe((facturas) => {
+        console.log(facturas);
+
+        this.arrFacturasSignal.set(facturas);
+      });
   }
 
   obtertenerTabActivoFactura() {
@@ -148,7 +150,7 @@ export class FacturaReduxService {
           nombre: 'Factura',
           fecha: fechaVencimientoInicial,
           fecha_vence: fechaVencimientoInicial,
-          contenedor: this._contenedorReduxService.contendorId()
+          contenedor: this._contenedorReduxService.contendorId(),
         },
       })
     );
@@ -213,18 +215,18 @@ export class FacturaReduxService {
   calcularValoresFacturaActivaEncabezado() {
     this._calcularSubtotalFactura();
     this._calcularTotalFactura();
-    this._calcularImpuestoOperadoFactura()
-    this._calcularBaseImpuestoFactura()
-    this._calcularImpuestoFactura()
-    this._calcularTotalBrutoFactura()
+    this._calcularImpuestoOperadoFactura();
+    this._calcularBaseImpuestoFactura();
+    this._calcularImpuestoFactura();
+    this._calcularTotalBrutoFactura();
   }
 
   calcularValoresFacturaActivaDetalle(itemId: number) {
     this._calcularSubtotalItem(itemId);
-    this._calcularImpuestoItem(itemId)
+    this._calcularImpuestoItem(itemId);
     this._calculartotalItem(itemId);
     this._totalesImpuestosItem(itemId);
-    this._calcularTotalBrutoItem(itemId)
+    this._calcularTotalBrutoItem(itemId);
     this._baseImpuestosItem(itemId);
   }
 
@@ -252,7 +254,6 @@ export class FacturaReduxService {
     this._store.dispatch(actualizarTotalBrutoFacturaActiva());
   }
 
-
   private _calcularImpuestoOperadoFactura() {
     this._store.dispatch(actualizarImpuestoOperadoFacturaActiva());
   }
@@ -265,7 +266,7 @@ export class FacturaReduxService {
     this._store.dispatch(actualizarTotalBrutoItemFacturaActiva({ itemId }));
   }
 
-  private _calcularImpuestoItem(itemId: number){
+  private _calcularImpuestoItem(itemId: number) {
     this._store.dispatch(actualizarImpuestosItemFacturaActiva({ itemId }));
   }
 
@@ -274,7 +275,9 @@ export class FacturaReduxService {
   }
 
   private _totalesImpuestosItem(itemId: number) {
-    this._store.dispatch(actualizarTotalesImpuestosItemFacturaActiva({ itemId }));
+    this._store.dispatch(
+      actualizarTotalesImpuestosItemFacturaActiva({ itemId })
+    );
   }
 
   private _baseImpuestosItem(itemId: number) {
@@ -297,7 +300,7 @@ export class FacturaReduxService {
       total: 0,
       total_operado: 0,
     };
-    let arrImpuesto: DocumentoImpuestoFacturaRespuesta[] = []
+    let arrImpuesto: DocumentoImpuestoFacturaRespuesta[] = [];
     let porcentaje = 0;
     let porcentajeBase = 0;
     let impuestoCalculado = 0;
@@ -308,7 +311,7 @@ export class FacturaReduxService {
       porcentaje = impuesto.porcentaje || 0;
       porcentajeBase = impuesto.porcentaje_base || 100;
       impuestoCalculado = item.precio * (porcentaje / porcentajeBase);
-      arrImpuesto.push(impuesto)
+      arrImpuesto.push(impuesto);
     }
 
     return {
@@ -320,7 +323,7 @@ export class FacturaReduxService {
       impuesto: impuestoCalculado,
       impuestos: arrImpuesto,
       base_impuesto: item.precio * 1,
-      almacen: 1
+      almacen: 1,
     };
   }
 
