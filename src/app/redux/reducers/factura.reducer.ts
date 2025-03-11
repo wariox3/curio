@@ -270,6 +270,7 @@ export const facturaReducer = createReducer(
                         (detalle.subtotal || 0) *
                         (impuesto.porcentaje / 100) *
                         (impuesto.impuesto_operacion || 1),
+                      base: (detalle.subtotal * impuesto.porcentaje_base) / 100
                     })),
                   }
                 : detalle
@@ -284,17 +285,17 @@ export const facturaReducer = createReducer(
       index === state.facturaActiva
         ? {
             ...factura,
-            detalles: factura.detalles.map((detalle) =>
-              detalle.item === itemId
+            detalles: factura.detalles.map((detalle) => {
+              return detalle.item === itemId
                 ? {
                     ...detalle,
-                    impuestos: detalle.impuestos.map((impuesto) => ({
-                      ...impuesto,
-                      base_impuesto: detalle.precio * detalle.cantidad
-                    })),
+                    base_impuesto:
+                      (detalle.subtotal *
+                        detalle.impuestos[0].porcentaje_base) /
+                      100,
                   }
-                : detalle
-            ),
+                : detalle;
+            }),
           }
         : factura
     ),
@@ -339,7 +340,10 @@ export const facturaReducer = createReducer(
                     ...detalle,
                     total_bruto:
                       (detalle.subtotal || 0) +
-                      (detalle.impuestos?.reduce((sum, impuesto) => sum + (impuesto.total || 0), 0) || 0),
+                      (detalle.impuestos?.reduce(
+                        (sum, impuesto) => sum + (impuesto.total || 0),
+                        0
+                      ) || 0),
                   }
                 : detalle
             ),
@@ -359,5 +363,5 @@ export const facturaReducer = createReducer(
           }
         : factura
     ),
-  })),
+  }))
 );
