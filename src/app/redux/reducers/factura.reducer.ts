@@ -27,10 +27,9 @@ import {
   actualizarTotalBrutoFacturaActiva,
   actualizaImpuestoFacturaActiva,
 } from '@redux/actions/factura.actions';
-import { facturaInit } from '@constantes/factura.const';
 
 export const initialState: FacturaReduxState = {
-  facturas: [facturaInit],
+  facturas: [],
   facturaActiva: 0,
 };
 

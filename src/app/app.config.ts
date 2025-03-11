@@ -22,11 +22,6 @@ import { usuarioActionClear } from '@redux/actions/usuario.actions';
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return (state, action) => {
-    // Si se despacha la acción para limpiar usuario, también limpia el localStorage
-    if (action.type === usuarioActionClear.type) {
-      localStorage.clear(); // Borra todo el localStorage
-      state = {}; // Limpia todo el estado global si lo deseas
-    }
     return localStorageSync({
       keys: ['facturacion', 'contenedor'], // Incluye 'usuario' si también lo tienes persistido
       rehydrate: true,

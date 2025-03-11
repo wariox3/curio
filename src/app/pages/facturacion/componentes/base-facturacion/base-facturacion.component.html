@@ -1,5 +1,4 @@
-@for (tab of tabs(); track idx; let idx = $index) {
-<div [ngClass]="{ hidden: tabActivo() !== idx }" [id]="tab.id">
+<div>
   <div id="base" class="h-[81vh] w-full">
     <div class="flex flex-row h-full">
       <div class="w-2/3 h-full p-2">
@@ -30,7 +29,6 @@
     </div>
   </div>
 </div>
-}
 <div class="tabs border-t-2" data-tabs="true">
   <app-factura-tabs></app-factura-tabs>
 </div>

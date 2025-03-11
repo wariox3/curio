@@ -65,6 +65,9 @@ export class FacturaReduxService {
   public arrImpuestos = signal<
     Record<string, { impuesto: string | number; total: number }>
   >({});
+  public cantidadFacturasSignal = computed(
+    () => this.arrFacturasSignal().length
+  );
   public totalProductosSignal = computed(() => this.arrItemsSignal().length);
   public totalSubtotalSignal = computed(() =>
     this.arrItemsSignal().reduce(
@@ -83,6 +86,7 @@ export class FacturaReduxService {
   );
 
   constructor() {
+    this.obtenerReduxFacturas();
     this.obtertenerTabActivoFactura();
     this.obtertenerNombreFactura();
     this.obtenerItemsFactura();
@@ -94,11 +98,7 @@ export class FacturaReduxService {
   obtenerReduxFacturas() {
     this._store
       .select(obtenerFacturas(this._contenedorReduxService.contendorId()))
-      .subscribe((facturas) => {
-        console.log(facturas);
-
-        this.arrFacturasSignal.set(facturas);
-      });
+      .subscribe((facturas) => this.arrFacturasSignal.update(() => facturas));
   }
 
   obtertenerTabActivoFactura() {

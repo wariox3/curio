@@ -5,11 +5,9 @@ import {
   inject,
   OnInit,
   QueryList,
-  signal,
   ViewChild,
-  ViewChildren,
+  ViewChildren
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { FacturaReduxService } from '../../services/factura-redux.service';
 import { FacturaOpcionesDropdownComponent } from "../factura-opciones-dropdown/factura-opciones-dropdown.component";
 
@@ -32,6 +30,10 @@ export class FacturaTabsComponent implements OnInit {
 
   ngOnInit(): void {
     this._facturaReduxService.obtenerReduxFacturas()
+    if(this.tabs().length === 0){
+      this.agregarTab()
+    }
+
   }
 
   agregarTab() {
