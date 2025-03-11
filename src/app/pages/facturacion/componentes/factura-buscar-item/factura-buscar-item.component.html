@@ -1,0 +1,38 @@
+<div class="input-group w-full">
+  <button
+    class="btn btn-input cursor-pointer"
+    type="button"
+    [ngClass]="{ 'btn-primary': tipoBusqueda() === 'id_nombre' }"
+    (click)="seleccionarTipoBusqueda('id_nombre')"
+  >
+    <i
+      class="ki-filled ki-filter-search"
+      [ngClass]="{ 'text-white': tipoBusqueda() === 'id_nombre' }"
+    ></i>
+  </button>
+  <button
+    class="btn btn-input cursor-pointer"
+    type="button"
+    [ngClass]="{ 'btn-primary': tipoBusqueda() === 'codigoBarras' }"
+    (click)="seleccionarTipoBusqueda('codigoBarras')"
+  >
+    <i
+      class="ki-filled ki-scan-barcode"
+      [ngClass]="{ 'text-white': tipoBusqueda() === 'codigoBarras' }"
+    ></i>
+  </button>
+  <input
+    class="input"
+    [(ngModel)]="inputBusqueda"
+    [placeholder]="
+      tipoBusqueda() === 'id_nombre'
+        ? 'Buscar por nombre o código'
+        : 'Buscar por código barras'
+    "
+    type="text"
+    value=""
+  />
+  <span class="btn btn-input cursor-pointer">
+    <i class="ki-filled ki-add-files"></i>
+  </span>
+</div>
