@@ -61,6 +61,7 @@ export class FacturaDetalleComponent {
     if (cantidad > 0) {
       this._facturaReduxService.actualizarCantidadItem(itemId, cantidad);
       this._facturaReduxService.calcularValoresFacturaActivaDetalle(itemId);
+      this._facturaReduxService.calcularValoresFacturaActivaEncabezado();
     } else {
       this._facturaReduxService.retirarItem(itemId);
     }

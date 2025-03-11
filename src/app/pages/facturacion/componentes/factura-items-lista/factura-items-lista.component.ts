@@ -1,6 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FacturaItemsCardComponent } from "../factura-items-card/factura-items-card.component";
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { FacturaItemsCardComponent } from '../factura-items-card/factura-items-card.component';
 import { ItemApiService } from './../../services/item-api.service';
+import { catchError, of, tap } from 'rxjs';
 
 @Component({
   selector: 'app-factura-items-lista',
@@ -10,12 +11,38 @@ import { ItemApiService } from './../../services/item-api.service';
   styleUrl: './factura-items-lista.component.scss',
 })
 export class FacturaItemsListaComponent implements OnInit {
-
-  private _itemApi = inject(ItemApiService)
-
-  public arrItemsSignal = this._itemApi.arrItemsSignal
+  private _itemApi = inject(ItemApiService);
+  public visualizarLoader = signal(false);
+  public arrItemsSignal = this._itemApi.arrItemsSignal;
 
   ngOnInit(): void {
-    this._itemApi.lista().subscribe()
+    this._mostrarLoader();
+    this._cargarLista();
+  }
+
+  private _mostrarLoader(): void {
+    this.visualizarLoader.set(true);
+  }
+
+  private _ocultarLoader(): void {
+    setTimeout(() => this.visualizarLoader.set(false), 300);
+  }
+
+  private _cargarLista(): void {
+    this._itemApi
+      .lista()
+      .pipe(
+        tap(() => this._ocultarLoader()),
+        catchError((error) => {
+          this._manejarError(error);
+          return of(null);
+        })
+      )
+      .subscribe();
+  }
+
+  private _manejarError(error: any): void {
+    this._ocultarLoader();
+    console.error('Error al cargar la lista:', error);
   }
 }

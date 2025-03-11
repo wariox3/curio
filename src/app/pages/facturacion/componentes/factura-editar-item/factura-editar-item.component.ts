@@ -62,6 +62,7 @@ export class FacturaEditarItemComponent {
       this._facturaReduxService.actualizarCantidadItem(this.item.item, this.formularioVenta.get('cantidad').value)
       this._facturaReduxService.actualizarPrecioItem(this.item.item, this.formularioVenta.get('precio').value)
       this._facturaReduxService.calcularValoresFacturaActivaDetalle(this.item.item)
+      this._facturaReduxService.calcularValoresFacturaActivaEncabezado()
       this.emitirAccionFormulario.emit(true)
     }
   }
