@@ -51,7 +51,7 @@
       "@interfaces/*": [
         "src/app/core/model/interface/*"
       ],
-      "@types/*": [
+      "@type/*": [
         "src/app/core/model/types/*"
       ],
       "@metronic/components/*": [

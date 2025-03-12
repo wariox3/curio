@@ -3,28 +3,53 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { API_ENDPOINTS } from '@constantes/api-endpoints.const';
 import { Item } from '@interfaces/item.interface';
+import { ValorFiltro } from '@type/valor-filtro.type';
 import { tap } from 'rxjs';
-import { FacturaReduxService } from './factura-redux.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ItemApiService {
-  private _facturaReduxService = inject(FacturaReduxService);
   private _http = inject(HttpClient);
+  private _parametrosConsultaItem: ParametrosFiltrosConsultasHttp = {
+    limite: 50,
+    desplazar: 0,
+    ordenamientos: [],
+    limite_conteo: 0,
+    modelo: 'GenItem',
+    filtros: [],
+  };
+
   public arrItemsSignal = signal<Item[]>([]);
 
   constructor() {}
 
   lista() {
     return this._http
+      .post<any>(
+        API_ENDPOINTS.GENERAL.FUNCIONALIDAD_LISTAS,
+        this._parametrosConsultaItem
+      )
+      .pipe(
+        tap((respuesta) => {
+          this.arrItemsSignal.set(respuesta.registros);
+        })
+      );
+  }
+
+  busquedaId(valor: ValorFiltro) {
+    return this._http
       .post<any>(API_ENDPOINTS.GENERAL.FUNCIONALIDAD_LISTAS, {
-        filtros: [],
-        limite: 50,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: 'GenItem',
+        ...this._parametrosConsultaItem,
+        ...{
+          filtros: [
+            {
+              propiedad: 'id',
+              valor1: valor,
+              operador: 'exact',
+            },
+          ],
+        },
       } as ParametrosFiltrosConsultasHttp)
       .pipe(
         tap((respuesta) => {
