@@ -2,7 +2,11 @@
   <div class="card h-full w-full flex flex-col shadow-none rounded-none">
     <div class="card-header p-2">
       <h3 class="card-title">{{ nombre() }}</h3>
-      <app-factura-opciones-dropdown></app-factura-opciones-dropdown>
+      <div class="flex justify-center gap-2">
+          <i class="ki-filled ki-printer cursor-pointer" (click)="descargarPDF()"></i>
+
+        <app-factura-opciones-dropdown></app-factura-opciones-dropdown>
+      </div>
     </div>
     <div class="card-body flex-grow p-2 scrollable">
       <section class="mb-2">

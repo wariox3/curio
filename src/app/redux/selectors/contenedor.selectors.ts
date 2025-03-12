@@ -3,6 +3,11 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 const Contenedor = createFeatureSelector<Contenedor>('contenedor');
 
+export const obtenerContenedor = createSelector(
+  Contenedor,
+  (Contenedor) => Contenedor
+);
+
 export const obtenerContenedorSeleccion = createSelector(
   Contenedor,
   (Contenedor) => Contenedor.seleccion
