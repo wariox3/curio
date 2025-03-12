@@ -2,7 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Contenedor, ContenedorDetalle } from '@interfaces/contenedores.interface';
 import { Store } from '@ngrx/store';
 import { ContenedorActionBorrarInformacion, ContenedorActionInit } from '@redux/actions/contenedor.actions';
-import { obtenerContenedorId, obtenerContenedorSubdominio } from '@redux/selectors/contenedor.selectors';
+import { obtenerContenedor, obtenerContenedorId, obtenerContenedorSeleccion, obtenerContenedorSubdominio } from '@redux/selectors/contenedor.selectors';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,7 @@ export class ContenedorReduxService {
   public contendorSubdomino = signal('');
 
   constructor() {
+    this.obtenerContendor()
     this._obtenerContendorId()
   }
 
@@ -43,6 +44,10 @@ export class ContenedorReduxService {
 
   obtenerContendorSubdominio(){
     return this._store.select(obtenerContenedorSubdominio).subscribe((nombre)=> this.contendorSubdomino.set(nombre))
+  }
+
+  obtenerContendor(){
+    return this._store.selectSignal(obtenerContenedor)()
   }
 
   limpiarContenedor(){

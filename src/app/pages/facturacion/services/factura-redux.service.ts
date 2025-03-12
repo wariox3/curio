@@ -42,6 +42,7 @@ import {
   obtenerClienteFacturaActiva,
   obtenerDataFacturaActiva,
   obtenerFacturaActiva,
+  obtenerFacturaFacturaActiva,
   obtenerFacturas,
   obtenerImpuestosFacturaActiva,
   obtenerItemCantidadFacturaActiva,
@@ -101,9 +102,13 @@ export class FacturaReduxService {
       .subscribe((facturas) => this.arrFacturasSignal.update(() => facturas));
   }
 
+  obtertenerFactura() {
+    return this._store.selectSignal(obtenerFacturaActiva)()
+  }
+
   obtertenerTabActivoFactura() {
     this._store
-      .select(obtenerFacturaActiva)
+      .select(obtenerFacturaFacturaActiva)
       .subscribe((id) => this.facturaTabActivo.set(id));
   }
 

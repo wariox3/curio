@@ -1,19 +1,16 @@
-import { CurrencyPipe, DecimalPipe, JsonPipe, KeyValuePipe } from '@angular/common';
-import {
-  Component,
-  ElementRef,
-  inject,
-  ViewChild
-} from '@angular/core';
+import { DecimalPipe, KeyValuePipe } from '@angular/common';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SeleccionarClienteComponent } from "@componentes/form/seleccionar-cliente/seleccionar-cliente.component";
+import { SeleccionarClienteComponent } from '@componentes/form/seleccionar-cliente/seleccionar-cliente.component';
 import { ContadorCantidadComponent } from '@componentes/ui/contador-cantidad/contador-cantidad.component';
 import { DocumentoFacturaDetalleRespuesta } from '@interfaces/facturas.interface';
 import { KTDrawer } from '@metronic/components/drawer';
 import { FacturaReduxService } from '../../services/factura-redux.service';
 import { FacturaEditarItemComponent } from '../factura-editar-item/factura-editar-item.component';
-import { FacturaModalPagarComponent } from "../factura-medios-pago/factura-modal-pagar/factura-modal-pagar.component";
+import { FacturaModalPagarComponent } from '../factura-medios-pago/factura-modal-pagar/factura-modal-pagar.component';
 import { FacturaOpcionesDropdownComponent } from '../factura-opciones-dropdown/factura-opciones-dropdown.component';
+import { FacturaPdf } from 'src/app/shared/pdf/facturacion/factura-pdf';
+import { ContenedorReduxService } from 'src/app/pages/contenedores/services/contenedor-redux.service';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -26,19 +23,18 @@ import { FacturaOpcionesDropdownComponent } from '../factura-opciones-dropdown/f
     FacturaEditarItemComponent,
     FacturaModalPagarComponent,
     SeleccionarClienteComponent,
-    JsonPipe,
     KeyValuePipe,
-    CurrencyPipe
-],
+  ],
   templateUrl: './factura-detalle.component.html',
   styleUrl: './factura-detalle.component.scss',
 })
 export class FacturaDetalleComponent {
   private _facturaReduxService = inject(FacturaReduxService);
+  private _contenedorReduxService = inject(ContenedorReduxService);
   public mostrarIcono: number | null = null;
   public nombre = this._facturaReduxService.facturaActivaNombre;
   public items = this._facturaReduxService.arrItemsSignal;
-  public arrImpuestos = this._facturaReduxService.arrImpuestos
+  public arrImpuestos = this._facturaReduxService.arrImpuestos;
   public totalProductosSignal = this._facturaReduxService.totalProductosSignal;
   public totalGeneralSignal = this._facturaReduxService.totalGeneralSignal;
   public totalCantidadesSignal =
@@ -67,7 +63,10 @@ export class FacturaDetalleComponent {
     }
   }
 
-  alEntrarMouse(item: DocumentoFacturaDetalleRespuesta, div: HTMLDivElement): void {
+  alEntrarMouse(
+    item: DocumentoFacturaDetalleRespuesta,
+    div: HTMLDivElement
+  ): void {
     this.mostrarIcono = item.item;
     this.itemSeleccionado = item;
     this.simularClic(div);
@@ -86,5 +85,13 @@ export class FacturaDetalleComponent {
     if (drawer.isOpen) {
       drawer.toggle();
     }
+  }
+
+  descargarPDF() {
+    const facturaDetallePdf = new FacturaPdf();
+    facturaDetallePdf.generarPosPdf(
+      this._contenedorReduxService.obtenerContendor(),
+      this._facturaReduxService.obtertenerFactura()
+    );
   }
 }

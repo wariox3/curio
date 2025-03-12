@@ -11,6 +11,16 @@ export const obtenerFacturas = (contenedor: number) => createSelector(
 
 export const obtenerFacturaActiva = createSelector(
   Facturacion,
+  (state) => {
+    const facturaActiva = state.facturas.find(
+      (_, index) => index === state.facturaActiva
+    );
+    return facturaActiva;
+  }
+);
+
+export const obtenerFacturaFacturaActiva = createSelector(
+  Facturacion,
   (Facturacion) => Facturacion.facturaActiva
 );
 
