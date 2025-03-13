@@ -30,7 +30,7 @@ export class FacturaBuscarItemComponent {
   }
 
   buscarCampo() {
-    if (this._debeBuscarPorId()) {
+    if (this._debeBuscarPorCodigo()) {
       this._buscarPorId();
     } else {
       this._obtenerListaCompleta();
@@ -59,9 +59,9 @@ export class FacturaBuscarItemComponent {
     return /^\d+$/.test(value);
   }
 
-  private _debeBuscarPorId(): boolean {
+  private _debeBuscarPorCodigo(): boolean {
     return (
-      this.tipoBusqueda() === 'id' &&
+      (this.tipoBusqueda() === 'id' || this.tipoBusqueda() === 'codigoBarras')  &&
       this.inputBusqueda !== '' &&
       this._esNumero(this.inputBusqueda)
     );
