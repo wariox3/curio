@@ -9,12 +9,11 @@ import {
 import { FormsModule } from '@angular/forms';
 import { FacturaTiposBusqueda } from '@type/factura-tipos-busqueda.type';
 import { ItemApiService } from '../../services/item-api.service';
-import { SoloNumerosDirective } from 'src/app/shared/directive/solo-numeros.directive';
 
 @Component({
   selector: 'app-factura-buscar-item',
   standalone: true,
-  imports: [NgClass, FormsModule, SoloNumerosDirective],
+  imports: [NgClass, FormsModule],
   templateUrl: './factura-buscar-item.component.html',
   styleUrl: './factura-buscar-item.component.scss',
 })
