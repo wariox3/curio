@@ -5,12 +5,12 @@ import { SeleccionarClienteComponent } from '@componentes/form/seleccionar-clien
 import { ContadorCantidadComponent } from '@componentes/ui/contador-cantidad/contador-cantidad.component';
 import { DocumentoFacturaDetalleRespuesta } from '@interfaces/facturas.interface';
 import { KTDrawer } from '@metronic/components/drawer';
-import { FacturaReduxService } from '../../services/factura-redux.service';
+import { FacturaReduxService } from '../../../../redux/services/factura-redux.service';
 import { FacturaEditarItemComponent } from '../factura-editar-item/factura-editar-item.component';
 import { FacturaModalPagarComponent } from '../factura-medios-pago/factura-modal-pagar/factura-modal-pagar.component';
 import { FacturaOpcionesDropdownComponent } from '../factura-opciones-dropdown/factura-opciones-dropdown.component';
 import { FacturaPdf } from 'src/app/shared/pdf/facturacion/factura-pdf';
-import { ContenedorReduxService } from 'src/app/pages/contenedores/services/contenedor-redux.service';
+import { ContenedorReduxService } from '@redux/services/contenedor-redux.service';
 
 @Component({
   selector: 'app-factura-detalle',

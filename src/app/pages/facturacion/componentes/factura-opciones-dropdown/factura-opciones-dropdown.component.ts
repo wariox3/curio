@@ -9,7 +9,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { KTDropdown } from '@metronic/components/dropdown/dropdown';
 import { KTModal } from '@metronic/components/modal/modal';
-import { FacturaReduxService } from '../../services/factura-redux.service';
+import { FacturaReduxService } from '../../../../redux/services/factura-redux.service';
 import { AlertaService } from 'src/app/shared/services/alerta.service';
 import { EMPTY, of, switchMap } from 'rxjs';
 

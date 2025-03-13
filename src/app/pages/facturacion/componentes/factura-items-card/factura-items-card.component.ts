@@ -1,7 +1,7 @@
 import { DecimalPipe, NgClass } from '@angular/common';
 import { Component, inject, Input, OnInit, signal } from '@angular/core';
 import { Item } from '@interfaces/item.interface';
-import { FacturaReduxService } from '../../services/factura-redux.service';
+import { FacturaReduxService } from '../../../../redux/services/factura-redux.service';
 import { ItemApiService } from '../../services/item-api.service';
 import { tap } from 'rxjs';
 

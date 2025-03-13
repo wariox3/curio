@@ -10,7 +10,7 @@ import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { AlertaService } from 'src/app/shared/services/alerta.service';
 import { ContenedorApiService } from '../../services/contenedor-api.service';
-import { ContenedorReduxService } from '../../services/contenedor-redux.service';
+import { ContenedorReduxService } from '../../../../redux/services/contenedor-redux.service';
 
 @Component({
   selector: 'app-contenedor-lista',

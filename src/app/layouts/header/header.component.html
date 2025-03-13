@@ -60,7 +60,7 @@
             <img
               alt=""
               class="size-9 rounded-full border-2 border-success shrink-0"
-              src="assets/media/avatars/300-2.png"
+              [src]="usuarioImagen"
             />
           </div>
           <div
@@ -71,25 +71,21 @@
                 <img
                   alt=""
                   class="size-9 rounded-full border-2 border-success"
-                  src="assets/media/avatars/300-2.png"
-                />
+                  [src]="usuarioImagen"
+                  />
                 <div class="flex flex-col gap-1.5">
                   <span
                     class="text-sm text-gray-800 font-semibold leading-none"
                   >
-                    Cody Fisher
+                    {{usuarioNombre}}
                   </span>
-                  <a
-                    class="text-xs text-gray-600 hover:text-primary font-medium leading-none"
-                    href="html/demo1/account/home/get-started.html"
-                  >
-                    c.fisher&#64;gmail.com
-                  </a>
+                  <span
+                  class="text-sm text-gray-800 font-normal leading-none"
+                >
+                  {{contendorNombre}}
+                </span>
                 </div>
               </div>
-              <span class="badge badge-xs badge-primary badge-outline">
-                Pro
-              </span>
             </div>
             <div class="menu-item" (click)="navegarAmisContenedores()">
               <a class="menu-link">

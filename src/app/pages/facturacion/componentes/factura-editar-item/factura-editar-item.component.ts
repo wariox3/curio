@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { DocumentoFacturaDetalleRespuesta } from '@interfaces/facturas.interface';
-import { FacturaReduxService } from '../../services/factura-redux.service';
+import { FacturaReduxService } from '../../../../redux/services/factura-redux.service';
 
 @Component({
   selector: 'app-factura-editar-item',

@@ -1,5 +1,5 @@
 import { Component, inject, output } from '@angular/core';
-import { FacturaReduxService } from '../../../services/factura-redux.service';
+import { FacturaReduxService } from '../../../../../redux/services/factura-redux.service';
 import { DecimalPipe } from '@angular/common';
 
 @Component({

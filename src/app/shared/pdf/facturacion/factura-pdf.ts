@@ -4,7 +4,7 @@ import {
   DocumentoFacturaDetalleRespuesta,
 } from '@interfaces/facturas.interface';
 import jsPDF from 'jspdf';
-import { FacturaReduxService } from 'src/app/pages/facturacion/services/factura-redux.service';
+import { FacturaReduxService } from '@redux/services/factura-redux.service';
 
 export class FacturaPdf {
   protected pdf = new jsPDF({
@@ -103,7 +103,7 @@ export class FacturaPdf {
     this.pdf.text('NIT 900.000.000-0', 40, (ejeY += 5), { align: 'center' });
     this.pdf.text('loremipsum.com/pos', 40, (ejeY += 5), { align: 'center' });
 
-    // preview sin descarga 
+    // preview sin descarga
     //this.pdf.output('dataurlnewwindow');
 
     // Para descargar directamente
