@@ -80,6 +80,7 @@
     </div>
     <div class="card-footer p-2">
       <div class="flex flex-col w-full">
+        <p class="text-lg font-semibold mb-2 self-center ">Resumen de la orden</p>
         <div class="flex justify-between">
           <p>Productos:</p>
           <p>{{ totalProductosSignal() }}</p>
@@ -98,7 +99,8 @@
           <p>$ {{ impuesto.value.total | number : "1.0-0"  }}</p>
         </div>
         }
-        <div class="flex justify-between">
+        <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700">
+        <div class="flex justify-between mb-2 text-lg font-semibold">
           <p>Total general:</p>
           <p>$ {{ totalGeneralSignal() | number : "1.0-0" }}</p>
         </div>
