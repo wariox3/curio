@@ -1,7 +1,7 @@
 import { environment } from "src/environment/environment";
 
-export const API_BASE_URL = environment.URL_API_MUUP;
-export const URL_API_SUBDOMINIO = environment.URL_API_SUBDOMINIO;
+export const API_BASE_URL = environment.url_api;
+export const URL_API_SUBDOMINIO = environment.url_api_subdominio;
 
 export const API_ENDPOINTS = {
   SEGURIDAD: {

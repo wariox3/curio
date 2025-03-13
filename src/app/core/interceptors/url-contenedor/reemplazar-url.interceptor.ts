@@ -6,8 +6,7 @@ export const reemplazarUrlInterceptor: HttpInterceptorFn = (req, next) => {
 
   let _contenedorReduxService = inject(ContenedorReduxService)
   _contenedorReduxService.obtenerContendorSubdominio()
-
-  const updatedUrl = req.url.replace('localhost', _contenedorReduxService.contendorSubdomino);
+  const updatedUrl = req.url.replace('subdominio', _contenedorReduxService.contendorSubdomino);
   const modifiedReq = req.clone({ url: updatedUrl });
   return next(modifiedReq);
 };

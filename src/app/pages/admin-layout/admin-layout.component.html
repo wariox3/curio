@@ -1,12 +1,16 @@
 <ng-container>
   <app-sidebar></app-sidebar>
-  <div class="wrapper flex grow flex-col">
+  <div class="wrapper flex grow flex-col ">
+    <div class="w-full">
     <app-header></app-header>
+    </div>
     <main class="grow content p-0" id="content" role="content">
       <!-- begin: container -->
       <router-outlet></router-outlet>
     </main>
-    <app-footer></app-footer>
+    <div class="w-full px-6">
+      <app-footer></app-footer>
+    </div>
   </div>
   <app-search-modal></app-search-modal>
 </ng-container>
