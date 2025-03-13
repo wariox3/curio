@@ -173,4 +173,10 @@ export class FechasService {
 
     return `${año}-${mes}-${dia}`;
   }
+
+  obtenerAnioActual():string {
+    const fecha = new Date();
+    const anio = fecha.getFullYear();
+    return `${anio}`;
+  }
 }
