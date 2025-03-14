@@ -121,5 +121,6 @@ export const documentoFacturaDetalleInit: DocumentoFacturaDetalleRespuesta = {
   almacen_id: 0,
   almacen_nombre: '',
   impuestos: [],
-  almacen: 1
+  almacen: 1,
+  codigo: ''
 };

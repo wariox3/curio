@@ -33,8 +33,9 @@
           class="flex justify-between items-center p-2 hover:bg-blue-50 animate-slide-in-left"
         >
           <div class="" style="flex: 1.5">
-            <p>{{ item.item_nombre }}</p>
-            <p>{{ item.precio | number : "1.0-0" }}</p>
+            <p class="font-light">Código: {{ item.codigo }}</p>
+            <p class="font-medium">Nombre{{ item.item_nombre }}</p>
+            <p class="font-light">${{ item.precio | number : "1.0-0" }}</p>
           </div>
           <div class="flex-1">
             <app-contador-cantidad

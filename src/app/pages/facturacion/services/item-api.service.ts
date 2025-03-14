@@ -14,7 +14,7 @@ export class ItemApiService {
   private _parametrosConsultaItem: ParametrosFiltrosConsultasHttp = {
     limite: 50,
     desplazar: 0,
-    ordenamientos: [],
+    ordenamientos: ['-favorito'],
     limite_conteo: 0,
     modelo: 'GenItem',
     filtros: [],
@@ -64,5 +64,9 @@ export class ItemApiService {
       id: itemId,
       venta: true,
     });
+  }
+
+  actualizarFavorito(itemId: number,  data: any) {
+    return this._http.patch<any>(`${API_ENDPOINTS.GENERAL.ITEM.GENERAL}${itemId}/`, data);
   }
 }

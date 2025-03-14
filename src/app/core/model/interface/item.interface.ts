@@ -22,4 +22,5 @@ export interface Item {
   disponible: number;
   cantidad: number,
   subtotal: number,
+  favorito: boolean,
 }

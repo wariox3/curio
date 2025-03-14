@@ -323,6 +323,7 @@ export class FacturaReduxService {
       impuestos: arrImpuesto,
       base_impuesto: item.precio * 1,
       almacen: 1,
+      codigo: item.codigo
     };
   }
 

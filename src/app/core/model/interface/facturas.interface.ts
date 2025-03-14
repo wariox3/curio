@@ -64,6 +64,7 @@ export interface DocumentoFactura {
 
 export interface DocumentoFacturaDetalleRespuesta {
   id: number;
+  codigo: string;
   documento_id: number;
   item: number;
   item_nombre: string;

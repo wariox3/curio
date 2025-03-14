@@ -17,6 +17,7 @@ import {
 } from '@angular/forms';
 import { InputComponent } from '@componentes/form/input/input.component';
 import { LabelComponent } from '@componentes/form/label/label.component';
+import { documentoFacturaDetalleInit } from '@constantes/factura.const';
 import { DocumentoFacturaDetalleRespuesta } from '@interfaces/facturas.interface';
 import { FacturaReduxService } from '@redux/services/factura-redux.service';
 
@@ -38,55 +39,7 @@ export class FacturaEditarItemComponent implements OnInit, OnChanges {
   public emitirAccionFormulario = output<boolean>();
   public formularioVenta: ReturnType<typeof this.inicializarFormulario>;
 
-  @Input() item: DocumentoFacturaDetalleRespuesta = {
-    id: 0,
-    documento_id: 0,
-    item: 0,
-    item_nombre: '',
-    cuenta: undefined,
-    cuenta_codigo: '',
-    cuenta_nombre: '',
-    cantidad: 0,
-    precio: 0,
-    pago: 0,
-    pago_operado: 0,
-    porcentaje: 0,
-    porcentaje_descuento: 0,
-    descuento: 0,
-    subtotal: 0,
-    total_bruto: 0,
-    base_impuesto: 0,
-    base: 0,
-    impuesto: 0,
-    impuesto_operado: 0,
-    impuesto_retencion: 0,
-    total: 0,
-    hora: 0,
-    dias: 0,
-    devengado: 0,
-    deducion: 0,
-    operacion: 0,
-    base_cotizacion: 0,
-    base_prestacion: 0,
-    documento_afectado_id: undefined,
-    documento_afectado_numero: '',
-    documento_afectado_contacto_nombre_corto: '',
-    contacto_id: undefined,
-    contacto_nombre_corto: '',
-    naturaleza: undefined,
-    detalle: undefined,
-    numero: undefined,
-    concepto_id: undefined,
-    concepto_nombre: '',
-    tipo_registro: '',
-    credito_id: undefined,
-    grupo_id: 0,
-    grupo_nombre: '',
-    almacen: 0,
-    almacen_id: 0,
-    almacen_nombre: '',
-    impuestos: [],
-  };
+  @Input() item: DocumentoFacturaDetalleRespuesta = documentoFacturaDetalleInit
 
   ngOnInit(): void {
     this.formularioVenta = this.inicializarFormulario();
