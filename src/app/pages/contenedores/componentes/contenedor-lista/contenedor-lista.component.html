@@ -7,7 +7,6 @@
       <thead>
         <tr>
           <th>Nombre</th>
-          <th></th>
           <th>Plan</th>
           <th>Usuarios</th>
           <th></th>
@@ -16,7 +15,7 @@
       <tbody>
         @for (contenedor of arrContenedores(); let idx = $index; track idx;) {
         <tr>
-          <td class="flex items-center">
+          <td class="flex items-center py-3">
             @if(contenedor.imagen){
             <img
               [src]="contenedor.imagen"
@@ -33,30 +32,23 @@
               </span>
             </div>
           </td>
-          <td></td>
           <td>
-            <div>
-              <span class="badge badge-outline badge-success">{{
-                contenedor.plan_nombre
-              }}</span>
-            </div>
+            <span class="badge badge-outline badge-success">{{
+              contenedor.plan_nombre
+            }}</span>
           </td>
-          <td>
-            <div class="text-xs">
+          <td class="text-xs">
               {{ contenedor.usuarios }} / {{ contenedor.usuarios_base }}
-            </div>
           </td>
-          <td>
-            <div class="flex gap-4">
-              <app-button
-                (emitirBotonClicked)="
-                  seleccionarEmpresa(contenedor.contenedor_id, idx)
-                "
-                [texto]="'Conectar'"
-                textoCargando="Espere..."
-                [estaCargando]="arrConectando[idx]"
-              ></app-button>
-            </div>
+          <td class="max-w-10">
+            <app-button
+              (emitirBotonClicked)="
+                seleccionarEmpresa(contenedor.contenedor_id, idx)
+              "
+              [texto]="'Conectar'"
+              textoCargando="Espere..."
+              [estaCargando]="arrConectando[idx]"
+            ></app-button>
           </td>
         </tr>
         }
