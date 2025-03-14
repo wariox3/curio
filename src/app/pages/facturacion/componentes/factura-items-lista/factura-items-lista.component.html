@@ -30,7 +30,7 @@
   } @else {
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
     @for (item of arrItemsSignal(); track $index) {
-    <app-factura-items-card [item]="item"> </app-factura-items-card>
+    <app-factura-items-card [item]="item" (emirtFavorito)="ordenarPorFavorito($event)"> </app-factura-items-card>
     }
   </div>
   } }

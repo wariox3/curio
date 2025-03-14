@@ -1,5 +1,5 @@
 import { DecimalPipe, JsonPipe, NgClass } from '@angular/common';
-import { Component, inject, Input, OnInit, signal } from '@angular/core';
+import { Component, inject, Input, OnInit, signal, output, SimpleChanges, OnChanges } from '@angular/core';
 import { Item } from '@interfaces/item.interface';
 import { FacturaReduxService } from '../../../../redux/services/factura-redux.service';
 import { ItemApiService } from '../../services/item-api.service';
@@ -11,18 +11,22 @@ import { tap } from 'rxjs';
   imports: [NgClass, DecimalPipe, ],
   templateUrl: './factura-items-card.component.html',
 })
-export class FacturaItemsCardComponent implements OnInit {
+export class FacturaItemsCardComponent implements OnInit, OnChanges {
   private _facturaReduxService = inject(FacturaReduxService);
   private _itemApiService = inject(ItemApiService);
   public cantidadSignal = signal(0);
-  public favoritoSignal = signal(false);
+  public emirtFavorito = output<number>()
 
   @Input() item: Item;
 
   ngOnInit(): void {
     this._itemCantidad(this.item.id);
-    this._asignarFavorito()
   }
+
+ngOnChanges(changes: SimpleChanges): void {
+  if (changes['item'] && !changes['item'].firstChange) {
+  }
+}
 
   seleccionarProducto(item: Item) {
     this._itemApiService
@@ -46,14 +50,8 @@ export class FacturaItemsCardComponent implements OnInit {
   }
 
   seleccionarFavorito(item: Item){
-    this.favoritoSignal.update((favorito)=> !favorito)
     this._itemFavorito(item.id)
-  }
-
-  private _asignarFavorito(){
-    if(this.item.favorito){
-      this.favoritoSignal.update((favorito)=> !favorito)
-    }
+    this.emirtFavorito.emit(item.id)
   }
 
   private _agregarNuevaCantidad(item: Item) {
@@ -80,6 +78,6 @@ export class FacturaItemsCardComponent implements OnInit {
   }
 
   private _itemFavorito(itemId: number){
-    this._itemApiService.actualizarFavorito(itemId, {favorito: this.favoritoSignal()}).subscribe()
+    this._itemApiService.actualizarFavorito(itemId, {favorito: !this.item.favorito}).subscribe()
   }
 }

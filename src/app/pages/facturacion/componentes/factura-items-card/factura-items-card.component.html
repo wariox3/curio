@@ -15,7 +15,7 @@
     class="absolute top-2 left-2 bg-teal-500 text-white text-sm w-7 h-7 flex items-center justify-center rounded-full"
     (click)="seleccionarFavorito(item); $event.stopPropagation()"
   >
-    @if(favoritoSignal()){
+    @if(item.favorito){
     <i class="ki-duotone ki-star text-white text-lg"></i>
     } @else {
     <i class="ki-outline ki-star text-lg"></i>

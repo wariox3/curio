@@ -17,6 +17,10 @@ export class FacturaItemsListaComponent implements OnInit {
 
   ngOnInit(): void {
     this._mostrarLoader();
+    this.consultarLista()
+  }
+
+  consultarLista(){
     this._cargarLista();
   }
 
@@ -43,6 +47,23 @@ export class FacturaItemsListaComponent implements OnInit {
 
   private _manejarError(error: any): void {
     this._ocultarLoader();
-    console.error('Error al cargar la lista:', error);
+  }
+
+  public ordenarPorFavorito(itemId: number): void {
+    // Obtener el array actual de items
+    const items = this.arrItemsSignal();
+    console.log(items);
+
+    // Actualizar la propiedad 'favorito' del item correspondiente
+    const itemsActualizados = items.map(item =>
+      item.id === itemId ? { ...item, favorito: !item.favorito } : item
+    );
+
+
+    // Ordenar los items por 'favorito'
+    const itemsOrdenados = itemsActualizados.sort((a, b) => (b.favorito ? 1 : 0) - (a.favorito ? 1 : 0));
+
+    // Actualizar la señal con el nuevo array ordenado
+    this.arrItemsSignal.set(itemsOrdenados);
   }
 }
