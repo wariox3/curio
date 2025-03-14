@@ -82,7 +82,7 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
         switchMap((data) =>
           this._facturaApiService.nuevo({
             ...data,
-            documento_tipo: 1,
+            documento_tipo: 24,
             numero: null,
             empresa: 1,
             contacto: data.contacto_id,
