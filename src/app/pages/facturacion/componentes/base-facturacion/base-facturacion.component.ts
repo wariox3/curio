@@ -23,8 +23,6 @@ export default class BaseFacturacionComponent {
   constructor() {
     this._facturaReduxService.obtenerReduxFacturas();
     this._facturaReduxService.obtertenerTabActivoFactura();
-    this._facturaReduxService.obtertenerNombreFactura();
-    this._facturaReduxService.obtenerItemsFactura();
     this._facturaReduxService.obtenerImpuestoFactura();
     this._facturaReduxService.obtertenerClienteFactura();
     this._facturaReduxService.obtenerImpuestoFactura();

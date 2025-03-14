@@ -70,7 +70,7 @@ export class AuthService implements OnDestroy {
   }
 
   private _clearLocalStorage () {
-    localStorage.clear();
+    localStorage.removeItem('contenedor');
   }
 
   private _removerCookies(){
