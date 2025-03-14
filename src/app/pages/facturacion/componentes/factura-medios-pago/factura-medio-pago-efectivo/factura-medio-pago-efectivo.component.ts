@@ -1,4 +1,12 @@
-import { Component, computed, inject, OnDestroy, OnInit, output } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  OnDestroy,
+  OnInit,
+  output,
+  signal,
+} from '@angular/core';
 import { FacturaReduxService } from '../../../../../redux/services/factura-redux.service';
 import { DecimalPipe } from '@angular/common';
 import {
@@ -11,7 +19,8 @@ import {
 import { FormErrorComponent } from '../../../../../shared/components/form/form-error/form-error.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FacturaApiService } from '../../../services/factura-api.service';
-import { Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { catchError, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { FacturaEstadosBtnGuardar } from '@type/factura-estados-btn-guardar.type';
 
 @Component({
   selector: 'app-factura-medio-pago-efectivo',
@@ -36,7 +45,7 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
   public emitirMedio = output<string>();
   public emitirPagoExito = output<boolean>();
   private destroy$ = new Subject<void>();
-
+  public textoBtn = signal<FacturaEstadosBtnGuardar>('Guardar');
 
   public formularioMedioPagoEfectivo!: FormGroup;
   public valorRestante = computed(
@@ -47,6 +56,11 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.inicializarFormulario();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private inicializarFormulario(): void {
@@ -74,31 +88,57 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
       });
   }
 
-  submit() {
-    this._facturaReduxService
-      .obtenerDataFactura()
-      .pipe(
-        takeUntil(this.destroy$),
-        switchMap((data) =>
-          this._facturaApiService.nuevo({
-            ...data,
-            documento_tipo: 24,
-            numero: null,
-            empresa: 1,
-            contacto: data.contacto_id,
-          })
-        ),
-        tap(() => this.emitirPagoExito.emit(true))
-      )
-      .subscribe();
-  }
-
   regresarAmedioPagos() {
     this.emitirMedio.emit(null);
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+  submit() {
+    this._actualizarTextoBtn('Validando');
+    this._obtenerDatosFactura()
+      .pipe(
+        switchMap((data) => this._crearFactura(data)),
+        switchMap((respuesta: any) =>
+          this._aprobarFactura(respuesta.documento.id)
+        ),
+        tap(() => this._finalizarProceso(true)),
+        catchError(() => {
+          this._finalizarProceso(false);
+          return of(null);
+        })
+      )
+      .subscribe();
+  }
+
+  private _obtenerDatosFactura() {
+    return this._facturaReduxService
+      .obtenerDataFactura()
+      .pipe(takeUntil(this.destroy$));
+  }
+
+  private _crearFactura(data: any) {
+    this._actualizarTextoBtn('Guardando');
+    return this._facturaApiService.nuevo({
+      ...data,
+      documento_tipo: 24,
+      numero: null,
+      empresa: 1,
+      contacto: data.contacto_id,
+    });
+  }
+
+  private _aprobarFactura(documentoId: number) {
+    this._actualizarTextoBtn('Aprobando');
+    return this._facturaApiService.aprobar(documentoId);
+  }
+
+  private _finalizarProceso(exito: boolean) {
+    this._actualizarTextoBtn('Guardar');
+    if (exito) {
+      this.emitirPagoExito.emit(true);
+    }
+  }
+
+  private _actualizarTextoBtn(texto: FacturaEstadosBtnGuardar) {
+    this.textoBtn.update(() => texto);
   }
 }

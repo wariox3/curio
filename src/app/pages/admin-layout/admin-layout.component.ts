@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostBinding, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FooterComponent } from 'src/app/layouts/footer/footer.component';
 import { HeaderComponent } from 'src/app/layouts/header/header.component';
@@ -21,8 +21,6 @@ import KTLayout from '../../../metronic/app/layouts/demo1';
   styleUrl: './admin-layout.component.scss',
 })
 export default class AdminLayoutComponent implements AfterViewInit, OnInit {
-  title = 'metronic-tailwind-angular';
-  @HostBinding('class') hostClass = 'flex grow';
 
   ngAfterViewInit(): void {
     KTComponents.init();
