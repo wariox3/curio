@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { Contacto } from '@interfaces/contacto';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ContactoApiService } from '../../../../pages/facturacion/services/contacto-api.service';
-import { FacturaReduxService } from '../../../../pages/facturacion/services/factura-redux.service';
+import { FacturaReduxService } from '../../../../redux/services/factura-redux.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({

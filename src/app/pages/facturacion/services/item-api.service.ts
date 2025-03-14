@@ -44,9 +44,9 @@ export class ItemApiService {
         ...{
           filtros: [
             {
-              propiedad: 'id',
+              propiedad: 'codigo',
               valor1: valor,
-              operador: 'exact',
+              operador: 'icontains',
             },
           ],
         },

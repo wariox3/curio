@@ -1,6 +1,6 @@
 import type { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { ContenedorReduxService } from 'src/app/pages/contenedores/services/contenedor-redux.service';
+import { ContenedorReduxService } from '@redux/services/contenedor-redux.service';
 
 export const reemplazarUrlInterceptor: HttpInterceptorFn = (req, next) => {
 

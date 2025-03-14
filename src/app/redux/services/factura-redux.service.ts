@@ -50,7 +50,7 @@ import {
   obtenerNombreFacturaActiva,
 } from '@redux/selectors/factura.selectors';
 import { FechasService } from 'src/app/shared/services/fechas.service';
-import { ContenedorReduxService } from '../../contenedores/services/contenedor-redux.service';
+import { ContenedorReduxService } from './contenedor-redux.service';
 
 @Injectable({ providedIn: 'root' })
 export class FacturaReduxService {

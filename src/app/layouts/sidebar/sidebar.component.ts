@@ -23,7 +23,7 @@ export class SidebarComponent extends GeneralClass {
   public sidebarMenu: SidebarMenu[] = [
     {
       nombre: 'Inicio',
-      link: '/admin/dashboard',
+      link: '/dashboard/facturacion',
       iconoClase: 'ki-filled ki-home',
       activo: false,
     },

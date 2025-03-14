@@ -6,7 +6,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { SoloNumerosDirective } from '../../../../directivas/solo-numeros.directive';
+import { SoloNumerosDirective } from 'src/app/shared/directive/solo-numeros.directive';
 
 @Component({
   selector: 'app-input',

@@ -8,7 +8,7 @@ import {
   ViewChild,
   ViewChildren
 } from '@angular/core';
-import { FacturaReduxService } from '../../services/factura-redux.service';
+import { FacturaReduxService } from '../../../../redux/services/factura-redux.service';
 import { FacturaOpcionesDropdownComponent } from "../factura-opciones-dropdown/factura-opciones-dropdown.component";
 
 @Component({

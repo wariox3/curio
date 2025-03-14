@@ -9,12 +9,11 @@ import {
 import { FormsModule } from '@angular/forms';
 import { FacturaTiposBusqueda } from '@type/factura-tipos-busqueda.type';
 import { ItemApiService } from '../../services/item-api.service';
-import { SoloNumerosDirective } from 'src/app/shared/directive/solo-numeros.directive';
 
 @Component({
   selector: 'app-factura-buscar-item',
   standalone: true,
-  imports: [NgClass, FormsModule, SoloNumerosDirective],
+  imports: [NgClass, FormsModule],
   templateUrl: './factura-buscar-item.component.html',
   styleUrl: './factura-buscar-item.component.scss',
 })
@@ -30,7 +29,7 @@ export class FacturaBuscarItemComponent {
   }
 
   buscarCampo() {
-    if (this._debeBuscarPorId()) {
+    if (this._debeBuscarPorCodigo()) {
       this._buscarPorId();
     } else {
       this._obtenerListaCompleta();
@@ -59,9 +58,9 @@ export class FacturaBuscarItemComponent {
     return /^\d+$/.test(value);
   }
 
-  private _debeBuscarPorId(): boolean {
+  private _debeBuscarPorCodigo(): boolean {
     return (
-      this.tipoBusqueda() === 'id' &&
+      (this.tipoBusqueda() === 'id' || this.tipoBusqueda() === 'codigoBarras')  &&
       this.inputBusqueda !== '' &&
       this._esNumero(this.inputBusqueda)
     );

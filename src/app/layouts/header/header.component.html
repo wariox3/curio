@@ -60,36 +60,30 @@
             <img
               alt=""
               class="size-9 rounded-full border-2 border-success shrink-0"
-              src="assets/media/avatars/300-2.png"
+              [src]="usuarioImagen"
             />
           </div>
           <div
             class="menu-dropdown menu-default light:border-gray-300 w-full max-w-[250px]"
           >
-            <div class="flex items-center justify-between px-5 py-1.5 gap-1.5">
+            <div class="flex flex-col items-center justify-center px-5 py-1.5 gap-2">
               <div class="flex items-center gap-2">
                 <img
                   alt=""
                   class="size-9 rounded-full border-2 border-success"
-                  src="assets/media/avatars/300-2.png"
+                  [src]="usuarioImagen"
                 />
-                <div class="flex flex-col gap-1.5">
-                  <span
-                    class="text-sm text-gray-800 font-semibold leading-none"
-                  >
-                    Cody Fisher
-                  </span>
-                  <a
-                    class="text-xs text-gray-600 hover:text-primary font-medium leading-none"
-                    href="html/demo1/account/home/get-started.html"
-                  >
-                    c.fisher&#64;gmail.com
-                  </a>
-                </div>
               </div>
-              <span class="badge badge-xs badge-primary badge-outline">
-                Pro
-              </span>
+              <div class="flex flex-col items-center gap-2">
+                <span
+                  class="text-sm text-gray-800 font-semibold leading-none"
+                >
+                  {{ usuarioNombre }}
+                </span>
+                <span class="text-sm text-gray-800 font-normal leading-none">
+                  {{ contendorNombre }}
+                </span>
+              </div>
             </div>
             <div class="menu-item" (click)="navegarAmisContenedores()">
               <a class="menu-link">
@@ -99,14 +93,13 @@
                 <span class="menu-title"> Mis contenedores </span>
               </a>
             </div>
-            <div class="menu-separator"></div>
             <div class="flex flex-col">
               <div class="menu-item mb-0.5">
                 <div class="menu-link">
                   <span class="menu-icon">
                     <i class="ki-filled ki-moon"> </i>
                   </span>
-                  <span class="menu-title"> Dark Mode </span>
+                  <span class="menu-title"> Modo oscuro </span>
                   <label class="switch switch-sm">
                     <input
                       data-theme-state="dark"
@@ -118,12 +111,13 @@
                   </label>
                 </div>
               </div>
-              <div class="menu-item px-4 py-1.5">
-                <a
-                  class="btn btn-sm btn-light justify-center"
-                  (click)="cerrarSeccion()"
-                >
-                  Salir
+
+              <div class="menu-item" (click)="cerrarSeccion()">
+                <a class="menu-link">
+                  <span class="menu-icon">
+                    <i class="ki-filled ki-exit-left"></i>
+                  </span>
+                  <span class="menu-title"> Cerrar sesión</span>
                 </a>
               </div>
             </div>

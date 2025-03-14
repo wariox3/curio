@@ -1,4 +1,6 @@
-import { Component, HostBinding } from '@angular/core';
+import { environment } from 'src/environment/environment';
+import { Component, HostBinding, inject } from '@angular/core';
+import { FechasService } from 'src/app/shared/services/fechas.service';
 
 @Component({
 	selector: 'app-footer',
@@ -8,5 +10,13 @@ import { Component, HostBinding } from '@angular/core';
 	styleUrl: './footer.component.scss'
 })
 export class FooterComponent {
-	@HostBinding('class') hostClass = 'footer';
+
+  private _fachaService = inject(FechasService)
+
+  public anioActual  = this._fachaService.obtenerAnioActual()
+
+  public urlDocumentacion = environment.appDocumentacion
+
+  @HostBinding('class') hostClass = 'footer';
+
 }

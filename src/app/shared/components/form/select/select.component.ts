@@ -16,6 +16,6 @@ interface Opciones {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SelectComponent {
-  @Input({ required: true }) control = new FormControl();
+  @Input({ required: true }) control!: FormControl;
   @Input() opciones: Opciones[] = []
 }

@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FacturaReduxService } from '../../../services/factura-redux.service';
+import { FacturaReduxService } from '../../../../../redux/services/factura-redux.service';
 import { FacturaMedioPagoEfectivoComponent } from '../factura-medio-pago-efectivo/factura-medio-pago-efectivo.component';
 import { FacturaMediosExitosoComponent } from '../factura-medios-exitoso/factura-medios-exitoso.component';
 import { FacturaSeleccionarMedioPagoComponent } from '../factura-seleccionar-medio-pago/factura-seleccionar-medio-pago.component';

@@ -30,10 +30,9 @@
       [(ngModel)]="inputBusqueda"
       [placeholder]="
         tipoBusqueda() === 'id'
-          ? 'Buscar por id'
+          ? 'Buscar por código'
           : 'Buscar por código barras'
       "
-      appSoloNumeros
     />
     @if(campoBusqueda.value !== ''){
     <button class="btn btn-icon" (click)="limpiarBusqueda()">

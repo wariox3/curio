@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FacturaReduxService } from '../../../services/factura-redux.service';
+import { FacturaReduxService } from '../../../../../redux/services/factura-redux.service';
 
 @Component({
   selector: 'app-factura-medios-exitoso',
