@@ -11,7 +11,7 @@ import { tap } from 'rxjs';
   imports: [NgClass, DecimalPipe, ],
   templateUrl: './factura-items-card.component.html',
 })
-export class FacturaItemsCardComponent implements OnInit, OnChanges {
+export class FacturaItemsCardComponent implements OnInit {
   private _facturaReduxService = inject(FacturaReduxService);
   private _itemApiService = inject(ItemApiService);
   public cantidadSignal = signal(0);
@@ -23,10 +23,6 @@ export class FacturaItemsCardComponent implements OnInit, OnChanges {
     this._itemCantidad(this.item.id);
   }
 
-ngOnChanges(changes: SimpleChanges): void {
-  if (changes['item'] && !changes['item'].firstChange) {
-  }
-}
 
   seleccionarProducto(item: Item) {
     this._itemApiService

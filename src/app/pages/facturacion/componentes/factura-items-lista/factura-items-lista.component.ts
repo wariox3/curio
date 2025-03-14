@@ -17,10 +17,10 @@ export class FacturaItemsListaComponent implements OnInit {
 
   ngOnInit(): void {
     this._mostrarLoader();
-    this.consultarLista()
+    this.consultarLista();
   }
 
-  consultarLista(){
+  consultarLista() {
     this._cargarLista();
   }
 
@@ -50,20 +50,23 @@ export class FacturaItemsListaComponent implements OnInit {
   }
 
   public ordenarPorFavorito(itemId: number): void {
+    this._mostrarLoader();
     // Obtener el array actual de items
     const items = this.arrItemsSignal();
-    console.log(items);
 
     // Actualizar la propiedad 'favorito' del item correspondiente
-    const itemsActualizados = items.map(item =>
+    const itemsActualizados = items.map((item) =>
       item.id === itemId ? { ...item, favorito: !item.favorito } : item
     );
-
-
     // Ordenar los items por 'favorito'
-    const itemsOrdenados = itemsActualizados.sort((a, b) => (b.favorito ? 1 : 0) - (a.favorito ? 1 : 0));
+    const itemsOrdenados = itemsActualizados.sort(
+      (a, b) => (b.favorito ? 1 : 0) - (a.favorito ? 1 : 0)
+    );
+
+    this.arrItemsSignal.set([]);
 
     // Actualizar la señal con el nuevo array ordenado
     this.arrItemsSignal.set(itemsOrdenados);
+    this._ocultarLoader();
   }
 }
