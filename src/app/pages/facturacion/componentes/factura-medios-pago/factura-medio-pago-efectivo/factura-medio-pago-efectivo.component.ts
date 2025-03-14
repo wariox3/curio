@@ -19,8 +19,18 @@ import {
 import { FormErrorComponent } from '../../../../../shared/components/form/form-error/form-error.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FacturaApiService } from '../../../services/factura-api.service';
-import { catchError, of, Subject, switchMap, takeUntil, tap } from 'rxjs';
+import {
+  catchError,
+  of,
+  Subject,
+  switchMap,
+  takeUntil,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
 import { FacturaEstadosBtnGuardar } from '@type/factura-estados-btn-guardar.type';
+import { InventarioApiService } from '../../../services/inventario-api.service';
+import { DocumentoFactura } from '@interfaces/facturas.interface';
 
 @Component({
   selector: 'app-factura-medio-pago-efectivo',
@@ -38,6 +48,7 @@ import { FacturaEstadosBtnGuardar } from '@type/factura-estados-btn-guardar.type
 export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
   private _facturaReduxService = inject(FacturaReduxService);
   private _facturaApiService = inject(FacturaApiService);
+  private _inventarioApiService = inject(InventarioApiService);
 
   private _formBuilder = inject(FormBuilder);
 
@@ -96,11 +107,31 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
     this._actualizarTextoBtn('Validando');
     this._obtenerDatosFactura()
       .pipe(
-        switchMap((data) => this._crearFactura(data)),
-        switchMap((respuesta: any) =>
-          this._aprobarFactura(respuesta.documento.id)
+        switchMap((data) =>
+          this._inventarioApiService.existenciaValidar(data.detalles).pipe(
+            withLatestFrom(of(data)) // Combina el resultado de la validación con los datos originales
+          )
         ),
-        tap(() => this._finalizarProceso(true)),
+        switchMap(([respuestaValidacion, data]) => {
+          if (respuestaValidacion.validar) {
+            return of(data);
+          }
+          return of(null);
+        }),
+        switchMap((data: DocumentoFactura | null) => {
+          return data ? this._crearFactura(data) : of(null);
+        }),
+        switchMap((respuesta: any) => {
+          if(respuesta !== null){
+            return this._aprobarFactura(respuesta.documento.id)
+          }
+          return of(null)
+        }),
+        tap((respuestaFacturaProbada: any) => {
+          if(respuestaFacturaProbada.estado_aprobado){
+            this._finalizarProceso(true)
+          }
+        }),
         catchError(() => {
           this._finalizarProceso(false);
           return of(null);
