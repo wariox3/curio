@@ -63,6 +63,7 @@ ngOnChanges(changes: SimpleChanges): void {
   }
 
   private _agregarProductoAFactura(item: Item) {
+
     this._facturaReduxService.agregarItem(item);
   }
 
