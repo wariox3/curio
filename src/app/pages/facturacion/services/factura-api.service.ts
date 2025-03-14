@@ -19,4 +19,10 @@ export class FacturaApiService {
       data
     );
   }
+
+  aprobar(id: number) {
+    return this._http.post<any>(API_ENDPOINTS.GENERAL.DOCUMENTO_APROBAR, {
+      id,
+    });
+  }
 }
