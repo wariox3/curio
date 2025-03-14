@@ -4,17 +4,35 @@
   (click)="seleccionarProducto(item)"
 >
   @if(cantidadSignal() >= 1 ){
-    <span
+  <span
     class="absolute top-2 right-2 bg-teal-500 text-white text-sm w-6 h-6 flex items-center justify-center rounded-full"
   >
-    {{ cantidadSignal() > 99 ? '99+' : cantidadSignal() }}
+    {{ cantidadSignal() > 99 ? "99+" : cantidadSignal() }}
   </span>
   }
+
+  <span
+    class="absolute top-2 left-2 bg-teal-500 text-white text-sm w-7 h-7 flex items-center justify-center rounded-full"
+    (click)="seleccionarFavorito(item); $event.stopPropagation()"
+  >
+    @if(favoritoSignal()){
+    <i class="ki-duotone ki-star text-white text-lg"></i>
+    } @else {
+    <i class="ki-outline ki-star text-lg"></i>
+    }
+  </span>
+
+  <img
+    src="https://placehold.co/30x30"
+    width="30"
+    height="30"
+    class="rounded-t-lg w-full object-cover"
+  />
+
   <div class="text-center">
-    <img src="https://placehold.co/80x80" width="80" height="80" class="rounded-t-lg w-full object-cover"    >
-
     <h3 class="text-lg font-light">{{ item.nombre }}</h3>
-    <p class="text-xl font-bold">$ {{ item.precio | number: '1.0-0' }}</p>
+    <h4 class="text-sm font-light">{{ item.codigo }}</h4>
+    <h4 class="text-sm font-light">{{ item.disponible || "Agotado" }}</h4>
+    <p class="text-base font-bold">$ {{ item.precio | number : "1.0-0" }}</p>
   </div>
-
 </div>

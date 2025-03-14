@@ -65,4 +65,8 @@ export class ItemApiService {
       venta: true,
     });
   }
+
+  actualizarFavorito(itemId: number,  data: any) {
+    return this._http.put<any>(`${API_ENDPOINTS.GENERAL.ITEM.GENERAL}${itemId}/`, data);
+  }
 }

@@ -1,4 +1,4 @@
-import { DecimalPipe, NgClass } from '@angular/common';
+import { DecimalPipe, JsonPipe, NgClass } from '@angular/common';
 import { Component, inject, Input, OnInit, signal } from '@angular/core';
 import { Item } from '@interfaces/item.interface';
 import { FacturaReduxService } from '../../../../redux/services/factura-redux.service';
@@ -8,18 +8,20 @@ import { tap } from 'rxjs';
 @Component({
   selector: 'app-factura-items-card',
   standalone: true,
-  imports: [NgClass, DecimalPipe],
+  imports: [NgClass, DecimalPipe, ],
   templateUrl: './factura-items-card.component.html',
 })
 export class FacturaItemsCardComponent implements OnInit {
   private _facturaReduxService = inject(FacturaReduxService);
   private _itemApiService = inject(ItemApiService);
   public cantidadSignal = signal(0);
+  public favoritoSignal = signal(false);
 
   @Input() item: Item;
 
   ngOnInit(): void {
     this._itemCantidad(this.item.id);
+    this._asignarFavorito()
   }
 
   seleccionarProducto(item: Item) {
@@ -43,6 +45,17 @@ export class FacturaItemsCardComponent implements OnInit {
       .subscribe();
   }
 
+  seleccionarFavorito(item: Item){
+    this.favoritoSignal.update((favorito)=> !favorito)
+    this._itemFavorito(item.id)
+  }
+
+  private _asignarFavorito(){
+    if(this.item.favorito){
+      this.favoritoSignal.update((favorito)=> !favorito)
+    }
+  }
+
   private _agregarNuevaCantidad(item: Item) {
     this.cantidadSignal.update((cantidad) => (cantidad += 1));
     this._facturaReduxService.actualizarCantidadItem(
@@ -64,5 +77,9 @@ export class FacturaItemsCardComponent implements OnInit {
           this.cantidadSignal.set(0);
         }
       });
+  }
+
+  private _itemFavorito(itemId: number){
+    this._itemApiService.actualizarFavorito(itemId, {favorito: this.favoritoSignal()}).subscribe()
   }
 }
