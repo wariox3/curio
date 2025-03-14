@@ -87,13 +87,7 @@ export class FacturaReduxService {
   );
 
   constructor() {
-    this.obtenerReduxFacturas();
-    this.obtertenerTabActivoFactura();
-    this.obtertenerNombreFactura();
-    this.obtenerItemsFactura();
-    this.obtenerImpuestoFactura();
-    this.obtertenerClienteFactura();
-    this.obtenerImpuestoFactura();
+
   }
 
   obtenerReduxFacturas() {
@@ -103,7 +97,7 @@ export class FacturaReduxService {
   }
 
   obtertenerFactura() {
-    return this._store.selectSignal(obtenerFacturaActiva)()
+    return this._store.selectSignal(obtenerFacturaActiva)();
   }
 
   obtertenerTabActivoFactura() {
