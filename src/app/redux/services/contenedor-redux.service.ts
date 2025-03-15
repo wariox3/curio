@@ -73,20 +73,23 @@ export class ContenedorReduxService {
 
   validarExistenciaContenedorCookie() {
     let ruta = window.location.pathname;
-    let indiceUltimaBarra = ruta.lastIndexOf('/');
-    if (indiceUltimaBarra !== -1) {
-      let ultimoSegmento = ruta.substring(indiceUltimaBarra + 1); // Obtener el segmento después del último '/'
-      if (ultimoSegmento !== 'facturacion') {
-        let datosContenedor = getCookie(`contenedor-${ultimoSegmento}`);
-        if (datosContenedor !== undefined) {
-          this.cargarContenedor(JSON.parse(datosContenedor));
-        } else {
-          return false; // Se usa para que AutentificacionGuard redireccione a auth
+    if (ruta.includes("dashboard/facturacion")) {
+      let indiceUltimaBarra = ruta.lastIndexOf('/');
+      if (indiceUltimaBarra !== -1) {
+        let ultimoSegmento = ruta.substring(indiceUltimaBarra + 1); // Obtener el segmento después del último '/'
+        if (ultimoSegmento !== 'facturacion') {
+          let datosContenedor = getCookie(`contenedor-${ultimoSegmento}`);
+          if (datosContenedor !== undefined) {
+            this.cargarContenedor(JSON.parse(datosContenedor));
+          } else {
+            return false; // Se usa para que AutentificacionGuard redireccione a auth
+          }
         }
       }
     }
     return true;
   }
+
   private _obtenerContendorId() {
     this._store
       .select(obtenerContenedorId)
