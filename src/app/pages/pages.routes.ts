@@ -9,6 +9,10 @@ export default [
         path: 'facturacion',
         loadComponent: () => import('./facturacion/componentes/base-facturacion/base-facturacion.component'),
       },
+      {
+        path: 'facturacion/:contenedor',
+        loadComponent: () => import('./facturacion/componentes/base-facturacion/base-facturacion.component'),
+      },
     ],
   },
   {
