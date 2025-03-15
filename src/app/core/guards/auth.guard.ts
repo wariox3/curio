@@ -9,7 +9,7 @@ export const AutentificacionGuard: CanMatchFn = (route) => {
   const contenedorReduxService = inject(ContenedorReduxService);
 
   if (tokenService.validarToken()) {
-    return contenedorReduxService.validarExiteciaContendorCookie();
+    return contenedorReduxService.validarExistenciaContenedorCookie();
   }
 
   //redirect a la landing page
