@@ -3,6 +3,7 @@ import { ConfiguracionGeneralApiService } from '../../services/configuracion-gen
 import { DocumentoTipo } from '@interfaces/documento-tipo.interface';
 import { LabelComponent } from '../../../../shared/components/form/label/label.component';
 import { switchAll, switchMap, tap } from 'rxjs';
+import { ConfiguracionReduxServiceService } from '@redux/services/configuracion-redux-service.service';
 
 @Component({
   selector: 'app-configuracion-general',
@@ -15,6 +16,9 @@ export class ConfiguracionGeneralComponent implements OnInit {
   private _configuracionGeneralApiService = inject(
     ConfiguracionGeneralApiService,
   );
+  private _configuracionReduxServiceService = inject(
+    ConfiguracionReduxServiceService
+  )
   public arrDocumentos = signal<DocumentoTipo[]>([]);
 
   ngOnInit(): void {
@@ -43,9 +47,7 @@ export class ConfiguracionGeneralComponent implements OnInit {
         }),
         tap((respuestaDocumentoTipo)=> {
           //Guardar en redux
-          console.log(respuestaDocumentoTipo);
-          console.log(respuestaDocumentoTipo.id);
-          console.log(respuestaDocumentoTipo.nombre);
+          this._configuracionReduxServiceService.actualizarNombre(respuestaDocumentoTipo.nombre)
 
         })
       )

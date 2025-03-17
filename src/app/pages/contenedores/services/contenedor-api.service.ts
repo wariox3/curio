@@ -27,4 +27,8 @@ export class ContenedorApiService {
       `${API_ENDPOINTS.CONTENEDORES.DETALLE}${codigoContenedor}/`
     );
   }
+
+  contedorConfiguracion(){
+    return this.http.get(`${API_ENDPOINTS.GENERAL.CONFIGURACION}1`)
+  }
 }
