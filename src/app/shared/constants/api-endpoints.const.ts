@@ -12,7 +12,7 @@ export const API_ENDPOINTS = {
     DOCUMENTO: `${URL_API_SUBDOMINIO}/general/documento/`,
     DOCUMENTO_APROBAR: `${URL_API_SUBDOMINIO}/general/documento/aprobar/`,
     DOCUMENTO_TIPO: `${URL_API_SUBDOMINIO}/general/documento_tipo/`,
-    CONFIGURACION: `${URL_API_SUBDOMINIO}/general/configuracion/1/`,
+    CONFIGURACION: `${URL_API_SUBDOMINIO}/general/configuracion/`,
 
     ITEM: {
       DETALLE: `${URL_API_SUBDOMINIO}/general/item/detalle/`,

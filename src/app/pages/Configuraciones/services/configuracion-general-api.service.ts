@@ -36,12 +36,16 @@ export class ConfiguracionGeneralApiService {
       );
   }
 
+  detalleConfiguracion(id: any) {
+    return this._http.get<DocumentoTipo>(
+      `${API_ENDPOINTS.GENERAL.DOCUMENTO_TIPO}${id}`
+    );
+  }
 
   actualizarDocumentoTipo(data: any) {
     return this._http.patch<DocumentoTipo>(
-      `${API_ENDPOINTS.GENERAL.CONFIGURACION}`,
+      `${API_ENDPOINTS.GENERAL.CONFIGURACION}1/`,
       data
     );
-
   }
 }

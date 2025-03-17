@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ConfiguracionGeneralApiService } from '../../services/configuracion-general-api.service';
 import { DocumentoTipo } from '@interfaces/documento-tipo.interface';
 import { LabelComponent } from '../../../../shared/components/form/label/label.component';
+import { switchAll, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-configuracion-general',
@@ -34,6 +35,20 @@ export class ConfiguracionGeneralComponent implements OnInit {
   private actualizarDocumento(documentoTipoId: string) {
     this._configuracionGeneralApiService
       .actualizarDocumentoTipo({ pos_documento_tipo: documentoTipoId })
+      .pipe(
+        switchMap ((respuesta: any) => {
+          return this._configuracionGeneralApiService.detalleConfiguracion(
+            respuesta.pos_documento_tipo,
+          )
+        }),
+        tap((respuestaDocumentoTipo)=> {
+          //Guardar en redux
+          console.log(respuestaDocumentoTipo);
+          console.log(respuestaDocumentoTipo.id);
+          console.log(respuestaDocumentoTipo.nombre);
+
+        })
+      )
       .subscribe();
   }
 }
