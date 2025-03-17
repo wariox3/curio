@@ -11,6 +11,7 @@ import { FacturaModalPagarComponent } from '../factura-medios-pago/factura-modal
 import { FacturaOpcionesDropdownComponent } from '../factura-opciones-dropdown/factura-opciones-dropdown.component';
 import { FacturaPdf } from 'src/app/shared/pdf/facturacion/factura-pdf';
 import { ContenedorReduxService } from '@redux/services/contenedor-redux.service';
+import { ConfiguracionReduxServiceService } from '@redux/services/configuracion-redux-service.service';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -31,8 +32,10 @@ import { ContenedorReduxService } from '@redux/services/contenedor-redux.service
 export class FacturaDetalleComponent {
   private _facturaReduxService = inject(FacturaReduxService);
   private _contenedorReduxService = inject(ContenedorReduxService);
+  private _configuracionReduxServiceService = inject(ConfiguracionReduxServiceService);
+
   public mostrarIcono: number | null = null;
-  public nombre = this._facturaReduxService.facturaActivaNombre;
+  public nombre = this._configuracionReduxServiceService.obtenerNombre();
   public items = this._facturaReduxService.arrItemsSignal;
   public arrImpuestos = this._facturaReduxService.arrImpuestos;
   public totalProductosSignal = this._facturaReduxService.totalProductosSignal;

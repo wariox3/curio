@@ -13,13 +13,13 @@
           class="btn btn-icon btn-light btn-clear btn-sm"
           data-drawer-toggle="#sidebar"
         >
-          <i class="ki-filled ki-menu"> </i>
+          <i class="ki-outline ki-menu"> </i>
         </button>
         <button
           class="btn btn-icon btn-light btn-clear btn-sm"
           data-drawer-toggle="#megamenu_wrapper"
         >
-          <i class="ki-filled ki-burger-menu-2"> </i>
+          <i class="ki-outline ki-burger-menu-2"> </i>
         </button>
       </div>
     </div>
@@ -88,16 +88,24 @@
             <div class="menu-item" (click)="navegarAmisContenedores()">
               <a class="menu-link">
                 <span class="menu-icon">
-                  <i class="ki-filled ki-abstract-26"></i>
+                  <i class="ki-outline ki-abstract-26"></i>
                 </span>
                 <span class="menu-title"> Mis contenedores </span>
+              </a>
+            </div>
+            <div class="menu-item" (click)="navegarConfiguracion()">
+              <a class="menu-link">
+                <span class="menu-icon">
+                  <i class="ki-outline ki-setting-4"></i>
+                </span>
+                <span class="menu-title"> Configuración </span>
               </a>
             </div>
             <div class="flex flex-col">
               <div class="menu-item mb-0.5">
                 <div class="menu-link">
                   <span class="menu-icon">
-                    <i class="ki-filled ki-moon"> </i>
+                    <i class="ki-outline ki-moon"> </i>
                   </span>
                   <span class="menu-title"> Modo oscuro </span>
                   <label class="switch switch-sm">
@@ -115,7 +123,7 @@
               <div class="menu-item" (click)="cerrarSeccion()">
                 <a class="menu-link">
                   <span class="menu-icon">
-                    <i class="ki-filled ki-exit-left"></i>
+                    <i class="ki-outline ki-exit-left"></i>
                   </span>
                   <span class="menu-title"> Cerrar sesión</span>
                 </a>

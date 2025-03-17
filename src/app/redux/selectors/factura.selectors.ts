@@ -6,8 +6,29 @@ const Facturacion = createFeatureSelector<FacturaReduxState>('facturacion');
 export const obtenerFacturas = (contenedor: number) => createSelector(
   Facturacion,
   (Facturacion) => Facturacion.facturas.filter((factura) => factura.contenedor === contenedor)
-
 );
+
+export const obtenerDetalleItemFacturaPorContenedor = (contenedorId: number, itemId: number) =>
+  createSelector(
+    Facturacion,
+    (state) => {
+      // Filtrar facturas por contenedorId
+      const facturas = state.facturas.filter((factura) => factura.contenedor === contenedorId);
+
+      // Obtener la factura activa
+      const facturaActiva = state.facturas[state.facturaActiva];
+
+      // Si no hay factura activa o detalles, devolver null
+      if (!facturaActiva || !facturaActiva.detalles) {
+        return null;
+      }
+
+      // Buscar el item en los detalles
+      const itemEncontrado = facturaActiva.detalles.find((detalle) => detalle.item === itemId);
+
+      return itemEncontrado || null; // Devolver el item si existe, de lo contrario, null
+    }
+  );
 
 export const obtenerFacturaActiva = createSelector(
   Facturacion,

@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { FacturaDetalleComponent } from '../factura-detalle/factura-detalle.component';
 import { FacturaItemsListaComponent } from '../factura-items-lista/factura-items-lista.component';
-import { FacturaTabsComponent } from '../tabs-factura/factura-tabs.component';
 import { FacturaBuscarItemComponent } from '../factura-buscar-item/factura-buscar-item.component';
 import { FacturaReduxService } from '@redux/services/factura-redux.service';
+import { FacturaTabsComponent } from '../factura-tabs/factura-tabs.component';
 
 @Component({
-  selector: 'app-base-facturacion',
+  selector: 'app-facturacion-base',
   standalone: true,
   imports: [
     FacturaTabsComponent,
@@ -14,10 +14,10 @@ import { FacturaReduxService } from '@redux/services/factura-redux.service';
     FacturaItemsListaComponent,
     FacturaBuscarItemComponent,
   ],
-  templateUrl: './base-facturacion.component.html',
-  styleUrl: './base-facturacion.component.scss',
+  templateUrl: './facturacion-base.component.html',
+  styleUrl: './facturacion-base.component.scss',
 })
-export default class BaseFacturacionComponent {
+export default class FacturacionBaseComponent {
   private _facturaReduxService = inject(FacturaReduxService);
 
   constructor() {

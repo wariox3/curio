@@ -2,23 +2,23 @@
   <button
     class="btn btn-input cursor-pointer"
     type="button"
-    [ngClass]="{ 'btn-primary': tipoBusqueda() === 'id' }"
-    (click)="seleccionarTipoBusqueda('id')"
+    [ngClass]="{ 'btn-primary': tipoBusqueda() === 'nombre' }"
+    (click)="seleccionarTipoBusqueda('nombre')"
   >
     <i
-      class="ki-filled ki-filter-search"
-      [ngClass]="{ 'text-white': tipoBusqueda() === 'id' }"
+      class="ki-outline  ki-filter-search"
+      [ngClass]="{ 'text-white': tipoBusqueda() === 'nombre' }"
     ></i>
   </button>
   <button
     class="btn btn-input cursor-pointer"
     type="button"
-    [ngClass]="{ 'btn-primary': tipoBusqueda() === 'codigoBarras' }"
-    (click)="seleccionarTipoBusqueda('codigoBarras')"
+    [ngClass]="{ 'btn-primary': tipoBusqueda() === 'codigo' }"
+    (click)="seleccionarTipoBusqueda('codigo')"
   >
     <i
-      class="ki-filled ki-scan-barcode"
-      [ngClass]="{ 'text-white': tipoBusqueda() === 'codigoBarras' }"
+      class="ki-outline  ki-barcode"
+      [ngClass]="{ 'text-white': tipoBusqueda() === 'codigo' }"
     ></i>
   </button>
   <div class="input">
@@ -29,19 +29,19 @@
       (input)="buscarCampo()"
       [(ngModel)]="inputBusqueda"
       [placeholder]="
-        tipoBusqueda() === 'id'
-          ? 'Buscar por código'
+        tipoBusqueda() === 'nombre'
+          ? 'Buscar por nombre'
           : 'Buscar por código barras'
       "
     />
     @if(campoBusqueda.value !== ''){
     <button class="btn btn-icon" (click)="limpiarBusqueda()">
-      <i class="ki-filled ki-cross text-red-500"> </i>
+      <i class="ki-outline  ki-cross text-red-500"> </i>
     </button>
     }
   </div>
 
   <span class="btn btn-input cursor-pointer">
-    <i class="ki-filled ki-add-files"></i>
+    <i class="ki-outline  ki-add-files"></i>
   </span>
 </div>
