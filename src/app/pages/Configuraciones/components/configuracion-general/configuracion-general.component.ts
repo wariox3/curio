@@ -20,6 +20,8 @@ export class ConfiguracionGeneralComponent implements OnInit {
     ConfiguracionReduxServiceService
   )
   public arrDocumentos = signal<DocumentoTipo[]>([]);
+  public documentoTipo =
+  this._configuracionReduxServiceService.obtenerDocumentoTipoId();
 
   ngOnInit(): void {
     this._consultarDocumentos();

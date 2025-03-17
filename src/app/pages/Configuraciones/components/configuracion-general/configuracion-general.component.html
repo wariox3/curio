@@ -4,7 +4,7 @@
     Seleccionar
   </option>
   @for (documento of arrDocumentos(); track $index) {
-    <option [value]="documento.id">
+    <option [value]="documento.id" [selected]="documentoTipo === documento.id">
       {{documento.nombre}}
      </option>
   }
