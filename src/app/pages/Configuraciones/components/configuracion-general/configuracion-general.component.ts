@@ -35,7 +35,7 @@ export class ConfiguracionGeneralComponent implements OnInit {
   private _consultarDocumentos() {
     this._configuracionGeneralApiService
       .consultarDocumentosVenta()
-      .subscribe((respuesta) => this.arrDocumentos.set(respuesta));
+      .subscribe((respuesta: any) => this.arrDocumentos.set(respuesta.registros));
   }
 
   private actualizarDocumento(documentoTipoId: string) {

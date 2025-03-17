@@ -23,7 +23,7 @@ import { usuarioActionClear } from '@redux/actions/usuario.actions';
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
   return (state, action) => {
     return localStorageSync({
-      keys: ['facturacion', 'contenedor'], // Incluye 'usuario' si también lo tienes persistido
+      keys: ['facturacion', 'contenedor', 'configuracion'], // Incluye 'usuario' si también lo tienes persistido
       rehydrate: true,
     })(reducer)(state, action);
   };

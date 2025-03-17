@@ -16,11 +16,16 @@ export class ConfiguracionGeneralApiService {
     desplazar: 0,
     ordenamientos: [],
     limite_conteo: 0,
-    modelo: 'GenItem',
+    modelo: 'GenDocumentoTipo',
     filtros: [
       {
         propiedad: 'venta',
         valor1: true,
+        operador: 'exact',
+      },
+      {
+        propiedad: 'operacion',
+        valor1: 1,
         operador: 'exact',
       },
     ],
@@ -30,10 +35,10 @@ export class ConfiguracionGeneralApiService {
 
   consultarDocumentosVenta() {
     return this._http
-      .get<DocumentoTipo[]>(API_ENDPOINTS.GENERAL.DOCUMENTO_TIPO)
-      .pipe(
-        map((documentos) => documentos.filter((doc) => doc.venta === true)),
-      );
+      .post<DocumentoTipo[]>(API_ENDPOINTS.GENERAL.FUNCIONALIDAD_LISTAS, this._parametrosConsultaItem)
+      // .pipe(
+      //   map((documentos) => documentos.filter((doc) => doc.venta === true)),
+      // );
   }
 
   detalleConfiguracion(id: any) {
