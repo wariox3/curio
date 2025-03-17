@@ -1,11 +1,15 @@
-import { createReducer, on } from "@ngrx/store";
-import { actualizarNombrePorContenedor, ConfiguracionActionInit } from "@redux/actions/configuracion.actions";
+import { createReducer, on } from '@ngrx/store';
+import {
+  actualizarDocumentoTipoIdPorContenedor,
+  actualizarDocumentoTipoNombrePorContenedor,
+  ConfiguracionActionInit,
+} from '@redux/actions/configuracion.actions';
 
 export const initialState: any = {
   documento_tipo_id: '',
   documento_tipo_nombre: '',
-  contendor: 0
-}
+  contenedor_id: 0,
+};
 
 export const configuracionReducer = createReducer(
   initialState,
@@ -15,8 +19,14 @@ export const configuracionReducer = createReducer(
       ...configuracion,
     };
   }),
-  on(actualizarNombrePorContenedor, (state, { contenedorId, nombre }) => ({
+  on(actualizarDocumentoTipoIdPorContenedor, (state, { contenedorId, documento_tipo_id }) => ({
     ...state,
-    documento_tipo_nombre: state.contendor === contenedorId ? nombre : state.nombre
-  }))
+    documento_tipo_id:
+      state.contenedor_id === contenedorId ? documento_tipo_id : state.documento_tipo_id,
+  })),
+  on(actualizarDocumentoTipoNombrePorContenedor, (state, { contenedorId, documento_tipo_nombre }) => ({
+    ...state,
+    documento_tipo_nombre:
+      state.contenedor_id === contenedorId ? documento_tipo_nombre : state.documento_tipo_nombre,
+  })),
 );

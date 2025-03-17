@@ -45,9 +45,10 @@ export class ConfiguracionGeneralComponent implements OnInit {
             respuesta.pos_documento_tipo,
           )
         }),
-        tap((respuestaDocumentoTipo)=> {
+        tap((respuestaDocumentoTipo: any)=> {
           //Guardar en redux
-          this._configuracionReduxServiceService.actualizarNombre(respuestaDocumentoTipo.nombre)
+          this._configuracionReduxServiceService.actualizarDocumentoTipoId(respuestaDocumentoTipo.id)
+          this._configuracionReduxServiceService.actualizarDocumentoTipoNombre(respuestaDocumentoTipo.nombre)
 
         })
       )

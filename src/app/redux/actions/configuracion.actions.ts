@@ -7,7 +7,12 @@ export const ConfiguracionActionInit = createAction(
   props<{ configuracion: any }>()
 );
 
-export const actualizarNombrePorContenedor = createAction(
-  '[Configuración] Actualizar Nombre por Contenedor',
-  props<{ contenedorId: number; nombre: string }>()
+export const actualizarDocumentoTipoIdPorContenedor = createAction(
+  '[Configuración] Actualizar Documento_tipo_id por Contenedor',
+  props<{ contenedorId: number; documento_tipo_id: string }>()
+);
+
+export const actualizarDocumentoTipoNombrePorContenedor = createAction(
+  '[Configuración] Actualizar Documento_tipo_Nombre por Contenedor',
+  props<{ contenedorId: number; documento_tipo_nombre: string }>()
 );

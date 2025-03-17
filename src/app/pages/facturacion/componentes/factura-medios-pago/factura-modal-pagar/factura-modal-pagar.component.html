@@ -2,7 +2,7 @@
   class="w-full  bg-green-500 hover:bg-green-600 text-white h-12 text-lg font-medium rounded-md"
   data-modal-toggle="#modal_2"
   (click)="mostrarTemplate(null)"
-  [disabled]="totalProductosSignal() === 0"
+  [disabled]="totalProductosSignal() === 0 || !documentoTipo"
   [ngClass]="{ 'cursor-not-allowed': totalProductosSignal() === 0 }"
 >
   Pagar

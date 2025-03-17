@@ -84,13 +84,11 @@ export default class ContenedorListaComponent implements OnInit {
           return of(false);
         }),
         tap((respuesta: any) => {
-          if (respuesta) {
-            this._configuracionReduxServiceService.cargarConfiguracion({
-              id: respuesta.id,
-              nombre: respuesta.nombre,
-              contenedor: this._contenedorReduxService.contendorId(),
-            });
-          }
+          this._configuracionReduxServiceService.cargarConfiguracion({
+            documento_tipo_id: respuesta.id ?? '',
+            documento_tipo_nombre: respuesta.nombre ?? '',
+            contenedor_id: this._contenedorReduxService.contendorId(),
+          });
         }),
         tap(() => this._router.navigate(['/dashboard/facturacion'])),
         catchError(() => {
