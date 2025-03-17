@@ -1,0 +1,12 @@
+<div class="tabs mb-5" data-tabs="true">
+
+@for (modulo of arrModulos; track $index) {
+  <button
+    class="tab"
+    [ngClass]="{ active: menuSeleccionado === modulo }"
+    (click)="seleccionarConfiguracion(modulo)"
+  >
+    {{ modulo | titlecase }}
+  </button>
+}
+</div>

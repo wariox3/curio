@@ -1,0 +1,12 @@
+<app-label>Documento tipo</app-label>
+<select class="select" name="select" (change)="cambiarDocumentoTipo($event)">
+  <option value="">
+    Seleccionar
+  </option>
+  @for (documento of arrDocumentos(); track $index) {
+    <option [value]="documento.id">
+      {{documento.nombre}}
+     </option>
+  }
+
+ </select>
