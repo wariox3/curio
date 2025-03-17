@@ -41,6 +41,7 @@ import {
 import {
   obtenerClienteFacturaActiva,
   obtenerDataFacturaActiva,
+  obtenerDetalleItemFacturaPorContenedor,
   obtenerFacturaActiva,
   obtenerFacturaFacturaActiva,
   obtenerFacturas,
@@ -86,9 +87,7 @@ export class FacturaReduxService {
     this.arrItemsSignal().reduce((total, item) => (total += item.total), 0)
   );
 
-  constructor() {
-
-  }
+  constructor() {}
 
   obtenerReduxFacturas() {
     this._store
@@ -136,6 +135,15 @@ export class FacturaReduxService {
 
   obtenerItemCantidad(itemId: number) {
     return this._store.select(obtenerItemCantidadFacturaActiva(itemId));
+  }
+
+  validarItemAgregadoFactura(itemId: number) {
+    return this._store.select(
+      obtenerDetalleItemFacturaPorContenedor(
+        this._contenedorReduxService.contendorId(),
+        itemId
+      )
+    );
   }
 
   nuevaFactura() {
@@ -323,7 +331,7 @@ export class FacturaReduxService {
       impuestos: arrImpuesto,
       base_impuesto: item.precio * 1,
       almacen: 1,
-      codigo: item.codigo
+      codigo: item.codigo,
     };
   }
 

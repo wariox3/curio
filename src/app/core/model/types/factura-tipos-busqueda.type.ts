@@ -1,1 +1,1 @@
-export type FacturaTiposBusqueda = 'id' | 'codigoBarras'
+export type FacturaTiposBusqueda = 'nombre' | 'codigo'
