@@ -7,11 +7,11 @@ export default [
     children: [
       {
         path: 'facturacion',
-        loadComponent: () => import('./facturacion/componentes/base-facturacion/base-facturacion.component'),
+        loadComponent: () => import('./facturacion/componentes/facturacion-base/facturacion-base.component'),
       },
       {
         path: 'facturacion/:contenedor',
-        loadComponent: () => import('./facturacion/componentes/base-facturacion/base-facturacion.component'),
+        loadComponent: () => import('./facturacion/componentes/facturacion-base/facturacion-base.component'),
       },
     ],
   },
