@@ -1,4 +1,4 @@
-import { DecimalPipe, KeyValuePipe } from '@angular/common';
+import { DecimalPipe, KeyValuePipe, NgClass } from '@angular/common';
 import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SeleccionarClienteComponent } from '@componentes/form/seleccionar-cliente/seleccionar-cliente.component';
@@ -12,6 +12,7 @@ import { FacturaOpcionesDropdownComponent } from '../factura-opciones-dropdown/f
 import { FacturaPdf } from 'src/app/shared/pdf/facturacion/factura-pdf';
 import { ContenedorReduxService } from '@redux/services/contenedor-redux.service';
 import { ConfiguracionReduxServiceService } from '@redux/services/configuracion-redux-service.service';
+import { FacturaBtnRetirarItemsComponent } from "../factura-btn-retirar-items/factura-btn-retirar-items.component";
 
 @Component({
   selector: 'app-factura-detalle',
@@ -25,7 +26,8 @@ import { ConfiguracionReduxServiceService } from '@redux/services/configuracion-
     FacturaModalPagarComponent,
     SeleccionarClienteComponent,
     KeyValuePipe,
-  ],
+    FacturaBtnRetirarItemsComponent
+],
   templateUrl: './factura-detalle.component.html',
   styleUrl: './factura-detalle.component.scss',
 })

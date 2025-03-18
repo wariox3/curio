@@ -1,0 +1,10 @@
+<Button
+  class="w-full h-12 text-lg font-light rounded-md mt-2 border-2"
+  (click)="retirarItems()"
+  [ngClass]="{
+    'hover:bg-red-400 hover:text-white': totalProductosSignal() > 0,
+    'cursor-not-allowed': totalProductosSignal() === 0,
+  }"
+>
+  Retirar items
+</Button>
