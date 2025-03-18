@@ -1,0 +1,22 @@
+<div class="w-full h-full">
+  @if (visualizarLoader()) {
+    <app-loader></app-loader>
+  } @else {
+    @if (arrFacturasSignal().length === 0) {
+      <div class="text-center p-4">
+        <i class="ki-filled ki-purchase text-gray-500 text-3xl"></i>
+        <p class="text-gray-500">No hay productos.</p>
+      </div>
+    } @else {
+      <div class="card h-full">
+        <div class="card-body scrollable h-[200px] py-0 my-4">
+          @for (factura of arrFacturasSignal(); track $index) {
+            <app-historial-item-card
+              [factura]="factura"
+            ></app-historial-item-card>
+          }
+        </div>
+      </div>
+    }
+  }
+</div>

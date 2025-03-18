@@ -1,0 +1,23 @@
+<div class="card mb-2 hover:bg-blue-50 cursor-pointer" id="join_request">
+  <div class="card-body flex items-center justify-between gap-10">
+    <div class="flex items-center gap-2.5">
+      <div class="flex flex-col">
+        <div class="text-2sm mb-px">
+          <span class="font-medium text-gray-600">
+            {{ factura.contacto_nombre_corto }} - {{factura.contacto_numero_identificacion}}
+          </span>
+        </div>
+        <span
+          class="flex items-center text-2xs font-medium text-gray-500"
+        >
+          {{ factura.fecha }}
+        </span>
+      </div>
+    </div>
+    <div class="flex gap-2.5">
+      <span>
+        {{ factura.total | number }}
+      </span>
+    </div>
+  </div>
+</div>

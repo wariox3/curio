@@ -26,6 +26,16 @@ export default [
             './Configuraciones/components/configuracion-base/configuracion-base.component'
           ),
       },
+      {
+        path: 'historial',
+        loadChildren: () =>
+          import('./historial/historial.routes').then((r) => r.routes),
+      },
+      {
+        path: 'cuadre_caja',
+        loadChildren: () =>
+          import('./cuadre-caja/cuadre-caja.routes').then((r) => r.routes),
+      }
     ],
   },
   {
