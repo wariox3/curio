@@ -39,7 +39,7 @@ export const obtenerDetalleItemFacturaPorContenedor = (
 
 export const obtenerFacturaActiva = createSelector(Facturacion, (state) => {
   const facturaActiva = state.facturas.find(
-    (factura, index) => factura.uuid === state.facturaActiva,
+    (factura) => factura.uuid === state.facturaActiva,
   );
   return facturaActiva;
 });

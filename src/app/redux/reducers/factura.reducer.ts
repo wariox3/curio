@@ -41,9 +41,9 @@ export const facturaReducer = createReducer(
     facturas: [...state.facturas, factura],
   })),
   on(facturaActualizarNombreAction, (state, { index, nombre }) => ({
-    ...state, 
+    ...state,
     facturas: state.facturas.map((factura) =>
-      state.facturaActiva === index ? { ...factura, nombre } : factura,
+      factura.uuid === index ? { ...factura, nombre } : factura,
     ),
   })),
   on(facturaEliminarAction, (state, { index }) => ({
