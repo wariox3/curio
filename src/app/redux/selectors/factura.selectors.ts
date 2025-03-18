@@ -101,10 +101,10 @@ export const obtenerTotalFacturaActiva = createSelector(
   },
 );
 
-export const obtenerDataFacturaActiva = createSelector(Facturacion, (state) => {
-  const facturaActiva = state.facturas[state.facturaActiva];
-  return facturaActiva ? facturaActiva : null;
-});
+// export const obtenerDataFacturaActiva = createSelector(Facturacion, (state) => {
+//   const facturaActiva = state.facturas[state.facturaActiva];
+//   return facturaActiva ? facturaActiva : null;
+// });
 
 export const obtenerImpuestosFacturaActiva = createSelector(
   Facturacion,
