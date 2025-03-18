@@ -1,6 +1,9 @@
 import { Usuario } from '@interfaces/usuario.interfece';
 import { createReducer, on } from '@ngrx/store';
-import { usuarioActionInit, usuarioActionClear } from '@redux/actions/usuario.actions';
+import {
+  usuarioActionInit,
+  usuarioActionClear,
+} from '@redux/actions/usuario.actions';
 import { getCookie } from 'typescript-cookie';
 
 let usuarioData = getCookie('usuario');
@@ -37,9 +40,10 @@ export const usuarioReducer = createReducer(
       ...usuario,
     };
   }),
-    on(usuarioActionClear, (state) => {
+  on(usuarioActionClear, (state) => {
     return {
       ...parsedState,
     };
-  })
+  }),
+  
 );

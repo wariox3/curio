@@ -2,6 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import {
   actualizarDocumentoTipoIdPorContenedor,
   actualizarDocumentoTipoNombrePorContenedor,
+  configuracionActionClear,
   ConfiguracionActionInit,
 } from '@redux/actions/configuracion.actions';
 
@@ -19,14 +20,29 @@ export const configuracionReducer = createReducer(
       ...configuracion,
     };
   }),
-  on(actualizarDocumentoTipoIdPorContenedor, (state, { contenedorId, documento_tipo_id }) => ({
-    ...state,
-    documento_tipo_id:
-      state.contenedor_id === contenedorId ? documento_tipo_id : state.documento_tipo_id,
-  })),
-  on(actualizarDocumentoTipoNombrePorContenedor, (state, { contenedorId, documento_tipo_nombre }) => ({
-    ...state,
-    documento_tipo_nombre:
-      state.contenedor_id === contenedorId ? documento_tipo_nombre : state.documento_tipo_nombre,
-  })),
+  on(
+    actualizarDocumentoTipoIdPorContenedor,
+    (state, { contenedorId, documento_tipo_id }) => ({
+      ...state,
+      documento_tipo_id:
+        state.contenedor_id === contenedorId
+          ? documento_tipo_id
+          : state.documento_tipo_id,
+    }),
+  ),
+  on(
+    actualizarDocumentoTipoNombrePorContenedor,
+    (state, { contenedorId, documento_tipo_nombre }) => ({
+      ...state,
+      documento_tipo_nombre:
+        state.contenedor_id === contenedorId
+          ? documento_tipo_nombre
+          : state.documento_tipo_nombre,
+    }),
+  ),
+  on(configuracionActionClear, () => {
+    return {
+      ...initialState,
+    };
+  }),
 );
