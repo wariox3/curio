@@ -9,6 +9,7 @@ import { removeCookie } from 'typescript-cookie';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { usuarioActionClear } from '@redux/actions/usuario.actions';
+import { configuracionActionClear } from '@redux/actions/configuracion.actions';
 // import { Router } from '@angular/router';
 // import { noRequiereToken } from '@interceptores/token.interceptor';
 // import { Usuario } from '@interfaces/usuario/usuario';
@@ -40,6 +41,7 @@ export class AuthService implements OnDestroy {
   private _router = inject(Router);
   // private tokenService = inject(TokenService);
   private _store = inject(Store);
+  private keyLocalStorage = ['contenedor', 'configuracion'];
 
   constructor() {}
 
@@ -64,13 +66,14 @@ export class AuthService implements OnDestroy {
 
   logout() {
     this._store.dispatch(usuarioActionClear());
+    this._store.dispatch(configuracionActionClear());
     this._clearLocalStorage()
     this._removerCookies()
     this._tokenService.eliminarToken();
   }
 
-  private _clearLocalStorage () {
-    localStorage.removeItem('contenedor');
+  private _clearLocalStorage() {
+    this.keyLocalStorage.forEach(key => localStorage.removeItem(key));
   }
 
   private _removerCookies(){

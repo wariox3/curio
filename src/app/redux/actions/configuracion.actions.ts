@@ -8,11 +8,15 @@ export const ConfiguracionActionInit = createAction(
 );
 
 export const actualizarDocumentoTipoIdPorContenedor = createAction(
-  '[Configuración] Actualizar Documento_tipo_id por Contenedor',
+  '[Configuracion] Actualizar Documento_tipo_id por Contenedor',
   props<{ contenedorId: number; documento_tipo_id: string }>()
 );
 
 export const actualizarDocumentoTipoNombrePorContenedor = createAction(
-  '[Configuración] Actualizar Documento_tipo_Nombre por Contenedor',
+  '[Configuracion] Actualizar Documento_tipo_Nombre por Contenedor',
   props<{ contenedorId: number; documento_tipo_nombre: string }>()
+);
+
+export const configuracionActionClear = createAction(
+  '[Configuracion] limpiar informacion',
 );
