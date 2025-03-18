@@ -1,19 +1,21 @@
-@for (tab of tabs(); track idx; let idx = $index; let first = $first) {
-<button
-  class="tab px-2"
-  [ngClass]="{ 'active bg-blue-50': tabActivo() === idx }"
-  [attr.data-tab-toggle]="'#' + idx"
-  (click)="seleccionarTab(idx)"
->
-  <i class="ki-filled ki-document"></i>
-  @if(first || tab.nombre !== 'Factura' ){
-  {{ tab.nombre }}
-  } @else {
-  {{ tab.nombre + " " + idx }}
-  } @if( tabActivo() === idx && idx !== 0){
-  <app-factura-opciones-dropdown></app-factura-opciones-dropdown>
-  }
-</button>
+@for (factura of arrFacturasSignal(); track idx; let idx = $index; let first = $first) {
+  <button
+    class="tab px-2"
+    [ngClass]="{ 'active bg-blue-50':  tabActivo() === factura.uuid  }"
+    [attr.data-tab-toggle]="'#' + idx"
+    (click)="seleccionarTab(idx)"
+  >
+    <i class="ki-filled ki-document"></i>
+    @if (first || factura.nombre !== "Factura") {
+      {{ factura.nombre }}
+    } @else {
+      {{ factura.nombre + " " + idx }}
+    }
+      @if (tabActivo() === factura.uuid  && idx !== 0) {
+
+      <app-factura-opciones-dropdown></app-factura-opciones-dropdown>
+    }
+  </button>
 }
 <button class="tab" (click)="agregarTab()">
   <i class="ki-filled ki-plus-circle ms-2"></i>

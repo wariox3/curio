@@ -47,7 +47,7 @@ export class FacturaOpcionesDropdownComponent {
   actualizarNombreTab(): void {
     this._facturaReduxService.cambiarNombre(
       this.tabActivo(),
-      this.inputCambiarNombre
+      this.inputCambiarNombre,
     );
   }
 
@@ -65,6 +65,4 @@ export class FacturaOpcionesDropdownComponent {
     this._facturaReduxService.retirarFactura(this.tabActivo());
     this._toggleModal(this.modalConfirmacionEliminar);
   }
-
-
 }

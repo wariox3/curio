@@ -71,7 +71,8 @@ export const facturaInit: DocumentoFactura = {
   almacen: 1,
   almacen_id: 0,
   almacen_nombre: '',
-  nombre: 'Factura principal',
+  nombre: 'Factura',
+  uuid: '',
 };
 
 export const documentoFacturaDetalleInit: DocumentoFacturaDetalleRespuesta = {
@@ -122,5 +123,5 @@ export const documentoFacturaDetalleInit: DocumentoFacturaDetalleRespuesta = {
   almacen_nombre: '',
   impuestos: [],
   almacen: 1,
-  codigo: ''
+  codigo: '',
 };

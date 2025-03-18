@@ -11,17 +11,17 @@ export const facturaNuevaAction = createAction(
 
 export const facturaActualizarNombreAction = createAction(
   '[Factura] Actualizar Nombre',
-  props<{ index: number; nombre: string }>()
+  props<{ index: string; nombre: string }>()
 );
 
 export const facturaEliminarAction = createAction(
   '[Factura] Eliminar',
-  props<{ index: number }>()
+  props<{ index: string }>()
 );
 
 export const seleccionarFacturaActiva = createAction(
   '[Factura] seleccionar tab Factura',
-  props<{ id: number }>()
+  props<{ id: string }>()
 );
 
 export const agregarItemFacturaActiva = createAction(

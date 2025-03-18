@@ -52,6 +52,7 @@ import {
 } from '@redux/selectors/factura.selectors';
 import { FechasService } from 'src/app/shared/services/fechas.service';
 import { ContenedorReduxService } from './contenedor-redux.service';
+import * as uuid from 'uuid';
 
 @Injectable({ providedIn: 'root' })
 export class FacturaReduxService {
@@ -59,7 +60,7 @@ export class FacturaReduxService {
   private _fechasService = inject(FechasService);
   private _contenedorReduxService = inject(ContenedorReduxService);
 
-  public facturaTabActivo = signal<number>(0);
+  public facturaTabActivo = signal<string>('');
   public arrFacturasSignal = signal<DocumentoFactura[]>([]);
   public facturaActivaNombre = signal('');
   public facturaActivaContacto = signal<number | null>(1);
@@ -158,13 +159,14 @@ export class FacturaReduxService {
           fecha: fechaVencimientoInicial,
           fecha_vence: fechaVencimientoInicial,
           contenedor: this._contenedorReduxService.contendorId(),
+          uuid: uuid.v4()
         },
       })
     );
     this.obtenerReduxFacturas();
   }
 
-  cambiarNombre(index: number, nombre: string) {
+  cambiarNombre(index: string, nombre: string) {
     this._store.dispatch(
       facturaActualizarNombreAction({
         index,
@@ -174,12 +176,12 @@ export class FacturaReduxService {
     this.obtenerReduxFacturas();
   }
 
-  retirarFactura(index: number) {
+  retirarFactura(index: string) {
     this._store.dispatch(facturaEliminarAction({ index }));
     this.obtenerReduxFacturas();
   }
 
-  seleccionarTabActivoFactura(id: number) {
+  seleccionarTabActivoFactura(id: string) {
     this._store.dispatch(seleccionarFacturaActiva({ id }));
     this.obtertenerTabActivoFactura();
   }
