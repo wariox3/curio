@@ -66,19 +66,5 @@ export class FacturaOpcionesDropdownComponent {
     this._toggleModal(this.modalConfirmacionEliminar);
   }
 
-  retriarItemsDetalle() {
-    this._alertaService
-      .confirmarSinReversa()
-      .pipe(
-        switchMap((respuesta) => {
-          if (respuesta.isConfirmed) {
-            this._facturaReduxService.reiniciarDetalles()
-            return of(true);
-          }
-          return EMPTY;
-        })
-      )
-      .subscribe();
-    this._cerrarDropdowns();
-  }
+
 }
