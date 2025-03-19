@@ -88,7 +88,9 @@ export const obtenerItemCantidadFacturaActiva = (itemId: number) =>
 export const obtenerClienteFacturaActiva = createSelector(
   Facturacion,
   (state) => {
-    const facturaActiva = state.facturas[state.facturaActiva];
+    const facturaActiva = state.facturas.find(
+      (factura) => factura.uuid === state.facturaActiva,
+    );
     return facturaActiva ? facturaActiva.contacto_id : 1;
   },
 );
@@ -96,20 +98,19 @@ export const obtenerClienteFacturaActiva = createSelector(
 export const obtenerTotalFacturaActiva = createSelector(
   Facturacion,
   (state) => {
-    const facturaActiva = state.facturas[state.facturaActiva];
+    const facturaActiva = state.facturas.find(
+      (factura) => factura.uuid === state.facturaActiva,
+    );
     return facturaActiva ? facturaActiva.total : 0;
   },
 );
 
-// export const obtenerDataFacturaActiva = createSelector(Facturacion, (state) => {
-//   const facturaActiva = state.facturas[state.facturaActiva];
-//   return facturaActiva ? facturaActiva : null;
-// });
-
 export const obtenerImpuestosFacturaActiva = createSelector(
   Facturacion,
   (state) => {
-    const facturaActiva = state.facturas[state.facturaActiva];
+    const facturaActiva = state.facturas.find(
+      (factura) => factura.uuid === state.facturaActiva,
+    );
     if (!facturaActiva || !facturaActiva.detalles) {
       return {};
     }
