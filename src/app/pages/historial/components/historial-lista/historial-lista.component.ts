@@ -1,13 +1,14 @@
 import { Component, inject, signal } from '@angular/core';
-import { HistorialApiService } from '../../services/historial-api.service';
+import { SiNoPipe } from '@pipe/si-no.pipe';
 import { catchError, of, tap } from 'rxjs';
 import { LoaderComponent } from '../../../../shared/components/ui/loader/loader.component';
-import { HistorialItemCardComponent } from '../historial-item-card/historial-item-card.component';
+import { HistorialApiService } from '../../services/historial-api.service';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-cuadre-caja-lista',
   standalone: true,
-  imports: [LoaderComponent, HistorialItemCardComponent],
+  imports: [LoaderComponent, SiNoPipe, DecimalPipe],
   templateUrl: './historial-lista.component.html',
 })
 export class HistorialListaComponent {

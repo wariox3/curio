@@ -8,13 +8,53 @@
         <p class="text-gray-500">No hay productos.</p>
       </div>
     } @else {
-      <div class="card h-full">
-        <div class="card-body scrollable h-[200px] py-0 my-4">
-          @for (factura of arrFacturasSignal(); track $index) {
-            <app-historial-item-card
-              [factura]="factura"
-            ></app-historial-item-card>
-          }
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Historial</h3>
+        </div>
+        <div class="card-table scrollable-x-auto">
+          <div class="scrollable-auto">
+            <table class="table  table-border align-middle text-gray-700 font-medium text-sm">
+              <thead>
+                <tr class="text-center">
+                  <th>Id</th>
+                  <th>Número</th>
+                  <th>Fecha</th>
+                  <th>Contacto</th>
+                  <th>Subtotal</th>
+                  <th>Impuesto</th>
+                  <th>Total</th>
+                  <th>Apr</th>
+                  <th>Anu</th>
+                  <th>Ele</th>
+                  <th>Con</th>
+                </tr>
+              </thead>
+              @for (factura of arrFacturasSignal(); track $index) {
+                <tr class="py-2 border-2">
+                  <td>{{ factura.id }}</td>
+                  <td>{{ factura.numero }}</td>
+                  <td>{{ factura.fecha }}</td>
+                  <td>{{ factura.contacto_nombre_corto }}</td>
+                  <td class="text-end">
+                    {{ factura.subtotal | number: "1.0-0" }}
+                  </td>
+                  <td class="text-end">
+                    {{ factura.impuesto | number: "1.0-0" }}
+                  </td>
+                  <td class="text-end">
+                    {{ factura.total | number: "1.0-0" }}
+                  </td>
+                  <td class="text-center">{{ factura.aprobado | siNo }}</td>
+                  <td class="text-center">{{ factura.anulado | siNo }}</td>
+                  <td class="text-center">{{ factura.electronico | siNo }}</td>
+                  <td class="text-center">
+                    {{ factura.contabilizado | siNo }}
+                  </td>
+                </tr>
+              }
+            </table>
+          </div>
         </div>
       </div>
     }

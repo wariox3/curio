@@ -2,6 +2,8 @@ import { ParametrosFiltrosConsultasHttp } from './../../../core/model/interface/
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { API_ENDPOINTS } from '@constantes/api-endpoints.const';
+import { facturaInit } from '@constantes/factura.const';
+import { DocumentoFactura } from '@interfaces/facturas.interface';
 import { Filtros } from '@interfaces/filtros.interface';
 import { Item } from '@interfaces/item.interface';
 import { ValorFiltro } from '@type/valor-filtro.type';
@@ -14,7 +16,11 @@ export class HistorialApiService {
   private _http = inject(HttpClient);
   private _parametrosConsultaDocumento: ParametrosFiltrosConsultasHttp = {
     filtros: [
-      { propiedad: 'documento_tipo__documento_clase_id', valor1: '105', operador: 'exact' },
+      {
+        propiedad: 'documento_tipo__documento_clase_id',
+        valor1: '105',
+        operador: 'exact',
+      },
     ],
     modelo: 'GenDocumento',
     limite: 50,
@@ -24,6 +30,7 @@ export class HistorialApiService {
   };
 
   public arrFacturasSignal = signal<any[]>([]);
+  public facturaSignal = signal<DocumentoFactura>(facturaInit);
 
   constructor() {}
 
@@ -40,14 +47,11 @@ export class HistorialApiService {
       );
   }
 
-
-  // detalle(itemId: number) {
-  //   return this._http.post<any>(API_ENDPOINTS.GENERAL.ITEM.DETALLE, {
-  //     compra: false,
-  //     id: itemId,
-  //     venta: true,
-  //   });
-  // }
-
-
+  detalle(id: number) {
+    return this._http
+      .get<{
+        documento: DocumentoFactura;
+      }>(`${API_ENDPOINTS.GENERAL.DOCUMENTO}${id}/`)
+      .pipe(tap((respuesta) => this.facturaSignal.set(respuesta.documento)));
+  }
 }
