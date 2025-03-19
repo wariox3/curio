@@ -7,17 +7,25 @@ import {
   ConfiguracionActionInit,
 } from '@redux/actions/configuracion.actions';
 import {
+  obtenerConfiguracionContenedorId,
   obtenerConfiguracionDocumentoTipoId,
   obtenerConfiguracionNombre,
 } from '@redux/selectors/configuracion.selectors';
 import { ContenedorReduxService } from './contenedor-redux.service';
+import { ContenedorApiService } from 'src/app/pages/contenedores/services/contenedor-api.service';
+import { of, switchMap, tap } from 'rxjs';
+import { ConfiguracionGeneralApiService } from 'src/app/pages/Configuraciones/services/configuracion-general-api.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ConfiguracionReduxServiceService {
+export class ConfiguracionReduxService {
   private _store = inject(Store);
   private _contenedorReduxService = inject(ContenedorReduxService);
+  private _contenedorApiService = inject(ContenedorApiService);
+  private _configuracionGeneralApiService = inject(
+    ConfiguracionGeneralApiService,
+  );
 
   constructor() {}
 
@@ -39,6 +47,10 @@ export class ConfiguracionReduxServiceService {
     );
   }
 
+  obtenerContenedorId() {
+    return this._store.selectSignal(obtenerConfiguracionContenedorId)();
+  }
+
   obtenerNombre() {
     return this._store.selectSignal(obtenerConfiguracionNombre)();
   }
@@ -53,5 +65,27 @@ export class ConfiguracionReduxServiceService {
 
   limpiarConfiguracion() {
     this._store.dispatch(configuracionActionClear());
+  }
+
+  validarConfiguracion(){
+    this._contenedorApiService.contedorConfiguracion()
+    .pipe(
+        switchMap((respuestaConfiguracion: any) => {
+          if (respuestaConfiguracion.pos_documento_tipo) {
+            return this._configuracionGeneralApiService.detalleConfiguracion(
+              respuestaConfiguracion.pos_documento_tipo,
+            );
+          }
+          return of(false);
+        }),
+        tap((respuesta: any) => {
+          this.cargarConfiguracion({
+            documento_tipo_id: respuesta.id ?? '',
+            documento_tipo_nombre: respuesta.nombre ?? '',
+            contenedor_id: this._contenedorReduxService.contendorId(),
+          });
+        }),
+    )
+    .subscribe()
   }
 }

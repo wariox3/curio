@@ -30,9 +30,9 @@
   />
 
   <div class="text-center">
-    <h3 class="text-lg font-light">{{ item.nombre }}</h3>
-    <h4 class="text-sm font-light">{{ item.codigo }}</h4>
-    <h4 class="text-sm font-light">{{ item.disponible || "Agotado" }}</h4>
+    <h5 class="text-lg font-light truncate w-full">{{ item.nombre }}</h5>
+    <h6 class="text-sm font-light truncate w-full">{{ item.codigo }}</h6>
+    <h6 class="text-sm font-light truncate w-full">{{ item.disponible || "Agotado" }}</h6>
     <p class="text-base font-bold">$ {{ item.precio | number : "1.0-0" }}</p>
   </div>
 </div>

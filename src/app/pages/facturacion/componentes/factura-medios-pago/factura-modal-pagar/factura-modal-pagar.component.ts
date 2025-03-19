@@ -4,7 +4,7 @@ import { FacturaReduxService } from '../../../../../redux/services/factura-redux
 import { FacturaMedioPagoEfectivoComponent } from '../factura-medio-pago-efectivo/factura-medio-pago-efectivo.component';
 import { FacturaMediosExitosoComponent } from '../factura-medios-exitoso/factura-medios-exitoso.component';
 import { FacturaSeleccionarMedioPagoComponent } from '../factura-seleccionar-medio-pago/factura-seleccionar-medio-pago.component';
-import { ConfiguracionReduxServiceService } from '@redux/services/configuracion-redux-service.service';
+import { ConfiguracionReduxService } from '@redux/services/configuracion-redux.service';
 
 @Component({
   selector: 'app-factura-modal-pagar',
@@ -20,15 +20,15 @@ import { ConfiguracionReduxServiceService } from '@redux/services/configuracion-
 })
 export class FacturaModalPagarComponent {
   private _facturaReduxService = inject(FacturaReduxService);
-  private _configuracionReduxServiceService = inject(
-    ConfiguracionReduxServiceService,
+  private _ConfiguracionReduxService = inject(
+    ConfiguracionReduxService,
   );
 
   public templateActual: string | null = null;
   public totalSubtotalSignal = this._facturaReduxService.totalSubtotalSignal;
   public totalProductosSignal = this._facturaReduxService.totalProductosSignal;
   public documentoTipo =
-    this._configuracionReduxServiceService.obtenerDocumentoTipoId();
+    this._ConfiguracionReduxService.obtenerDocumentoTipoId();
 
   mostrarTemplate(metodo: string | null) {
     this.templateActual = metodo;

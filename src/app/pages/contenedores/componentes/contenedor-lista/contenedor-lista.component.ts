@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonComponent } from '@componentes/ui/button/button.component';
 import {
@@ -12,7 +12,7 @@ import { AlertaService } from 'src/app/shared/services/alerta.service';
 import { ContenedorApiService } from '../../services/contenedor-api.service';
 import { ContenedorReduxService } from '../../../../redux/services/contenedor-redux.service';
 import { ConfiguracionGeneralApiService } from 'src/app/pages/Configuraciones/services/configuracion-general-api.service';
-import { ConfiguracionReduxServiceService } from '@redux/services/configuracion-redux-service.service';
+import { ConfiguracionReduxService } from '@redux/services/configuracion-redux.service';
 
 @Component({
   selector: 'app-contenedor-lista',
@@ -26,14 +26,23 @@ export default class ContenedorListaComponent implements OnInit {
     ConfiguracionGeneralApiService,
   );
   private _contenedorReduxService = inject(ContenedorReduxService);
-  private _configuracionReduxServiceService = inject(
-    ConfiguracionReduxServiceService,
+  private _ConfiguracionReduxService = inject(
+    ConfiguracionReduxService,
   );
   private _store = inject(Store);
   private _alertaService = inject(AlertaService);
   private _router = inject(Router);
   public arrConectando: boolean[] = [];
   public arrContenedores = signal<any[]>([]);
+  public filtroNombre = signal<string>('');
+
+  public contenedoresFiltrados = computed(() => {
+    return this.arrContenedores().filter((contenedor) =>
+      contenedor.nombre
+        .toLowerCase()
+        .includes(this.filtroNombre().toLowerCase()),
+    );
+  });
 
   ngOnInit() {
     this.consultarLista();
@@ -84,7 +93,7 @@ export default class ContenedorListaComponent implements OnInit {
           return of(false);
         }),
         tap((respuesta: any) => {
-          this._configuracionReduxServiceService.cargarConfiguracion({
+          this._ConfiguracionReduxService.cargarConfiguracion({
             documento_tipo_id: respuesta.id ?? '',
             documento_tipo_nombre: respuesta.nombre ?? '',
             contenedor_id: this._contenedorReduxService.contendorId(),
@@ -97,5 +106,10 @@ export default class ContenedorListaComponent implements OnInit {
         }),
       )
       .subscribe();
+  }
+
+  buscarContendor($event: Event) {
+    let valor = $event.target as HTMLInputElement;
+    this.filtroNombre.set(valor.value);
   }
 }
