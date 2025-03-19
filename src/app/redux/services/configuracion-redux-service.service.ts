@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import {
   actualizarDocumentoTipoIdPorContenedor,
   actualizarDocumentoTipoNombrePorContenedor,
+  configuracionActionClear,
   ConfiguracionActionInit,
 } from '@redux/actions/configuracion.actions';
 import {
@@ -48,5 +49,9 @@ export class ConfiguracionReduxServiceService {
 
   cargarConfiguracion(configuracion: any) {
     this._store.dispatch(ConfiguracionActionInit({ configuracion }));
+  }
+
+  limpiarConfiguracion() {
+    this._store.dispatch(configuracionActionClear());
   }
 }

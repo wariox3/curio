@@ -40,7 +40,6 @@ import {
 } from '@redux/actions/factura.actions';
 import {
   obtenerClienteFacturaActiva,
-  obtenerDataFacturaActiva,
   obtenerDetalleItemFacturaPorContenedor,
   obtenerFacturaActiva,
   obtenerFacturaFacturaActiva,
@@ -52,6 +51,7 @@ import {
 } from '@redux/selectors/factura.selectors';
 import { FechasService } from 'src/app/shared/services/fechas.service';
 import { ContenedorReduxService } from './contenedor-redux.service';
+import * as uuid from 'uuid';
 
 @Injectable({ providedIn: 'root' })
 export class FacturaReduxService {
@@ -59,7 +59,7 @@ export class FacturaReduxService {
   private _fechasService = inject(FechasService);
   private _contenedorReduxService = inject(ContenedorReduxService);
 
-  public facturaTabActivo = signal<number>(0);
+  public facturaTabActivo = signal<string>('');
   public arrFacturasSignal = signal<DocumentoFactura[]>([]);
   public facturaActivaNombre = signal('');
   public facturaActivaContacto = signal<number | null>(1);
@@ -68,23 +68,23 @@ export class FacturaReduxService {
     Record<string, { impuesto: string | number; total: number }>
   >({});
   public cantidadFacturasSignal = computed(
-    () => this.arrFacturasSignal().length
+    () => this.arrFacturasSignal().length,
   );
   public totalProductosSignal = computed(() => this.arrItemsSignal().length);
   public totalSubtotalSignal = computed(() =>
     this.arrItemsSignal().reduce(
       (acumulador, item) => (acumulador += item.subtotal),
-      0
-    )
+      0,
+    ),
   );
   public totalCantidadesSignal = computed(() =>
     this.arrItemsSignal().reduce(
       (acumulador, item) => (acumulador += item.cantidad),
-      0
-    )
+      0,
+    ),
   );
   public totalGeneralSignal = computed(() =>
-    this.arrItemsSignal().reduce((total, item) => (total += item.total), 0)
+    this.arrItemsSignal().reduce((total, item) => (total += item.total), 0),
   );
 
   constructor() {}
@@ -124,7 +124,7 @@ export class FacturaReduxService {
   }
 
   obtenerDataFactura() {
-    return this._store.select(obtenerDataFacturaActiva);
+    return this._store.select(obtenerFacturaActiva);
   }
 
   obtenerImpuestoFactura() {
@@ -141,8 +141,8 @@ export class FacturaReduxService {
     return this._store.select(
       obtenerDetalleItemFacturaPorContenedor(
         this._contenedorReduxService.contendorId(),
-        itemId
-      )
+        itemId,
+      ),
     );
   }
 
@@ -158,28 +158,29 @@ export class FacturaReduxService {
           fecha: fechaVencimientoInicial,
           fecha_vence: fechaVencimientoInicial,
           contenedor: this._contenedorReduxService.contendorId(),
+          uuid: uuid.v4(),
         },
-      })
+      }),
     );
     this.obtenerReduxFacturas();
   }
 
-  cambiarNombre(index: number, nombre: string) {
+  cambiarNombre(index: string, nombre: string) {
     this._store.dispatch(
       facturaActualizarNombreAction({
         index,
         nombre,
-      })
+      }),
     );
     this.obtenerReduxFacturas();
   }
 
-  retirarFactura(index: number) {
+  retirarFactura(index: string) {
     this._store.dispatch(facturaEliminarAction({ index }));
     this.obtenerReduxFacturas();
   }
 
-  seleccionarTabActivoFactura(id: number) {
+  seleccionarTabActivoFactura(id: string) {
     this._store.dispatch(seleccionarFacturaActiva({ id }));
     this.obtertenerTabActivoFactura();
   }
@@ -195,7 +196,7 @@ export class FacturaReduxService {
 
   actualizarCantidadItem(itemId: number, cantidad: number) {
     this._store.dispatch(
-      actualizarCantidadItemFacturaActiva({ itemId, cantidad })
+      actualizarCantidadItemFacturaActiva({ itemId, cantidad }),
     );
   }
 
@@ -209,13 +210,13 @@ export class FacturaReduxService {
 
   actualizarMetodoPago(metodoPagoId: number) {
     this._store.dispatch(
-      actualizarMetodoPagoFacturaActiva({ metodo_pago_id: metodoPagoId })
+      actualizarMetodoPagoFacturaActiva({ metodo_pago_id: metodoPagoId }),
     );
   }
 
   actualizarPlazoPago(plazoPagoId: number) {
     this._store.dispatch(
-      actualizarPlazoPagoFacturaActiva({ plazo_pago_id: plazoPagoId })
+      actualizarPlazoPagoFacturaActiva({ plazo_pago_id: plazoPagoId }),
     );
   }
 
@@ -283,7 +284,7 @@ export class FacturaReduxService {
 
   private _totalesImpuestosItem(itemId: number) {
     this._store.dispatch(
-      actualizarTotalesImpuestosItemFacturaActiva({ itemId })
+      actualizarTotalesImpuestosItemFacturaActiva({ itemId }),
     );
   }
 

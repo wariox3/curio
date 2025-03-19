@@ -20,7 +20,7 @@ import { FacturaOpcionesDropdownComponent } from "../factura-opciones-dropdown/f
 export class FacturaTabsComponent implements OnInit {
   private _facturaReduxService = inject(FacturaReduxService);
 
-  tabs = this._facturaReduxService.arrFacturasSignal;
+  arrFacturasSignal = this._facturaReduxService.arrFacturasSignal;
   tabActivo = this._facturaReduxService.facturaTabActivo;
 
   @ViewChild('modalCambiarNombreTab') modalCambiarNombreTab!: ElementRef;
@@ -30,10 +30,10 @@ export class FacturaTabsComponent implements OnInit {
 
   ngOnInit(): void {
     this._facturaReduxService.obtenerReduxFacturas()
-    if(this.tabs().length === 0){
+    if(this.arrFacturasSignal().length === 0){
       this.agregarTab()
     }
-
+    this.seleccionarTab(0)
     this._facturaReduxService.obtertenerNombreFactura();
     this._facturaReduxService.obtenerItemsFactura();
   }
@@ -45,7 +45,7 @@ export class FacturaTabsComponent implements OnInit {
   }
 
   seleccionarTab(index: number) {
-    this._facturaReduxService.seleccionarTabActivoFactura(index)
+    this._facturaReduxService.seleccionarTabActivoFactura(this._facturaReduxService.arrFacturasSignal()[index].uuid)
   }
 
 }

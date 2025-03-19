@@ -24,21 +24,21 @@ export class SidebarComponent extends GeneralClass {
     {
       nombre: 'Inicio',
       link: '/dashboard/facturacion',
-      iconoClase: 'ki-filled ki-home',
+      iconoClase: 'ki-outline ki-home',
       activo: false,
     },
-    // {
-    //   nombre: 'Rutear',
-    //   link: '/admin/rutear',
-    //   iconoClase: 'ki-filled ki-map',
-    //   activo: false,
-    // },
-    // {
-    //   nombre: 'Diseño ruta',
-    //   link: '/admin/diseno-ruta/lista',
-    //   iconoClase: 'ki-filled ki-design-1',
-    //   activo: false,
-    // },
+    {
+      nombre: 'Historial',
+      link: '/dashboard/historial',
+      iconoClase: 'ki-outline ki-book-square',
+      activo: false,
+    },
+    {
+      nombre: 'Cuadre de caja',
+      link: '/dashboard/cuadre_caja',
+      iconoClase: 'ki-outline ki-questionnaire-tablet',
+      activo: false,
+    },
     // {
     //   nombre: 'Tráfico',
     //   link: '/admin/trafico/lista',

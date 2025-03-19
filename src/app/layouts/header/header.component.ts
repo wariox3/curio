@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/pages/auth/services/auth.service';
 import { ContenedorReduxService } from '@redux/services/contenedor-redux.service';
 import { UsuarioReduxService } from '@redux/services/usuario.redux.service';
+import { ConfiguracionReduxServiceService } from '@redux/services/configuracion-redux-service.service';
 
 @Component({
   selector: 'app-header',
@@ -15,7 +16,9 @@ import { UsuarioReduxService } from '@redux/services/usuario.redux.service';
 export class HeaderComponent {
   private _router = inject(Router);
   private _contenedorReduxService = inject(ContenedorReduxService);
+  private _configuracionReduxService = inject(ConfiguracionReduxServiceService);
   private _usuarioReduxService = inject(UsuarioReduxService);
+  private _authService = inject(AuthService);
 
   public usuarioImagen = this._usuarioReduxService.obtenerImagen();
   public usuarioNombre = this._usuarioReduxService.obtenerNombre();
@@ -28,18 +31,30 @@ export class HeaderComponent {
   @HostBinding('attr.data-sticky-name') dataStickyName = 'header';
   @HostBinding('id') hostId = 'header';
 
-  private _authService = inject(AuthService);
 
   cerrarSeccion() {
     this._authService.logout();
   }
 
-  navegarAmisContenedores() {
-    this._contenedorReduxService.limpiarContenedor();
-    this._router.navigate([`/contenedor/lista`]);
+  navegarAContenedores(): void {
+    this.limpiarEstado();
+    this.navegarAListaContenedores();
   }
 
   navegarConfiguracion() {
     this._router.navigate([`dashboard/configuracion`]);
   }
+
+
+  private limpiarEstado(): void {
+    this._contenedorReduxService.limpiarContenedor();
+    this._configuracionReduxService.limpiarConfiguracion();
+  }
+
+  private navegarAListaContenedores(): void {
+    const rutaDestino = '/contenedor/lista';
+    this._router.navigate([rutaDestino]);
+  }
+
+
 }

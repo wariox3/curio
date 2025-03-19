@@ -60,6 +60,7 @@ export interface DocumentoFactura {
   almacen: number;
   almacen_id: number;
   almacen_nombre: string;
+  uuid: string;
 }
 
 export interface DocumentoFacturaDetalleRespuesta {
@@ -122,7 +123,7 @@ export interface PagoRespuestaFormulario {
 }
 
 export interface FacturaReduxState {
-  facturaActiva: number;
+  facturaActiva: string;
   facturas: DocumentoFactura[];
 }
 

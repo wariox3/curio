@@ -9,9 +9,8 @@ import {
 import { FormsModule } from '@angular/forms';
 import { KTDropdown } from '@metronic/components/dropdown/dropdown';
 import { KTModal } from '@metronic/components/modal/modal';
-import { FacturaReduxService } from '../../../../redux/services/factura-redux.service';
 import { AlertaService } from 'src/app/shared/services/alerta.service';
-import { EMPTY, of, switchMap } from 'rxjs';
+import { FacturaReduxService } from '../../../../redux/services/factura-redux.service';
 
 @Component({
   selector: 'app-factura-opciones-dropdown',
@@ -22,7 +21,6 @@ import { EMPTY, of, switchMap } from 'rxjs';
 })
 export class FacturaOpcionesDropdownComponent {
   private _facturaReduxService = inject(FacturaReduxService);
-  private _alertaService = inject(AlertaService);
   public tabs = this._facturaReduxService.arrFacturasSignal;
   public tabActivo = this._facturaReduxService.facturaTabActivo;
   public inputCambiarNombre: string = '';
@@ -47,7 +45,7 @@ export class FacturaOpcionesDropdownComponent {
   actualizarNombreTab(): void {
     this._facturaReduxService.cambiarNombre(
       this.tabActivo(),
-      this.inputCambiarNombre
+      this.inputCambiarNombre,
     );
   }
 
@@ -64,21 +62,5 @@ export class FacturaOpcionesDropdownComponent {
   retirarFactura() {
     this._facturaReduxService.retirarFactura(this.tabActivo());
     this._toggleModal(this.modalConfirmacionEliminar);
-  }
-
-  retriarItemsDetalle() {
-    this._alertaService
-      .confirmarSinReversa()
-      .pipe(
-        switchMap((respuesta) => {
-          if (respuesta.isConfirmed) {
-            this._facturaReduxService.reiniciarDetalles()
-            return of(true);
-          }
-          return EMPTY;
-        })
-      )
-      .subscribe();
-    this._cerrarDropdowns();
   }
 }

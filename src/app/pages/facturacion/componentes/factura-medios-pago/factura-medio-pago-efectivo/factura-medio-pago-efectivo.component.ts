@@ -105,12 +105,13 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
   }
 
   submit() {
+
     this._actualizarTextoBtn('Validando');
     this._obtenerDatosFactura()
       .pipe(
         switchMap((data) =>
           this._inventarioApiService.existenciaValidar(data.detalles).pipe(
-            withLatestFrom(of(data)) // Combina el resultado de la validación con los datos originales
+            withLatestFrom(of(data))
           )
         ),
         switchMap(([respuestaValidacion, data]) => {
@@ -144,7 +145,10 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
   private _obtenerDatosFactura() {
     return this._facturaReduxService
       .obtenerDataFactura()
-      .pipe(takeUntil(this.destroy$));
+      .pipe(
+        tap((respuesta) => console.log(respuesta)),
+        takeUntil(this.destroy$)
+      );
   }
 
   private _crearFactura(data: any) {
