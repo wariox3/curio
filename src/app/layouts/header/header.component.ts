@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/pages/auth/services/auth.service';
 import { ContenedorReduxService } from '@redux/services/contenedor-redux.service';
 import { UsuarioReduxService } from '@redux/services/usuario.redux.service';
-import { ConfiguracionReduxServiceService } from '@redux/services/configuracion-redux-service.service';
+import { ConfiguracionReduxService } from '@redux/services/configuracion-redux.service';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +16,7 @@ import { ConfiguracionReduxServiceService } from '@redux/services/configuracion-
 export class HeaderComponent {
   private _router = inject(Router);
   private _contenedorReduxService = inject(ContenedorReduxService);
-  private _configuracionReduxService = inject(ConfiguracionReduxServiceService);
+  private _configuracionReduxService = inject(ConfiguracionReduxService);
   private _usuarioReduxService = inject(UsuarioReduxService);
   private _authService = inject(AuthService);
 

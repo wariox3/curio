@@ -16,7 +16,7 @@ import { ContenedorReduxService } from './contenedor-redux.service';
 @Injectable({
   providedIn: 'root',
 })
-export class ConfiguracionReduxServiceService {
+export class ConfiguracionReduxService {
   private _store = inject(Store);
   private _contenedorReduxService = inject(ContenedorReduxService);
 

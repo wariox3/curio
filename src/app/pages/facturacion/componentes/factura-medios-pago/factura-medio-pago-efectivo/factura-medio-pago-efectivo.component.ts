@@ -31,7 +31,7 @@ import {
 import { FacturaEstadosBtnGuardar } from '@type/factura-estados-btn-guardar.type';
 import { InventarioApiService } from '../../../services/inventario-api.service';
 import { DocumentoFactura } from '@interfaces/facturas.interface';
-import { ConfiguracionReduxServiceService } from '@redux/services/configuracion-redux-service.service';
+import { ConfiguracionReduxService } from '@redux/services/configuracion-redux.service';
 
 @Component({
   selector: 'app-factura-medio-pago-efectivo',
@@ -50,7 +50,7 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
   private _facturaReduxService = inject(FacturaReduxService);
   private _facturaApiService = inject(FacturaApiService);
   private _inventarioApiService = inject(InventarioApiService);
-  private _configuracionReduxServiceService = inject(ConfiguracionReduxServiceService);
+  private _ConfiguracionReduxService = inject(ConfiguracionReduxService);
   private _formBuilder = inject(FormBuilder);
   private destroy$ = new Subject<void>();
   public totalGeneralSignal = this._facturaReduxService.totalGeneralSignal;
@@ -58,7 +58,7 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
   public emitirPagoExito = output<boolean>();
   public textoBtn = signal<FacturaEstadosBtnGuardar>('Guardar');
   public formularioMedioPagoEfectivo!: FormGroup;
-  public documentoTipo = this._configuracionReduxServiceService.obtenerDocumentoTipoId()
+  public documentoTipo = this._ConfiguracionReduxService.obtenerDocumentoTipoId()
   public valorRestante = computed(
     () =>
       this.totalGeneralSignal() -
