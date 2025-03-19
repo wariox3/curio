@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonComponent } from '@componentes/ui/button/button.component';
 import {
@@ -34,6 +34,15 @@ export default class ContenedorListaComponent implements OnInit {
   private _router = inject(Router);
   public arrConectando: boolean[] = [];
   public arrContenedores = signal<any[]>([]);
+  public filtroNombre = signal<string>('');
+
+  public contenedoresFiltrados = computed(() => {
+    return this.arrContenedores().filter((contenedor) =>
+      contenedor.nombre
+        .toLowerCase()
+        .includes(this.filtroNombre().toLowerCase()),
+    );
+  });
 
   ngOnInit() {
     this.consultarLista();
@@ -97,5 +106,10 @@ export default class ContenedorListaComponent implements OnInit {
         }),
       )
       .subscribe();
+  }
+
+  buscarContendor($event: Event) {
+    let valor = $event.target as HTMLInputElement;
+    this.filtroNombre.set(valor.value);
   }
 }
