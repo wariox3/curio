@@ -17,13 +17,13 @@ import {
   obtenerContenedorSubdominio,
 } from '@redux/selectors/contenedor.selectors';
 import { getCookie } from 'typescript-cookie';
+import { ConfiguracionReduxService } from './configuracion-redux.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ContenedorReduxService {
   private _store = inject(Store);
-  private _activatedRoute = inject(ActivatedRoute);
   public contendorId = signal(0);
   public contendorSubdomino = signal('');
 
