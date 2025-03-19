@@ -7,6 +7,7 @@ import {
   ConfiguracionActionInit,
 } from '@redux/actions/configuracion.actions';
 import {
+  obtenerConfiguracionContenedorId,
   obtenerConfiguracionDocumentoTipoId,
   obtenerConfiguracionNombre,
 } from '@redux/selectors/configuracion.selectors';
@@ -37,6 +38,10 @@ export class ConfiguracionReduxServiceService {
         documento_tipo_nombre,
       }),
     );
+  }
+
+  obtenerContenedorId() {
+    return this._store.selectSignal(obtenerConfiguracionContenedorId)();
   }
 
   obtenerNombre() {

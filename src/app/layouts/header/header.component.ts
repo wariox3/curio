@@ -23,6 +23,7 @@ export class HeaderComponent {
   public usuarioImagen = this._usuarioReduxService.obtenerImagen();
   public usuarioNombre = this._usuarioReduxService.obtenerNombre();
   public contendorNombre = this._contenedorReduxService.obtenerNombre();
+  public configuracionContendorId = this._configuracionReduxService.obtenerContenedorId();
 
   @HostBinding('class') hostClass =
     'header fixed top-0 z-10 left-0 right-0 flex items-stretch shrink-0 bg-[#fefefe] dark:bg-coal-500 shadow-sm dark:border-b dark:border-b-coal-100';

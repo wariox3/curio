@@ -93,14 +93,16 @@
                 <span class="menu-title"> Mis contenedores </span>
               </a>
             </div>
-            <div class="menu-item" (click)="navegarConfiguracion()">
-              <a class="menu-link">
-                <span class="menu-icon">
-                  <i class="ki-outline ki-setting-4"></i>
-                </span>
-                <span class="menu-title"> Configuración </span>
-              </a>
-            </div>
+            @if(configuracionContendorId){
+              <div class="menu-item" (click)="navegarConfiguracion()">
+                <a class="menu-link">
+                  <span class="menu-icon">
+                    <i class="ki-outline ki-setting-4"></i>
+                  </span>
+                  <span class="menu-title"> Configuración </span>
+                </a>
+              </div>
+            }
             <div class="flex flex-col">
               <div class="menu-item mb-0.5">
                 <div class="menu-link">
