@@ -1,21 +1,42 @@
-@for (factura of arrFacturasSignal(); track idx; let idx = $index; let first = $first) {
-  <button
-    class="tab px-2"
-    [ngClass]="{ 'active bg-blue-50':  tabActivo() === factura.uuid  }"
-    [attr.data-tab-toggle]="'#' + idx"
-    (click)="seleccionarTab(idx)"
-  >
-    <i class="ki-filled ki-document"></i>
-    @if (first || factura.nombre !== "Factura") {
-      {{ factura.nombre }}
-    } @else {
-      {{ factura.nombre + " " + idx }}
-    }
-      @if (tabActivo() === factura.uuid  && idx !== 0) {
 
-      <app-factura-opciones-dropdown></app-factura-opciones-dropdown>
-    }
-  </button>
+
+ @for (factura of arrFacturasSignal(); track idx; let idx = $index; let first = $first) {
+  <button
+  class="tab px-2"
+  [ngClass]="{
+    'active bg-blue-50 dark:bg-gray-500': tabActivo() === factura.uuid,
+    'dark-mode:text-white': tabActivo() === factura.uuid
+  }"
+  [attr.data-tab-toggle]="'#' + idx"
+  (click)="seleccionarTab(idx)"
+>
+  <i class="ki-filled ki-document"
+     [ngClass]="{
+       'dark-mode:text-blue-500': tabActivo() !== factura.uuid,
+       'dark-mode:text-white': tabActivo() === factura.uuid
+     }">
+  </i>
+
+  @if (first || factura.nombre !== 'Factura') {
+    <span [ngClass]="{
+      'dark-mode:text-blue-500': tabActivo() !== factura.uuid,
+      'dark-mode:text-white': tabActivo() === factura.uuid
+    }">
+      {{ factura.nombre }}
+    </span>
+  } @else {
+    <span [ngClass]="{
+      'dark-mode:text-blue-500': tabActivo() !== factura.uuid,
+      'dark-mode:text-white': tabActivo() === factura.uuid
+    }">
+      {{ factura.nombre + ' ' + idx }}
+    </span>
+  }
+
+  @if (tabActivo() === factura.uuid  && idx !== 0) {
+    <app-factura-opciones-dropdown></app-factura-opciones-dropdown>
+  }
+</button>
 }
 <button class="tab" (click)="agregarTab()">
   <i class="ki-filled ki-plus-circle ms-2"></i>
