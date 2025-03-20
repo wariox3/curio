@@ -37,24 +37,6 @@
     <app-factura-opciones-dropdown></app-factura-opciones-dropdown>
   }
 </button>
-
-  <!-- <button
-    class="tab px-2"
-    [ngClass]="{ 'active bg-blue-50 dark:bg-gray-500 dark-mode:text-white':  tabActivo() === factura.uuid  }"
-    [attr.data-tab-toggle]="'#' + idx"
-    (click)="seleccionarTab(idx)"
-  >
-    <i class="ki-filled ki-document dark-mode:text-blue-500"></i>
-    @if (first || factura.nombre !== "Factura") {
-      <span class="dark-mode:text-blue-500">{{ factura.nombre }}</span>
-    } @else {
-      <span class="dark-mode:text-blue-500 dark-mode:active:text-white">{{ factura.nombre + " " + idx }}</span>
-    }
-      @if (tabActivo() === factura.uuid  && idx !== 0) {
-
-      <app-factura-opciones-dropdown></app-factura-opciones-dropdown>
-    }
-  </button> -->
 }
 <button class="tab" (click)="agregarTab()">
   <i class="ki-filled ki-plus-circle ms-2"></i>

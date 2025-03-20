@@ -124,4 +124,5 @@ export const documentoFacturaDetalleInit: DocumentoFacturaDetalleRespuesta = {
   impuestos: [],
   almacen: 1,
   codigo: '',
+  imagen: ''
 };

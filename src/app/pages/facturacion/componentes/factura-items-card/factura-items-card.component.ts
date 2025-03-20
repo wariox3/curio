@@ -4,11 +4,12 @@ import { Item } from '@interfaces/item.interface';
 import { FacturaReduxService } from '../../../../redux/services/factura-redux.service';
 import { ItemApiService } from '../../services/item-api.service';
 import { tap } from 'rxjs';
+import { TruncatePipe } from '@pipe/truncate.pipe';
 
 @Component({
   selector: 'app-factura-items-card',
   standalone: true,
-  imports: [NgClass, DecimalPipe, ],
+  imports: [NgClass, DecimalPipe, TruncatePipe],
   templateUrl: './factura-items-card.component.html',
 })
 export class FacturaItemsCardComponent implements OnInit {

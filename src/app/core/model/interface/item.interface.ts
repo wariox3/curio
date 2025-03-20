@@ -23,4 +23,5 @@ export interface Item {
   cantidad: number,
   subtotal: number,
   favorito: boolean,
+  imagen: string,
 }

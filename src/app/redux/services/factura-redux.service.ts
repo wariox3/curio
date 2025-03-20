@@ -333,6 +333,7 @@ export class FacturaReduxService {
       base_impuesto: item.precio * 1,
       almacen: 1,
       codigo: item.codigo,
+      imagen: item.imagen,
     };
   }
 

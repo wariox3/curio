@@ -12,7 +12,8 @@ import { FacturaOpcionesDropdownComponent } from '../factura-opciones-dropdown/f
 import { FacturaPdf } from 'src/app/shared/pdf/facturacion/factura-pdf';
 import { ContenedorReduxService } from '@redux/services/contenedor-redux.service';
 import { ConfiguracionReduxService } from '@redux/services/configuracion-redux.service';
-import { FacturaBtnRetirarItemsComponent } from "../factura-btn-retirar-items/factura-btn-retirar-items.component";
+import { FacturaBtnRetirarItemsComponent } from '../factura-btn-retirar-items/factura-btn-retirar-items.component';
+import { TruncatePipe } from '@pipe/truncate.pipe';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -26,8 +27,9 @@ import { FacturaBtnRetirarItemsComponent } from "../factura-btn-retirar-items/fa
     FacturaModalPagarComponent,
     SeleccionarClienteComponent,
     KeyValuePipe,
-    FacturaBtnRetirarItemsComponent
-],
+    TruncatePipe,
+    FacturaBtnRetirarItemsComponent,
+  ],
   templateUrl: './factura-detalle.component.html',
   styleUrl: './factura-detalle.component.scss',
 })
@@ -70,7 +72,7 @@ export class FacturaDetalleComponent {
 
   alEntrarMouse(
     item: DocumentoFacturaDetalleRespuesta,
-    div: HTMLDivElement
+    div: HTMLDivElement,
   ): void {
     this.mostrarIcono = item.item;
     this.itemSeleccionado = item;
@@ -96,7 +98,7 @@ export class FacturaDetalleComponent {
     const facturaDetallePdf = new FacturaPdf();
     facturaDetallePdf.generarPosPdf(
       this._contenedorReduxService.obtenerContendor(),
-      this._facturaReduxService.obtertenerFactura()
+      this._facturaReduxService.obtertenerFactura(),
     );
   }
 }

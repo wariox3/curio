@@ -38,7 +38,7 @@
             >
               <div class="" style="flex: 1.5">
                 <p class="font-light dark-mode:text-gray-500">
-                  Código: {{ item.codigo }}
+                  Código: {{ item.codigo | truncate: 10 }}
                 </p>
                 <p class="font-medium dark-mode:text-gray-500">
                   Nombre: {{ item.item_nombre }}
