@@ -26,6 +26,7 @@ import {
   actualizarTotalBrutoItemFacturaActiva,
   actualizarTotalBrutoFacturaActiva,
   actualizaImpuestoFacturaActiva,
+  actualizarAsesorFactura,
 } from '@redux/actions/factura.actions';
 
 export const initialState: FacturaReduxState = {
@@ -366,4 +367,10 @@ export const facturaReducer = createReducer(
         : factura,
     ),
   })),
+  on(actualizarAsesorFactura, (state, { asesor }) => ({
+    ...state,
+    facturas: state.facturas.map((factura) =>
+      factura.uuid === state.facturaActiva ? { ...factura, asesor } : factura
+    ),
+  }))
 );

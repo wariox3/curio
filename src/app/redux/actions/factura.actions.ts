@@ -123,4 +123,8 @@ export const actualizaImpuestoFacturaActiva = createAction(
   '[Factura] Actualizar Total Bruto Acumulado de Factura Activa'
 );
 
+export const actualizarAsesorFactura = createAction(
+  '[Factura] Actualizar Asesor',
+  props<{ asesor: number }>()
+);
 

@@ -13,6 +13,7 @@ import {
 import { Item } from '@interfaces/item.interface';
 import { Store } from '@ngrx/store';
 import {
+  actualizarAsesorFactura,
   actualizarBaseImpuestoFacturaActiva,
   actualizarBaseImpuestoItemFacturaActiva,
   actualizarCantidadItemFacturaActiva,
@@ -217,6 +218,12 @@ export class FacturaReduxService {
   actualizarPlazoPago(plazoPagoId: number) {
     this._store.dispatch(
       actualizarPlazoPagoFacturaActiva({ plazo_pago_id: plazoPagoId }),
+    );
+  }
+
+  actualizarAsesor(asesor: number) {
+    this._store.dispatch(
+      actualizarAsesorFactura({asesor}),
     );
   }
 

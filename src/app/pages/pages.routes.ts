@@ -23,7 +23,7 @@ export default [
         path: 'configuracion',
         loadComponent: () =>
           import(
-            './Configuraciones/components/configuracion-base/configuracion-base.component'
+            './configuraciones/components/configuracion-base/configuracion-base.component'
           ),
       },
       {

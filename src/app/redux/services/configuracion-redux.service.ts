@@ -14,7 +14,7 @@ import {
 import { ContenedorReduxService } from './contenedor-redux.service';
 import { ContenedorApiService } from 'src/app/pages/contenedores/services/contenedor-api.service';
 import { of, switchMap, tap } from 'rxjs';
-import { ConfiguracionGeneralApiService } from 'src/app/pages/Configuraciones/services/configuracion-general-api.service';
+import { ConfiguracionGeneralApiService } from 'src/app/pages/configuraciones/services/configuracion-general-api.service';
 
 @Injectable({
   providedIn: 'root',
