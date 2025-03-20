@@ -23,7 +23,7 @@
   </span>
 
   <span
-    class="absolute -top-0.1 left-1.75 border border-teal-500/50 text-teal-500 bg-gray-50 h-7 flex items-center justify-center rounded-s-sm text-sm font-bold px-2"
+    class="absolute -top-0.1 left-1.75 border border-teal-500/50 text-teal-500 bg-gray-50 dark-mode:bg-gray-50 h-7 flex items-center justify-center rounded-s-sm text-sm font-bold px-2"
   >
     {{ item.codigo | truncate: 10 }}
   </span>
@@ -36,11 +36,11 @@
       class="rounded-t-[0.70rem] object-cover w-full h-[150px]"
     />
     <div class="text-center">
-      <h5 class="text-lg font-light">{{ item.nombre }}</h5>
-      <h6 class="text-sm font-light truncate w-full">
+      <h5 class="text-lg font-light dark-mode:text-gray-500">{{ item.nombre }}</h5>
+      <h6 class="text-sm font-light truncate w-full dark-mode:text-gray-500">
         {{ item.disponible || "Agotado" }}
       </h6>
-      <p class="text-base font-bold">$ {{ item.precio | number: "1.0-0" }}</p>
+      <p class="text-base font-bold dark-mode:text-gray-500">$ {{ item.precio | number: "1.0-0" }}</p>
     </div>
   </div>
 </div>
