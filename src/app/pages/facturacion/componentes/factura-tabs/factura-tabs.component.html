@@ -1,21 +1,60 @@
-@for (factura of arrFacturasSignal(); track idx; let idx = $index; let first = $first) {
+
+
+ @for (factura of arrFacturasSignal(); track idx; let idx = $index; let first = $first) {
   <button
+  class="tab px-2"
+  [ngClass]="{
+    'active bg-blue-50 dark:bg-gray-500': tabActivo() === factura.uuid,
+    'dark-mode:text-white': tabActivo() === factura.uuid
+  }"
+  [attr.data-tab-toggle]="'#' + idx"
+  (click)="seleccionarTab(idx)"
+>
+  <i class="ki-filled ki-document"
+     [ngClass]="{
+       'dark-mode:text-blue-500': tabActivo() !== factura.uuid,
+       'dark-mode:text-white': tabActivo() === factura.uuid
+     }">
+  </i>
+
+  @if (first || factura.nombre !== 'Factura') {
+    <span [ngClass]="{
+      'dark-mode:text-blue-500': tabActivo() !== factura.uuid,
+      'dark-mode:text-white': tabActivo() === factura.uuid
+    }">
+      {{ factura.nombre }}
+    </span>
+  } @else {
+    <span [ngClass]="{
+      'dark-mode:text-blue-500': tabActivo() !== factura.uuid,
+      'dark-mode:text-white': tabActivo() === factura.uuid
+    }">
+      {{ factura.nombre + ' ' + idx }}
+    </span>
+  }
+
+  @if (tabActivo() === factura.uuid  && idx !== 0) {
+    <app-factura-opciones-dropdown></app-factura-opciones-dropdown>
+  }
+</button>
+
+  <!-- <button
     class="tab px-2"
-    [ngClass]="{ 'active bg-blue-50':  tabActivo() === factura.uuid  }"
+    [ngClass]="{ 'active bg-blue-50 dark:bg-gray-500 dark-mode:text-white':  tabActivo() === factura.uuid  }"
     [attr.data-tab-toggle]="'#' + idx"
     (click)="seleccionarTab(idx)"
   >
-    <i class="ki-filled ki-document"></i>
+    <i class="ki-filled ki-document dark-mode:text-blue-500"></i>
     @if (first || factura.nombre !== "Factura") {
-      {{ factura.nombre }}
+      <span class="dark-mode:text-blue-500">{{ factura.nombre }}</span>
     } @else {
-      {{ factura.nombre + " " + idx }}
+      <span class="dark-mode:text-blue-500 dark-mode:active:text-white">{{ factura.nombre + " " + idx }}</span>
     }
       @if (tabActivo() === factura.uuid  && idx !== 0) {
 
       <app-factura-opciones-dropdown></app-factura-opciones-dropdown>
     }
-  </button>
+  </button> -->
 }
 <button class="tab" (click)="agregarTab()">
   <i class="ki-filled ki-plus-circle ms-2"></i>

@@ -1,38 +1,46 @@
 <div
-  class="bg-white rounded-lg shadow relative cursor-pointer"
-  [ngClass]="{ 'shadow-teal-500/50': cantidadSignal() >= 1 }"
+  class="card min-h-[280px] cursor-pointer relative transition-all duration-100 ease-in-out"
+  [ngClass]="{ 'border-2 border-teal-500/50': cantidadSignal() >= 1 }"
   (click)="seleccionarProducto(item)"
 >
-  @if(cantidadSignal() >= 1 ){
-  <span
-    class="absolute top-2 right-2 bg-teal-500 text-white text-sm w-6 h-6 flex items-center justify-center rounded-full"
-  >
-    {{ cantidadSignal() > 99 ? "99+" : cantidadSignal() }}
-  </span>
+  @if (cantidadSignal() >= 1) {
+    <span
+      class="absolute -top-2 -right-2 bg-teal-500 text-white w-6 h-6 flex items-center justify-center rounded-full"
+      [ngClass]="cantidadSignal() > 99 ? 'text-xs' : 'text-sm'"
+    >
+      {{ cantidadSignal() > 99 ? "99+" : cantidadSignal() }}
+    </span>
   }
-
   <span
-    class="absolute top-2 left-2 bg-teal-500 text-white text-sm w-7 h-7 flex items-center justify-center rounded-full"
+    class="absolute -top-0.1 right-5 bg-teal-500 text-white w-7 h-7 flex items-center justify-center rounded-full"
     (click)="seleccionarFavorito(item); $event.stopPropagation()"
   >
-    @if(item.favorito){
-    <i class="ki-duotone ki-star text-white text-lg"></i>
+    @if (item.favorito) {
+      <i class="ki-duotone ki-star text-white"></i>
     } @else {
-    <i class="ki-outline ki-star text-lg"></i>
+      <i class="ki-outline ki-star"></i>
     }
   </span>
 
-  <img
-    src="https://placehold.co/30x30"
-    width="30"
-    height="30"
-    class="rounded-t-lg w-full object-cover"
-  />
+  <span
+    class="absolute -top-0.1 left-1.75 border border-teal-500/50 text-teal-500 bg-gray-50 h-7 flex items-center justify-center rounded-s-sm text-sm font-bold px-2"
+  >
+    {{ item.codigo }}
+  </span>
 
-  <div class="text-center">
-    <h5 class="text-lg font-light truncate w-full">{{ item.nombre }}</h5>
-    <h6 class="text-sm font-light truncate w-full">{{ item.codigo }}</h6>
-    <h6 class="text-sm font-light truncate w-full">{{ item.disponible || "Agotado" }}</h6>
-    <p class="text-base font-bold">$ {{ item.precio | number : "1.0-0" }}</p>
+  <div class="card-body p-0">
+    <img
+      src="https://placehold.co/18x18"
+      width="18"
+      height="18"
+      class="rounded-t-[0.70rem] object-cover w-full h-[150px]"
+    />
+    <div class="text-center">
+      <h5 class="text-lg font-light">{{ item.nombre }}</h5>
+      <h6 class="text-sm font-light truncate w-full">
+        {{ item.disponible || "Agotado" }}
+      </h6>
+      <p class="text-base font-bold">$ {{ item.precio | number: "1.0-0" }}</p>
+    </div>
   </div>
 </div>
