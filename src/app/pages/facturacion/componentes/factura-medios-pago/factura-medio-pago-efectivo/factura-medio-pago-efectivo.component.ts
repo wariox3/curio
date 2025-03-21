@@ -183,10 +183,9 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
   }
 
   private _obtenerDatosFactura() {
-    return this._facturaReduxService.obtenerDataFactura().pipe(
-      tap((respuesta) => console.log(respuesta)),
-      takeUntil(this.destroy$),
-    );
+    return this._facturaReduxService
+      .obtenerDataFactura()
+      .pipe(takeUntil(this.destroy$));
   }
 
   private _crearFactura(data: any) {

@@ -12,11 +12,16 @@ export class FacturaMediosExitosoComponent {
   public tabActivo = this._facturaReduxService.facturaTabActivo;
 
   gestionNuevaFactura(){
-    if(this.tabActivo() === ''){
-      this._facturaReduxService.reiniciarDetalles();
-    } else {
-      this._facturaReduxService.retirarFactura(this.tabActivo());
+    this._facturaReduxService.reiniciarDetalles();
+    this._facturaReduxService.retirarFactura(this.tabActivo());
+    this._facturaReduxService.seleccionarTabActivoFactura('');
+
+    if(this._facturaReduxService.cantidadFacturasSignal() === 0){
+      this._facturaReduxService.nuevaFactura()
     }
+    this._facturaReduxService.seleccionarTabActivoFactura(this._facturaReduxService.arrFacturasSignal()[0].uuid)
+    this._facturaReduxService.obtenerItemsFactura()
+    //this._facturaReduxService.seleccionarTabActivoFactura(this.tabActivo());
   }
 
 }

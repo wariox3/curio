@@ -183,7 +183,7 @@ export class FacturaReduxService {
 
   seleccionarTabActivoFactura(id: string) {
     this._store.dispatch(seleccionarFacturaActiva({ id }));
-    this.obtertenerTabActivoFactura();
+    //this.obtertenerTabActivoFactura();
   }
 
   agregarItem(item: Item) {
