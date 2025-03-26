@@ -1,9 +1,9 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ConfiguracionGeneralApiService } from '../../services/configuracion-general-api.service';
 import { DocumentoTipo } from '@interfaces/documento-tipo.interface';
-import { LabelComponent } from '../../../../shared/components/form/label/label.component';
-import { switchAll, switchMap, tap } from 'rxjs';
 import { ConfiguracionReduxService } from '@redux/services/configuracion-redux.service';
+import { switchMap, tap } from 'rxjs';
+import { LabelComponent } from '../../../../shared/components/form/label/label.component';
+import { ConfiguracionGeneralApiService } from '../../services/configuracion-general-api.service';
 
 @Component({
   selector: 'app-configuracion-general',

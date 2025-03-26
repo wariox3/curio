@@ -9,7 +9,7 @@ export const ConfiguracionActionInit = createAction(
 
 export const actualizarDocumentoTipoIdPorContenedor = createAction(
   '[Configuracion] Actualizar Documento_tipo_id por Contenedor',
-  props<{ contenedorId: number; documento_tipo_id: string }>()
+  props<{ contenedorId: number; documento_tipo_id: number }>()
 );
 
 export const actualizarDocumentoTipoNombrePorContenedor = createAction(

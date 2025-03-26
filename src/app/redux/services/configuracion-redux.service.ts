@@ -10,6 +10,7 @@ import {
   obtenerConfiguracionContenedorId,
   obtenerConfiguracionDocumentoTipoId,
   obtenerConfiguracionNombre,
+  obtenerConfiguracionSede,
 } from '@redux/selectors/configuracion.selectors';
 import { ContenedorReduxService } from './contenedor-redux.service';
 import { ContenedorApiService } from 'src/app/pages/contenedores/services/contenedor-api.service';
@@ -29,7 +30,7 @@ export class ConfiguracionReduxService {
 
   constructor() {}
 
-  actualizarDocumentoTipoId(documento_tipo_id: string) {
+  actualizarDocumentoTipoId(documento_tipo_id: number) {
     this._store.dispatch(
       actualizarDocumentoTipoIdPorContenedor({
         contenedorId: this._contenedorReduxService.contendorId(),
@@ -57,6 +58,10 @@ export class ConfiguracionReduxService {
 
   obtenerDocumentoTipoId() {
     return this._store.selectSignal(obtenerConfiguracionDocumentoTipoId)();
+  }
+
+  obtenerDocumentoSede() {
+    return this._store.selectSignal(obtenerConfiguracionSede)();
   }
 
   cargarConfiguracion(configuracion: any) {

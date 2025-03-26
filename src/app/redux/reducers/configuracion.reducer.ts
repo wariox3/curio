@@ -1,3 +1,4 @@
+import { ConfiguracionReduxState } from '@interfaces/configuracion.interface';
 import { createReducer, on } from '@ngrx/store';
 import {
   actualizarDocumentoTipoIdPorContenedor,
@@ -6,10 +7,11 @@ import {
   ConfiguracionActionInit,
 } from '@redux/actions/configuracion.actions';
 
-export const initialState: any = {
-  documento_tipo_id: '',
+export const initialState: ConfiguracionReduxState = {
+  documento_tipo_id: 0,
   documento_tipo_nombre: '',
   contenedor_id: 0,
+  sede: 1,
 };
 
 export const configuracionReducer = createReducer(

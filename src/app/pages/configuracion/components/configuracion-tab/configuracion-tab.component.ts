@@ -16,6 +16,7 @@ export class ConfiguracionTabComponent {
   public  emitirModulo = output<AplicacionModulos>()
 
   seleccionarConfiguracion(modulo: AplicacionModulos){
+    this.menuSeleccionado = modulo
     this.emitirModulo.emit(modulo)
   }
 
