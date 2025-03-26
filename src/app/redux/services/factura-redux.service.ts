@@ -13,7 +13,6 @@ import {
 import { Item } from '@interfaces/item.interface';
 import { Store } from '@ngrx/store';
 import {
-  actualizarAlmacenFacturaPorContenedor,
   actualizarAsesorFactura,
   actualizarBaseImpuestoFacturaActiva,
   actualizarBaseImpuestoItemFacturaActiva,
@@ -52,9 +51,9 @@ import {
   obtenerNombreFacturaActiva,
 } from '@redux/selectors/factura.selectors';
 import { FechasService } from 'src/app/shared/services/fechas.service';
-import { ContenedorReduxService } from './contenedor-redux.service';
 import * as uuid from 'uuid';
 import { ConfiguracionReduxService } from './configuracion-redux.service';
+import { ContenedorReduxService } from './contenedor-redux.service';
 
 @Injectable({ providedIn: 'root' })
 export class FacturaReduxService {
@@ -157,7 +156,8 @@ export class FacturaReduxService {
       facturaNuevaAction({
         factura: {
           ...facturaInit,
-          almacen: this._configuracionReduxService.obtenerSede(),
+          sede: this._configuracionReduxService.obtenerSede(),
+          almacen: 1,
           nombre: 'Factura',
           fecha: fechaVencimientoInicial,
           fecha_vence: fechaVencimientoInicial,
@@ -227,12 +227,6 @@ export class FacturaReduxService {
   actualizarAsesor(asesor: number) {
     this._store.dispatch(
       actualizarAsesorFactura({asesor}),
-    );
-  }
-
-  actualizarAlmacenFacturas(almacen: number) {
-    this._store.dispatch(
-      actualizarAlmacenFacturaPorContenedor({ almacen, contendorId: this._contenedorReduxService.contendorId() }),
     );
   }
 
@@ -348,7 +342,8 @@ export class FacturaReduxService {
       impuesto: impuestoCalculado,
       impuestos: arrImpuesto,
       base_impuesto: item.precio * 1,
-      almacen: this._configuracionReduxService.obtenerSede(),
+      sede: this._configuracionReduxService.obtenerSede(),
+      almacen: 1,
       codigo: item.codigo,
       imagen: item.imagen,
     };

@@ -38,6 +38,5 @@ export class ConfiguracionFacturacionComponent implements OnInit {
 
   private actualizarSede(sede: number) {
     this._configuracionReduxService.actualizarConfiguracionSede(sede);
-    this._facturaReduxService.actualizarAlmacenFacturas(sede);
   }
 }
