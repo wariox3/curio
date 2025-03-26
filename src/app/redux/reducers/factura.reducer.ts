@@ -50,7 +50,7 @@ export const facturaReducer = createReducer(
   on(facturaEliminarAction, (state, { index }) => ({
     ...state,
     facturas: state.facturas.filter((factura) => factura.uuid !== index),
-    facturaActiva: state.facturaActiva === index ? '' : state.facturaActiva,
+    facturaActiva: ''
   })),
   on(seleccionarFacturaActiva, (state, { id }) => ({
     ...state,

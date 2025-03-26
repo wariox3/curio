@@ -107,7 +107,7 @@ export class FacturaReduxService {
       .subscribe((id) => this.facturaTabActivo.set(id));
   }
 
-  obtertenerNombreFactura() {
+  obtenerNombreFactura() {
     this._store
       .select(obtenerNombreFacturaActiva)
       .subscribe((nombre) => this.facturaActivaNombre.set(nombre));
@@ -181,12 +181,10 @@ export class FacturaReduxService {
 
   retirarFactura(index: string) {
     this._store.dispatch(facturaEliminarAction({ index }));
-    this.obtenerReduxFacturas();
   }
 
   seleccionarTabActivoFactura(id: string) {
     this._store.dispatch(seleccionarFacturaActiva({ id }));
-    //this.obtertenerTabActivoFactura();
   }
 
   agregarItem(item: Item) {
