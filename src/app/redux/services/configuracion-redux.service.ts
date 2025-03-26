@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import {
   actualizarDocumentoTipoIdPorContenedor,
   actualizarDocumentoTipoNombrePorContenedor,
+  actualizarSede,
   configuracionActionClear,
   ConfiguracionActionInit,
 } from '@redux/actions/configuracion.actions';
@@ -60,7 +61,7 @@ export class ConfiguracionReduxService {
     return this._store.selectSignal(obtenerConfiguracionDocumentoTipoId)();
   }
 
-  obtenerDocumentoSede() {
+  obtenerSede() {
     return this._store.selectSignal(obtenerConfiguracionSede)();
   }
 
@@ -93,4 +94,9 @@ export class ConfiguracionReduxService {
     )
     .subscribe()
   }
+
+  actualizarConfiguracionSede(sede: number){
+    this._store.dispatch(actualizarSede({sede}))
+  }
+
 }

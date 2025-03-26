@@ -17,6 +17,11 @@ export const actualizarDocumentoTipoNombrePorContenedor = createAction(
   props<{ contenedorId: number; documento_tipo_nombre: string }>()
 );
 
+export const actualizarSede = createAction(
+  '[Configuración] Actualizar Sede',
+  props<{ sede: number }>()
+);
+
 export const configuracionActionClear = createAction(
   '[Configuracion] limpiar informacion',
 );

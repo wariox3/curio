@@ -13,6 +13,7 @@ import {
 import { Item } from '@interfaces/item.interface';
 import { Store } from '@ngrx/store';
 import {
+  actualizarAlmacenFacturaPorContenedor,
   actualizarAsesorFactura,
   actualizarBaseImpuestoFacturaActiva,
   actualizarBaseImpuestoItemFacturaActiva,
@@ -53,13 +54,14 @@ import {
 import { FechasService } from 'src/app/shared/services/fechas.service';
 import { ContenedorReduxService } from './contenedor-redux.service';
 import * as uuid from 'uuid';
+import { ConfiguracionReduxService } from './configuracion-redux.service';
 
 @Injectable({ providedIn: 'root' })
 export class FacturaReduxService {
   private _store = inject(Store);
   private _fechasService = inject(FechasService);
   private _contenedorReduxService = inject(ContenedorReduxService);
-
+  private _configuracionReduxService = inject(ConfiguracionReduxService);
   public facturaTabActivo = signal<string>('');
   public arrFacturasSignal = signal<DocumentoFactura[]>([]);
   public facturaActivaNombre = signal('');
@@ -155,6 +157,7 @@ export class FacturaReduxService {
       facturaNuevaAction({
         factura: {
           ...facturaInit,
+          almacen: this._configuracionReduxService.obtenerSede(),
           nombre: 'Factura',
           fecha: fechaVencimientoInicial,
           fecha_vence: fechaVencimientoInicial,
@@ -226,6 +229,13 @@ export class FacturaReduxService {
       actualizarAsesorFactura({asesor}),
     );
   }
+
+  actualizarAlmacenFacturas(almacen: number) {
+    this._store.dispatch(
+      actualizarAlmacenFacturaPorContenedor({ almacen, contendorId: this._contenedorReduxService.contendorId() }),
+    );
+  }
+
 
   calcularValoresFacturaActivaEncabezado() {
     this._calcularSubtotalFactura();
@@ -338,7 +348,7 @@ export class FacturaReduxService {
       impuesto: impuestoCalculado,
       impuestos: arrImpuesto,
       base_impuesto: item.precio * 1,
-      almacen: 1,
+      almacen: this._configuracionReduxService.obtenerSede(),
       codigo: item.codigo,
       imagen: item.imagen,
     };

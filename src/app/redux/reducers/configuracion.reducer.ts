@@ -3,6 +3,7 @@ import { createReducer, on } from '@ngrx/store';
 import {
   actualizarDocumentoTipoIdPorContenedor,
   actualizarDocumentoTipoNombrePorContenedor,
+  actualizarSede,
   configuracionActionClear,
   ConfiguracionActionInit,
 } from '@redux/actions/configuracion.actions';
@@ -32,6 +33,10 @@ export const configuracionReducer = createReducer(
           : state.documento_tipo_id,
     }),
   ),
+  on(actualizarSede, (state, { sede }) => ({
+    ...state,
+    sede,
+  })),
   on(
     actualizarDocumentoTipoNombrePorContenedor,
     (state, { contenedorId, documento_tipo_nombre }) => ({
