@@ -27,6 +27,7 @@ import {
   actualizarTotalBrutoFacturaActiva,
   actualizaImpuestoFacturaActiva,
   actualizarAsesorFactura,
+  actualizarSedeFacturaPorContenedor,
 } from '@redux/actions/factura.actions';
 
 export const initialState: FacturaReduxState = {
@@ -50,7 +51,7 @@ export const facturaReducer = createReducer(
   on(facturaEliminarAction, (state, { index }) => ({
     ...state,
     facturas: state.facturas.filter((factura) => factura.uuid !== index),
-    facturaActiva: state.facturaActiva === index ? '' : state.facturaActiva,
+    facturaActiva: '',
   })),
   on(seleccionarFacturaActiva, (state, { id }) => ({
     ...state,
@@ -370,7 +371,13 @@ export const facturaReducer = createReducer(
   on(actualizarAsesorFactura, (state, { asesor }) => ({
     ...state,
     facturas: state.facturas.map((factura) =>
-      factura.uuid === state.facturaActiva ? { ...factura, asesor } : factura
+      factura.uuid === state.facturaActiva ? { ...factura, asesor } : factura,
     ),
-  }))
+  })),
+  on(actualizarSedeFacturaPorContenedor, (state, { sede, contendorId }) => ({
+    ...state,
+    facturas: state.facturas.map((factura) =>
+      factura.contenedor === contendorId ? { ...factura, sede } : factura,
+    ),
+  })),
 );

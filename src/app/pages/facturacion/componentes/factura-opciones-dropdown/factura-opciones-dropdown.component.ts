@@ -61,6 +61,7 @@ export class FacturaOpcionesDropdownComponent {
 
   retirarFactura() {
     this._facturaReduxService.retirarFactura(this.tabActivo());
+    this._facturaReduxService.obtenerReduxFacturas();
     this._toggleModal(this.modalConfirmacionEliminar);
   }
 }

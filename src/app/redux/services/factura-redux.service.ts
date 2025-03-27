@@ -1,4 +1,3 @@
-// factura.service.ts
 import { computed, inject, Injectable, signal } from '@angular/core';
 import {
   documentoFacturaDetalleInit,
@@ -31,6 +30,7 @@ import {
   actualizarTotalesImpuestosItemFacturaActiva,
   actualizarTotalFacturaActiva,
   actualizarTotalItemFacturaActiva,
+  actualizarSedeFacturaPorContenedor,
   agregarItemFacturaActiva,
   facturaActualizarNombreAction,
   facturaEliminarAction,
@@ -51,15 +51,16 @@ import {
   obtenerNombreFacturaActiva,
 } from '@redux/selectors/factura.selectors';
 import { FechasService } from 'src/app/shared/services/fechas.service';
-import { ContenedorReduxService } from './contenedor-redux.service';
 import * as uuid from 'uuid';
+import { ConfiguracionReduxService } from './configuracion-redux.service';
+import { ContenedorReduxService } from './contenedor-redux.service';
 
 @Injectable({ providedIn: 'root' })
 export class FacturaReduxService {
   private _store = inject(Store);
   private _fechasService = inject(FechasService);
   private _contenedorReduxService = inject(ContenedorReduxService);
-
+  private _configuracionReduxService = inject(ConfiguracionReduxService);
   public facturaTabActivo = signal<string>('');
   public arrFacturasSignal = signal<DocumentoFactura[]>([]);
   public facturaActivaNombre = signal('');
@@ -106,7 +107,7 @@ export class FacturaReduxService {
       .subscribe((id) => this.facturaTabActivo.set(id));
   }
 
-  obtertenerNombreFactura() {
+  obtenerNombreFactura() {
     this._store
       .select(obtenerNombreFacturaActiva)
       .subscribe((nombre) => this.facturaActivaNombre.set(nombre));
@@ -155,6 +156,8 @@ export class FacturaReduxService {
       facturaNuevaAction({
         factura: {
           ...facturaInit,
+          sede: this._configuracionReduxService.obtenerSede(),
+          almacen: 1,
           nombre: 'Factura',
           fecha: fechaVencimientoInicial,
           fecha_vence: fechaVencimientoInicial,
@@ -178,12 +181,10 @@ export class FacturaReduxService {
 
   retirarFactura(index: string) {
     this._store.dispatch(facturaEliminarAction({ index }));
-    this.obtenerReduxFacturas();
   }
 
   seleccionarTabActivoFactura(id: string) {
     this._store.dispatch(seleccionarFacturaActiva({ id }));
-    //this.obtertenerTabActivoFactura();
   }
 
   agregarItem(item: Item) {
@@ -222,9 +223,7 @@ export class FacturaReduxService {
   }
 
   actualizarAsesor(asesor: number) {
-    this._store.dispatch(
-      actualizarAsesorFactura({asesor}),
-    );
+    this._store.dispatch(actualizarAsesorFactura({ asesor }));
   }
 
   calcularValoresFacturaActivaEncabezado() {
@@ -338,6 +337,7 @@ export class FacturaReduxService {
       impuesto: impuestoCalculado,
       impuestos: arrImpuesto,
       base_impuesto: item.precio * 1,
+      sede: this._configuracionReduxService.obtenerSede(),
       almacen: 1,
       codigo: item.codigo,
       imagen: item.imagen,
@@ -360,5 +360,14 @@ export class FacturaReduxService {
       compra: false,
       operacion: 0,
     };
+  }
+
+  actualizarAlmacenFacturas(sede: number) {
+    this._store.dispatch(
+      actualizarSedeFacturaPorContenedor({
+        sede,
+        contendorId: this._contenedorReduxService.contendorId(),
+      }),
+    );
   }
 }

@@ -1,12 +1,25 @@
-<app-label>Documento tipo</app-label>
-<select class="select" name="select" (change)="cambiarDocumentoTipo($event)">
-  <option value="">
-    Seleccionar
-  </option>
-  @for (documento of arrDocumentos(); track $index) {
-    <option [value]="documento.id" [selected]="documentoTipo === documento.id">
-      {{documento.nombre}}
-     </option>
-  }
 
- </select>
+
+<section>
+  <app-label>Documento tipo</app-label>
+  <select class="select" name="select" (change)="cambiarDocumentoTipo($event)">
+    <option value="">Seleccionar</option>
+    @for (documento of arrDocumentos(); track $index) {
+      <option [value]="documento.id" [selected]="documentoTipo === documento.id">
+        {{ documento.nombre }}
+      </option>
+    }
+  </select>
+</section>
+
+<section class="mt-2">
+  <app-label>Sede</app-label>
+  <select class="select" name="select" (change)="cambiarSede($event)">
+    <option value="">Seleccionar</option>
+    @for (sede of arrSedes(); track $index) {
+      <option [value]="sede.id" [selected]="configuracionSede === sede.id">
+        {{ sede.nombre }}
+      </option>
+    }
+  </select>
+</section>

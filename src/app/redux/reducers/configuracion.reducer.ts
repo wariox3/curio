@@ -1,15 +1,18 @@
+import { ConfiguracionReduxState } from '@interfaces/configuracion.interface';
 import { createReducer, on } from '@ngrx/store';
 import {
   actualizarDocumentoTipoIdPorContenedor,
   actualizarDocumentoTipoNombrePorContenedor,
+  actualizarSede,
   configuracionActionClear,
   ConfiguracionActionInit,
 } from '@redux/actions/configuracion.actions';
 
-export const initialState: any = {
-  documento_tipo_id: '',
+export const initialState: ConfiguracionReduxState = {
+  documento_tipo_id: 0,
   documento_tipo_nombre: '',
   contenedor_id: 0,
+  sede: 1,
 };
 
 export const configuracionReducer = createReducer(
@@ -30,6 +33,10 @@ export const configuracionReducer = createReducer(
           : state.documento_tipo_id,
     }),
   ),
+  on(actualizarSede, (state, { sede }) => ({
+    ...state,
+    sede,
+  })),
   on(
     actualizarDocumentoTipoNombrePorContenedor,
     (state, { contenedorId, documento_tipo_nombre }) => ({

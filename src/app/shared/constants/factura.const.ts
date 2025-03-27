@@ -58,7 +58,7 @@ export const facturaInit: DocumentoFactura = {
   electronico_id: undefined,
   asesor: undefined,
   asesor_nombre_corto: undefined,
-  sede: undefined,
+  sede: 1,
   sede_nombre: undefined,
   programacion_detalle_id: undefined,
   contrato_id: undefined,
@@ -124,5 +124,6 @@ export const documentoFacturaDetalleInit: DocumentoFacturaDetalleRespuesta = {
   impuestos: [],
   almacen: 1,
   codigo: '',
-  imagen: ''
+  imagen: '',
+  sede: 1
 };

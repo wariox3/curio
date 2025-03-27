@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import {
   actualizarDocumentoTipoIdPorContenedor,
   actualizarDocumentoTipoNombrePorContenedor,
+  actualizarSede,
   configuracionActionClear,
   ConfiguracionActionInit,
 } from '@redux/actions/configuracion.actions';
@@ -10,6 +11,7 @@ import {
   obtenerConfiguracionContenedorId,
   obtenerConfiguracionDocumentoTipoId,
   obtenerConfiguracionNombre,
+  obtenerConfiguracionSede,
 } from '@redux/selectors/configuracion.selectors';
 import { ContenedorReduxService } from './contenedor-redux.service';
 import { ContenedorApiService } from 'src/app/pages/contenedores/services/contenedor-api.service';
@@ -29,7 +31,7 @@ export class ConfiguracionReduxService {
 
   constructor() {}
 
-  actualizarDocumentoTipoId(documento_tipo_id: string) {
+  actualizarDocumentoTipoId(documento_tipo_id: number) {
     this._store.dispatch(
       actualizarDocumentoTipoIdPorContenedor({
         contenedorId: this._contenedorReduxService.contendorId(),
@@ -57,6 +59,10 @@ export class ConfiguracionReduxService {
 
   obtenerDocumentoTipoId() {
     return this._store.selectSignal(obtenerConfiguracionDocumentoTipoId)();
+  }
+
+  obtenerSede() {
+    return this._store.selectSignal(obtenerConfiguracionSede)();
   }
 
   cargarConfiguracion(configuracion: any) {
@@ -88,4 +94,9 @@ export class ConfiguracionReduxService {
     )
     .subscribe()
   }
+
+  actualizarConfiguracionSede(sede: number){
+    this._store.dispatch(actualizarSede({sede}))
+  }
+
 }

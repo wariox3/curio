@@ -34,13 +34,13 @@ export class FacturaTabsComponent implements OnInit {
       this.agregarTab()
     }
     this.seleccionarTab(0)
-    this._facturaReduxService.obtertenerNombreFactura();
+    this._facturaReduxService.obtenerNombreFactura();
     this._facturaReduxService.obtenerItemsFactura();
   }
 
   agregarTab() {
     this._facturaReduxService.nuevaFactura();
-    this._facturaReduxService.obtertenerNombreFactura();
+    this._facturaReduxService.obtenerNombreFactura();
     this._facturaReduxService.obtenerItemsFactura();
   }
 

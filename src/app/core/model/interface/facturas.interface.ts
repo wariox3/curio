@@ -113,6 +113,7 @@ export interface DocumentoFacturaDetalleRespuesta {
   almacen_nombre: string;
   impuestos: DocumentoImpuestoFacturaRespuesta[];
   imagen: string;
+  sede: number
 }
 
 export interface PagoRespuestaFormulario {

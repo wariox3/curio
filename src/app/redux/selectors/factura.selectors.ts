@@ -1,4 +1,5 @@
 import {
+  DocumentoFacturaDetalleRespuesta,
   DocumentoImpuestoFacturaRespuesta,
   FacturaReduxState,
 } from '@interfaces/facturas.interface';
@@ -53,12 +54,14 @@ export const obtenerNombreFacturaActiva = createSelector(
   Facturacion,
   (state) => {
     let nombre = '';
-    const facturaActiva = state.facturas.find(
-      (factura) => factura.uuid === state.facturaActiva,
-    );
-    nombre = facturaActiva.nombre;
-    if (state.facturaActiva > '' && nombre === 'Facturacion') {
-      nombre += ` ${state.facturaActiva}`;
+    if (state.facturaActiva) {
+      const facturaActiva = state.facturas.find(
+        (factura) => factura.uuid === state.facturaActiva,
+      );
+      nombre = facturaActiva.nombre;
+      if (state.facturaActiva > '' && nombre === 'Facturacion') {
+        nombre += ` ${state.facturaActiva}`;
+      }
     }
     return nombre;
   },
@@ -67,10 +70,14 @@ export const obtenerNombreFacturaActiva = createSelector(
 export const obtenerItemsFacturaActiva = createSelector(
   Facturacion,
   (state) => {
-    const facturaActiva = state.facturas.find(
-      (factura) => factura.uuid === state.facturaActiva,
-    );
-    return facturaActiva.detalles;
+    let detalles: DocumentoFacturaDetalleRespuesta[] = [];
+    if (state.facturaActiva !== '') {
+      const facturaActiva = state.facturas.find(
+        (factura) => factura.uuid === state.facturaActiva,
+      );
+      detalles = facturaActiva.detalles;
+    }
+    return detalles;
   },
 );
 
