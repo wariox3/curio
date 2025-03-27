@@ -128,3 +128,7 @@ export const actualizarAsesorFactura = createAction(
   props<{ asesor: number }>()
 );
 
+export const actualizarSedeFacturaPorContenedor = createAction(
+  '[Factura] Actualizar Sede facturas por contendor',
+  props<{ sede: number, contendorId: number }>()
+);

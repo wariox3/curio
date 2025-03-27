@@ -1,9 +1,0 @@
-<app-label>Sede</app-label>
-<select class="select" name="select" (change)="cambiarSede($event)">
-  <option value="">Seleccionar</option>
-  @for (sede of arrSedes(); track $index) {
-    <option [value]="sede.id" [selected]="configuracionSede === sede.id">
-      {{ sede.nombre }}
-    </option>
-  }
-</select>

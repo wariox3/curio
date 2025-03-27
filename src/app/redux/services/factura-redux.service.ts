@@ -1,4 +1,3 @@
-// factura.service.ts
 import { computed, inject, Injectable, signal } from '@angular/core';
 import {
   documentoFacturaDetalleInit,
@@ -31,6 +30,7 @@ import {
   actualizarTotalesImpuestosItemFacturaActiva,
   actualizarTotalFacturaActiva,
   actualizarTotalItemFacturaActiva,
+  actualizarSedeFacturaPorContenedor,
   agregarItemFacturaActiva,
   facturaActualizarNombreAction,
   facturaEliminarAction,
@@ -223,11 +223,8 @@ export class FacturaReduxService {
   }
 
   actualizarAsesor(asesor: number) {
-    this._store.dispatch(
-      actualizarAsesorFactura({asesor}),
-    );
+    this._store.dispatch(actualizarAsesorFactura({ asesor }));
   }
-
 
   calcularValoresFacturaActivaEncabezado() {
     this._calcularSubtotalFactura();
@@ -363,5 +360,14 @@ export class FacturaReduxService {
       compra: false,
       operacion: 0,
     };
+  }
+
+  actualizarAlmacenFacturas(sede: number) {
+    this._store.dispatch(
+      actualizarSedeFacturaPorContenedor({
+        sede,
+        contendorId: this._contenedorReduxService.contendorId(),
+      }),
+    );
   }
 }
