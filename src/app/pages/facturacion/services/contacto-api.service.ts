@@ -4,7 +4,6 @@ import { API_ENDPOINTS } from '@constantes/api-endpoints.const';
 import { Contacto } from '@interfaces/contacto';
 import { tap } from 'rxjs';
 import { ParametrosFiltrosConsultasHttp } from '../../../core/model/interface/parametros-filtros-consulta-http.interface';
-import { contactoConsumidorFinal } from '@constantes/contacto.const';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +26,7 @@ export class ContactoApiService {
       } as ParametrosFiltrosConsultasHttp)
       .pipe(
         tap((respuesta) => {
-          this.arrContactosSignal.set([contactoConsumidorFinal, ...respuesta.registros]);
+          this.arrContactosSignal.set(respuesta.registros);
         })
       );
   }
