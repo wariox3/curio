@@ -110,10 +110,12 @@
           ></app-form-error>
         </div>
 
-        <ngx-turnstile
-          [siteKey]="turnstileSiteKey"
-          (resolved)="onSuccess($event)"
-        ></ngx-turnstile>
+        @if (isProduction) {
+          <ngx-turnstile
+            [siteKey]="turnstileSiteKey"
+            (resolved)="onSuccess($event)"
+          ></ngx-turnstile>
+        }
 
         @if (visualizarLoader()) {
           <button

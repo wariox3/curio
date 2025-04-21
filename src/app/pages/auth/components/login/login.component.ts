@@ -34,6 +34,7 @@ export default class LoginComponent implements OnInit {
   visualizarLoader = signal(false);
   cambiarTipoCampoClave = signal<'text' | 'password'>('password');
   turnstileSiteKey: string = environment.turnstileSiteKey;
+  isProduction: boolean = environment.production;
 
   private _formBuilder = inject(FormBuilder);
   private _authService = inject(AuthService);
@@ -58,7 +59,7 @@ export default class LoginComponent implements OnInit {
 
   initForm() {
     this.loginForm = this._formBuilder.group({
-      turnstileToken: ['', Validators.required],
+      turnstileToken: [''],
       email: [
         '',
         Validators.compose([
@@ -79,6 +80,12 @@ export default class LoginComponent implements OnInit {
         ]),
       ],
     });
+
+    if (this.isProduction) {
+      this.loginForm
+        .get('turnstileToken')
+        ?.addValidators([Validators.required]);
+    }
   }
 
   submit() {
