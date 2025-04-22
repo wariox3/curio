@@ -37,6 +37,7 @@ import { FacturaReduxService } from '../../../../../redux/services/factura-redux
 import { FormErrorComponent } from '../../../../../shared/components/form/form-error/form-error.component';
 import { FacturaApiService } from '../../../services/factura-api.service';
 import { InventarioApiService } from '../../../services/inventario-api.service';
+import { FacturaService } from '../../../services/facutra.service';
 
 @Component({
   selector: 'app-factura-medio-pago-efectivo',
@@ -60,6 +61,7 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
   private _ConfiguracionReduxService = inject(ConfiguracionReduxService);
   private _autocompletarApiService = inject(AutocompletarApiService);
   private _alertaService = inject(AlertaService);
+  private _facturaService = inject(FacturaService);
 
   private _formBuilder = inject(FormBuilder);
   private destroy$ = new Subject<void>();
@@ -220,6 +222,7 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
           }),
           switchMap((respuesta: any) => {
             if (respuesta !== null) {
+              this._facturaService.detalleId = respuesta.documento.id;
               return this._aprobarFactura(respuesta.documento.id);
             }
             return of(null);

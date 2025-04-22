@@ -14,7 +14,9 @@
         </div>
         <div class="card-table scrollable-x-auto">
           <div class="scrollable-auto">
-            <table class="table  table-border align-middle text-gray-700 font-medium text-sm">
+            <table
+              class="table table-border align-middle text-gray-700 font-medium text-sm"
+            >
               <thead>
                 <tr class="text-center">
                   <th>Id</th>
@@ -28,6 +30,7 @@
                   <th>Anu</th>
                   <th>Ele</th>
                   <th>Con</th>
+                  <th></th>
                 </tr>
               </thead>
               @for (factura of arrFacturasSignal(); track $index) {
@@ -45,11 +48,25 @@
                   <td class="text-end">
                     {{ factura.total | number: "1.0-0" }}
                   </td>
-                  <td class="text-center">{{ factura.aprobado | siNo }}</td>
-                  <td class="text-center">{{ factura.anulado | siNo }}</td>
-                  <td class="text-center">{{ factura.electronico | siNo }}</td>
                   <td class="text-center">
-                    {{ factura.contabilizado | siNo }}
+                    {{ factura.estado_aprobado | siNo }}
+                  </td>
+                  <td class="text-center">
+                    {{ factura.estado_anulado | siNo }}
+                  </td>
+                  <td class="text-center">
+                    {{ factura.estado_electronico | siNo }}
+                  </td>
+                  <td class="text-center">
+                    {{ factura.estado_contabilizado | siNo }}
+                  </td>
+                  <td class="text-center">
+                    <i
+                      class="ki-filled ki-printer cursor-pointer"
+                      (click)="
+                        descargarPDF(factura.id, factura.documento_tipo_id)
+                      "
+                    ></i>
                   </td>
                 </tr>
               }

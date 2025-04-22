@@ -21,6 +21,11 @@ export class HistorialApiService {
         valor1: '105',
         operador: 'exact',
       },
+      {
+        propiedad: 'estado_aprobado',
+        valor1: true,
+        operador: 'exact',
+      },
     ],
     modelo: 'GenDocumento',
     limite: 50,
