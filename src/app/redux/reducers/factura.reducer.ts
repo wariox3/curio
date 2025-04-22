@@ -28,6 +28,9 @@ import {
   actualizaImpuestoFacturaActiva,
   actualizarAsesorFactura,
   actualizarSedeFacturaPorContenedor,
+  agregarPagosFacturaActiva,
+  limpiarPagosFacturaActiva,
+  actualizarValorAfectadoFacturaActiva,
 } from '@redux/actions/factura.actions';
 
 export const initialState: FacturaReduxState = {
@@ -233,6 +236,7 @@ export const facturaReducer = createReducer(
         ? {
             ...factura,
             detalles: [], // Reinicia el array de detalles
+            pagos: [],
           }
         : factura,
     ),
@@ -378,6 +382,50 @@ export const facturaReducer = createReducer(
     ...state,
     facturas: state.facturas.map((factura) =>
       factura.contenedor === contendorId ? { ...factura, sede } : factura,
+    ),
+  })),
+  on(agregarPagosFacturaActiva, (state, { cuenta_banco, pago }) => ({
+    ...state,
+    facturas: state.facturas.map((factura) =>
+      factura.uuid === state.facturaActiva
+        ? {
+            ...factura,
+            pagos: [
+              ...factura.pagos,
+              {
+                cuenta_banco: cuenta_banco,
+                pago: pago,
+                pagos_eliminados: [],
+                id: null,
+              },
+            ],
+          }
+        : factura,
+    ),
+  })),
+  on(limpiarPagosFacturaActiva, (state) => ({
+    ...state,
+    facturas: state.facturas.map((factura) =>
+      factura.uuid === state.facturaActiva
+        ? {
+            ...factura,
+            pagos: [],
+          }
+        : factura,
+    ),
+  })),
+  on(actualizarValorAfectadoFacturaActiva, (state) => ({
+    ...state,
+    facturas: state.facturas.map((factura) =>
+      factura.uuid === state.facturaActiva
+        ? {
+            ...factura,
+            afectado: factura.pagos?.reduce(
+              (total, detalle) => total + (detalle.pago || 0),
+              0,
+            ),
+          }
+        : factura,
     ),
   })),
 );
