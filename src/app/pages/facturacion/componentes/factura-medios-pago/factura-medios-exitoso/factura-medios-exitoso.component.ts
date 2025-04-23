@@ -35,5 +35,7 @@ export class FacturaMediosExitosoComponent {
       24,
       this._facturaService.detalleId,
     );
+    
+    this.gestionNuevaFactura();
   }
 }
