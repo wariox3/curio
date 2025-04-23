@@ -24,6 +24,11 @@ export class ItemApiService {
         valor1: true,
         operador: 'exact',
       },
+      {
+        propiedad: 'inactivo',
+        valor1: false,
+        operador: 'exact',
+      },
     ],
   };
 
