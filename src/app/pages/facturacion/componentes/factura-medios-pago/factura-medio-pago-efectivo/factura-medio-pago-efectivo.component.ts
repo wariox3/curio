@@ -36,8 +36,9 @@ import { AutocompletarApiService } from 'src/app/shared/services/autocompletar-a
 import { FacturaReduxService } from '../../../../../redux/services/factura-redux.service';
 import { FormErrorComponent } from '../../../../../shared/components/form/form-error/form-error.component';
 import { FacturaApiService } from '../../../services/factura-api.service';
-import { InventarioApiService } from '../../../services/inventario-api.service';
 import { FacturaService } from '../../../services/facutra.service';
+import { InventarioApiService } from '../../../services/inventario-api.service';
+import { FechasService } from 'src/app/shared/services/fechas.service';
 
 @Component({
   selector: 'app-factura-medio-pago-efectivo',
@@ -62,6 +63,7 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
   private _autocompletarApiService = inject(AutocompletarApiService);
   private _alertaService = inject(AlertaService);
   private _facturaService = inject(FacturaService);
+  private _fechaService = inject(FechasService);
 
   private _formBuilder = inject(FormBuilder);
   private destroy$ = new Subject<void>();
@@ -268,9 +270,12 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
   }
 
   private _crearFactura(data: any) {
+    const fecha = this._fechaService.getFechaVencimientoInicial();
     this._actualizarTextoBtn('Guardando');
     return this._facturaApiService.nuevo({
       ...data,
+      fecha: fecha,
+      fecha_vence: fecha,
       documento_tipo: this.documentoTipo,
       numero: null,
       empresa: 1,

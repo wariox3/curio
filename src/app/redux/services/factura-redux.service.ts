@@ -152,9 +152,6 @@ export class FacturaReduxService {
   }
 
   nuevaFactura() {
-    const fechaVencimientoInicial =
-      this._fechasService.getFechaVencimientoInicial();
-
     this._store.dispatch(
       facturaNuevaAction({
         factura: {
@@ -163,8 +160,6 @@ export class FacturaReduxService {
           sede: this._configuracionReduxService.obtenerSede(),
           almacen: 1,
           nombre: 'Factura',
-          fecha: fechaVencimientoInicial,
-          fecha_vence: fechaVencimientoInicial,
           contenedor: this._contenedorReduxService.contendorId(),
           uuid: uuid.v4(),
         },
