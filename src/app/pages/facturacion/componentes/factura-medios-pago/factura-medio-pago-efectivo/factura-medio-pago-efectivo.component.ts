@@ -24,6 +24,7 @@ import { FacturaEstadosBtnGuardar } from '@type/factura-estados-btn-guardar.type
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import {
   catchError,
+  Observable,
   of,
   Subject,
   switchMap,
@@ -190,59 +191,95 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    if (this.formularioMedioPagoEfectivo.valid) {
-      if (
-        this.formularioMedioPagoEfectivo.get('valor').value > 0 &&
-        this.formularioMedioPagoEfectivo.get('cuenta_banco').value === null
-      ) {
-        this._alertaService.mensajeError(
-          'No puedes pagar',
-          `Selecciona una cuenta de banco`,
-        );
-
-        return;
-      } else {
-        this._agregarPagoEnFactura();
-      }
-
-      this._actualizarTextoBtn('Validando');
-      this._obtenerDatosFactura()
-        .pipe(
-          switchMap((data) =>
-            this._inventarioApiService
-              .existenciaValidar(data.detalles)
-              .pipe(withLatestFrom(of(data))),
-          ),
-          switchMap(([respuestaValidacion, data]) => {
-            if (respuestaValidacion.validar) {
-              return of(data);
-            }
-            return of(null);
-          }),
-          switchMap((data: DocumentoFactura | null) => {
-            return data ? this._crearFactura(data) : of(null);
-          }),
-          switchMap((respuesta: any) => {
-            if (respuesta !== null) {
-              this._facturaService.detalleId = respuesta.documento.id;
-              return this._aprobarFactura(respuesta.documento.id);
-            }
-            return of(null);
-          }),
-          tap((respuestaFacturaProbada: any) => {
-            if (respuestaFacturaProbada.estado_aprobado) {
-              this._finalizarProceso(true);
-            }
-          }),
-          catchError(() => {
-            this._finalizarProceso(false);
-            return of(null);
-          }),
-        )
-        .subscribe();
-    } else {
-      this.formularioMedioPagoEfectivo.markAllAsTouched();
+    if (!this.isFormValid()) {
+      this.markFormAsTouched();
+      return;
     }
+
+    if (this.hasPaymentValidationError()) {
+      this.showPaymentError();
+      return;
+    }
+
+    this.procesarPago();
+  }
+
+  private isFormValid(): boolean {
+    return this.formularioMedioPagoEfectivo.valid;
+  }
+
+  private markFormAsTouched(): void {
+    this.formularioMedioPagoEfectivo.markAllAsTouched();
+  }
+
+  private hasPaymentValidationError(): boolean {
+    const valor = this.formularioMedioPagoEfectivo.get('valor')?.value;
+    const cuentaBanco =
+      this.formularioMedioPagoEfectivo.get('cuenta_banco')?.value;
+
+    return valor > 0 && cuentaBanco === null;
+  }
+
+  private showPaymentError(): void {
+    this._alertaService.mensajeError(
+      'No puedes pagar',
+      'Selecciona una cuenta de banco',
+    );
+  }
+
+  private procesarPago(): void {
+    this._agregarPagoEnFactura();
+    this._actualizarTextoBtn('Validando');
+
+    this.procesarPagoPipeline().subscribe();
+  }
+
+  private procesarPagoPipeline(): Observable<any> {
+    return this._obtenerDatosFactura().pipe(
+      switchMap((data) => this.validarExistencia(data)),
+      switchMap((data) => this.crearFacturaSiValida(data)),
+      switchMap((response) => this.aprobarFacturaSiCreada(response)),
+      tap((response) => this.handleRespuestaAprobacion(response)),
+      catchError((error) => this.handleRespuestaError(error)),
+    );
+  }
+
+  private validarExistencia(data: any): Observable<any> {
+    return this._inventarioApiService.existenciaValidar(data.detalles).pipe(
+      switchMap((respuestaValidacion) => {
+        if (respuestaValidacion.validar) {
+          return of(data);
+        } else {
+          return of(null);
+        }
+      }),
+    );
+  }
+
+  private crearFacturaSiValida(data: any): Observable<any> {
+    return data ? this._crearFactura(data) : of(null);
+  }
+
+  private aprobarFacturaSiCreada(response: any): Observable<any> {
+    const documentoId = response?.documento?.id;
+
+    if (!documentoId) {
+      return of(null);
+    }
+
+    this._facturaService.detalleId = documentoId;
+    return this._aprobarFactura(documentoId);
+  }
+
+  private handleRespuestaAprobacion(response: any): void {
+    if (response?.estado_aprobado) {
+      this._finalizarProceso(true);
+    }
+  }
+
+  private handleRespuestaError(error: any): Observable<null> {
+    this._finalizarProceso(false);
+    return of(null);
   }
 
   private _agregarPagoEnFactura() {
