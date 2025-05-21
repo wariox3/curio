@@ -162,8 +162,8 @@ export const facturaReducer = createReducer(
               detalle.item === itemId
                 ? {
                     ...detalle,
-                    total: detalle.subtotal + detalle.impuesto,
-                    neto: detalle.subtotal + detalle.impuesto,
+                    total: Math.round((detalle.subtotal + detalle.impuesto) * 100) / 100,
+                    neto: Math.round((detalle.subtotal + detalle.impuesto) * 100) / 100,
                   }
                 : detalle,
             ),
@@ -346,12 +346,15 @@ export const facturaReducer = createReducer(
               detalle.item === itemId
                 ? {
                     ...detalle,
-                    total_bruto:
-                      (detalle.subtotal || 0) +
-                      (detalle.impuestos?.reduce(
-                        (sum, impuesto) => sum + (impuesto.total || 0),
-                        0,
-                      ) || 0),
+                    total_bruto: Math.round(
+                      (
+                        (detalle.subtotal || 0) +
+                        (detalle.impuestos?.reduce(
+                          (sum, impuesto) => sum + (impuesto.total || 0),
+                          0,
+                        ) || 0)
+                      ) * 100
+                    ) / 100,
                   }
                 : detalle,
             ),
