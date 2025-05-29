@@ -146,8 +146,13 @@ export const facturaReducer = createReducer(
               return detalle.item === itemId
                 ? {
                     ...detalle,
-                    impuesto,
-                    impuesto_operado,
+                    impuesto:
+                      parseFloat(((detalle.subtotal || 0) *
+                      ((primerImpuesto?.porcentaje || 0) / 100)).toFixed(2)),
+                    impuesto_operado:
+                      parseFloat(((detalle.subtotal || 0) *
+                      ((primerImpuesto?.porcentaje || 0) / 100) *
+                      (primerImpuesto?.impuesto_operacion || 0)).toFixed(2)),
                   }
                 : detalle;
             }),
@@ -309,9 +314,9 @@ export const facturaReducer = createReducer(
                 ? {
                     ...detalle,
                     base_impuesto: primerImpuesto
-                      ? ((detalle.subtotal || 0) *
+                      ? parseFloat((((detalle.subtotal || 0) *
                           (primerImpuesto.porcentaje_base || 0)) /
-                        100
+                        100).toFixed(2))
                       : 0, // Si no hay impuestos, base_impuesto será 0
                   }
                 : detalle;
@@ -326,10 +331,10 @@ export const facturaReducer = createReducer(
       factura.uuid === state.facturaActiva
         ? {
             ...factura,
-            base_impuesto: factura.detalles.reduce(
+            base_impuesto: parseFloat(factura.detalles.reduce(
               (baseImpuesto, detalle) => baseImpuesto + detalle.base_impuesto,
               0,
-            ),
+            ).toFixed(2)),
           }
         : factura,
     ),
@@ -340,10 +345,10 @@ export const facturaReducer = createReducer(
       factura.uuid === state.facturaActiva
         ? {
             ...factura,
-            impuesto: factura.detalles.reduce(
+            impuesto: parseFloat(factura.detalles.reduce(
               (impuesto, detalle) => impuesto + detalle.impuesto,
               0,
-            ),
+            ).toFixed(2)),
           }
         : factura,
     ),
@@ -380,9 +385,9 @@ export const facturaReducer = createReducer(
       factura.uuid === state.facturaActiva
         ? {
             ...factura,
-            total_bruto: factura.detalles.reduce((total, detalle) => {
+            total_bruto: parseFloat(factura.detalles.reduce((total, detalle) => {
               return total + (detalle.total_bruto || 0);
-            }, 0),
+            }, 0).toFixed(2)),
           }
         : factura,
     ),
