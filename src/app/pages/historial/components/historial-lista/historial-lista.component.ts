@@ -40,7 +40,7 @@ export class HistorialListaComponent {
 
   private _cargarLista(): void {
     this._historialApiService
-      .lista()
+      .historial()
       .pipe(
         tap(() => this._ocultarLoader()),
         catchError((error) => {

@@ -18,7 +18,19 @@ export const API_ENDPOINTS = {
 
     ITEM: {
       DETALLE: `${URL_API_SUBDOMINIO}/general/item/detalle/`,
-      GENERAL: `${URL_API_SUBDOMINIO}/general/item/`,
+      LISTA: `${URL_API_SUBDOMINIO}/general/item/`,
+    },
+    CONTACTO: {
+      DETALLE: `${URL_API_SUBDOMINIO}/general/contacto/detalle/`,
+      LISTA: `${URL_API_SUBDOMINIO}/general/contacto/`,
+    },
+    ASESOR: {
+      DETALLE: `${URL_API_SUBDOMINIO}/general/asesor/detalle/`,
+      LISTA: `${URL_API_SUBDOMINIO}/general/asesor/`,
+    },
+    CUENTABANCO: {
+      DETALLE: `${URL_API_SUBDOMINIO}/general/cuentabanco/detalle/`,
+      LISTA: `${URL_API_SUBDOMINIO}/general/cuentabanco/`,
     },
   },
   CONTENEDORES: {

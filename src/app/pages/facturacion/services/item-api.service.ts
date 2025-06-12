@@ -6,12 +6,14 @@ import { Filtros } from '@interfaces/filtros.interface';
 import { Item } from '@interfaces/item.interface';
 import { ValorFiltro } from '@type/valor-filtro.type';
 import { tap } from 'rxjs';
+import { GeneralApiService } from 'src/app/shared/services/general.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ItemApiService {
   private _http = inject(HttpClient);
+  private _generalService = inject(GeneralApiService);
   private _parametrosConsultaItem: ParametrosFiltrosConsultasHttp = {
     limite: 50,
     desplazar: 0,
@@ -32,22 +34,33 @@ export class ItemApiService {
     ],
   };
 
-  public arrItemsSignal = signal<Item[]>([]);
+  public arrItemsSignal = signal<any[]>([]);
 
   constructor() {}
 
   lista() {
-    return this._http
-      .post<any>(
-        API_ENDPOINTS.GENERAL.FUNCIONALIDAD_LISTAS,
-        this._parametrosConsultaItem
-      )
-      .pipe(
-        tap((respuesta) => {
-          this.arrItemsSignal.set(respuesta.registros);
-        })
-      );
+    return this._generalService
+      .consultaApi(`${API_ENDPOINTS.GENERAL.ITEM.LISTA}`, {
+        venta: true,
+        inactivo: false,
+        ordering: '-favorito',
+        serializador: 'lista',
+      })
+      .pipe(tap((respuesta) => this.arrItemsSignal.set(respuesta.results)));
   }
+
+  // lista() {
+  //   return this._http
+  //     .post<any>(
+  //       API_ENDPOINTS.GENERAL.FUNCIONALIDAD_LISTAS,
+  //       this._parametrosConsultaItem
+  //     )
+  //     .pipe(
+  //       tap((respuesta) => {
+  //         this.arrItemsSignal.set(respuesta.registros);
+  //       })
+  //     );
+  // }
 
   busqueda(valor: ValorFiltro, filtros: Filtros[]) {
     return this._http
@@ -58,7 +71,7 @@ export class ItemApiService {
       .pipe(
         tap((respuesta) => {
           this.arrItemsSignal.set(respuesta.registros);
-        })
+        }),
       );
   }
 
@@ -72,8 +85,8 @@ export class ItemApiService {
 
   actualizarFavorito(itemId: number, data: any) {
     return this._http.patch<any>(
-      `${API_ENDPOINTS.GENERAL.ITEM.GENERAL}${itemId}/`,
-      data
+      `${API_ENDPOINTS.GENERAL.ITEM.LISTA}${itemId}/`,
+      data,
     );
   }
 }

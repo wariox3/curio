@@ -103,21 +103,15 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
 
   consultarInformacion() {
     this._autocompletarApiService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenAsesor>({
-        modelo: 'GenAsesor',
-        serializador: 'ListaAutocompletar',
-      })
+      .consultarDatosAutoCompletar<any>('/general/asesor/')
       .subscribe((respuesta) => {
-        this.arrAsesores.set(respuesta.registros);
+        this.arrAsesores.set(respuesta.results);
       });
 
     this._autocompletarApiService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenCuentaBanco>({
-        modelo: 'GenCuentaBanco',
-        serializador: 'ListaAutocompletar',
-      })
+      .consultarDatosAutoCompletar<any>('/general/cuenta_banco/')
       .subscribe((respuesta) => {
-        this.arrCuentasBancarias.set(respuesta.registros);
+        this.arrCuentasBancarias.set(respuesta.results);
         this._sugerirPrimerValorCuentaBancaria();
       });
   }
@@ -138,8 +132,8 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
     if (this.arrCuentasBancarias().length > 0) {
       const primeraCuentaBanco = this.arrCuentasBancarias()?.[0];
       this.formularioMedioPagoEfectivo.patchValue({
-        cuenta_banco: primeraCuentaBanco.cuenta_banco_id,
-        cuenta_banco_nombre: primeraCuentaBanco.cuenta_banco_nombre,
+        cuenta_banco: primeraCuentaBanco.id,
+        cuenta_banco_nombre: primeraCuentaBanco.nombre,
       });
     }
   }

@@ -88,8 +88,8 @@
 
         <ng-select
           [items]="arrAsesores()"
-          bindLabel="asesor_nombre_corto"
-          bindValue="asesor_id"
+          bindLabel="nombre_corto"
+          bindValue="id"
           placeholder="Selecciona un asesor"
           class="select2Custom"
           formControlName="asesor"
@@ -103,8 +103,8 @@
         </label>
         <ng-select
           [items]="arrCuentasBancarias()"
-          bindLabel="cuenta_banco_nombre"
-          bindValue="cuenta_banco_id"
+          bindLabel="nombre"
+          bindValue="id"
           placeholder="Selecciona una cuenta banco"
           class="select2Custom"
           formControlName="cuenta_banco"
