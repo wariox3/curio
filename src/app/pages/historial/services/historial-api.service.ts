@@ -65,7 +65,7 @@ export class HistorialApiService {
   historial() {
     return this._generalService
       .consultaApi(`${API_ENDPOINTS.GENERAL.DOCUMENTO}`, {
-        documento_tipo_id: 24,
+        pos: true,
         ordering: 'estado_aprobado,-fecha,-numero,-id',
         serializador : 'lista'
       })

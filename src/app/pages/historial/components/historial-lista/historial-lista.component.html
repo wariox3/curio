@@ -20,6 +20,7 @@
               <thead>
                 <tr class="text-center">
                   <th>Id</th>
+                  <th>Tipo</th>
                   <th>Número</th>
                   <th>Fecha</th>
                   <th>Contacto</th>
@@ -36,6 +37,7 @@
               @for (factura of arrFacturasSignal(); track $index) {
                 <tr class="py-2 border-2">
                   <td>{{ factura.id }}</td>
+                  <td>{{ factura.documento_tipo__nombre }}</td>
                   <td>{{ factura.numero }}</td>
                   <td>{{ factura.fecha }}</td>
                   <td>{{ factura.contacto__nombre_corto }}</td>

@@ -53,9 +53,9 @@ export class ConfiguracionGeneralComponent implements OnInit {
   }
 
   private _consultarSedes() {
-    this._configuracionFacturacionApiService
-      .consultarSedes()
-      .subscribe((respuesta: any) => this.arrSedes.set(respuesta.registros));
+    this._configuracionGeneralApiService
+      .consultarDatosAutoCompletar<any>('/general/sede/',{serializador: 'lista'})
+      .subscribe((respuesta: any) => this.arrSedes.set(respuesta.results));
   }
 
   private actualizarSede(sede: number) {
@@ -66,8 +66,8 @@ export class ConfiguracionGeneralComponent implements OnInit {
 
   private _consultarDocumentos() {
     this._configuracionGeneralApiService
-      .consultarDocumentosVenta()
-      .subscribe((respuesta: any) => this.arrDocumentos.set(respuesta.registros));
+      .consultarDatosAutoCompletar<any>('/general/documento_tipo/', {pos : true, serializador: 'autocompletar'})
+      .subscribe((respuesta: any) => this.arrDocumentos.set(respuesta.results));
   }
 
   private actualizarDocumento(documentoTipoId: string) {
