@@ -109,7 +109,7 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
       });
 
     this._autocompletarApiService
-      .consultarDatosAutoCompletar<any>('/general/cuenta_banco/')
+      .consultarDatosAutoCompletar<any>('/general/cuenta_banco/', {ordering: 'id'})
       .subscribe((respuesta) => {
         this.arrCuentasBancarias.set(respuesta.results);
         this._sugerirPrimerValorCuentaBancaria();
