@@ -52,7 +52,7 @@ export interface DocumentoFactura {
   programacion_detalle_id: any;
   contrato_id: any;
   detalles: DocumentoFacturaDetalleRespuesta[];
-  pagos: PagoRespuestaFormulario[];
+  pagos: PagoRequest[];
   referencia_cue: string | null;
   referencia_numero: number;
   referencia_prefijo: string | null;
@@ -113,15 +113,23 @@ export interface DocumentoFacturaDetalleRespuesta {
   almacen_nombre: string;
   impuestos: DocumentoImpuestoFacturaRespuesta[];
   imagen: string;
-  sede: number
+  sede: number;
 }
 
 export interface PagoRespuestaFormulario {
-  id: number | null;
-  documento_id: number;
+  id: number;
   pago: number;
   cuenta_banco_id: number;
   cuenta_banco_nombre: string;
+  documento_id: number;
+}
+
+export interface PagoRequest {
+  id: number | null;
+  pago: number;
+  cuenta_banco: number;
+  cuenta_banco_nombre?: string;
+  pagos_eliminados: number[];
 }
 
 export interface FacturaReduxState {

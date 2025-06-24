@@ -35,7 +35,6 @@ import { configuracionActionClear } from '@redux/actions/configuracion.actions';
   providedIn: 'root',
 })
 export class AuthService implements OnDestroy {
-
   private _http = inject(HttpClient);
   private _tokenService = inject(TokenService);
   private _router = inject(Router);
@@ -45,38 +44,42 @@ export class AuthService implements OnDestroy {
 
   constructor() {}
 
-  login(email: string, password: string) {
+  login(email: string, password: string, captchaToken: string) {
     return this._http
       .post<Token>(
         API_ENDPOINTS.SEGURIDAD.LOGIN,
-        { username: email, password: password },
-        { context: noRequiereToken() }
+        {
+          username: email,
+          password: password,
+          cf_turnstile_response: captchaToken,
+          proyecto: 'POS',
+        },
+        { context: noRequiereToken() },
       )
       .pipe(
         tap((respuesta) => {
-
-              this._tokenService.guardarToken(respuesta.token);
+          this._tokenService.guardarToken(respuesta.token);
           //    this.tokenService.guardarRefreshToken(
           //      respuesta['refresh-token'],
           //      calcularTresHoras
           //    );
-        })
+        }),
       );
   }
 
   logout() {
     this._store.dispatch(usuarioActionClear());
     this._store.dispatch(configuracionActionClear());
-    this._clearLocalStorage()
-    this._removerCookies()
+    this._clearLocalStorage();
+    this._removerCookies();
     this._tokenService.eliminarToken();
   }
 
   private _clearLocalStorage() {
-    this.keyLocalStorage.forEach(key => localStorage.removeItem(key));
+    this.keyLocalStorage.forEach((key) => localStorage.removeItem(key));
   }
 
-  private _removerCookies(){
+  private _removerCookies() {
     // removeCookie('usuario', { path: '/', domain: environment.dominioApp });
     removeCookie('usuario', { path: '/' });
     // const patrones = ['empresa-', 'contenedor-', 'configuracion'];
@@ -97,7 +100,7 @@ export class AuthService implements OnDestroy {
     //     environment.dominioHttp
     //   }://${environment.dominioApp.slice(1)}/inicio`;
     // } else {
-      this._router.navigate(['/inicio']);
+    this._router.navigate(['/inicio']);
     // }
   }
 

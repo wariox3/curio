@@ -3,21 +3,12 @@ import {
   DocumentoFacturaDetalleRespuesta,
 } from '@interfaces/facturas.interface';
 
-const fechaActual = new Date();
-const fullAnio = fechaActual.getFullYear();
-const mes = fechaActual.getMonth() + 1;
-
-const fecha = `${fullAnio}-${mes.toString().padStart(2, '0')}-${fechaActual
-  .getDate()
-  .toString()
-  .padStart(2, '0')}`;
-
 export const facturaInit: DocumentoFactura = {
   id: 0,
   contenedor: 0,
   numero: undefined,
-  fecha: fecha,
-  fecha_vence: fecha,
+  fecha: '',
+  fecha_vence: '',
   fecha_hasta: undefined,
   impuesto_operado: 0,
   contacto_id: 1,

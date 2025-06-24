@@ -4,6 +4,7 @@ import { catchError, of, tap } from 'rxjs';
 import { LoaderComponent } from '../../../../shared/components/ui/loader/loader.component';
 import { HistorialApiService } from '../../services/historial-api.service';
 import { DecimalPipe } from '@angular/common';
+import { GeneralApiService } from 'src/app/shared/services/general.service';
 
 @Component({
   selector: 'app-cuadre-caja-lista',
@@ -13,6 +14,7 @@ import { DecimalPipe } from '@angular/common';
 })
 export class HistorialListaComponent {
   private _historialApiService = inject(HistorialApiService);
+  private _generalApiService = inject(GeneralApiService);
   public visualizarLoader = signal(false);
   public arrFacturasSignal = this._historialApiService.arrFacturasSignal;
 
@@ -22,6 +24,10 @@ export class HistorialListaComponent {
 
   consultarLista() {
     this._cargarLista();
+  }
+
+  descargarPDF(documentoId: number, documentoTipoId: number) {
+    this._generalApiService.imprimirDocumento(documentoTipoId, documentoId);
   }
 
   private _mostrarLoader(): void {
@@ -34,7 +40,7 @@ export class HistorialListaComponent {
 
   private _cargarLista(): void {
     this._historialApiService
-      .lista()
+      .historial()
       .pipe(
         tap(() => this._ocultarLoader()),
         catchError((error) => {

@@ -195,7 +195,7 @@ export class AlertaService {
         reverseButtons: true,
         allowOutsideClick: false,
         confirmButtonText: 'Confirmar',
-        denyButtonText: `Cancelar`,
+        cancelButtonText: `Cancelar`,
       })
     );
   }
@@ -212,7 +212,7 @@ export class AlertaService {
         reverseButtons: true,
         allowOutsideClick: false,
         confirmButtonText: 'Confirmar',
-        denyButtonText: `Cancelar`,
+        cancelButtonText: `Cancelar`,
       })
     );
   }
@@ -229,7 +229,7 @@ export class AlertaService {
         reverseButtons: true,
         allowOutsideClick: false,
         confirmButtonText: 'Confirmar',
-        denyButtonText: `Cancelar`,
+        cancelButtonText: `Cancelar`,
       })
     );
   }

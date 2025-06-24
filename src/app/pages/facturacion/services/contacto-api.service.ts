@@ -3,14 +3,15 @@ import { inject, Injectable, signal } from '@angular/core';
 import { API_ENDPOINTS } from '@constantes/api-endpoints.const';
 import { Contacto } from '@interfaces/contacto';
 import { tap } from 'rxjs';
-import { ParametrosFiltrosConsultasHttp } from '../../../core/model/interface/parametros-filtros-consulta-http.interface';
+import { GeneralApiService } from 'src/app/shared/services/general.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ContactoApiService {
   private _http = inject(HttpClient);
-  public arrContactosSignal = signal<Contacto[]>([]);
+  private _generalService = inject(GeneralApiService);
+  public arrContactosSignal = signal<any[]>([]);
 
   constructor() {}
 
@@ -26,8 +27,9 @@ export class ContactoApiService {
       } as ParametrosFiltrosConsultasHttp)
       .pipe(
         tap((respuesta) => {
-          this.arrContactosSignal.set(respuesta.registros);
+          this.arrContactosSignal.set([contactoConsumidorFinal, ...respuesta.registros]);
         })
       );
   }
+
 }

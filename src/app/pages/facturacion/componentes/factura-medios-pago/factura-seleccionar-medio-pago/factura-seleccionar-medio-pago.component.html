@@ -1,7 +1,9 @@
 <div class="flex items-center justify-center">
   <div class="">
     <div class="w-full">
-      <h2 class="text-center text-2xl font-bold mb-6 dark-mode:text-gray-800">TOTAL</h2>
+      <h2 class="text-center text-2xl font-bold mb-6 dark-mode:text-gray-800">
+        TOTAL
+      </h2>
       <p class="text-center text-4xl font-extrabold text-gray-800 mb-8">
         $ {{ totalGeneralSignal() | number: "1.0-0" }}
       </p>
@@ -16,45 +18,41 @@
 
           Efectivo
         </div>
-        <div
-          class="group flex flex-col items-center bg-gray-200 p-4 rounded-lg cursor-pointer text-center hover:bg-teal-500 hover:text-white dark:text-gray-800 dark:hover:text-white"
+        <button
+          class="flex flex-col items-center bg-gray-100 p-4 rounded-lg text-gray-400 cursor-not-allowed text-center"
           (click)="selecionarMedio('tarjetaCredito')"
+          [disabled]="true"
         >
-          <i
-            class="ki-outline ki-credit-cart text-2xl text-gray-800 dark:text-gray-800 group-hover:text-white"
-          ></i>
+          <i class="ki-outline ki-credit-cart text-2xl text-gray-400"></i>
 
           Tarjeta de crédito
-        </div>
-        <div
-          class="group flex flex-col items-center bg-gray-200 p-4 rounded-lg cursor-pointer text-center hover:bg-teal-500 hover:text-white dark:text-gray-800 dark:hover:text-white"
+        </button>
+        <button
+          class="flex flex-col items-center bg-gray-100 p-4 rounded-lg text-gray-400 cursor-not-allowed text-center"
           (click)="selecionarMedio('tranferencia')"
+          [disabled]="true"
         >
-          <i
-            class="ki-outline ki-bank text-2xl text-gray-800 dark:text-gray-800 group-hover:text-white"
-          ></i>
+          <i class="ki-outline ki-credit-cart text-2xl text-gray-400"></i>
           Transferencia
-        </div>
-        <div
-          class="group flex flex-col items-center bg-gray-200 p-4 rounded-lg cursor-pointer text-center hover:bg-teal-500 hover:text-white dark:text-gray-800 dark:hover:text-white"
+        </button>
+        <button
+          class="flex flex-col items-center bg-gray-100 p-4 rounded-lg text-gray-400 cursor-not-allowed text-center"
           (click)="selecionarMedio('tarjetaDebito')"
+          [disabled]="true"
         >
-          <i
-            class="ki-outline ki-bill text-2xl text-gray-800 dark:text-gray-800 group-hover:text-white"
-          ></i>
+          <i class="ki-outline ki-credit-cart text-2xl text-gray-400"></i>
 
           Tarjeta débito
-        </div>
-        <div
-          class="group flex flex-col items-center bg-gray-200 p-4 rounded-lg cursor-pointer text-center hover:bg-teal-500 hover:text-white dark:text-gray-800 dark:hover:text-white"
+        </button>
+        <button
+          class="flex flex-col items-center bg-gray-100 p-4 rounded-lg text-gray-400 cursor-not-allowed text-center"
           (click)="selecionarMedio('combinado')"
+          [disabled]="true"
         >
-          <i
-            class="ki-outline ki-theta-theta text-2xl text-gray-800 dark:text-gray-800 group-hover:text-white"
-          ></i>
+          <i class="ki-outline ki-credit-cart text-2xl text-gray-400"></i>
 
           Combinado
-        </div>
+        </button>
       </div>
     </div>
   </div>

@@ -15,7 +15,7 @@ export class FacturaApiService {
 
   nuevo(data: any) {
     return this._http.post<DocumentoFacturaDetalleRespuesta>(
-      API_ENDPOINTS.GENERAL.DOCUMENTO,
+      API_ENDPOINTS.GENERAL.DOCUMENTO_NUEVO,
       data
     );
   }

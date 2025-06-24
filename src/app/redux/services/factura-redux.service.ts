@@ -38,6 +38,9 @@ import {
   retirarDetallesFacturaActiva,
   retirarItemDeFacturaActiva,
   seleccionarFacturaActiva,
+  agregarPagosFacturaActiva,
+  limpiarPagosFacturaActiva,
+  actualizarValorAfectadoFacturaActiva,
 } from '@redux/actions/factura.actions';
 import {
   obtenerClienteFacturaActiva,
@@ -149,18 +152,14 @@ export class FacturaReduxService {
   }
 
   nuevaFactura() {
-    const fechaVencimientoInicial =
-      this._fechasService.getFechaVencimientoInicial();
-
     this._store.dispatch(
       facturaNuevaAction({
         factura: {
           ...facturaInit,
+          afectado: 0,
           sede: this._configuracionReduxService.obtenerSede(),
           almacen: 1,
           nombre: 'Factura',
-          fecha: fechaVencimientoInicial,
-          fecha_vence: fechaVencimientoInicial,
           contenedor: this._contenedorReduxService.contendorId(),
           uuid: uuid.v4(),
         },
@@ -369,5 +368,23 @@ export class FacturaReduxService {
         contendorId: this._contenedorReduxService.contendorId(),
       }),
     );
+  }
+
+  agregarPago(cuenta_banco: number, cuenta_banco_nombre: string, pago: number) {
+    this._store.dispatch(
+      agregarPagosFacturaActiva({
+        cuenta_banco,
+        cuenta_banco_nombre,
+        pago,
+      }),
+    );
+  }
+
+  actualizarTotalAfectado() {
+    this._store.dispatch(actualizarValorAfectadoFacturaActiva());
+  }
+
+  limpiarPagos() {
+    this._store.dispatch(limpiarPagosFacturaActiva());
   }
 }

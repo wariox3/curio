@@ -8,7 +8,12 @@
   Pagar
 </Button>
 
-<div class="modal" data-modal="true" id="modal_2">
+<div
+  class="modal"
+  data-modal="true"
+  id="modal_2"
+  data-modal-backdrop-static="true"
+>
   <div class="modal-content modal-center-y max-w-[600px]">
     <div class="modal-header">
       <h3 class="modal-title">
@@ -18,9 +23,6 @@
           Pagar
         }
       </h3>
-      <button class="btn btn-xs btn-icon btn-light" data-modal-dismiss="true">
-        <i class="ki-outline ki-cross"> </i>
-      </button>
     </div>
     <div class="modal-body p-0">
       @switch (templateActual) {
@@ -46,7 +48,7 @@
       <div class="modal-footer justify-end mt-2">
         <div class="flex gap-4">
           <button class="btn btn-light" data-modal-dismiss="true">
-            Cancel
+            Cancelar
           </button>
         </div>
       </div>

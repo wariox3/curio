@@ -11,20 +11,30 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { catchError, of, tap } from 'rxjs';
-import { FormErrorComponent } from "../../../../shared/components/form/form-error/form-error.component";
+import { FormErrorComponent } from '../../../../shared/components/form/form-error/form-error.component';
 import { AuthService } from '../../services/auth.service';
+import { NgxTurnstileModule } from 'ngx-turnstile';
+import { environment } from 'src/environment/environment';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, NgIf, FormErrorComponent],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    FormErrorComponent,
+    NgxTurnstileModule,
+  ],
 })
 export default class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  visualizarLoader =  signal(false);
+  visualizarLoader = signal(false);
   cambiarTipoCampoClave = signal<'text' | 'password'>('password');
+  turnstileSiteKey: string = environment.turnstileSiteKey;
+  isProduction: boolean = environment.production;
 
   private _formBuilder = inject(FormBuilder);
   private _authService = inject(AuthService);
@@ -33,6 +43,10 @@ export default class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+  }
+
+  onSuccess(token: any) {
+    this.loginForm.get('turnstileToken')?.setValue(token);
   }
 
   visualizarClave() {
@@ -45,6 +59,7 @@ export default class LoginComponent implements OnInit {
 
   initForm() {
     this.loginForm = this._formBuilder.group({
+      turnstileToken: [''],
       email: [
         '',
         Validators.compose([
@@ -65,6 +80,12 @@ export default class LoginComponent implements OnInit {
         ]),
       ],
     });
+
+    if (this.isProduction) {
+      this.loginForm
+        .get('turnstileToken')
+        ?.addValidators([Validators.required]);
+    }
   }
 
   submit() {
@@ -73,7 +94,8 @@ export default class LoginComponent implements OnInit {
       this._authService
         .login(
           this.loginForm.get('email')?.value,
-          this.loginForm.get('password')?.value
+          this.loginForm.get('password')?.value,
+          this.loginForm.get('turnstileToken')?.value,
         )
         .pipe(
           tap((respuestaLogin) => {
@@ -91,7 +113,7 @@ export default class LoginComponent implements OnInit {
                   idioma: respuestaLogin.user.idioma,
                   dominio: respuestaLogin.user.dominio,
                   fecha_limite_pago: new Date(
-                    respuestaLogin.user.fecha_limite_pago
+                    respuestaLogin.user.fecha_limite_pago,
                   ),
                   vr_saldo: respuestaLogin.user.vr_saldo,
                   fecha_creacion: new Date(respuestaLogin.user.fecha_creacion),
@@ -100,14 +122,14 @@ export default class LoginComponent implements OnInit {
                   socio_id: respuestaLogin.user.socio_id,
                   is_active: respuestaLogin.user.is_active,
                 },
-              })
+              }),
             );
           }),
           tap(() => this._router.navigate(['/contenedor'])),
           catchError(() => {
             this.visualizarLoader.set(false);
             return of(null);
-          })
+          }),
         )
         .subscribe();
     } else {

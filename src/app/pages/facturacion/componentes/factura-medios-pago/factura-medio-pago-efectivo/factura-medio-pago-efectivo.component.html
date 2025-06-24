@@ -59,7 +59,7 @@
       <p class="text-center text-4xl font-extrabold text-gray-800 mb-4"></p>
       <div class="flex flex-col mb-2">
         <label class="form-label font-normal text-gray-900">
-          Valor <span class="text-red-800 me-2"> *</span>
+          Valor <span class="text-red-800 ms-1 relative">*</span>
         </label>
         <div class="input">
           <i class="ki-filled ki-dollar"></i>
@@ -88,33 +88,41 @@
 
         <ng-select
           [items]="arrAsesores()"
-          bindLabel="asesor_nombre_corto"
-          bindValue="asesor_id"
+          bindLabel="nombre_corto"
+          bindValue="id"
           placeholder="Selecciona un asesor"
           class="select2Custom"
           formControlName="asesor"
         >
         </ng-select>
+      </div>
 
-        <app-form-error
-          [control]="formularioMedioPagoEfectivo.get('asesor')"
-          [errors]="[
-            {
-              validacionTipo: 'required',
-              mensaje: 'Este campo es obligatorio',
-            },
-          ]"
-        ></app-form-error>
+      <div class="flex flex-col mb-2">
+        <label class="form-label font-normal text-gray-900">
+          Cuenta banco
+        </label>
+        <ng-select
+          [items]="arrCuentasBancarias()"
+          bindLabel="nombre"
+          bindValue="id"
+          placeholder="Selecciona una cuenta banco"
+          class="select2Custom"
+          formControlName="cuenta_banco"
+        >
+        </ng-select>
       </div>
     </div>
   </div>
   <div class="modal-footer justify-end mt-2">
     <div class="flex gap-4">
-      <button class="btn btn-light" data-modal-dismiss="true" type="button">
-        Cancel
+      <button (click)="limpiarPagos()" class="btn btn-light" data-modal-dismiss="true" type="button">
+        Cancelar
       </button>
       <button
-        [disabled]="textoBtn() !== 'Guardar'"
+        [disabled]="
+          textoBtn() !== 'Guardar' ||
+          !formularioMedioPagoEfectivo.valid
+        "
         type="submit"
         class="btn btn-success"
       >

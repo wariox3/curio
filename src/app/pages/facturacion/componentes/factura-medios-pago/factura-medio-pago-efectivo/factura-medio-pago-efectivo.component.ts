@@ -1,3 +1,4 @@
+import { DecimalPipe } from '@angular/common';
 import {
   Component,
   computed,
@@ -7,8 +8,6 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { FacturaReduxService } from '../../../../../redux/services/factura-redux.service';
-import { DecimalPipe } from '@angular/common';
 import {
   FormBuilder,
   FormGroup,
@@ -16,11 +15,16 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { FormErrorComponent } from '../../../../../shared/components/form/form-error/form-error.component';
+import { RegistroAutocompletarGenAsesor } from '@interfaces/asesor';
+import { RegistroAutocompletarGenCuentaBanco } from '@interfaces/cuentas-banco.interface';
+import { DocumentoFactura } from '@interfaces/facturas.interface';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FacturaApiService } from '../../../services/factura-api.service';
+import { ConfiguracionReduxService } from '@redux/services/configuracion-redux.service';
+import { FacturaEstadosBtnGuardar } from '@type/factura-estados-btn-guardar.type';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import {
   catchError,
+  Observable,
   of,
   Subject,
   switchMap,
@@ -28,13 +32,14 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs';
-import { FacturaEstadosBtnGuardar } from '@type/factura-estados-btn-guardar.type';
-import { InventarioApiService } from '../../../services/inventario-api.service';
-import { DocumentoFactura } from '@interfaces/facturas.interface';
-import { ConfiguracionReduxService } from '@redux/services/configuracion-redux.service';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
-import { RegistroAutocompletarGenAsesor } from '@interfaces/asesor';
+import { AlertaService } from 'src/app/shared/services/alerta.service';
 import { AutocompletarApiService } from 'src/app/shared/services/autocompletar-api.service';
+import { FacturaReduxService } from '../../../../../redux/services/factura-redux.service';
+import { FormErrorComponent } from '../../../../../shared/components/form/form-error/form-error.component';
+import { FacturaApiService } from '../../../services/factura-api.service';
+import { FacturaService } from '../../../services/facutra.service';
+import { InventarioApiService } from '../../../services/inventario-api.service';
+import { FechasService } from 'src/app/shared/services/fechas.service';
 
 @Component({
   selector: 'app-factura-medio-pago-efectivo',
@@ -57,6 +62,9 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
   private _inventarioApiService = inject(InventarioApiService);
   private _ConfiguracionReduxService = inject(ConfiguracionReduxService);
   private _autocompletarApiService = inject(AutocompletarApiService);
+  private _alertaService = inject(AlertaService);
+  private _facturaService = inject(FacturaService);
+  private _fechaService = inject(FechasService);
 
   private _formBuilder = inject(FormBuilder);
   private destroy$ = new Subject<void>();
@@ -65,6 +73,9 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
   public emitirPagoExito = output<boolean>();
   public textoBtn = signal<FacturaEstadosBtnGuardar>('Guardar');
   public arrAsesores = signal<RegistroAutocompletarGenAsesor[]>([]);
+  public arrCuentasBancarias = signal<RegistroAutocompletarGenCuentaBanco[]>(
+    [],
+  );
 
   public formularioMedioPagoEfectivo!: FormGroup;
   public documentoTipo =
@@ -92,18 +103,46 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
 
   consultarInformacion() {
     this._autocompletarApiService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenAsesor>({
-        modelo: 'GenAsesor',
-        serializador: 'ListaAutocompletar',
-      })
+      .consultarDatosAutoCompletar<any>('/general/asesor/')
       .subscribe((respuesta) => {
-        this.arrAsesores.set(respuesta.registros);
+        this.arrAsesores.set(respuesta.results);
       });
+
+    this._autocompletarApiService
+      .consultarDatosAutoCompletar<any>('/general/cuenta_banco/', {ordering: 'id'})
+      .subscribe((respuesta) => {
+        this.arrCuentasBancarias.set(respuesta.results);
+        this._sugerirPrimerValorCuentaBancaria();
+      });
+  }
+
+  isGuardarDisabled() {
+    // no se puede guardar un valor sin una cuenta
+    if (
+      this.formularioMedioPagoEfectivo.get('valor').value > 0 &&
+      this.formularioMedioPagoEfectivo.get('cuenta_banco').value === null
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
+  private _sugerirPrimerValorCuentaBancaria() {
+    if (this.arrCuentasBancarias().length > 0) {
+      const primeraCuentaBanco = this.arrCuentasBancarias()?.[0];
+      this.formularioMedioPagoEfectivo.patchValue({
+        cuenta_banco: primeraCuentaBanco.id,
+        cuenta_banco_nombre: primeraCuentaBanco.nombre,
+      });
+    }
   }
 
   private inicializarFormulario(): void {
     this.formularioMedioPagoEfectivo = this._formBuilder.group({
-      asesor: [null, Validators.required],
+      asesor: [null],
+      cuenta_banco: [null],
+      cuenta_banco_nombre: [''],
       valor: [
         this.totalGeneralSignal(),
         [Validators.required, Validators.min(0)],
@@ -141,44 +180,117 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
     this.emitirMedio.emit(null);
   }
 
+  limpiarPagos() {
+    // this._facturaReduxService.limpiarPagos();
+  }
+
   submit() {
-    if (this.formularioMedioPagoEfectivo.valid) {
-      this._actualizarTextoBtn('Validando');
-      this._obtenerDatosFactura()
-        .pipe(
-          switchMap((data) =>
-            this._inventarioApiService
-              .existenciaValidar(data.detalles)
-              .pipe(withLatestFrom(of(data))),
-          ),
-          switchMap(([respuestaValidacion, data]) => {
-            if (respuestaValidacion.validar) {
-              return of(data);
-            }
-            return of(null);
-          }),
-          switchMap((data: DocumentoFactura | null) => {
-            return data ? this._crearFactura(data) : of(null);
-          }),
-          switchMap((respuesta: any) => {
-            if (respuesta !== null) {
-              return this._aprobarFactura(respuesta.documento.id);
-            }
-            return of(null);
-          }),
-          tap((respuestaFacturaProbada: any) => {
-            if (respuestaFacturaProbada.estado_aprobado) {
-              this._finalizarProceso(true);
-            }
-          }),
-          catchError(() => {
-            this._finalizarProceso(false);
-            return of(null);
-          }),
-        )
-        .subscribe();
-    } else {
-      this.formularioMedioPagoEfectivo.markAllAsTouched();
+    if (!this.isFormValid()) {
+      this.markFormAsTouched();
+      return;
+    }
+
+    if (this.hasPaymentValidationError()) {
+      this.showPaymentError();
+      return;
+    }
+
+    this.procesarPago();
+  }
+
+  private isFormValid(): boolean {
+    return this.formularioMedioPagoEfectivo.valid;
+  }
+
+  private markFormAsTouched(): void {
+    this.formularioMedioPagoEfectivo.markAllAsTouched();
+  }
+
+  private hasPaymentValidationError(): boolean {
+    const valor = this.formularioMedioPagoEfectivo.get('valor')?.value;
+    const cuentaBanco =
+      this.formularioMedioPagoEfectivo.get('cuenta_banco')?.value;
+
+    return valor > 0 && cuentaBanco === null;
+  }
+
+  private showPaymentError(): void {
+    this._alertaService.mensajeError(
+      'No puedes pagar',
+      'Selecciona una cuenta de banco',
+    );
+  }
+
+  private procesarPago(): void {
+    this._agregarPagoEnFactura();
+    this._actualizarTextoBtn('Validando');
+
+    this.procesarPagoPipeline().subscribe();
+  }
+
+  private procesarPagoPipeline(): Observable<any> {
+    return this._obtenerDatosFactura().pipe(
+      switchMap((data) => this.validarExistencia(data)),
+      switchMap((data) => this.crearFacturaSiValida(data)),
+      switchMap((response) => this.aprobarFacturaSiCreada(response)),
+      tap((response) => this.handleRespuestaAprobacion(response)),
+      catchError((error) => this.handleRespuestaError(error)),
+    );
+  }
+
+  private validarExistencia(data: any): Observable<any> {
+    return this._inventarioApiService.existenciaValidar(data.detalles).pipe(
+      switchMap((respuestaValidacion) => {
+        if (respuestaValidacion.validar) {
+          return of(data);
+        } else {
+          return of(null);
+        }
+      }),
+    );
+  }
+
+  private crearFacturaSiValida(data: any): Observable<any> {
+    return data ? this._crearFactura(data) : of(null);
+  }
+
+  private aprobarFacturaSiCreada(response: any): Observable<any> {
+    const documentoId = response?.documento?.id;
+
+    if (!documentoId) {
+      return of(null);
+    }
+
+    this._facturaService.detalleId = documentoId;
+    return this._aprobarFactura(documentoId);
+  }
+
+  private handleRespuestaAprobacion(response: any): void {
+    if (response?.estado_aprobado) {
+      this._finalizarProceso(true);
+    }
+  }
+
+  private handleRespuestaError(error: any): Observable<null> {
+    this._finalizarProceso(false);
+    return of(null);
+  }
+
+  private _agregarPagoEnFactura() {
+    const cuentaBancoId =
+      this.formularioMedioPagoEfectivo.get('cuenta_banco')?.value;
+    const pago = this.formularioMedioPagoEfectivo.get('valor')?.value;
+    const cuentaBancoNombre = this.formularioMedioPagoEfectivo.get(
+      'cuenta_banco_nombre',
+    )?.value;
+
+    if (pago > 0) {
+      this._facturaReduxService.agregarPago(
+        cuentaBancoId,
+        cuentaBancoNombre,
+        pago,
+      );
+      this._facturaReduxService.actualizarTotalAfectado();
     }
   }
 
@@ -189,9 +301,12 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
   }
 
   private _crearFactura(data: any) {
+    const fecha = this._fechaService.getFechaVencimientoInicial();
     this._actualizarTextoBtn('Guardando');
     return this._facturaApiService.nuevo({
       ...data,
+      fecha: fecha,
+      fecha_vence: fecha,
       documento_tipo: this.documentoTipo,
       numero: null,
       empresa: 1,
