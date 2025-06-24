@@ -16,20 +16,11 @@ export class ContactoApiService {
   constructor() {}
 
   lista() {
-    return this._http
-      .post<any>(API_ENDPOINTS.GENERAL.FUNCIONALIDAD_LISTAS, {
-        filtros: [],
-        limite: 50,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: 'GenContacto',
-      } as ParametrosFiltrosConsultasHttp)
-      .pipe(
-        tap((respuesta) => {
-          this.arrContactosSignal.set([contactoConsumidorFinal, ...respuesta.registros]);
-        })
-      );
+    return this._generalService
+      .consultaApi(`${API_ENDPOINTS.GENERAL.CONTACTO.LISTA}`, {
+        serializador: 'lista',
+      })
+      .pipe(tap((respuesta) => this.arrContactosSignal.set(respuesta.results)));
   }
 
 }
