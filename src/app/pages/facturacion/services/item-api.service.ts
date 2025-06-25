@@ -44,7 +44,7 @@ export class ItemApiService {
         venta: true,
         inactivo: false,
         ordering: '-favorito',
-        serializador: 'lista',
+        //serializador: 'lista',
       })
       .pipe(tap((respuesta) => this.arrItemsSignal.set(respuesta.results)));
   }
