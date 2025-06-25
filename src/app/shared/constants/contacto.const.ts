@@ -45,3 +45,12 @@ export const contactoInit: Contacto = {
   numero_cuenta: '',
   id: 0
 };
+
+export const contactoConsumidorFinal: Pick<
+  Contacto,
+  'id' | 'nombre_corto' | 'numero_identificacion'
+> = {
+  id: 1,
+  nombre_corto: 'Consumidor final',
+  numero_identificacion: '222222222222222222',
+};
