@@ -114,7 +114,7 @@
               }"
             >
               <option value="">Seleccionar...</option>
-              @for (identificacion of arrIdentificacionSignal(); track $index) {
+              @for (identificacion of filteredIdentificacionSignal(); track $index) {
                 <option
                   [value]="identificacion.id"
                   [selected]="
