@@ -109,13 +109,14 @@ export class ModalClienteNuevoComponent {
     this._iniciarFormulario();
     this._iniciarSuscripcionesFormularioContacto();
   }
-  // filteredIdentificacionSignal = computed(() =>
-  //   this.arrIdentificacionSignal().filter(
-  //     (item) =>
-  //       item.identificacion_tipo_persona_id ===
-  //       this.filtroIdentificacionSignal(),
-  //   ),
-  // );
+  filteredIdentificacionSignal = computed(
+    () =>
+      this.arrIdentificacionSignal().filter(
+        (item) =>
+          item.tipo_persona ===
+          this.filtroIdentificacionSignal(),
+      ) || [],
+  );
   @ViewChild('modalNuevoCliente') modalNuevoCliente!: ElementRef;
 
   abrirModal() {
@@ -444,7 +445,20 @@ export class ModalClienteNuevoComponent {
       this._asesorApiServices.lista(),
       this._cuentaBancoApiServices.lista(),
       this._bancoApiServices.lista(),
-    ).subscribe();
+    ).subscribe(() => {
+
+
+      console.log(this._identificacionApiServices.arrIdentificacionesSignal());
+
+      this.filteredIdentificacionSignal = computed(
+        () =>
+          this._identificacionApiServices.arrIdentificacionesSignal().filter(
+            (item) =>
+              item.tipo_persona ===
+              this.filtroIdentificacionSignal(),
+          ) || [],
+      );
+    });
   }
 
   private _setValidators(fieldName: string, validators: any[]) {
