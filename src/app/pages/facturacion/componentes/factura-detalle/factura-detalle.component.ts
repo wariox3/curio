@@ -14,6 +14,7 @@ import { ContenedorReduxService } from '@redux/services/contenedor-redux.service
 import { ConfiguracionReduxService } from '@redux/services/configuracion-redux.service';
 import { FacturaBtnRetirarItemsComponent } from '../factura-btn-retirar-items/factura-btn-retirar-items.component';
 import { TruncatePipe } from '@pipe/truncate.pipe';
+import { ModalClienteNuevoComponent } from "../../../cliente/componentes/modal-cliente-nuevo/modal-cliente-nuevo.component";
 
 @Component({
   selector: 'app-factura-detalle',
@@ -29,7 +30,8 @@ import { TruncatePipe } from '@pipe/truncate.pipe';
     KeyValuePipe,
     TruncatePipe,
     FacturaBtnRetirarItemsComponent,
-  ],
+    ModalClienteNuevoComponent
+],
   templateUrl: './factura-detalle.component.html',
   styleUrl: './factura-detalle.component.scss',
 })

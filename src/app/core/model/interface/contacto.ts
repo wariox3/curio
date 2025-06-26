@@ -44,3 +44,10 @@ export interface Contacto {
   cuenta_banco_clase_nombre: string;
   numero_cuenta: string;
 }
+
+export interface RespuestaAutocompletarContactoDian {
+  encontrado: boolean
+  nit: number
+  nombre: string
+  correo: string
+}

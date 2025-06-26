@@ -21,16 +21,40 @@ export const API_ENDPOINTS = {
       LISTA: `${URL_API_SUBDOMINIO}/general/item/`,
     },
     CONTACTO: {
+      NUEVO: `${URL_API_SUBDOMINIO}/general/contacto/`,
       DETALLE: `${URL_API_SUBDOMINIO}/general/contacto/detalle/`,
       LISTA: `${URL_API_SUBDOMINIO}/general/contacto/`,
+      VALIDAR: `${URL_API_SUBDOMINIO}/general/contacto/validar/`,
+      CONSULTA_DIAN: `${URL_API_SUBDOMINIO}/general/contacto/consulta-dian/`,
     },
     ASESOR: {
       DETALLE: `${URL_API_SUBDOMINIO}/general/asesor/detalle/`,
-      LISTA: `${URL_API_SUBDOMINIO}/general/asesor/`,
+      LISTA: `${URL_API_SUBDOMINIO}/general/asesor/seleccionar/`,
     },
     CUENTABANCO: {
       DETALLE: `${URL_API_SUBDOMINIO}/general/cuentabanco/detalle/`,
-      LISTA: `${URL_API_SUBDOMINIO}/general/cuentabanco/`,
+      LISTA: `${URL_API_SUBDOMINIO}/general/cuenta_banco/seleccionar/`,
+    },
+    IDENTIFICACION: {
+      LISTA: `${URL_API_SUBDOMINIO}/general/identificacion/seleccionar/`,
+    },
+    BANCO: {
+      LISTA: `${URL_API_SUBDOMINIO}/general/banco/seleccionar/`,
+    },
+    REGIMEN: {
+      LISTA: `${URL_API_SUBDOMINIO}/general/regimen/seleccionar/`,
+    },
+    TIPOPERSONA: {
+      LISTA: `${URL_API_SUBDOMINIO}/general/tipo_persona/seleccionar/`,
+    },
+    CIUDAD: {
+      LISTA: `${URL_API_SUBDOMINIO}/general/ciudad/seleccionar/`,
+    },
+    LISTAPRECIO: {
+      LISTA: `${URL_API_SUBDOMINIO}/general/precio/seleccionar/`,
+    },
+    PLAZOPAGO: {
+      LISTA: `${URL_API_SUBDOMINIO}/general/plazo_pago/seleccionar/`,
     },
   },
   CONTENEDORES: {
