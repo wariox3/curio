@@ -81,7 +81,7 @@ export class ModalClienteNuevoComponent {
   private _asesorApiServices = inject(AsesorApiServices);
   private _listaPreciosApiServices = inject(ListaPreciosApiServices);
   private _cuentaBancoApiServices = inject(CuentaBancoApiServices);
-  private _contactoApiService = inject(ContactoApiService)
+  private _contactoApiService = inject(ContactoApiService);
 
   private devuelveDigitoVerificacionService = inject(
     DevuelveDigitoVerificacionService,
@@ -422,8 +422,7 @@ export class ModalClienteNuevoComponent {
         .guardarContacto(this.formularioContacto.value)
         .pipe(
           tap((respuesta) => {
-              this._contactoApiService.lista().subscribe()
-
+            this._contactoApiService.lista('').subscribe();
             this._toggleModal(this.modalNuevoCliente);
           }),
         )

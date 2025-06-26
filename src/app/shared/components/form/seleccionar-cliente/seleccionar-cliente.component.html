@@ -8,5 +8,8 @@
   [(ngModel)]="contactoFactura"
   (change)="actualizarCliente($event)"
   [clearable]="false"
+  notFoundText="Sin resultados"
+  (search)="consultarCliente($event)"
+  loadingText="Buscando"
 >
 </ng-select>
