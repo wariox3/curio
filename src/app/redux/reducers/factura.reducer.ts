@@ -414,7 +414,7 @@ export const facturaReducer = createReducer(
               ...factura.pagos,
               {
                 cuenta_banco: cuenta_banco,
-                pago: pago,
+                pago: Math.round(pago * 100) / 100,
                 pagos_eliminados: [],
                 id: null,
               },
