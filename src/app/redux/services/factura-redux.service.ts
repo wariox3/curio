@@ -195,9 +195,9 @@ export class FacturaReduxService {
     this._store.dispatch(retirarItemDeFacturaActiva({ itemId }));
   }
 
-  actualizarCantidadItem(itemId: number, cantidad: number) {
+  actualizarCantidadItem(itemId: number, cantidad: any) {    
     this._store.dispatch(
-      actualizarCantidadItemFacturaActiva({ itemId, cantidad }),
+      actualizarCantidadItemFacturaActiva({ itemId,  cantidad: parseInt(cantidad) }),
     );
   }
 
