@@ -49,30 +49,15 @@ export class ItemApiService {
       .pipe(tap((respuesta) => this.arrItemsSignal.set(respuesta.results)));
   }
 
-  // lista() {
-  //   return this._http
-  //     .post<any>(
-  //       API_ENDPOINTS.GENERAL.FUNCIONALIDAD_LISTAS,
-  //       this._parametrosConsultaItem
-  //     )
-  //     .pipe(
-  //       tap((respuesta) => {
-  //         this.arrItemsSignal.set(respuesta.registros);
-  //       })
-  //     );
-  // }
-
-  busqueda(valor: ValorFiltro, filtros: Filtros[]) {
-    return this._http
-      .post<any>(API_ENDPOINTS.GENERAL.FUNCIONALIDAD_LISTAS, {
-        ...this._parametrosConsultaItem,
-        filtros: [...this._parametrosConsultaItem.filtros, ...filtros], // Combina los filtros existentes con los nuevos
-      } as ParametrosFiltrosConsultasHttp)
-      .pipe(
-        tap((respuesta) => {
-          this.arrItemsSignal.set(respuesta.registros);
-        }),
-      );
+  busqueda(valor: ValorFiltro, filtros: any) {
+    return this._generalService
+      .consultaApi(`${API_ENDPOINTS.GENERAL.ITEM.LISTA}`, {
+        venta: true,
+        inactivo: false,
+        ordering: '-favorito',
+        ...filtros
+      })
+      .pipe(tap((respuesta) => this.arrItemsSignal.set(respuesta.results)));
   }
 
   detalle(itemId: number) {

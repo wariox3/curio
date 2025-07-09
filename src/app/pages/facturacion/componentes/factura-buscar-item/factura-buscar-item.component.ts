@@ -56,29 +56,21 @@ export class FacturaBuscarItemComponent {
 
   private _buscarPorNombre() {
     this._itemApi
-      .busqueda(this.inputBusqueda, [
-        {
-          propiedad: 'nombre',
-          valor1: this.inputBusqueda,
-          operador: 'icontains',
-        },
-      ])
+      .busqueda(this.inputBusqueda, {
+        nombre__icontains: this.inputBusqueda,
+      })
       .subscribe();
   }
 
   private _buscarPorCodigo() {
     this._itemApi
-      .busqueda(this.inputBusqueda, [
-        {
-          propiedad: 'codigo',
-          valor1: this.inputBusqueda,
-          operador: 'exact',
-        },
-      ])
+      .busqueda(this.inputBusqueda, {
+        codigo: this.inputBusqueda,
+      })
       .pipe(
-        switchMap((items) => {
-          if (items.cantidad_registros === 1) {
-            return this._itemApi.detalle(items.registros[0].id);
+        switchMap((items: any) => {
+          if (items.count === 1) {
+            return this._itemApi.detalle(items.results[0].id);
           }
           return of(null);
         }),
@@ -90,7 +82,7 @@ export class FacturaBuscarItemComponent {
               map((respuestaValidacion) => ({
                 respuestaDetalle,
                 respuestaValidacion,
-              }))
+              })),
             );
         }),
         take(1),
@@ -100,19 +92,18 @@ export class FacturaBuscarItemComponent {
           if (respuestaValidacion) {
             const cantidadActual = respuestaValidacion.cantidad;
             const nuevaCantidad = cantidadActual + 1;
-
             this._facturaReduxService.actualizarCantidadItem(
               respuestaValidacion.item,
-              parseInt(nuevaCantidad)
+              parseInt(nuevaCantidad),
             );
           } else {
             this._facturaReduxService.agregarItem(respuestaDetalle.item);
           }
           this._facturaReduxService.calcularValoresFacturaActivaDetalle(
-            respuestaDetalle.item.id
+            respuestaDetalle.item.id,
           );
           this._facturaReduxService.calcularValoresFacturaActivaEncabezado();
-        })
+        }),
       )
       .subscribe();
   }
