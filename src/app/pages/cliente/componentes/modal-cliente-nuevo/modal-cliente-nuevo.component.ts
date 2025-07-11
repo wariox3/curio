@@ -112,9 +112,7 @@ export class ModalClienteNuevoComponent {
   filteredIdentificacionSignal = computed(
     () =>
       this.arrIdentificacionSignal().filter(
-        (item) =>
-          item.tipo_persona ===
-          this.filtroIdentificacionSignal(),
+        (item) => item.tipo_persona === this.filtroIdentificacionSignal(),
       ) || [],
   );
   @ViewChild('modalNuevoCliente') modalNuevoCliente!: ElementRef;
@@ -124,6 +122,7 @@ export class ModalClienteNuevoComponent {
     this._consultarInformacion();
     this.formularioContacto.reset();
     this._iniciarFormulario();
+    this._iniciarSuscripcionesFormularioContacto();
   }
 
   tipoPersonaSeleccionado($event: any) {
@@ -251,14 +250,6 @@ export class ModalClienteNuevoComponent {
   }
 
   private _iniciarFormulario() {
-    // if (this.parametrosUrl?.dataPersonalizada !== undefined) {
-    //   let dataPersonalizada = JSON.parse(this.parametrosUrl?.dataPersonalizada);
-    //   if (dataPersonalizada) {
-    //     this.esProvedor = dataPersonalizada?.proveedor === 'si';
-    //     this.esCliente = dataPersonalizada?.cliente === 'si';
-    //   }
-    // }
-
     this.formularioContacto = this.formBuilder.group(
       {
         numero_identificacion: [
@@ -446,17 +437,15 @@ export class ModalClienteNuevoComponent {
       this._cuentaBancoApiServices.lista(),
       this._bancoApiServices.lista(),
     ).subscribe(() => {
-
-
       console.log(this._identificacionApiServices.arrIdentificacionesSignal());
 
       this.filteredIdentificacionSignal = computed(
         () =>
-          this._identificacionApiServices.arrIdentificacionesSignal().filter(
-            (item) =>
-              item.tipo_persona ===
-              this.filtroIdentificacionSignal(),
-          ) || [],
+          this._identificacionApiServices
+            .arrIdentificacionesSignal()
+            .filter(
+              (item) => item.tipo_persona === this.filtroIdentificacionSignal(),
+            ) || [],
       );
     });
   }
