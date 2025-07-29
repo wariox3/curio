@@ -8,14 +8,12 @@ export const API_ENDPOINTS = {
     LOGIN: `${API_BASE_URL}/seguridad/login/`,
   },
   GENERAL: {
-    FUNCIONALIDAD_LISTAS: `${URL_API_SUBDOMINIO}/general/funcionalidad/lista/`,
     DOCUMENTO: `${URL_API_SUBDOMINIO}/general/documento/`,
     DOCUMENTO_NUEVO: `${URL_API_SUBDOMINIO}/general/documento/nuevo/`,
     DOCUMENTO_APROBAR: `${URL_API_SUBDOMINIO}/general/documento/aprobar/`,
     DOCUMENTO_TIPO: `${URL_API_SUBDOMINIO}/general/documento_tipo/`,
     CONFIGURACION: `${URL_API_SUBDOMINIO}/general/configuracion/`,
     DOCUMENTO_IMPRIMIR: `general/documento/imprimir/`,
-
     ITEM: {
       DETALLE: `${URL_API_SUBDOMINIO}/general/item/detalle/`,
       LISTA: `${URL_API_SUBDOMINIO}/general/item/`,
@@ -56,6 +54,7 @@ export const API_ENDPOINTS = {
     PLAZOPAGO: {
       LISTA: `${URL_API_SUBDOMINIO}/general/plazo_pago/seleccionar/`,
     },
+
   },
   CONTENEDORES: {
     LISTA: `${API_BASE_URL}/contenedor/usuariocontenedor/consulta-usuario/`,

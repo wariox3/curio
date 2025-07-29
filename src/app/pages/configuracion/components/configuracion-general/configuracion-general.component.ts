@@ -1,12 +1,11 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { DocumentoTipo } from '@interfaces/documento-tipo.interface';
 import { ConfiguracionReduxService } from '@redux/services/configuracion-redux.service';
+import { FacturaReduxService } from '@redux/services/factura-redux.service';
 import { switchMap, tap } from 'rxjs';
+import { AlertaService } from 'src/app/shared/services/alerta.service';
 import { LabelComponent } from '../../../../shared/components/form/label/label.component';
 import { ConfiguracionGeneralApiService } from '../../services/configuracion-general-api.service';
-import { FacturaReduxService } from '@redux/services/factura-redux.service';
-import { ConfiguracionFacturacionApiService } from '../../services/configuracion-facturacion-api.service';
-import { AlertaService } from 'src/app/shared/services/alerta.service';
 
 @Component({
   selector: 'app-configuracion-general',
@@ -22,9 +21,6 @@ export class ConfiguracionGeneralComponent implements OnInit {
   private _configuracionReduxService = inject(
     ConfiguracionReduxService
   )
-  private _configuracionFacturacionApiService = inject(
-    ConfiguracionFacturacionApiService,
-  );
   private _facturaReduxService = inject(FacturaReduxService);
   private _alertaService = inject(AlertaService);
 
