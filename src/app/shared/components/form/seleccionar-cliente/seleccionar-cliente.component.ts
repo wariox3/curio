@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { Contacto } from '@interfaces/contacto';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { ContactoApiService } from '../../../../pages/facturacion/services/contacto-api.service';
 import { FacturaReduxService } from '../../../../redux/services/factura-redux.service';
 import { FormsModule } from '@angular/forms';
 import { asyncScheduler, throttleTime } from 'rxjs';
+import { ContactoApiService } from 'src/app/modules/facturacion/services/contacto-api.service';
 
 @Component({
   selector: 'app-seleccionar-cliente',

@@ -9,12 +9,12 @@ export const routes: Routes = [
   },
   {
     path: 'auth',
-    loadChildren: () => import('./pages/auth/auth.routes'),
+    loadChildren: () => import('./modules/auth/auth.routes'),
   },
   {
     path: '',
     canActivate: [AutentificacionGuard],
-    loadChildren: () => import('./pages/pages.routes'),
+    loadChildren: () => import('./modules/pages.routes'),
   },
   { path: '**', redirectTo: 'auth' },
 ];

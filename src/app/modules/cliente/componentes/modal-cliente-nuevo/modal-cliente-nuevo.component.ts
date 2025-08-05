@@ -45,7 +45,7 @@ import { CuentaBancoApiServices } from '../../services/cuenta-banco-api.service'
 import { PlazoPagoApiServices } from '../../services/plazo-pago-api.service';
 import { cambiarVacioPorNulo } from 'src/app/shared/directive/campo-no-obligatorio.validator';
 import { MultiplesEmailValidator } from 'src/app/shared/directive/multiples-email-validator';
-import { ContactoApiService } from 'src/app/pages/facturacion/services/contacto-api.service';
+import { ContactoApiService } from 'src/app/modules/facturacion/services/contacto-api.service';
 
 @Component({
   selector: 'app-modal-cliente-nuevo',

@@ -11,8 +11,8 @@ import { catchError, combineLatest, of, Subject, switchMap, takeUntil, tap } fro
 import { AlertaService } from 'src/app/shared/services/alerta.service';
 import { ContenedorApiService } from '../../services/contenedor-api.service';
 import { ContenedorReduxService } from '../../../../redux/services/contenedor-redux.service';
-import { ConfiguracionGeneralApiService } from 'src/app/pages/configuracion/services/configuracion-general-api.service';
 import { ConfiguracionReduxService } from '@redux/services/configuracion-redux.service';
+import { ConfiguracionGeneralApiService } from 'src/app/modules/configuracion/services/configuracion-general-api.service';
 
 @Component({
   selector: 'app-contenedor-lista',

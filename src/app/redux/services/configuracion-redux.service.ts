@@ -14,9 +14,9 @@ import {
   obtenerConfiguracionSede,
 } from '@redux/selectors/configuracion.selectors';
 import { ContenedorReduxService } from './contenedor-redux.service';
-import { ContenedorApiService } from 'src/app/pages/contenedores/services/contenedor-api.service';
 import { of, switchMap, tap } from 'rxjs';
-import { ConfiguracionGeneralApiService } from 'src/app/pages/configuracion/services/configuracion-general-api.service';
+import { ContenedorApiService } from 'src/app/modules/contenedores/services/contenedor-api.service';
+import { ConfiguracionGeneralApiService } from 'src/app/modules/configuracion/services/configuracion-general-api.service';
 
 @Injectable({
   providedIn: 'root',

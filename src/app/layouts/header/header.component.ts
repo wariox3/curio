@@ -1,10 +1,10 @@
 import { obtenerContenedorNombre } from './../../redux/selectors/contenedor.selectors';
 import { Component, HostBinding, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/pages/auth/services/auth.service';
 import { ContenedorReduxService } from '@redux/services/contenedor-redux.service';
 import { UsuarioReduxService } from '@redux/services/usuario.redux.service';
 import { ConfiguracionReduxService } from '@redux/services/configuracion-redux.service';
+import { AuthService } from 'src/app/modules/auth/services/auth.service';
 
 @Component({
   selector: 'app-header',
