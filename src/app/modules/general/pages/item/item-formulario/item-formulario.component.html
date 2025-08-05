@@ -1,0 +1,302 @@
+<form [formGroup]="formularioItem" (ngSubmit)="enviarFormulario()">
+  <div
+    class="modal"
+    data-modal="true"
+    id="modal_2"
+    data-modal-backdrop-static="true"
+    #modalFormulario
+  >
+    <div class="modal-content modal-center-y max-w-[600px]">
+      <button type="submit">Guardar</button>
+      <!-- HEADER -->
+      <div class="px-6 py-4 border-b">
+        <h3 class="text-lg font-medium">Nuevo</h3>
+      </div>
+
+      <!-- BODY -->
+      <div class="p-0">
+        <!-- Card 1 -->
+        <div class="bg-white mb-5 rounded-lg shadow-sm overflow-hidden">
+          <div class="px-6 py-4 border-b">
+            <h3 class="text-md font-semibold">Nuevo ítem</h3>
+          </div>
+          <div class="p-6">
+            <!-- Nombre -->
+            <div class="mb-5">
+              <div class="w-full">
+                <app-input
+                  [label]="'Nombre'"
+                  #inputNombre
+                  formControlName="nombre"
+                  [control]="formularioItem.get('nombre')"
+                  [errors]="{
+                    required: 'La placa es requerida.',
+                    minlength: 'Minimo 3 caracteres.',
+                    pattern: 'Careacteres no validos',
+                  }"
+                  [required]="true"
+                ></app-input>
+              </div>
+            </div>
+
+            <!-- Codigo / Referencia -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+              <div>
+                <app-input
+                  [label]="'Código'"
+                  #inputNombre
+                  formControlName="codigo"
+                  [control]="formularioItem.get('codigo')"
+                  [errors]="{
+                    required: 'La placa es requerida.',
+                    minlength: 'Minimo 3 caracteres.',
+                    maxLength: 'Máximo 100 caracteres.',
+                    pattern: 'Careacteres no validos',
+                  }"
+                  [required]="true"
+                ></app-input>
+              </div>
+
+              <div>
+                <app-input
+                  [label]="'Referencia'"
+                  #inputNombre
+                  formControlName="referencia"
+                  [control]="formularioItem.get('referencia')"
+                  [errors]="{
+                    required: 'La placa es requerida.',
+                    minlength: 'Minimo 3 caracteres.',
+                    maxLength: 'Máximo 100 caracteres.',
+                    pattern: 'Careacteres no validos',
+                  }"
+                ></app-input>
+              </div>
+            </div>
+
+            <!-- Radios y Checkboxes -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+              <div>
+                <div class="flex gap-3 items-center">
+                  <label class="inline-flex items-center space-x-2">
+                    <input
+                      class="form-radio h-4 w-4"
+                      type="radio"
+                      value="producto"
+                      id="producto"
+                      (change)="modificarCampoFormulario('producto', true)"
+                      formControlName="productoServicio"
+                      [ngClass]="{
+                        'ring-2 ring-red-200':
+                          formularioItem.controls['producto'].touched &&
+                          formularioItem.controls['producto'].invalid,
+                      }"
+                    />
+                    <span class="text-sm text-gray-700">Producto</span>
+                  </label>
+
+                  <label class="inline-flex items-center space-x-2">
+                    <input
+                      class="form-radio h-4 w-4"
+                      type="radio"
+                      value="servicio"
+                      id="servicio"
+                      formControlName="productoServicio"
+                      (change)="modificarCampoFormulario('servicio', true)"
+                      [ngClass]="{
+                        'ring-2 ring-red-200':
+                          formularioItem.controls['servicio'].touched &&
+                          formularioItem.controls['servicio'].invalid,
+                      }"
+                    />
+                    <span class="text-sm text-gray-700">Servicio</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap gap-4 items-start">
+                <div class="flex flex-col space-y-2">
+                  <label class="inline-flex items-center space-x-2">
+                    <input
+                      class="form-checkbox h-4 w-4"
+                      type="checkbox"
+                      value="1"
+                      id="inventario"
+                      formControlName="inventario"
+                    />
+                    <span class="text-sm text-gray-700">Inventario</span>
+                  </label>
+
+                  <label class="inline-flex items-center space-x-2">
+                    <input
+                      class="form-checkbox h-4 w-4"
+                      type="checkbox"
+                      value="1"
+                      id="negativo"
+                      formControlName="negativo"
+                    />
+                    <span class="text-sm text-gray-700">Negativo</span>
+                  </label>
+                </div>
+
+                <div class="flex flex-col space-y-2">
+                  <label class="inline-flex items-center space-x-2">
+                    <input
+                      class="form-checkbox h-4 w-4"
+                      type="checkbox"
+                      value="1"
+                      id="venta"
+                      formControlName="venta"
+                    />
+                    <span class="text-sm text-gray-700">Venta</span>
+                  </label>
+
+                  <label class="inline-flex items-center space-x-2">
+                    <input
+                      class="form-checkbox h-4 w-4"
+                      type="checkbox"
+                      value="1"
+                      id="favorito"
+                      formControlName="favorito"
+                    />
+                    <span class="text-sm text-gray-700">Favorito</span>
+                  </label>
+                </div>
+
+                <div class="flex flex-col">
+                  <label class="inline-flex items-center space-x-2">
+                    <input
+                      class="form-checkbox h-4 w-4"
+                      type="checkbox"
+                      value="1"
+                      id="inactivo"
+                      formControlName="inactivo"
+                    />
+                    <span class="text-sm text-gray-700">Inactivo</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Alerta item en uso -->
+            @if (itemEnUso()) {
+              <section>
+                <div
+                  class="bg-yellow-50 border border-yellow-200 text-yellow-800 px-3 py-2 rounded-md flex items-start gap-2"
+                  role="alert"
+                >
+                  <svg
+                    class="w-5 h-5 flex-shrink-0"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M8.257 3.099c.765-1.36 2.681-1.36 3.446 0l5.518 9.826c.75 1.335-.213 2.975-1.723 2.975H4.462c-1.51 0-2.473-1.64-1.724-2.975L8.257 3.1zM9 7a1 1 0 112 0v4a1 1 0 11-2 0V7zm1 8a1.25 1.25 0 100-2.5 1.25 1.25 0 000 2.5z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  <div class="text-sm">
+                    Este ítem ya fue usado en un documento; algunas de sus
+                    propiedades no se pueden editar.
+                  </div>
+                </div>
+              </section>
+            }
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-white mb-5 rounded-lg shadow-sm overflow-hidden">
+          <div class="px-6 py-4 border-b">
+            <h3 class="text-md font-semibold">Venta</h3>
+          </div>
+          <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+              <div>
+                <label
+                  translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.IMPUESTOS"
+                  class="block text-sm font-medium text-gray-700 mb-1"
+                ></label>
+                <!-- <app-comun-impuestos
+                  (emitirImpuestoAgregado)="agregarImpuesto($event)"
+                  (emitirImpuestoElimiando)="removerImpuesto($event)"
+                  [arrLista]="arrImpuestos"
+                  [estadoAprobado]="true"
+                  [visualizarImpuestosVenta]="true"
+                ></app-comun-impuestos> -->
+              </div>
+
+              <div>
+                <label
+                  translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.PRECIO"
+                  class="block text-sm font-medium text-gray-700 mb-1"
+                ></label>
+                <input
+                  formControlName="precio"
+                  type="text"
+                  autocomplete="off"
+                  prefix="$ "
+                  mask="separator.2"
+                  (blur)="modificarCampoFormulario('precio', 0)"
+                  class="block w-full rounded-md bg-transparent border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-offset-0"
+                  [ngClass]="{
+                    'border-red-500 text-red-700 focus:ring-red-200':
+                      formularioItem.controls['precio'].touched &&
+                      formularioItem.controls['precio'].invalid,
+                    'border-green-500 text-green-700 focus:ring-green-200':
+                      formularioItem.controls['precio'].touched &&
+                      formularioItem.controls['precio'].valid,
+                    'border-gray-300':
+                      !formularioItem.controls['precio'].touched,
+                  }"
+                />
+                <!-- errores precio -->
+                <!-- <ng-container
+                  [ngTemplateOutlet]="formError"
+                  [ngTemplateOutletContext]="{
+                    validation: 'required',
+                    message:
+                      'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                    control: formularioItem.controls['precio'],
+                  }"
+                ></ng-container>
+                <ng-container
+                  [ngTemplateOutlet]="formError"
+                  [ngTemplateOutletContext]="{
+                    validation: 'pattern',
+                    message:
+                      'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+                    control: formularioItem.controls['precio'],
+                  }"
+                ></ng-container>
+                <ng-container
+                  [ngTemplateOutlet]="formError"
+                  [ngTemplateOutletContext]="{
+                    validation: 'minlength',
+                    message:
+                      'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO'
+                      | translate,
+                    cantidadCaracteres: '3',
+                    control: formularioItem.controls['precio'],
+                  }"
+                ></ng-container>
+                <ng-container
+                  [ngTemplateOutlet]="formError"
+                  [ngTemplateOutletContext]="{
+                    validation: 'maxlength',
+                    message:
+                      'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO'
+                      | translate,
+                    cantidadCaracteres: '100',
+                    control: formularioItem.controls['precio'],
+                  }"
+                ></ng-container> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

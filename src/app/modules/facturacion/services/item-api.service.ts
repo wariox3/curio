@@ -74,4 +74,9 @@ export class ItemApiService {
       data,
     );
   }
+
+  guardarItem(data: any) {
+    return this._http.post<Item>(API_ENDPOINTS.GENERAL.ITEM.NUEVO, data);
+  }
+
 }

@@ -17,6 +17,7 @@ export const API_ENDPOINTS = {
     ITEM: {
       DETALLE: `${URL_API_SUBDOMINIO}/general/item/detalle/`,
       LISTA: `${URL_API_SUBDOMINIO}/general/item/`,
+      NUEVO: `${URL_API_SUBDOMINIO}/general/item/`,
     },
     CONTACTO: {
       NUEVO: `${URL_API_SUBDOMINIO}/general/contacto/`,

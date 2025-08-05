@@ -6,7 +6,7 @@
     (click)="seleccionarTipoBusqueda('nombre')"
   >
     <i
-      class="ki-outline  ki-filter-search"
+      class="ki-outline ki-filter-search"
       [ngClass]="{ 'text-white': tipoBusqueda() === 'nombre' }"
     ></i>
   </button>
@@ -17,7 +17,7 @@
     (click)="seleccionarTipoBusqueda('codigo')"
   >
     <i
-      class="ki-outline  ki-barcode"
+      class="ki-outline ki-barcode"
       [ngClass]="{ 'text-white': tipoBusqueda() === 'codigo' }"
     ></i>
   </button>
@@ -34,14 +34,20 @@
           : 'Buscar por código barras'
       "
     />
-    @if(campoBusqueda.value !== ''){
-    <button class="btn btn-icon" (click)="limpiarBusqueda()">
-      <i class="ki-outline  ki-cross text-red-500"> </i>
-    </button>
+    @if (campoBusqueda.value !== "") {
+      <button class="btn btn-icon" (click)="limpiarBusqueda()">
+        <i class="ki-outline ki-cross text-red-500"> </i>
+      </button>
     }
   </div>
-
-  <span class="btn btn-input cursor-pointer">
-    <i class="ki-outline  ki-add-files"></i>
+  <span
+    class="btn btn-input cursor-pointer"
+    #triggerElemento
+    (click)="abrirModal()"
+  >
+    <i class="ki-outline ki-add-files"></i>
   </span>
+  @defer (on interaction(triggerElemento)) {
+    <app-item-formulario></app-item-formulario>
+  }
 </div>

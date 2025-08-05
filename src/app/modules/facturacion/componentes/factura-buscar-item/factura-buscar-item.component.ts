@@ -11,11 +11,12 @@ import { FacturaReduxService } from '@redux/services/factura-redux.service';
 import { FacturaTiposBusqueda } from '@type/factura-tipos-busqueda.type';
 import { map, of, switchMap, take, tap } from 'rxjs';
 import { ItemApiService } from '../../services/item-api.service';
+import ItemFormularioComponent from "src/app/modules/general/pages/item/item-formulario/item-formulario.component";
 
 @Component({
   selector: 'app-factura-buscar-item',
   standalone: true,
-  imports: [NgClass, FormsModule],
+  imports: [NgClass, FormsModule, ItemFormularioComponent],
   templateUrl: './factura-buscar-item.component.html',
   styleUrl: './factura-buscar-item.component.scss',
 })
@@ -25,6 +26,8 @@ export class FacturaBuscarItemComponent {
   public tipoBusqueda = signal<FacturaTiposBusqueda>('nombre');
   public inputBusqueda: string | null = null;
   @ViewChild('campoBusqueda') campoBusqueda: ElementRef;
+  @ViewChild(ItemFormularioComponent)
+  itemFormulario?: ItemFormularioComponent;
 
   seleccionarTipoBusqueda(tipoBusqueda: FacturaTiposBusqueda) {
     this._actualizarTipoBusqueda(tipoBusqueda);
@@ -105,7 +108,11 @@ export class FacturaBuscarItemComponent {
           this._facturaReduxService.calcularValoresFacturaActivaEncabezado();
         }),
       )
-      .subscribe();
+      .subscribe(); 
+  }
+
+  abrirModal() {
+    this.itemFormulario.abrirModal()
   }
 
   private _debeBuscarPorNombre(): boolean {
