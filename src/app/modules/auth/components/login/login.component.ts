@@ -105,6 +105,7 @@ export default class LoginComponent implements OnInit {
                   id: respuestaLogin.user.id,
                   username: respuestaLogin.user.username,
                   imagen: respuestaLogin.user.imagen,
+                  imagen_thumbnail: respuestaLogin.user.imagen_thumbnail,
                   nombre_corto: respuestaLogin.user.nombre_corto,
                   nombre: respuestaLogin.user.nombre,
                   apellido: respuestaLogin.user.apellido,
