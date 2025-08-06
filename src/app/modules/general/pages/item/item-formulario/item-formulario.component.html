@@ -7,7 +7,6 @@
     #modalFormulario
   >
     <div class="modal-content modal-center-y max-w-[600px]">
-      <button type="submit">Guardar</button>
       <!-- HEADER -->
       <div class="px-6 py-4 border-b">
         <h3 class="text-lg font-medium">Nuevo</h3>
@@ -30,7 +29,7 @@
                   formControlName="nombre"
                   [control]="formularioItem.get('nombre')"
                   [errors]="{
-                    required: 'La placa es requerida.',
+                    required: 'Campo requerido es requerido.',
                     minlength: 'Minimo 3 caracteres.',
                     pattern: 'Careacteres no validos',
                   }"
@@ -48,7 +47,7 @@
                   formControlName="codigo"
                   [control]="formularioItem.get('codigo')"
                   [errors]="{
-                    required: 'La placa es requerida.',
+                    required: 'Campo requerido es requerido.',
                     minlength: 'Minimo 3 caracteres.',
                     maxLength: 'Máximo 100 caracteres.',
                     pattern: 'Careacteres no validos',
@@ -125,20 +124,6 @@
                     />
                     <span class="text-sm text-gray-700">Inventario</span>
                   </label>
-
-                  <label class="inline-flex items-center space-x-2">
-                    <input
-                      class="form-checkbox h-4 w-4"
-                      type="checkbox"
-                      value="1"
-                      id="negativo"
-                      formControlName="negativo"
-                    />
-                    <span class="text-sm text-gray-700">Negativo</span>
-                  </label>
-                </div>
-
-                <div class="flex flex-col space-y-2">
                   <label class="inline-flex items-center space-x-2">
                     <input
                       class="form-checkbox h-4 w-4"
@@ -149,7 +134,6 @@
                     />
                     <span class="text-sm text-gray-700">Venta</span>
                   </label>
-
                   <label class="inline-flex items-center space-x-2">
                     <input
                       class="form-checkbox h-4 w-4"
@@ -159,19 +143,6 @@
                       formControlName="favorito"
                     />
                     <span class="text-sm text-gray-700">Favorito</span>
-                  </label>
-                </div>
-
-                <div class="flex flex-col">
-                  <label class="inline-flex items-center space-x-2">
-                    <input
-                      class="form-checkbox h-4 w-4"
-                      type="checkbox"
-                      value="1"
-                      id="inactivo"
-                      formControlName="inactivo"
-                    />
-                    <span class="text-sm text-gray-700">Inactivo</span>
                   </label>
                 </div>
               </div>
@@ -214,88 +185,42 @@
           <div class="p-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
               <div>
-                <label
-                  translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.IMPUESTOS"
-                  class="block text-sm font-medium text-gray-700 mb-1"
-                ></label>
-                <!-- <app-comun-impuestos
-                  (emitirImpuestoAgregado)="agregarImpuesto($event)"
-                  (emitirImpuestoElimiando)="removerImpuesto($event)"
-                  [arrLista]="arrImpuestos"
-                  [estadoAprobado]="true"
-                  [visualizarImpuestosVenta]="true"
-                ></app-comun-impuestos> -->
+                <label class="block text-sm font-medium text-gray-700">
+                  Impuestos
+                </label>
+                <app-multi-select
+                  [label]="'impuesto_nombre'"
+                  [value]="'impuesto_id'"
+                  [options]="arrImpuestos()"
+                  (selectionChange)="
+                    modificarCampoFormulario('impuestos', $event)
+                  "
+                ></app-multi-select>
               </div>
 
               <div>
-                <label
-                  translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.PRECIO"
-                  class="block text-sm font-medium text-gray-700 mb-1"
-                ></label>
-                <input
+                <app-input
+                  [label]="'Precio'"
+                  #inputNombre
                   formControlName="precio"
-                  type="text"
-                  autocomplete="off"
-                  prefix="$ "
-                  mask="separator.2"
-                  (blur)="modificarCampoFormulario('precio', 0)"
-                  class="block w-full rounded-md bg-transparent border px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-offset-0"
-                  [ngClass]="{
-                    'border-red-500 text-red-700 focus:ring-red-200':
-                      formularioItem.controls['precio'].touched &&
-                      formularioItem.controls['precio'].invalid,
-                    'border-green-500 text-green-700 focus:ring-green-200':
-                      formularioItem.controls['precio'].touched &&
-                      formularioItem.controls['precio'].valid,
-                    'border-gray-300':
-                      !formularioItem.controls['precio'].touched,
+                  [control]="formularioItem.get('precio')"
+                  [errors]="{
+                    minlength: 'Minimo 3 caracteres.',
+                    maxLength: 'Máximo 100 caracteres.',
+                    pattern: 'Careacteres no validos',
                   }"
-                />
-                <!-- errores precio -->
-                <!-- <ng-container
-                  [ngTemplateOutlet]="formError"
-                  [ngTemplateOutletContext]="{
-                    validation: 'required',
-                    message:
-                      'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-                    control: formularioItem.controls['precio'],
-                  }"
-                ></ng-container>
-                <ng-container
-                  [ngTemplateOutlet]="formError"
-                  [ngTemplateOutletContext]="{
-                    validation: 'pattern',
-                    message:
-                      'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-                    control: formularioItem.controls['precio'],
-                  }"
-                ></ng-container>
-                <ng-container
-                  [ngTemplateOutlet]="formError"
-                  [ngTemplateOutletContext]="{
-                    validation: 'minlength',
-                    message:
-                      'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO'
-                      | translate,
-                    cantidadCaracteres: '3',
-                    control: formularioItem.controls['precio'],
-                  }"
-                ></ng-container>
-                <ng-container
-                  [ngTemplateOutlet]="formError"
-                  [ngTemplateOutletContext]="{
-                    validation: 'maxlength',
-                    message:
-                      'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO'
-                      | translate,
-                    cantidadCaracteres: '100',
-                    control: formularioItem.controls['precio'],
-                  }"
-                ></ng-container> -->
+                ></app-input>
               </div>
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="modal-footer justify-end mt-2">
+        <button class="btn btn-light" data-modal-dismiss="true">
+          Cancelar
+        </button>
+        <button type="submit" class="btn btn-success">Guardar</button>
       </div>
     </div>
   </div>

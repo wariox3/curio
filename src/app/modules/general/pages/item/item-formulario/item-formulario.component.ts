@@ -1,16 +1,14 @@
 import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
   inject,
-  Input,
   OnDestroy,
   OnInit,
-  Output,
   signal,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import {
   FormArray,
@@ -20,27 +18,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { KTModal } from '@metronic/components/modal/modal';
-import { Subject, switchMap, tap } from 'rxjs';
-import { ItemApiService } from 'src/app/modules/facturacion/services/item-api.service';
 import { InputComponent } from "@componentes/form/input/input.component";
-// import { CardComponent } from '@comun/componentes/card/card.component';
-// import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
-// import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
-// import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
-// import { GeneralService } from '@comun/services/general.service';
-// import { RegistroAutocompletarConCuenta } from '@interfaces/comunes/autocompletar/contabilidad/con-cuenta.interface';
-// import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
-// import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-// import { ItemService } from '@modulos/general/servicios/item.service';
-// import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-// import { TranslateModule } from '@ngx-translate/core';
-// import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
-// import { Subject, takeUntil, tap } from 'rxjs';
-// import { CuentasComponent } from '../../../../../comun/componentes/cuentas/cuentas.component';
-// import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
-// import { Rutas } from '@interfaces/menu/configuracion.interface';
-// import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
+import { MultiSelectComponent } from "@componentes/form/multi-select/multi-select.component";
+import { KTModal } from '@metronic/components/modal/modal';
+import { finalize, Subject, switchMap, tap } from 'rxjs';
+import { ItemApiService } from 'src/app/modules/facturacion/services/item-api.service';
+import { ImpuestoService } from '../../../services/impuesto.service';
 
 @Component({
   selector: 'app-item-formulario',
@@ -50,21 +33,22 @@ import { InputComponent } from "@componentes/form/input/input.component";
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    InputComponent
-],
-  //providers: [provideNgxMask()],
+    InputComponent,
+    MultiSelectComponent
+  ],
 })
 export default class ItemFormularioComponent
-  implements OnInit, OnDestroy, AfterViewInit
-{
+  implements OnInit, OnDestroy, AfterViewInit {
   // private readonly _generalService = inject(GeneralService);
   // private readonly _configModuleService = inject(ConfigModuleService);
   private _formBuilder = inject(FormBuilder);
   private _itemService = inject(ItemApiService);
+  private _impuestoService = inject(ImpuestoService);
+  private _changeDetectorRef = inject(ChangeDetectorRef);
   // arrCuentasLista: RegistroAutocompletarConCuenta[];
   formularioItem: FormGroup;
   // arrImpuestosEliminado: number[] = [];
-  // arrImpuestos: any[] = [];
+  public arrImpuestos = signal<any[]>([]);
   // cuentaCodigo = '';
   // cuentaNombre = '';
   // cuentaCobrarCodigo = '';
@@ -77,31 +61,18 @@ export default class ItemFormularioComponent
   inputNombre: ElementRef<HTMLInputElement>;
   @ViewChild('modalFormulario') modalFormulario!: ElementRef;
 
-  // public valorInventarioDefecto = signal<boolean>(false);
-  // public valorServicioDefecto = signal<boolean>(false);
-  // public valorProductoDefecto = signal<boolean>(false);
+  public valorInventarioDefecto = signal<boolean>(false);
+  public valorServicioDefecto = signal<boolean>(false);
+  public valorProductoDefecto = signal<boolean>(false);
   public itemEnUso = signal<boolean>(false);
   private _destroy$ = new Subject<void>();
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
     this.iniciarFormulario();
-    //   if (this.detalle && this.ocultarBtnAtras === false) {
-    //     this.consultardetalle();
-    //     this._consultarItemUso(this.detalle);
-    //   } else {
-    //     this._getCuentaLista({
-    //       permite_movimiento: 'True',
-    //       cuenta_clase: 4,
-    //     }).subscribe({
-    //       next: (respuesta) => {
-    //         this.arrCuentasLista = respuesta.registros;
-    //         this._sugerirCampoCuentaVenta();
-    //       },
-    //     });
-    //   }
     this._initCamposReactivos();
+    this._consultarInformacion();
   }
 
   ngOnDestroy(): void {
@@ -118,26 +89,16 @@ export default class ItemFormularioComponent
   }
 
   ngAfterViewInit() {
-    // if (this.accion === 'nuevo') {
     if (this.inputNombre?.nativeElement.value === '') {
       this.inputNombre?.nativeElement.focus();
     }
-    // }
   }
 
-  // private _consultarItemUso(id: number) {
-  //   this.itemService.consultarItemUso(id).subscribe((response) => {
-  //     if (response.uso) {
-  //       this._inhabilitarCampos();
-  //     }
-  //   });
-  // }
-
-  // private _inhabilitarCampos() {
-  //   this.itemEnUso.set(true);
-  //   this.formularioItem.get('inventario')?.disable();
-  //   this.formularioItem.get('productoServicio')?.disable();
-  // }
+  private _inhabilitarCampos() {
+    this.itemEnUso.set(true);
+    this.formularioItem.get('inventario')?.disable();
+    this.formularioItem.get('productoServicio')?.disable();
+  }
 
   private _initCamposReactivos() {
     this._handleCampoServicio();
@@ -146,33 +107,27 @@ export default class ItemFormularioComponent
 
   private _handleCampoServicio() {
     this.formularioItem.get('servicio')?.valueChanges.subscribe((value) => {
-      //const inventarioControl = this.formularioItem.get('inventario');
-      // if (value) {
-      //   inventarioControl?.setValue(false, { emitEvent: false });
-      // } else {
-      //   if (!this.detalle) {
-      //     inventarioControl?.setValue(true, {
-      //       emitEvent: false,
-      //     });
-      //   } else {
-      //     inventarioControl?.setValue(this.valorInventarioDefecto(), {
-      //       emitEvent: false,
-      //     });
-      //   }
-      // }
+      const inventarioControl = this.formularioItem.get('inventario');
+      if (value) {
+        inventarioControl?.setValue(false, { emitEvent: false });
+      } else {
+        inventarioControl?.setValue(this.valorInventarioDefecto(), {
+          emitEvent: false,
+        });
+      }
     });
   }
 
   private _handleCampoInventario() {
-    // this.formularioItem.get('inventario')?.valueChanges.subscribe((value) => {
-    //   const esServicio = this.formularioItem.get('servicio')?.value;
-    //   const inventarioControl = this.formularioItem.get('inventario');
-    //   if (esServicio) {
-    //     inventarioControl?.setValue(false, { emitEvent: false });
-    //   } else {
-    //     inventarioControl?.setValue(value, { emitEvent: false });
-    //   }
-    // });
+    this.formularioItem.get('inventario')?.valueChanges.subscribe((value) => {
+      const esServicio = this.formularioItem.get('servicio')?.value;
+      const inventarioControl = this.formularioItem.get('inventario');
+      if (esServicio) {
+        inventarioControl?.setValue(false, { emitEvent: false });
+      } else {
+        inventarioControl?.setValue(value, { emitEvent: false });
+      }
+    });
   }
 
   iniciarFormulario() {
@@ -192,12 +147,10 @@ export default class ItemFormularioComponent
       producto: [true],
       servicio: [false],
       inventario: [true],
-      negativo: [false],
       impuestos: this._formBuilder.array([]),
       cuenta_venta: [null],
       cuenta_compra: [null],
       favorito: [false],
-      inactivo: [false],
       venta: [false],
     });
   }
@@ -218,113 +171,17 @@ export default class ItemFormularioComponent
     this._itemService
       .guardarItem(this.formularioItem.value)
       .pipe(
-        switchMap(()=> this._itemService.lista()),
-        tap((respuesta: any) => {
-          this._toggleModal(this.modalFormulario);
-        }),
+        switchMap(() => this._itemService.lista()),
+        tap(() => this._toggleModal(this.modalFormulario)),
+        finalize(() => this.formularioItem.reset())
       )
       .subscribe();
-  }
-
-  // private _discriminarImpuestosPorTipo(
-  //   itemTipo: 'venta' | 'compra',
-  //   impuestosItem: any[],
-  // ) {
-  //   switch (itemTipo) {
-  //     case 'compra':
-  //       return this._filtrarImpuestosPorNombre(
-  //         'impuesto_compra',
-  //         impuestosItem,
-  //       );
-  //     case 'venta':
-  //     default:
-  //       return this._filtrarImpuestosPorNombre('impuesto_venta', impuestosItem);
-  //   }
-  // }
-
-  private _filtrarImpuestosPorNombre(
-    nombreImpuesto: string,
-    impuestosItem: any[],
-  ) {
-    return impuestosItem.filter((item) => item[nombreImpuesto]);
   }
 
   limpiarFormulario() {
     this.formularioItem.reset();
   }
 
-  agregarImpuesto(impuesto: any) {
-    // const arrImpuesto = this.formularioItem.get('impuestos') as FormArray;
-    // let impuestoFormGrup = this.formBuilder.group({
-    //   impuesto: [impuesto.impuesto_id],
-    // });
-    // arrImpuesto.push(impuestoFormGrup);
-    // this.changeDetectorRef.detectChanges();
-  }
-
-  removerImpuesto(impuesto: any) {
-    // const arrImpuesto = this.formularioItem.get('impuestos') as FormArray;
-    // let nuevosImpuestos = arrImpuesto.value.filter(
-    //   (item: any) =>
-    //     item.impuesto !== impuesto.id || item.impuesto !== impuesto.impuesto_id,
-    // );
-    // // Limpiar el FormArray actual
-    // arrImpuesto.clear();
-    // nuevosImpuestos.forEach((item: any) => {
-    //   const nuevoDetalle = this._formBuilder.group({
-    //     // Aquí debes definir la estructura de tu FormGroup para un impuesto
-    //     impuesto: [item.impuesto],
-    //   });
-    //   arrImpuesto.push(nuevoDetalle);
-    // });
-    // if (impuesto.id != null) {
-    //   this.arrImpuestosEliminado.push(impuesto.id);
-    // }
-    // this.changeDetectorRef.detectChanges();
-  }
-
-  consultardetalle() {
-    // this.itemService
-    //   .consultarDetalle(this.detalle)
-    //   .subscribe((respuesta: any) => {
-    //     this.valorInventarioDefecto.set(respuesta.item.inventario);
-    //     this.valorProductoDefecto.set(respuesta.item.producto);
-    //     this.valorServicioDefecto.set(respuesta.item.servicio);
-    //     this.formularioItem.patchValue({
-    //       codigo: respuesta.item.codigo,
-    //       nombre: respuesta.item.nombre,
-    //       referencia: respuesta.item.referencia,
-    //       precio: respuesta.item.precio,
-    //       costo: respuesta.item.costo,
-    //       productoServicio: respuesta.item.producto ? 'producto' : 'servicio',
-    //       inventario: respuesta.item.inventario,
-    //       producto: respuesta.item.producto,
-    //       servicio: respuesta.item.servicio,
-    //       negativo: respuesta.item.negativo,
-    //       venta: respuesta.item.venta,
-    //       favorito: respuesta.item.favorito,
-    //       inactivo: respuesta.item.inactivo,
-    //       cuenta_venta: respuesta.item.cuenta_venta_id,
-    //       cuenta_compra: respuesta.item.cuenta_compra_id,
-    //     });
-    //     this.cuentaCodigo = respuesta.item.cuenta_venta_codigo;
-    //     this.cuentaNombre = respuesta.item.cuenta_venta_nombre;
-    //     this.cuentaCobrarCodigo = respuesta.item.cuenta_compra_codigo;
-    //     this.cuentaCobrarNombre = respuesta.item.cuenta_compra_nombre;
-    //     let arrImpuesto = this.obtenerFormularioCampos.impuestos as FormArray;
-    //     arrImpuesto.clear();
-    //     respuesta.item.impuestos.map((impuesto: any) => {
-    //       arrImpuesto.push(
-    //         this.formBuilder.group({
-    //           impuesto: impuesto,
-    //         }),
-    //       );
-    //     });
-    //     this.arrImpuestos = respuesta.item.impuestos;
-    //     // this.calcularTotales();
-    //     this.changeDetectorRef.detectChanges();
-    //   });
-  }
 
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioItem?.markAsDirty();
@@ -337,6 +194,7 @@ export default class ItemFormularioComponent
     if (campo === 'producto' && !this.itemEnUso()) {
       this.formularioItem.get(campo)?.setValue(true);
       this.formularioItem.get('servicio')?.setValue(false);
+      this.formularioItem.get('inventario')?.setValue(true);
     }
     if (campo === 'servicio' && !this.itemEnUso()) {
       this.formularioItem.get(campo)?.setValue(true);
@@ -347,110 +205,30 @@ export default class ItemFormularioComponent
         this.formularioItem.get(campo)?.setValue(dato);
       }
     }
-    //this.changeDetectorRef.detectChanges();
+    if (campo === 'impuestos') {
+      const arrImpuesto = this.formularioItem.get('impuestos') as FormArray;
+      // // Limpiar el FormArray actual
+      arrImpuesto.clear();
+      dato.forEach((dato: any) => {
+        this._agregarImpuesto(dato);
+      });
+    }
+    this._changeDetectorRef.detectChanges();
   }
 
-  private _getCuentaLista(parametros: any) {
-    //   return this._generalService.consultaApi<any>(
-    //     'contabilidad/cuenta/seleccionar/',
-    //     {
-    //       ordering: 'codigo',
-    //       ...parametros,
-    //     },
-    //   );
+  private _agregarImpuesto(impuesto: any) {
+    const arrImpuesto = this.formularioItem.get('impuestos') as FormArray;
+    let impuestoFormGrup = this._formBuilder.group({
+      impuesto: [impuesto],
+    });
+    arrImpuesto.push(impuestoFormGrup);
+    this._changeDetectorRef.detectChanges();
   }
 
-  consultarCuentas(event: any) {
-    //   const valor = event?.target?.value;
-    //   const valorBusqueda = valor.split(' ')?.[0] || '';
-    //   let parametros: ParametrosApi = {
-    //    permite_movimiento: 'True',
-    //    cuenta_clase: 4,
-    //    ordering: 'codigo',
-    //   }
-    //   this._generalService
-    //     .consultaApi<RegistroAutocompletarConCuenta[]>(
-    //       'contabilidad/cuenta/seleccionar/',
-    //       parametros,
-    //     )
-    //     .subscribe((respuesta) => {
-    //       this.arrCuentasLista = respuesta;
-    //       this.changeDetectorRef.detectChanges();
-    //     });
-  }
 
-  aplicarFiltrosCuentas(event: any) {
-    //   const valor = event?.target?.value;
-    //   const valorCasteado = Number(valor);
-    //   let parametros: ParametrosApi = {
-    //     permite_movimiento: 'True',
-    //     cuenta_clase: 4,
-    //     ordering: 'codigo',
-    //   };
-    //   if (!valor) {
-    //     this.formularioItem.get('cuenta_venta')?.setValue(null);
-    //   }
-    //   // la busqueda es por codigo
-    //   if (!isNaN(valorCasteado)) {
-    //     parametros = {
-    //       ...parametros,
-    //       'codigo__startswith': `${valor}`,
-    //     };
-    //   } else {
-    //     // la busqueda es por texto
-    //     parametros = {
-    //       ...parametros,
-    //       'nombre__icontains': `${valor}`,
-    //     };
-    //   }
-    //   this._generalService
-    //     .consultaApi<RegistroAutocompletarConCuenta[]>(
-    //       'contabilidad/cuenta/seleccionar/',
-    //       parametros,
-    //     )
-    //     .pipe(
-    //       tap((respuesta) => {
-    //         this.arrCuentasLista = respuesta;
-    //         this.changeDetectorRef.detectChanges();
-    //       }),
-    //     )
-    //     .subscribe();
-  }
-
-  construirNombre() {
-    //   const cuentaCodigo = this.cuentaCodigo || '';
-    //   const cuentaNombre = this.cuentaNombre || '';
-    //   if (!cuentaCodigo && !cuentaNombre) {
-    //     return null;
-    //   }
-    //   return `${cuentaCodigo} ${cuentaNombre}`;
-  }
-
-  agregarCuenta(cuenta: any) {
-    //   this.formularioItem.get('cuenta_venta')?.setValue(cuenta.id);
-    //   this.cuentaNombre = cuenta.nombre;
-    //   this.cuentaCodigo = cuenta.codigo;
-    //   this.changeDetectorRef.detectChanges();
-  }
-
-  private _sugerirCampoCuentaVenta() {
-    //   if (this.arrCuentasLista?.length > 0) {
-    //     const registroSugerido = this.arrCuentasLista[0];
-    //     this.agregarCuenta(registroSugerido);
-    //   }
-  }
-
-  agregarCuentaCobrarSeleccionado(cuenta: any) {
-    //   this.formularioItem.get('cuenta_compra')?.setValue(cuenta.id);
-    //   this.cuentaCobrarNombre = cuenta.nombre;
-    //   this.cuentaCobrarCodigo = cuenta.codigo;
-    //   this.changeDetectorRef.detectChanges();
-  }
-
-  limpiarCuentaCobrarSeleccionado() {
-    //   this.formularioItem.get('cuenta_compra')?.setValue(null);
-    //   this.cuentaCobrarNombre = '';
-    //   this.cuentaCobrarCodigo = '';
-    //   this.changeDetectorRef.detectChanges();
+  private _consultarInformacion() {
+    this._impuestoService.listaImpuestoVenta().subscribe((respuesta: any) => {
+      this.arrImpuestos.set(respuesta);
+    });
   }
 }

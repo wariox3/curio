@@ -55,6 +55,9 @@ export const API_ENDPOINTS = {
     PLAZOPAGO: {
       LISTA: `${URL_API_SUBDOMINIO}/general/plazo_pago/seleccionar/`,
     },
+    IMPUESTO: {
+      LISTA: `${URL_API_SUBDOMINIO}/general/impuesto/seleccionar/`,
+    },
 
   },
   CONTENEDORES: {
