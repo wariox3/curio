@@ -40,12 +40,6 @@ export class SidebarComponent extends GeneralClass {
       activo: false,
     },
     // {
-    //   nombre: 'Tráfico',
-    //   link: '/admin/trafico/lista',
-    //   iconoClase: 'ki-filled ki-delivery',
-    //   activo: false,
-    // },
-    // {
     //   nombre: 'Movimiento',
     //   link: '',
     //   iconoClase: 'ki-filled ki-book',
@@ -62,27 +56,19 @@ export class SidebarComponent extends GeneralClass {
     //     },
     //   ],
     // },
-    // {
-    //   nombre: 'Administración',
-    //   link: '',
-    //   iconoClase: 'ki-filled ki-setting-2',
-    //   activo: false,
-    //   tipoAcordion: true,
-    //   children: [
-    //     {
-    //       nombre: 'Vehículos',
-    //       link: '/admin/vehiculo/lista',
-    //     },
-    //     {
-    //       nombre: 'Contactos',
-    //       link: '/admin/contacto/lista',
-    //     },
-    //     {
-    //       nombre: 'Franjas',
-    //       link: '/admin/franja/lista',
-    //     },
-    //   ],
-    // },
+    {
+      nombre: 'Administración',
+      link: '',
+      iconoClase: 'ki-filled ki-setting-2',
+      activo: false,
+      tipoAcordion: true,
+      children: [
+        {
+          nombre: 'Item',
+          link: '/administracion/item/lista',
+        },
+      ],
+    },
     // {
     //   nombre: 'Complementos',
     //   link: '/admin/complemento/lista',

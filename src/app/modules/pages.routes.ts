@@ -39,6 +39,17 @@ export default [
     ],
   },
   {
+    path: 'administracion',
+    loadComponent: () =>
+      import('./admin-layout/admin-layout.component'),
+    children: [
+      {
+        path: 'item',
+        loadChildren: () => import('../modules/general/general.routes'),
+      },
+    ]
+  },
+  {
     path: 'contenedor',
     loadComponent: () =>
       import('./contenedores-layout/contenedores-layout.component'),

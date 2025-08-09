@@ -1,4 +1,4 @@
-import { ParametrosFiltrosConsultasHttp } from './../../../core/model/interface/parametros-filtros-consulta-http.interface';
+import { ParametrosFiltrosConsultasHttp } from '../../../core/model/interface/parametros-filtros-consulta-http.interface';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { API_ENDPOINTS } from '@constantes/api-endpoints.const';
@@ -36,7 +36,7 @@ export class ItemApiService {
 
   public arrItemsSignal = signal<any[]>([]);
 
-  constructor() {}
+  constructor() { }
 
   lista() {
     return this._generalService
@@ -79,4 +79,23 @@ export class ItemApiService {
     return this._http.post<Item>(API_ENDPOINTS.GENERAL.ITEM.NUEVO, data);
   }
 
+  editarItem(data: any, id: number) {
+    return this._http.put<Item>(`${API_ENDPOINTS.GENERAL.ITEM.LISTA}${id}/`, data);
+  }
+
+  cargarImagen(itemId: number, base64: string) {
+    return this._http.post<{ mensaje: string }>(API_ENDPOINTS.GENERAL.ITEM.CARGAR_IMAGEN, {
+      base64,
+      id: itemId,
+    });
+  }
+
+  validarUso(id: number) {
+    return this._http.post<{uso: boolean}>(`${API_ENDPOINTS.GENERAL.ITEM.VALIDAR_USO}`, {id});
+  }
+
+
+  eliminar(id: number) {
+    return this._http.delete(`${API_ENDPOINTS.GENERAL.ITEM.LISTA}${id}/`);
+  }
 }

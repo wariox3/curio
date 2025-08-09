@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+// Estilos para mejorar la visualización en dispositivos móviles
+@media (max-width: 640px) {
+  table {
+    td {
+      word-break: break-word;
+    }
+  }
+}

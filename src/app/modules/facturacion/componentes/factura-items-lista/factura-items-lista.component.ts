@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FacturaItemsCardComponent } from '../factura-items-card/factura-items-card.component';
-import { ItemApiService } from './../../services/item-api.service';
 import { catchError, of, tap } from 'rxjs';
+import { ItemApiService } from 'src/app/modules/general/services/item.service';
 
 @Component({
   selector: 'app-factura-items-lista',

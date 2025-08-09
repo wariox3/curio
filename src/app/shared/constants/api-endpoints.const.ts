@@ -18,6 +18,8 @@ export const API_ENDPOINTS = {
       DETALLE: `${URL_API_SUBDOMINIO}/general/item/detalle/`,
       LISTA: `${URL_API_SUBDOMINIO}/general/item/`,
       NUEVO: `${URL_API_SUBDOMINIO}/general/item/`,
+      CARGAR_IMAGEN: `${URL_API_SUBDOMINIO}/general/item/cargar-imagen/`,
+      VALIDAR_USO: `${URL_API_SUBDOMINIO}/general/item/validar-uso/`,
     },
     CONTACTO: {
       NUEVO: `${URL_API_SUBDOMINIO}/general/contacto/`,

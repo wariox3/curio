@@ -20,10 +20,15 @@ export class MultiSelectComponent {
   @Input() label: string = 'label';
   @Input() value: string = 'value';
   @Output() selectionChange = new EventEmitter<any[]>();
+  @Output() itemRetirado = new EventEmitter<any[]>();
 
   constructor() {}
 
   emitirSeleccion() {
     this.selectionChange.emit(this.selectedOptions);
+  }
+
+  itemRemovido(item: any) {
+    this.itemRetirado.emit(item);
   }
 }

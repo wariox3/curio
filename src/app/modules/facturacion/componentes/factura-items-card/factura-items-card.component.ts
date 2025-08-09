@@ -2,9 +2,9 @@ import { DecimalPipe, JsonPipe, NgClass } from '@angular/common';
 import { Component, inject, Input, OnInit, signal, output, SimpleChanges, OnChanges } from '@angular/core';
 import { Item } from '@interfaces/item.interface';
 import { FacturaReduxService } from '../../../../redux/services/factura-redux.service';
-import { ItemApiService } from '../../services/item-api.service';
 import { tap } from 'rxjs';
 import { TruncatePipe } from '@pipe/truncate.pipe';
+import { ItemApiService } from 'src/app/modules/general/services/item.service';
 
 @Component({
   selector: 'app-factura-items-card',

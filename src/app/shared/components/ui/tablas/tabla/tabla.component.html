@@ -1,0 +1,115 @@
+<!-- Contenedor con scrollbar personalizada -->
+<div
+  class="overflow-x-auto"
+  [ngClass]="{ 'custom-scrollbar': true }"
+>
+  <!-- La clase custom-scrollbar se define en el archivo .ts del componente -->
+  <table class="min-w-full divide-y divide-gray-200">
+    <!-- Encabezado de la tabla con gradiente sutil -->
+    <thead>
+      <tr>
+        <!-- Columnas de datos -->
+        <th
+          *ngFor="let columna of columnas"
+          class="px-6 py-1 text-left text-xs font-semibold text-black"
+          [style.width]="columna.ancho || 'auto'"
+        >
+          <div class="flex items-center space-x-1">
+            <span
+            [title]="columna.tooltip || ''"
+            >
+              {{ columna.nombre }}
+            </span>
+          </div>
+        </th>
+
+        <!-- Columnas de acciones -->
+        <th *ngIf="mostrarAcciones" class="px-6 py-3 text-center" colspan="2">
+          <span class="text-xs font-semibold text-black"></span>
+        </th>
+
+        <!-- Checkbox principal con estado indeterminado -->
+        <th *ngIf="mostrarCheckbox" class="px-6 py-3 text-center">
+          <input
+            type="checkbox"
+            [checked]="seleccionTodos"
+            [indeterminate]="estadoIndeterminado"
+            (change)="alternarSeleccionTodos()"
+            class="form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out rounded border-gray-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            [disabled]="!datos || datos.length === 0"
+          />
+        </th>
+      </tr>
+    </thead>
+
+    <tbody class="bg-white divide-y divide-gray-200">
+      <!-- Mensaje cuando no hay datos -->
+      <tr *ngIf="!datos || datos.length === 0" class="hover:bg-gray-50">
+        <td
+          [attr.colspan]="(mostrarCheckbox ? 1 : 0) + columnas.length + (mostrarAcciones ? 2 : 0)"
+          class="px-6 py-10 text-center"
+        >
+          <div class="flex flex-col items-center justify-center text-gray-500">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-12 w-12 mb-2 text-gray-300"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+              />
+            </svg>
+            <p>{{ textoVacio }}</p>
+          </div>
+        </td>
+      </tr>
+
+      <!-- Filas con datos -->
+      <tr
+        *ngFor="let item of datos; let i = index"
+        class="hover:bg-gray-50 transition-colors duration-150 ease-in-out"
+      >
+        <!-- Celdas de datos -->
+        <td *ngFor="let columna of columnas" class="px-6 whitespace-nowrap text-sm text-gray-800">
+          {{ formatearValor(columna, item[columna.clave]) }}
+        </td>
+
+        <!-- Acciones -->
+        <td *ngIf="mostrarAcciones" class="px-4 whitespace-nowrap text-center w-[60px]">
+          <a
+            class="inline-flex items-center justify-center p-2 rounded-full hover:text-blue-800 hover:bg-blue-100 transition-colors duration-150"
+            [routerLink]="[rutas.editar, item[claveCheckbox]]"
+            title="Editar"
+          >
+            <i class="ki-filled ki-notepad-edit"></i>
+          </a>
+        </td>
+
+        <td *ngIf="mostrarAcciones" class="px-6 py-4 whitespace-nowrap text-center">
+          <a
+            class="inline-flex items-center justify-center p-2 rounded-full hover:text-indigo-800 hover:bg-indigo-100 transition-colors duration-150"
+            [routerLink]="[rutas.detalle, item[claveCheckbox]]"
+            title="Ver detalles"
+          >
+            <i class="ki-filled ki-eye"></i>
+          </a>
+        </td>
+
+        <!-- Checkbox individual -->
+        <td *ngIf="mostrarCheckbox" class="px-6 py-4 whitespace-nowrap text-center">
+          <input
+            type="checkbox"
+            [checked]="estaSeleccionado(item)"
+            (change)="alternarSeleccion(item, $event)"
+            class="form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out rounded border-gray-300 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

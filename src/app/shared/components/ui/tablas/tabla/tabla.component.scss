@@ -1,0 +1,30 @@
+/* Aplicar la fuente Geist al componente de tabla */
+:host {
+  font-family: "Geist", "Geist Fallback", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Estilos para scrollbar delgada y discreta */
+.custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.25);
+    border-radius: 20px;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: rgba(107, 114, 128, 0.4);
+    }
+  }
+
+  /* Para Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.25) transparent;
+}

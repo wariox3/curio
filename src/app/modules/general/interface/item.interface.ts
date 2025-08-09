@@ -1,6 +1,10 @@
+import { DocumentoImpuestoFacturaRespuesta } from "@interfaces/facturas.interface";
+
 export interface Item {
+
   readonly id: number;
   readonly impuesto: number;
+  impuestos: DocumentoImpuestoFacturaRespuesta[];
   nombre: string;
   codigo: string | null;
   referencia: string | null;
@@ -18,6 +22,10 @@ export interface Item {
   inventario: boolean;
   existencia: number;
   disponible: number;
+  cantidad: number,
+  subtotal: number,
+  favorito: boolean,
+  imagen: string,
 }
 
 export interface ItemSeleccionar {

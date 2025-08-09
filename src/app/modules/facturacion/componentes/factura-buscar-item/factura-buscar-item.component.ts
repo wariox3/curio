@@ -7,11 +7,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { KTModal } from '@metronic/components/modal';
 import { FacturaReduxService } from '@redux/services/factura-redux.service';
 import { FacturaTiposBusqueda } from '@type/factura-tipos-busqueda.type';
 import { map, of, switchMap, take, tap } from 'rxjs';
-import { ItemApiService } from '../../services/item-api.service';
 import ItemFormularioComponent from "src/app/modules/general/pages/item/item-formulario/item-formulario.component";
+import { ItemApiService } from 'src/app/modules/general/services/item.service';
 
 @Component({
   selector: 'app-factura-buscar-item',
@@ -26,8 +27,8 @@ export class FacturaBuscarItemComponent {
   public tipoBusqueda = signal<FacturaTiposBusqueda>('nombre');
   public inputBusqueda: string | null = null;
   @ViewChild('campoBusqueda') campoBusqueda: ElementRef;
-  @ViewChild(ItemFormularioComponent)
-  itemFormulario?: ItemFormularioComponent;
+  inputNombre: ElementRef<HTMLInputElement>;
+  @ViewChild('modalFormulario') modalFormulario!: ElementRef;
 
   seleccionarTipoBusqueda(tipoBusqueda: FacturaTiposBusqueda) {
     this._actualizarTipoBusqueda(tipoBusqueda);
@@ -47,6 +48,11 @@ export class FacturaBuscarItemComponent {
   limpiarBusqueda() {
     this.inputBusqueda = null;
     this._itemApi.lista().subscribe();
+  }
+
+  gestionarRegistro(){
+    this._toggleModal(this.modalFormulario);
+    this._obtenerListaCompleta()
   }
 
   private _actualizarTipoBusqueda(tipoBusqueda: FacturaTiposBusqueda) {
@@ -108,18 +114,21 @@ export class FacturaBuscarItemComponent {
           this._facturaReduxService.calcularValoresFacturaActivaEncabezado();
         }),
       )
-      .subscribe(); 
+      .subscribe();
   }
 
   abrirModal() {
-    this.itemFormulario.abrirModal()
+    this._toggleModal(this.modalFormulario);
   }
-
   private _debeBuscarPorNombre(): boolean {
     return this.tipoBusqueda() === 'nombre' && this.inputBusqueda !== '';
   }
 
   private _debeBuscarPorCodigo(): boolean {
     return this.tipoBusqueda() === 'codigo' && this.inputBusqueda !== '';
+  }
+
+  private _toggleModal(modalRef: ElementRef): void {
+    KTModal.getInstance(modalRef.nativeElement)?.toggle();
   }
 }
