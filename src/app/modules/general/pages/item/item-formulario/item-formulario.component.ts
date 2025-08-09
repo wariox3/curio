@@ -297,9 +297,11 @@ export default class ItemFormularioComponent
             switchMap(() => this._itemService.validarUso(param.id))
           )
         ),
-        tap((respuestaItemEnUso) =>
-          this._inhabilitarCampos()
-        )
+        tap((respuestaItemEnUso) => {
+          if (respuestaItemEnUso.uso) {
+            this._inhabilitarCampos()
+          }
+        })
       )
       .subscribe();
   }
