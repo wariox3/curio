@@ -43,7 +43,7 @@
   <span
     class="btn btn-input cursor-pointer"
     #triggerElemento
-    (click)="abrirModal()"
+    (click)="abrirModal('formularioNuevoItem')"
   >
     <i class="ki-outline ki-add-files"></i>
   </span>
@@ -56,11 +56,28 @@
   >
     <div class="modal-content modal-center-y max-w-[600px]">
       @defer (on interaction(triggerElemento)) {
-        <app-item-formulario
-          [abrirDesdeModal]="true"
-          (emitirGuardoRegistro)="gestionarRegistro()"
-        ></app-item-formulario>
+        <div class="modal-header">
+          <h3 class="modal-title">Nuevo ítem</h3>
+          <button
+            class="btn btn-xs btn-icon btn-light"
+            data-modal-dismiss="true"
+          >
+            <i class="ki-outline ki-cross"> </i>
+          </button>
+        </div>
+        <app-item-modal></app-item-modal>
       }
     </div>
   </div>
 </div>
+
+<app-modal-standard
+  modalId="formularioNuevoItem"
+  title="Nuevo ítem"
+  [closeOnOutsideClick]="false"
+  [closeOnEsc]="false"
+>
+  @if (getModalInstaceState("formularioNuevoItem") | async) {
+    <app-item-modal (itemSubmitted)="buscarCampo()"></app-item-modal>
+  }
+</app-modal-standard>

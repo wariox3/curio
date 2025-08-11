@@ -15,11 +15,11 @@ const routes: Route[] = [
       },
       {
         path: 'nuevo',
-        loadComponent: () => import('./pages/item/item-formulario/item-formulario.component'),
+        loadComponent: () => import('../item/pages/item/item.component'),
       },
       {
         path: 'editar/:id',
-        loadComponent: () => import('./pages/item/item-formulario/item-formulario.component'),
+        loadComponent: () => import('../item/pages/item/item.component'),
       },
       {
         path: 'detalle/:id',

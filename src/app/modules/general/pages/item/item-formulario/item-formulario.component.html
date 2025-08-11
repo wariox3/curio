@@ -1,214 +1,185 @@
-<div class="w-full h-full p-2">
-  @if (!abrirDesdeModal) {
-    <div class="flex mb-4">
-      <a class="btn btn-secondary" routerLink="/administracion/item/lista">
-        Atrás
-      </a>
-    </div>
-  }
-  <form [formGroup]="formularioItem" (ngSubmit)="enviarFormulario()">
-      <div class="card-header">
-        <h3 class="card-title">
-          @if (accionFormulario() === "editar") {
-            Editar {{ itemSignal().id }}
-          } @else {
-            Nuevo
-          }
-        </h3>
+<form [formGroup]="formularioItem">
+    <div class="p-0">
+      <div class="mb-5">
+        <div class="w-full">
+          <app-input
+            [label]="'Nombre'"
+            #inputNombre
+            formControlName="nombre"
+            [control]="formularioItem.get('nombre')"
+            [errors]="{
+              required: 'Campo requerido es requerido.',
+              minlength: 'Minimo 3 caracteres.',
+              pattern: 'Careacteres no validos',
+            }"
+            [required]="true"
+          ></app-input>
+        </div>
       </div>
-      <div class="card-body">
-        <div class="p-0">
-          <div class="py-4 border-b">
-            <h3 class="text-md font-semibold">ítem</h3>
-          </div>
-          <div class="mb-5">
-            <div class="w-full">
-              <app-input
-                [label]="'Nombre'"
-                #inputNombre
-                formControlName="nombre"
-                [control]="formularioItem.get('nombre')"
-                [errors]="{
-                  required: 'Campo requerido es requerido.',
-                  minlength: 'Minimo 3 caracteres.',
-                  pattern: 'Careacteres no validos',
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+        <div>
+          <app-input
+            [label]="'Código'"
+            #inputNombre
+            formControlName="codigo"
+            [control]="formularioItem.get('codigo')"
+            [errors]="{
+              required: 'Campo requerido es requerido.',
+              minlength: 'Minimo 3 caracteres.',
+              maxLength: 'Máximo 100 caracteres.',
+              pattern: 'Careacteres no validos',
+            }"
+            [required]="true"
+          ></app-input>
+        </div>
+
+        <div>
+          <app-input
+            [label]="'Referencia'"
+            #inputNombre
+            formControlName="referencia"
+            [control]="formularioItem.get('referencia')"
+            [errors]="{
+              required: 'La placa es requerida.',
+              minlength: 'Minimo 3 caracteres.',
+              maxLength: 'Máximo 100 caracteres.',
+              pattern: 'Careacteres no validos',
+            }"
+          ></app-input>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+        <div>
+          <div class="flex gap-3 items-center">
+            <label class="inline-flex items-center space-x-2">
+              <input
+                class="form-radio h-4 w-4"
+                type="radio"
+                value="producto"
+                id="producto"
+                (change)="modificarCampoFormulario('producto', true)"
+                formControlName="productoServicio"
+                [ngClass]="{
+                  'ring-2 ring-red-200':
+                    formularioItem.controls['producto'].touched &&
+                    formularioItem.controls['producto'].invalid,
                 }"
-                [required]="true"
-              ></app-input>
-            </div>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
-            <div>
-              <app-input
-                [label]="'Código'"
-                #inputNombre
-                formControlName="codigo"
-                [control]="formularioItem.get('codigo')"
-                [errors]="{
-                  required: 'Campo requerido es requerido.',
-                  minlength: 'Minimo 3 caracteres.',
-                  maxLength: 'Máximo 100 caracteres.',
-                  pattern: 'Careacteres no validos',
+                [attr.disable]="itemEnUso()"
+              />
+              <span class="text-sm text-gray-700">Producto</span>
+            </label>
+
+            <label class="inline-flex items-center space-x-2">
+              <input
+                class="form-radio h-4 w-4"
+                type="radio"
+                value="servicio"
+                id="servicio"
+                formControlName="productoServicio"
+                (change)="modificarCampoFormulario('servicio', true)"
+                [ngClass]="{
+                  'ring-2 ring-red-200':
+                    formularioItem.controls['servicio'].touched &&
+                    formularioItem.controls['servicio'].invalid,
                 }"
-                [required]="true"
-              ></app-input>
-            </div>
-
-            <div>
-              <app-input
-                [label]="'Referencia'"
-                #inputNombre
-                formControlName="referencia"
-                [control]="formularioItem.get('referencia')"
-                [errors]="{
-                  required: 'La placa es requerida.',
-                  minlength: 'Minimo 3 caracteres.',
-                  maxLength: 'Máximo 100 caracteres.',
-                  pattern: 'Careacteres no validos',
-                }"
-              ></app-input>
-            </div>
+              />
+              <span class="text-sm text-gray-700">Servicio</span>
+            </label>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
-            <div>
-              <div class="flex gap-3 items-center">
-                <label class="inline-flex items-center space-x-2">
-                  <input
-                    class="form-radio h-4 w-4"
-                    type="radio"
-                    value="producto"
-                    id="producto"
-                    (change)="modificarCampoFormulario('producto', true)"
-                    formControlName="productoServicio"
-                    [ngClass]="{
-                      'ring-2 ring-red-200':
-                        formularioItem.controls['producto'].touched &&
-                        formularioItem.controls['producto'].invalid,
-                    }"
-                    [attr.disable]="itemEnUso()"
-                  />
-                  <span class="text-sm text-gray-700">Producto</span>
-                </label>
+        </div>
 
-                <label class="inline-flex items-center space-x-2">
-                  <input
-                    class="form-radio h-4 w-4"
-                    type="radio"
-                    value="servicio"
-                    id="servicio"
-                    formControlName="productoServicio"
-                    (change)="modificarCampoFormulario('servicio', true)"
-                    [ngClass]="{
-                      'ring-2 ring-red-200':
-                        formularioItem.controls['servicio'].touched &&
-                        formularioItem.controls['servicio'].invalid,
-                    }"
-                  />
-                  <span class="text-sm text-gray-700">Servicio</span>
-                </label>
-              </div>
-            </div>
-
-            <div class="flex flex-wrap gap-4 items-start">
-              <div class="flex flex-col space-y-2">
-                <label class="inline-flex items-center space-x-2">
-                  <input
-                    class="form-checkbox h-4 w-4"
-                    type="checkbox"
-                    value="1"
-                    id="inventario"
-                    formControlName="inventario"
-                  />
-                  <span class="text-sm text-gray-700">Inventario</span>
-                </label>
-                <label class="inline-flex items-center space-x-2">
-                  <input
-                    class="form-checkbox h-4 w-4"
-                    type="checkbox"
-                    value="1"
-                    id="venta"
-                    formControlName="venta"
-                  />
-                  <span class="text-sm text-gray-700">Venta</span>
-                </label>
-                <label class="inline-flex items-center space-x-2">
-                  <input
-                    class="form-checkbox h-4 w-4"
-                    type="checkbox"
-                    value="1"
-                    id="favorito"
-                    formControlName="favorito"
-                  />
-                  <span class="text-sm text-gray-700">Favorito</span>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          @if (itemEnUso()) {
-            <section>
-              <div
-                class="bg-yellow-50 border border-yellow-200 text-yellow-800 px-3 py-2 rounded-md flex items-start gap-2"
-                role="alert"
-              >
-                <svg
-                  class="w-5 h-5 flex-shrink-0"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M8.257 3.099c.765-1.36 2.681-1.36 3.446 0l5.518 9.826c.75 1.335-.213 2.975-1.723 2.975H4.462c-1.51 0-2.473-1.64-1.724-2.975L8.257 3.1zM9 7a1 1 0 112 0v4a1 1 0 11-2 0V7zm1 8a1.25 1.25 0 100-2.5 1.25 1.25 0 000 2.5z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                <div class="text-sm">
-                  Este ítem ya fue usado en un documento; algunas de sus
-                  propiedades no se pueden editar.
-                </div>
-              </div>
-            </section>
-          }
-
-          <div class="py-4 border-b">
-            <h3 class="text-md font-semibold">Venta</h3>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
-            <div>
-              <label class="block text-sm font-medium text-gray-700">
-                Impuestos
-              </label>
-              <app-multi-select
-                [label]="'impuesto_nombre'"
-                [value]="'impuesto_id'"
-                [options]="arrImpuestos()"
-                [selectedOptions]="itemImpuestosSeleccionados()"
-                (selectionChange)="
-                  modificarCampoFormulario('impuestos', $event)
-                "
-                (itemRetirado)="modificarCampoFormulario('impuestos_eliminados', $event)"
-              ></app-multi-select>
-            </div>
-
-            <div>
-              <app-input
-                [label]="'Precio'"
-                #inputNombre
-                formControlName="precio"
-                [control]="formularioItem.get('precio')"
-                [errors]="{
-                  minlength: 'Minimo 3 caracteres.',
-                  maxLength: 'Máximo 100 caracteres.',
-                  pattern: 'Careacteres no validos',
-                }"
-              ></app-input>
-            </div>
+        <div class="flex flex-wrap gap-4 items-start">
+          <div class="flex flex-col space-y-2">
+            <label class="inline-flex items-center space-x-2">
+              <input
+                class="form-checkbox h-4 w-4"
+                type="checkbox"
+                value="1"
+                id="inventario"
+                formControlName="inventario"
+              />
+              <span class="text-sm text-gray-700">Inventario</span>
+            </label>
+            <label class="inline-flex items-center space-x-2">
+              <input
+                class="form-checkbox h-4 w-4"
+                type="checkbox"
+                value="1"
+                id="venta"
+                formControlName="venta"
+              />
+              <span class="text-sm text-gray-700">Venta</span>
+            </label>
+            <label class="inline-flex items-center space-x-2">
+              <input
+                class="form-checkbox h-4 w-4"
+                type="checkbox"
+                value="1"
+                id="favorito"
+                formControlName="favorito"
+              />
+              <span class="text-sm text-gray-700">Favorito</span>
+            </label>
           </div>
         </div>
       </div>
-      <div class="flex justify-end w-full">
-          <button type="submit" class="btn btn-primary">Guardar</button>
+
+      @if (itemEnUso()) {
+        <section>
+          <div
+            class="bg-yellow-50 border border-yellow-200 text-yellow-800 px-3 py-2 rounded-md flex items-start gap-2"
+            role="alert"
+          >
+            <svg
+              class="w-5 h-5 flex-shrink-0"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M8.257 3.099c.765-1.36 2.681-1.36 3.446 0l5.518 9.826c.75 1.335-.213 2.975-1.723 2.975H4.462c-1.51 0-2.473-1.64-1.724-2.975L8.257 3.1zM9 7a1 1 0 112 0v4a1 1 0 11-2 0V7zm1 8a1.25 1.25 0 100-2.5 1.25 1.25 0 000 2.5z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            <div class="text-sm">
+              Este ítem ya fue usado en un documento; algunas de sus propiedades
+              no se pueden editar.
+            </div>
+          </div>
+        </section>
+      }
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+        <div>
+          <label class="block text-sm font-medium text-gray-700">
+            Impuestos
+          </label>
+          <app-multi-select
+            [label]="'impuesto_nombre'"
+            [value]="'impuesto_id'"
+            [options]="arrImpuestos()"
+            [selectedOptions]="itemImpuestosSeleccionados()"
+            (selectionChange)="modificarCampoFormulario('impuestos', $event)"
+            (itemRetirado)="
+              modificarCampoFormulario('impuestos_eliminados', $event)
+            "
+          ></app-multi-select>
+        </div>
+
+        <div>
+          <app-input
+            [label]="'Precio'"
+            #inputNombre
+            formControlName="precio"
+            [control]="formularioItem.get('precio')"
+            [errors]="{
+              minlength: 'Minimo 3 caracteres.',
+              maxLength: 'Máximo 100 caracteres.',
+              pattern: 'Careacteres no validos',
+            }"
+          ></app-input>
+        </div>
+      </div>
     </div>
-  </form>
-</div>
+</form>

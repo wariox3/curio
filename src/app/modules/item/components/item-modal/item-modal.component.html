@@ -1,0 +1,13 @@
+<app-item-formulario
+  #itemFormulario
+  (itemSubmitted)="guardarItem($event)"
+></app-item-formulario>
+<div class="w-full flex justify-end">
+  <button
+    class="btn btn-primary"
+    data-modal-dismiss="true"
+    (click)="enviarFormulario()"
+  >
+    Guardar
+  </button>
+</div>

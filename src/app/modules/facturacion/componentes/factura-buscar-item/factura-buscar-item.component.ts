@@ -1,4 +1,4 @@
-import { NgClass } from '@angular/common';
+import { AsyncPipe, NgClass } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -7,23 +7,34 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ModalStandardComponent } from '@componentes/ui/modal/modal-standard.component';
+import { ModalService } from '@componentes/ui/modal/modal.service';
+import { Item } from '@interfaces/item.interface';
 import { KTModal } from '@metronic/components/modal';
 import { FacturaReduxService } from '@redux/services/factura-redux.service';
 import { FacturaTiposBusqueda } from '@type/factura-tipos-busqueda.type';
-import { map, of, switchMap, take, tap } from 'rxjs';
-import ItemFormularioComponent from "src/app/modules/general/pages/item/item-formulario/item-formulario.component";
+import { map, Observable, of, switchMap, take, tap } from 'rxjs';
 import { ItemApiService } from 'src/app/modules/general/services/item.service';
+import { ItemModalComponent } from 'src/app/modules/item/components/item-modal/item-modal.component';
 
 @Component({
   selector: 'app-factura-buscar-item',
   standalone: true,
-  imports: [NgClass, FormsModule, ItemFormularioComponent],
+  imports: [
+    NgClass,
+    FormsModule,
+    ItemModalComponent,
+    ModalStandardComponent,
+    AsyncPipe,
+  ],
   templateUrl: './factura-buscar-item.component.html',
   styleUrl: './factura-buscar-item.component.scss',
 })
 export class FacturaBuscarItemComponent {
   private _itemApi = inject(ItemApiService);
   private _facturaReduxService = inject(FacturaReduxService);
+  private _modalService = inject(ModalService);
+
   public tipoBusqueda = signal<FacturaTiposBusqueda>('nombre');
   public inputBusqueda: string | null = null;
   @ViewChild('campoBusqueda') campoBusqueda: ElementRef;
@@ -45,14 +56,18 @@ export class FacturaBuscarItemComponent {
     }
   }
 
+  itemSubmitted(item: Item) {
+    this._obtenerListaCompleta();
+  }
+
   limpiarBusqueda() {
     this.inputBusqueda = null;
     this._itemApi.lista().subscribe();
   }
 
-  gestionarRegistro(){
+  gestionarRegistro() {
     this._toggleModal(this.modalFormulario);
-    this._obtenerListaCompleta()
+    this._obtenerListaCompleta();
   }
 
   private _actualizarTipoBusqueda(tipoBusqueda: FacturaTiposBusqueda) {
@@ -117,9 +132,14 @@ export class FacturaBuscarItemComponent {
       .subscribe();
   }
 
-  abrirModal() {
-    this._toggleModal(this.modalFormulario);
+  abrirModal(id: string) {
+    this._modalService.open(id);
   }
+
+  getModalInstaceState(id: string): Observable<boolean> {
+    return this._modalService.isOpen$(id);
+  }
+
   private _debeBuscarPorNombre(): boolean {
     return this.tipoBusqueda() === 'nombre' && this.inputBusqueda !== '';
   }

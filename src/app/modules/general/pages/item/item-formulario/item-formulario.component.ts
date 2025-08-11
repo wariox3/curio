@@ -9,9 +9,11 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  OnChanges,
   Output,
   signal,
-  ViewChild
+  ViewChild,
+  SimpleChanges,
 } from '@angular/core';
 import {
   FormArray,
@@ -21,13 +23,12 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { InputComponent } from "@componentes/form/input/input.component";
-import { MultiSelectComponent } from "@componentes/form/multi-select/multi-select.component";
-import { filter, Subject, switchAll, switchMap, takeUntil, tap } from 'rxjs';
+import { RouterModule } from '@angular/router';
+import { InputComponent } from '@componentes/form/input/input.component';
+import { MultiSelectComponent } from '@componentes/form/multi-select/multi-select.component';
+import { Subject } from 'rxjs';
 import { Item } from '../../../interface/item.interface';
 import { ImpuestoService } from '../../../services/impuesto.service';
-import { ItemApiService } from '../../../services/item.service';
 
 @Component({
   selector: 'app-item-formulario',
@@ -39,27 +40,31 @@ import { ItemApiService } from '../../../services/item.service';
     ReactiveFormsModule,
     InputComponent,
     MultiSelectComponent,
-    RouterModule
+    RouterModule,
   ],
 })
 export default class ItemFormularioComponent
-  implements OnInit, OnDestroy, AfterViewInit {
+implements OnInit, OnDestroy, AfterViewInit, OnChanges
+{
+  // Inputs
+  @Input() item?: Item | null = null;
+
+  // Outputs  
+  @Output() itemSubmitted: EventEmitter<any> = new EventEmitter();
+
+  // ViewChild
+  @ViewChild('inputNombre', { read: ElementRef })
+  inputNombre!: ElementRef<HTMLInputElement>;
+
+  // Services
   private _formBuilder = inject(FormBuilder);
-  private _itemService = inject(ItemApiService);
   private _impuestoService = inject(ImpuestoService);
   private _changeDetectorRef = inject(ChangeDetectorRef);
-  private _router = inject(Router);
-  private _activatedRoute = inject(ActivatedRoute);
   private _destroy$ = new Subject<void>();
-
-  public accionFormulario = signal<'nuevo' | 'editar'>('nuevo');
-  formularioItem: FormGroup;
+  
+  // Public properties
+  public formularioItem!: FormGroup;
   public arrImpuestos = signal<any[]>([]);
-  @ViewChild('inputNombre', { read: ElementRef })
-  inputNombre: ElementRef<HTMLInputElement>;
-  @Input() abrirDesdeModal: boolean = false;
-  @Output() emitirGuardoRegistro: EventEmitter<any> = new EventEmitter();
-
   public valorInventarioDefecto = signal<boolean>(false);
   public valorServicioDefecto = signal<boolean>(false);
   public valorProductoDefecto = signal<boolean>(false);
@@ -90,23 +95,25 @@ export default class ItemFormularioComponent
     subtotal: 0,
     favorito: false,
     imagen: '',
-    impuesto: 0
+    impuesto: 0,
   });
-
-  constructor() { }
 
   ngOnInit() {
     this.iniciarFormulario();
     this._initCamposReactivos();
     this._consultarInformacion();
-    this._consultarDetalle();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['item'] && changes['item'].currentValue) {
+      this._poblarFormulario(changes['item'].currentValue);
+    }
   }
 
   ngOnDestroy(): void {
     this._destroy$.next();
     this._destroy$.unsubscribe();
   }
-
 
   ngAfterViewInit() {
     if (this.inputNombre?.nativeElement.value === '') {
@@ -180,24 +187,19 @@ export default class ItemFormularioComponent
     return this.formularioItem.controls;
   }
 
-  enviarFormulario() {
+  // Método público para que el padre pueda disparar el submit
+  public enviarFormulario(): void {
     if (!this.formularioItem.valid) {
       this.formularioItem.markAllAsTouched();
       return;
     }
 
-    const acciones: Record<string, () => void> = {
-      nuevo: () => this._nuevoItem(),
-      editar: () => this._editarItem()
-    };
-
-    acciones[this.accionFormulario()]?.();
+    this.itemSubmitted.emit(this.formularioItem.value);
   }
 
   limpiarFormulario() {
     this.formularioItem.reset();
   }
-
 
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioItem?.markAsDirty();
@@ -235,29 +237,29 @@ export default class ItemFormularioComponent
     this._changeDetectorRef.detectChanges();
   }
 
-  private _nuevoItem() {
-    this._itemService
-      .guardarItem(this.formularioItem.value)
-      .pipe(
-        tap((respuesta: any) => {
-          if (this.abrirDesdeModal) {
-            this.emitirGuardoRegistro.emit(respuesta.item);
-          } else {
-            this.navegarDetalle(respuesta.item.id)
-          }
-        })
-      )
-      .subscribe();
-  }
+  // private _nuevoItem() {
+  //   this._itemService
+  //     .guardarItem(this.formularioItem.value)
+  //     .pipe(
+  //       tap((respuesta: any) => {
+  //         if (this.abrirDesdeModal) {
+  //           this.emitirGuardoRegistro.emit(respuesta.item);
+  //         } else {
+  //           this.navegarDetalle(respuesta.item.id)
+  //         }
+  //       })
+  //     )
+  //     .subscribe(); 
+  // }
 
-  private _editarItem() {
-    this._itemService
-      .editarItem(this.formularioItem.value, this.itemSignal().id)
-      .pipe(
-        tap((respuesta: any) => this.navegarDetalle(respuesta.item.id))
-      )
-      .subscribe();
-  }
+  // private _editarItem() {
+  //   this._itemService
+  //     .editarItem(this.formularioItem.value, this.itemSignal().id)
+  //     .pipe(
+  //       tap((respuesta: any) => this.navegarDetalle(respuesta.item.id))
+  //     )
+  //     .subscribe();
+  // }
 
   private _agregarImpuesto(impuesto: any) {
     const arrImpuesto = this.formularioItem.get('impuestos') as FormArray;
@@ -269,8 +271,12 @@ export default class ItemFormularioComponent
   }
 
   private _agregarImpuestoEliminado(impuesto: any) {
-    const arrImpuesto = this.formularioItem.get('impuestos_eliminados') as FormArray;
-    let impuestoRetirado = this.itemImpuestos().find((item) => item.impuesto_id === impuesto.impuesto_id)
+    const arrImpuesto = this.formularioItem.get(
+      'impuestos_eliminados',
+    ) as FormArray;
+    let impuestoRetirado = this.itemImpuestos().find(
+      (item) => item.impuesto_id === impuesto.impuesto_id,
+    );
     const control = this._formBuilder.control(impuestoRetirado.id);
     arrImpuesto.push(control);
     this._changeDetectorRef.detectChanges();
@@ -282,29 +288,29 @@ export default class ItemFormularioComponent
     });
   }
 
-  private _consultarDetalle() {
-    this._activatedRoute.params
-      .pipe(
-        takeUntil(this._destroy$),
-        filter((param: { id?: number }) => !!param.id),
-        switchMap((param: { id: number }) =>
-          this._itemService.detalle(param.id).pipe(
-            tap((detalle: any) => {
-              this.itemSignal.set(detalle.item);
-              this._poblarFormulario(detalle.item);
-              this._definirAccionEditarFormulario();
-            }),
-            switchMap(() => this._itemService.validarUso(param.id))
-          )
-        ),
-        tap((respuestaItemEnUso) => {
-          if (respuestaItemEnUso.uso) {
-            this._inhabilitarCampos()
-          }
-        })
-      )
-      .subscribe();
-  }
+  // private _consultarDetalle() {
+  //   this._activatedRoute.params
+  //     .pipe(
+  //       takeUntil(this._destroy$),
+  //       filter((param: { id?: number }) => !!param.id),
+  //       switchMap((param: { id: number }) =>
+  //         this._itemService.detalle(param.id).pipe(
+  //           tap((detalle: any) => {
+  //             this.itemSignal.set(detalle.item);
+  //             this._poblarFormulario(detalle.item);
+  //             this._definirAccionEditarFormulario();
+  //           }),
+  //           switchMap(() => this._itemService.validarUso(param.id))
+  //         )
+  //       ),
+  //       tap((respuestaItemEnUso) => {
+  //         if (respuestaItemEnUso.uso) {
+  //           this._inhabilitarCampos()
+  //         }
+  //       })
+  //     )
+  //     .subscribe();
+  // }
 
   private _poblarFormulario(data: Item) {
     this.formularioItem.patchValue({
@@ -326,19 +332,18 @@ export default class ItemFormularioComponent
     this.itemImpuestosSeleccionados.set([]);
 
     data.impuestos.forEach((dato: any) => {
-
       this.itemImpuestosSeleccionados.update((current) => [
         ...current,
-        dato.impuesto_id
+        dato.impuesto_id,
       ]);
     });
   }
 
-  private _definirAccionEditarFormulario() {
-    this.accionFormulario.set('editar');
-  }
+  // private _definirAccionEditarFormulario() {
+  //   this.accionFormulario.set('editar');
+  // }
 
-  private navegarDetalle(id: number) {
-    this._router.navigate([`/administracion/item/detalle/${id}`]);
-  }
+  // private navegarDetalle(id: number) {
+  //   this._router.navigate([`/administracion/item/detalle/${id}`]);
+  // }
 }
