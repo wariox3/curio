@@ -76,6 +76,19 @@ export class TablaComponent {
     return columna.formato ? columna.formato(valor) : valor;
   }
 
+  // Obtener clases CSS para alineación de texto
+  obtenerClasesAlineacion(alineacion?: 'left' | 'center' | 'right'): string {
+    switch (alineacion) {
+      case 'center':
+        return 'text-center';
+      case 'right':
+        return 'text-right';
+      case 'left':
+      default:
+        return 'text-left';
+    }
+  }
+
   // Estado indeterminado para mejor UX
   get estadoIndeterminado(): boolean {
     return (
