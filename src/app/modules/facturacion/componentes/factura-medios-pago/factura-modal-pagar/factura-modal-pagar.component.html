@@ -1,6 +1,6 @@
 <Button
   class="w-full bg-green-500 hover:bg-green-600 text-white h-12 text-lg font-medium rounded-md shadow-md transition-all duration-300 ease-in-out dark:bg-green-700 dark:hover:bg-green-800 dark:text-gray-200"
-  data-modal-toggle="#modal_2"
+  data-modal-toggle="#modal_pagar_items"
   (click)="mostrarTemplate(null)"
   [disabled]="totalProductosSignal() === 0 || !documentoTipo"
   [ngClass]="{ 'cursor-not-allowed opacity-50': totalProductosSignal() === 0 }"
@@ -11,8 +11,8 @@
 <div
   class="modal"
   data-modal="true"
-  id="modal_2"
-  data-modal-backdrop-static="true"
+  id="modal_pagar_items"
+  data-modal-backdrop-static="true" 
 >
   <div class="modal-content modal-center-y max-w-[600px]">
     <div class="modal-header">
