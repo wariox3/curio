@@ -44,12 +44,13 @@ import { ImpuestoService } from '../../../services/impuesto.service';
   ],
 })
 export default class ItemFormularioComponent
-implements OnInit, OnDestroy, AfterViewInit, OnChanges
+  implements OnInit, OnDestroy, AfterViewInit, OnChanges
 {
   // Inputs
   @Input() item?: Item | null = null;
+  @Input() estaItemEnUso?: boolean = false;
 
-  // Outputs  
+  // Outputs
   @Output() itemSubmitted: EventEmitter<any> = new EventEmitter();
 
   // ViewChild
@@ -61,7 +62,7 @@ implements OnInit, OnDestroy, AfterViewInit, OnChanges
   private _impuestoService = inject(ImpuestoService);
   private _changeDetectorRef = inject(ChangeDetectorRef);
   private _destroy$ = new Subject<void>();
-  
+
   // Public properties
   public formularioItem!: FormGroup;
   public arrImpuestos = signal<any[]>([]);
@@ -108,6 +109,13 @@ implements OnInit, OnDestroy, AfterViewInit, OnChanges
     if (changes['item'] && changes['item'].currentValue) {
       this._poblarFormulario(changes['item'].currentValue);
     }
+
+    if (changes['estaItemEnUso'] && changes['estaItemEnUso'].currentValue) {
+      if (changes['estaItemEnUso'].currentValue) {
+        this._inhabilitarCampos();
+      }
+      this.itemEnUso.set(changes['estaItemEnUso'].currentValue);
+    }
   }
 
   ngOnDestroy(): void {
@@ -122,7 +130,6 @@ implements OnInit, OnDestroy, AfterViewInit, OnChanges
   }
 
   private _inhabilitarCampos() {
-    this.itemEnUso.set(true);
     this.formularioItem.get('inventario')?.disable();
     this.formularioItem.get('productoServicio')?.disable();
   }
@@ -179,7 +186,7 @@ implements OnInit, OnDestroy, AfterViewInit, OnChanges
       cuenta_venta: [null],
       cuenta_compra: [null],
       favorito: [false],
-      venta: [false],
+      venta: [true],
     });
   }
 
@@ -237,30 +244,6 @@ implements OnInit, OnDestroy, AfterViewInit, OnChanges
     this._changeDetectorRef.detectChanges();
   }
 
-  // private _nuevoItem() {
-  //   this._itemService
-  //     .guardarItem(this.formularioItem.value)
-  //     .pipe(
-  //       tap((respuesta: any) => {
-  //         if (this.abrirDesdeModal) {
-  //           this.emitirGuardoRegistro.emit(respuesta.item);
-  //         } else {
-  //           this.navegarDetalle(respuesta.item.id)
-  //         }
-  //       })
-  //     )
-  //     .subscribe(); 
-  // }
-
-  // private _editarItem() {
-  //   this._itemService
-  //     .editarItem(this.formularioItem.value, this.itemSignal().id)
-  //     .pipe(
-  //       tap((respuesta: any) => this.navegarDetalle(respuesta.item.id))
-  //     )
-  //     .subscribe();
-  // }
-
   private _agregarImpuesto(impuesto: any) {
     const arrImpuesto = this.formularioItem.get('impuestos') as FormArray;
     let impuestoFormGrup = this._formBuilder.group({
@@ -288,30 +271,6 @@ implements OnInit, OnDestroy, AfterViewInit, OnChanges
     });
   }
 
-  // private _consultarDetalle() {
-  //   this._activatedRoute.params
-  //     .pipe(
-  //       takeUntil(this._destroy$),
-  //       filter((param: { id?: number }) => !!param.id),
-  //       switchMap((param: { id: number }) =>
-  //         this._itemService.detalle(param.id).pipe(
-  //           tap((detalle: any) => {
-  //             this.itemSignal.set(detalle.item);
-  //             this._poblarFormulario(detalle.item);
-  //             this._definirAccionEditarFormulario();
-  //           }),
-  //           switchMap(() => this._itemService.validarUso(param.id))
-  //         )
-  //       ),
-  //       tap((respuestaItemEnUso) => {
-  //         if (respuestaItemEnUso.uso) {
-  //           this._inhabilitarCampos()
-  //         }
-  //       })
-  //     )
-  //     .subscribe();
-  // }
-
   private _poblarFormulario(data: Item) {
     this.formularioItem.patchValue({
       codigo: data.codigo,
@@ -338,12 +297,4 @@ implements OnInit, OnDestroy, AfterViewInit, OnChanges
       ]);
     });
   }
-
-  // private _definirAccionEditarFormulario() {
-  //   this.accionFormulario.set('editar');
-  // }
-
-  // private navegarDetalle(id: number) {
-  //   this._router.navigate([`/administracion/item/detalle/${id}`]);
-  // }
 }

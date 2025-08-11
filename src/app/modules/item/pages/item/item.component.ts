@@ -24,6 +24,7 @@ export default class ItemComponent {
 
   public itemId: string | null = null;
   public item = signal<Item | null>(null);
+  public itemEnUso = signal<boolean>(false);
 
   ngOnInit() {
     this._obtenerId();
@@ -35,6 +36,10 @@ export default class ItemComponent {
 
     this._itemService.detalle(+id).subscribe((respuesta) => {
       this.item.set(respuesta.item);
+    });
+
+    this._itemService.validarUso(+id).subscribe((respuesta) => {
+      this.itemEnUso.set(respuesta.uso);
     });
   }
 

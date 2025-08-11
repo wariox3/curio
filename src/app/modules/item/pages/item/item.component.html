@@ -1,14 +1,21 @@
 <div class="mx-6 mt-6">
   <div class="flex gap-2 mb-2">
     <button class="btn btn-secondary" (click)="irAtras()">Atrás</button>
-    <button class="btn btn-primary" (click)="enviarFormulario()">Guardar</button>
+    <button class="btn btn-primary" (click)="enviarFormulario()">
+      Guardar
+    </button>
   </div>
   <div class="card">
     <div class="card-header">
       <h5 class="card-title">Nuevo Item</h5>
     </div>
     <div class="card-body">
-      <app-item-formulario #itemFormulario (itemSubmitted)="guardarItem($event)" [item]="item()"></app-item-formulario>
+      <app-item-formulario
+        #itemFormulario
+        (itemSubmitted)="guardarItem($event)"
+        [item]="item()"
+        [estaItemEnUso]="itemEnUso()"
+      ></app-item-formulario>
     </div>
   </div>
 </div>
