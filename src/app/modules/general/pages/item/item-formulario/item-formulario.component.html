@@ -7,7 +7,6 @@
     </div>
   }
   <form [formGroup]="formularioItem" (ngSubmit)="enviarFormulario()">
-    <div class="card">
       <div class="card-header">
         <h3 class="card-title">
           @if (accionFormulario() === "editar") {
@@ -208,20 +207,8 @@
           </div>
         </div>
       </div>
-      <div class="card-footer">
-        <div class="flex justify-end">
-          @if (abrirDesdeModal) {
-            <button
-              class="btn btn-light"
-              data-modal-dismiss="true"
-              type="button"
-            >
-              Cancelar
-            </button>
-          }
-          <button type="submit" class="btn btn-success">Guardar</button>
-        </div>
-      </div>
+      <div class="flex justify-end w-full">
+          <button type="submit" class="btn btn-primary">Guardar</button>
     </div>
   </form>
 </div>
