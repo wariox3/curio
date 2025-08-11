@@ -1,6 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 
 module.exports = {
+	theme: {
+		extend: {
+		fontFamily: {
+			'geist': ['Geist', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif'],
+			'sans': ['Geist', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'Noto Sans', 'sans-serif'],
+		},
+		},
+	},
 	content: [
 		"./src/**/*.{html,ts}",
 	],
