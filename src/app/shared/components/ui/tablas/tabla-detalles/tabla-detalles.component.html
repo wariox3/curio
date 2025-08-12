@@ -32,6 +32,7 @@
             <td
               [attr.colspan]="columnas === 2 ? 1 : columnas === 4 ? 3 : 5"
               class="px-4 py-3 text-gray-800"
+              [ngClass]="obtenerClasesAlineacion(campo.alineacion)"
               [style.width]="campo.anchoValor"
             >
               {{ obtenerValor(campo) }}
@@ -51,6 +52,7 @@
             </td>
             <td
               class="px-4 py-3 text-gray-800 border-r border-gray-200"
+              [ngClass]="obtenerClasesAlineacion(campos[i].alineacion)"
               [style.width]="campos[i].anchoValor || (columnas === 4 ? 'w-1/4' : 'w-1/6')"
             >
               {{ obtenerValor(campos[i]) }}
@@ -66,7 +68,10 @@
               </td>
               <td
                 class="px-4 py-3 text-gray-800"
-                [ngClass]="{ 'border-r border-gray-200': columnas === 6 }"
+                [ngClass]="[
+                  obtenerClasesAlineacion(campos[i + 1].alineacion),
+                  columnas === 6 ? 'border-r border-gray-200' : ''
+                ]"
                 [style.width]="campos[i + 1].anchoValor || (columnas === 4 ? 'w-1/4' : 'w-1/6')"
               >
                 {{ obtenerValor(campos[i + 1]) }}
@@ -82,6 +87,7 @@
               </td>
               <td
                 class="px-4 py-3 text-gray-800"
+                [ngClass]="obtenerClasesAlineacion(campos[i + 2].alineacion)"
                 [style.width]="campos[i + 2].anchoValor || 'w-1/6'"
               >
                 {{ obtenerValor(campos[i + 2]) }}
@@ -126,7 +132,11 @@
             <td [class]="clasesEtiqueta" [style.width]="campo.anchoEtiqueta || 'w-1/3'">
               {{ campo.etiqueta }}
             </td>
-            <td class="px-4 py-3 text-gray-800" [style.width]="campo.anchoValor || 'w-2/3'">
+            <td 
+              class="px-4 py-3 text-gray-800" 
+              [ngClass]="obtenerClasesAlineacion(campo.alineacion)"
+              [style.width]="campo.anchoValor || 'w-2/3'"
+            >
               {{ obtenerValor(campo) }}
             </td>
           </tr>

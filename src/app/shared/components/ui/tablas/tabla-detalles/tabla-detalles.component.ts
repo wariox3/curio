@@ -17,6 +17,8 @@ export interface CampoDetalle {
   anchoValor?: string;
   /** Si el campo debe ocupar una fila completa (para comentarios largos) */
   filaCompleta?: boolean;
+  /** Alineación del valor en la celda */
+  alineacion?: 'left' | 'center' | 'right';
 }
 
 @Component({
@@ -114,5 +116,20 @@ export class TablaDetallesComponent {
    */
   get camposPorFila(): number {
     return this.columnas === 2 ? 1 : this.columnas === 4 ? 2 : 3;
+  }
+
+  /**
+   * Obtener las clases CSS para la alineación del valor
+   */
+  obtenerClasesAlineacion(alineacion?: 'left' | 'center' | 'right'): string {
+    switch (alineacion) {
+      case 'center':
+        return 'text-center';
+      case 'right':
+        return 'text-right';
+      case 'left':
+      default:
+        return 'text-left';
+    }
   }
 }

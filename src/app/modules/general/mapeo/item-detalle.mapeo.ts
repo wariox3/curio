@@ -1,6 +1,7 @@
 import { CampoDetalle } from '@componentes/ui/tablas/tabla-detalles/tabla-detalles.component';
 import { Item } from '@interfaces/item.interface';
 import { SiNoPipe } from '@pipe/si-no.pipe';
+import { formatearMonedaCOP } from 'src/app/shared/utils/formatters';
 
 const siNoPipe = new SiNoPipe();
 
@@ -13,7 +14,7 @@ export function obtenerCamposItemDetalle(datos: Item): CampoDetalle[] {
   return [
    { clave: 'nombre', etiqueta: 'Nombre' },
    { clave: 'referencia', etiqueta: 'Referencia' },
-   { clave: 'precio', etiqueta: 'Precio'  },
+   { clave: 'precio', etiqueta: 'Precio', formato: (valor: number) => formatearMonedaCOP(valor), alineacion: 'right' },
    { clave: 'costo', etiqueta: 'Costo' },
    { clave: 'inventario', etiqueta: 'Inventario', formato: (valor: boolean) => siNoPipe.transform(valor) },
    { clave: 'venta', etiqueta: 'Venta',  formato: (valor: boolean) => siNoPipe.transform(valor) },
