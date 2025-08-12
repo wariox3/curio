@@ -19,124 +19,198 @@
       </section>
       <section>
         @if (items().length === 0) {
-          <div class="text-center p-4">
-            <i class="ki-filled ki-purchase text-gray-500 text-3xl"></i>
-            <p class="text-gray-500">
-              No se han agregado productos a la factura. Por favor, añade
-              productos para continuar.
+          <div class="text-center py-6">
+            <i class="ki-filled ki-purchase text-gray-400 text-2xl mb-2"></i>
+            <p class="text-gray-500 text-sm px-4">
+              No hay productos agregados. Selecciona productos para continuar.
             </p>
           </div>
         } @else {
-          @for (item of items(); track $index; let last = $last) {
-            <div
-              class="flex justify-between items-center p-2 hover:bg-blue-50 dark:hover:bg-gray-50 animate-slide-in-left rounded-md"
-            >
-              <div class="" style="flex: 1.5">
-                <p class="font-light dark-mode:text-gray-500">
-                  Código: {{ item.codigo | truncate: 10 }}
-                </p>
-                <p class="font-medium dark-mode:text-gray-500">
-                  Nombre: {{ item.item_nombre }}
-                </p>
-                <p class="font-light dark-mode:text-gray-500">
-                  ${{ item.precio | number: "1.0-0" }}
-                </p>
-              </div>
-              <div class="flex-1">
-                <app-contador-cantidad
-                  [cantidad]="item.cantidad"
-                  (emitirCantidad)="actualizarCantidad($event, item.item)"
-                ></app-contador-cantidad>
-              </div>
-              <div
-                class="flex-1 text-right"
-                #div
-                (mouseenter)="alEntrarMouse(item, div)"
-                (mouseleave)="alSalirMouse()"
-              >
-                @if (mostrarIcono === item.item) {
-                  <i
-                    class="ki-filled ki-pencil text-xl cursor-pointer text-blue-500 me-2"
-                    [attr.data-tooltip]="'#tooltip_editar_hover' + item.item"
-                    [attr.data-tooltip-trigger]="'hover'"
-                    [attr.data-drawer-toggle]="'#drawer_6'"
-                    (click)="editarItem()"
-                  ></i>
-                  <i
-                    class="ki-filled ki-trash text-xl cursor-pointer text-red-500"
-                    (click)="retirarItem(item.item)"
-                    [attr.data-tooltip]="'#tooltip_retirar_hover' + item.item"
-                    [attr.data-tooltip-trigger]="'hover'"
-                  ></i>
-                  <div
-                    class="tooltip"
-                    [id]="'tooltip_editar_hover' + item.item"
-                  >
-                    Editar item para la factura
+          <div class="space-y-1.5">
+            @for (item of items(); track $index; let last = $last) {
+              <div class="group bg-white border border-gray-200 rounded-lg p-2.5 hover:border-teal-300 hover:shadow-sm transition-all duration-200">
+                <!-- Header con código, nombre y acciones -->
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-1.5 flex-1 min-w-0">
+                    <span class="inline-flex items-center px-1.5 py-0.5 rounded text-xs font-semibold bg-teal-100 text-teal-800">
+                      {{ item.codigo | truncate: 8 }}
+                    </span>
+                    <h3 class="text-sm font-medium text-gray-900 truncate">
+                      {{ item.item_nombre }}
+                    </h3>
                   </div>
-                  <div
-                    class="tooltip"
-                    [id]="'tooltip_retirar_hover' + item.item"
-                  >
-                    Retirar item
+                  
+                  <!-- Acciones en el header -->
+                  <div class="flex items-center gap-0.5"
+                       #div
+                       (mouseenter)="alEntrarMouse(item, div)"
+                       (mouseleave)="alSalirMouse()">
+                    @if (mostrarIcono === item.item) {
+                      <button class="p-1 rounded hover:bg-blue-100 text-blue-600 transition-colors duration-150"
+                              [attr.data-tooltip]="'#tooltip_editar_hover' + item.item"
+                              [attr.data-tooltip-trigger]="'hover'"
+                              [attr.data-drawer-toggle]="'#drawer_6'"
+                              (click)="editarItem()">
+                        <i class="ki-filled ki-pencil text-sm"></i>
+                      </button>
+                      <button class="p-1 rounded hover:bg-red-100 text-red-600 transition-colors duration-150"
+                              (click)="retirarItem(item.item)"
+                              [attr.data-tooltip]="'#tooltip_retirar_hover' + item.item"
+                              [attr.data-tooltip-trigger]="'hover'">
+                        <i class="ki-filled ki-trash text-sm"></i>
+                      </button>
+                      <div class="tooltip" [id]="'tooltip_editar_hover' + item.item">
+                        Editar item
+                      </div>
+                      <div class="tooltip" [id]="'tooltip_retirar_hover' + item.item">
+                        Retirar item
+                      </div>
+                    } @else {
+                      <div class="w-7 h-7 flex items-center justify-center rounded hover:bg-gray-100 transition-colors duration-150">
+                        <i class="ki-duotone ki-dots-horizontal text-gray-400 group-hover:text-gray-600">
+                          <span class="path1"></span>
+                          <span class="path2"></span>
+                          <span class="path3"></span>
+                        </i>
+                      </div>
+                    }
                   </div>
-                } @else {
-                  <p class="font-light dark-mode:text-gray-500">
-                    $ {{ item.subtotal | number: "1.0-0" }}
-                  </p>
-                }
+                </div>
+                
+                <!-- Footer con precios, cantidad y subtotal -->
+                <div class="flex items-center justify-between">
+                  <!-- Precio unitario -->
+                  <div class="flex items-center gap-1">
+                    <i class="ki-duotone ki-price-tag text-xs text-blue-600">
+                      <span class="path1"></span>
+                      <span class="path2"></span>
+                      <span class="path3"></span>
+                    </i>
+                    <span class="text-sm font-semibold text-blue-600">
+                      ${{ item.precio | number: "1.0-0" }}
+                    </span>
+                  </div>
+                  
+                  <!-- Contador de cantidad compacto -->
+                  <div class="flex items-center gap-1.5">
+                    <div class="scale-75 origin-center">
+                      <app-contador-cantidad
+                        [cantidad]="item.cantidad"
+                        (emitirCantidad)="actualizarCantidad($event, item.item)"
+                      ></app-contador-cantidad>
+                    </div>
+                  </div>
+                  
+                  <!-- Subtotal destacado -->
+                  <div class="flex items-center gap-1">
+                    <i class="ki-duotone ki-calculator text-xs text-emerald-600">
+                      <span class="path1"></span>
+                      <span class="path2"></span>
+                    </i>
+                    <span class="text-base font-bold text-emerald-600">
+                      ${{ item.subtotal | number: "1.0-0" }}
+                    </span>
+                  </div>
+                </div>
               </div>
-            </div>
-            @if (!last) {
-              <hr class="border-t-2" />
             }
-          }
+          </div>
         }
       </section>
     </div>
-    <div class="card-footer p-2">
-      <div class="flex flex-col w-full">
-        <p
-          class="text-lg font-semibold mb-2 self-center dark-mode:text-gray-500"
-        >
-          Resumen de la orden
-        </p>
-        <div class="flex justify-between">
-          <p class="dark-mode:text-gray-500">Productos:</p>
-          <p class="dark-mode:text-gray-500">{{ totalProductosSignal() }}</p>
+    <!-- Resumen de la orden compacto -->
+    <div class="bg-gradient-to-r from-gray-50 to-gray-100 border-t border-gray-200 p-3">
+      <div class="space-y-3">
+        <!-- Header compacto -->
+        <div class="text-center">
+          <h3 class="text-base font-bold text-gray-800 flex items-center justify-center gap-2">
+            <i class="ki-duotone ki-bill text-teal-600 text-sm">
+              <span class="path1"></span>
+              <span class="path2"></span>
+              <span class="path3"></span>
+              <span class="path4"></span>
+              <span class="path5"></span>
+              <span class="path6"></span>
+            </i>
+            Resumen
+          </h3>
         </div>
-        <div class="flex justify-between">
-          <p class="dark-mode:text-gray-500">Cantidad:</p>
-          <p class="dark-mode:text-gray-500">
-            {{ totalCantidadesSignal() | number: "1.0-0" }}
-          </p>
-        </div>
-        <div class="flex justify-between">
-          <p class="dark-mode:text-gray-500">Subtotal:</p>
-          <p class="dark-mode:text-gray-500">
-            $ {{ totalSubtotalSignal() | number: "1.0-0" }}
-          </p>
-        </div>
-        @for (impuesto of arrImpuestos() | keyvalue; track $index) {
-          <div class="flex justify-between">
-            <p class="dark-mode:text-gray-500">
-              {{ impuesto.value.impuesto }}:
-            </p>
-            <p class="dark-mode:text-gray-500">
-              $ {{ impuesto.value.total | number: "1.0-0" }}
-            </p>
+
+        <!-- Desglose compacto -->
+        <div class="bg-white rounded-lg p-3 border border-gray-200 shadow-sm">
+          <div class="space-y-1.5">
+            <!-- Estadísticas principales -->
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-gray-600 flex items-center gap-1">
+                <i class="ki-duotone ki-package text-blue-600 text-xs">
+                  <span class="path1"></span>
+                  <span class="path2"></span>
+                  <span class="path3"></span>
+                </i>
+                Productos
+              </span>
+              <span class="font-semibold text-gray-800">{{ totalProductosSignal() }}</span>
+            </div>
+            
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-gray-600 flex items-center gap-1">
+                <i class="ki-duotone ki-lots-shopping text-emerald-600 text-xs">
+                  <span class="path1"></span>
+                  <span class="path2"></span>
+                  <span class="path3"></span>
+                  <span class="path4"></span>
+                  <span class="path5"></span>
+                  <span class="path6"></span>
+                  <span class="path7"></span>
+                </i>
+                Cantidad
+              </span>
+              <span class="font-semibold text-gray-800">{{ totalCantidadesSignal() | number: "1.0-0" }}</span>
+            </div>
+            
+            <!-- Separador sutil -->
+            <div class="border-t border-gray-100 my-2"></div>
+            
+            <!-- Subtotal -->
+            <div class="flex items-center justify-between text-sm">
+              <span class="text-gray-600">Subtotal</span>
+              <span class="font-semibold text-gray-800">$ {{ totalSubtotalSignal() | number: "1.0-0" }}</span>
+            </div>
+            
+            <!-- Impuestos -->
+            @for (impuesto of arrImpuestos() | keyvalue; track $index) {
+              <div class="flex items-center justify-between text-sm">
+                <span class="text-gray-600 flex items-center gap-1">
+                  <i class="ki-duotone ki-percentage text-amber-500 text-xs">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                  </i>
+                  {{ impuesto.value.impuesto }}
+                </span>
+                <span class="font-semibold text-gray-800">$ {{ impuesto.value.total | number: "1.0-0" }}</span>
+              </div>
+            }
+            
+            <!-- Total general destacado -->
+            <div class="flex items-center justify-between pt-2 mt-2 border-t border-gray-200">
+              <span class="font-bold text-emerald-600 flex items-center gap-1">
+                <i class="ki-duotone ki-dollar text-emerald-600 text-sm">
+                  <span class="path1"></span>
+                  <span class="path2"></span>
+                  <span class="path3"></span>
+                </i>
+                Total
+              </span>
+              <span class="text-lg font-bold text-emerald-600">$ {{ totalGeneralSignal() | number: "1.0-0" }}</span>
+            </div>
           </div>
-        }
-        <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700" />
-        <div class="flex justify-between mb-2 text-lg font-semibold">
-          <p class="dark-mode:text-gray-500">Total general:</p>
-          <p class="dark-mode:text-gray-500">
-            $ {{ totalGeneralSignal() | number: "1.0-0" }}
-          </p>
         </div>
-        <hr />
-        <app-factura-modal-pagar></app-factura-modal-pagar>
-        <app-factura-btn-retirar-items></app-factura-btn-retirar-items>
+
+        <!-- Botones de acción compactos -->
+        <div class="space-y-1.5">
+          <app-factura-modal-pagar></app-factura-modal-pagar>
+          <app-factura-btn-retirar-items></app-factura-btn-retirar-items>
+        </div>
       </div>
     </div>
   </div>
