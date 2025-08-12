@@ -1,5 +1,6 @@
 import { DecimalPipe } from '@angular/common';
 import {
+  ChangeDetectorRef,
   Component,
   inject,
   Input,
@@ -20,6 +21,7 @@ import { LabelComponent } from '@componentes/form/label/label.component';
 import { documentoFacturaDetalleInit } from '@constantes/factura.const';
 import { DocumentoFacturaDetalleRespuesta } from '@interfaces/facturas.interface';
 import { FacturaReduxService } from '@redux/services/factura-redux.service';
+import { CurrencyInputComponent } from "@componentes/form/currency-input/currency-input.component";
 
 @Component({
   selector: 'app-factura-editar-item',
@@ -30,13 +32,15 @@ import { FacturaReduxService } from '@redux/services/factura-redux.service';
     DecimalPipe,
     LabelComponent,
     InputComponent,
-  ],
+    CurrencyInputComponent
+],
   templateUrl: './factura-editar-item.component.html',
   styleUrl: './factura-editar-item.component.scss',
 })
-export class FacturaEditarItemComponent implements OnInit, OnChanges {
+export class FacturaEditarItemComponent implements  OnChanges {
   private _facturaReduxService = inject(FacturaReduxService);
   public emitirAccionFormulario = output<boolean>();
+  public changeDetectorRef = inject(ChangeDetectorRef);
   public formularioVenta: ReturnType<typeof this.inicializarFormulario>;
 
   @Input() item: DocumentoFacturaDetalleRespuesta = documentoFacturaDetalleInit
@@ -48,14 +52,18 @@ export class FacturaEditarItemComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['item'] && !changes['item'].firstChange) {
-      this.formularioVenta = this.inicializarFormulario();
+      this.formularioVenta.patchValue({
+        precio: this.item.precio,
+        cantidad: this.item.cantidad,
+        subtotal: this.item.subtotal,
+      })
       this._suscribirCambiosFormulario();
+      this.changeDetectorRef.detectChanges();
     }
   }
 
   inicializarFormulario() {
     const subTotal = this.item?.precio * this.item?.cantidad;
-    console.log(this.item?.precio);
     return new FormGroup({
       precio: new FormControl(this.item?.precio, [
         Validators.required,
