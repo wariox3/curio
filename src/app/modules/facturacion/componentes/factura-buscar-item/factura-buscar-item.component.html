@@ -74,8 +74,6 @@
 <app-modal-standard
   modalId="formularioNuevoItem"
   title="Nuevo ítem"
-  [closeOnOutsideClick]="false"
-  [closeOnEsc]="false"
 >
   @if (getModalInstaceState("formularioNuevoItem") | async) {
     <app-item-modal (itemSubmitted)="buscarCampo()"></app-item-modal>

@@ -158,17 +158,15 @@
         </div>
 
         <div>
-          <app-input
+          <app-currency-input
             [label]="'Precio'"
-            #inputNombre
             formControlName="precio"
             [control]="formularioItem.get('precio')"
             [errors]="{
-              minlength: 'Minimo 3 caracteres.',
-              maxLength: 'Máximo 100 caracteres.',
-              pattern: 'Careacteres no validos',
+              required: 'El precio es obligatorio.',
+              min: 'El precio debe ser mayor a 0.',
             }"
-          ></app-input>
+          ></app-currency-input>
         </div>
       </div>
     </div>

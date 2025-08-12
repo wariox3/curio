@@ -29,6 +29,7 @@ import { MultiSelectComponent } from '@componentes/form/multi-select/multi-selec
 import { Subject } from 'rxjs';
 import { Item } from '../../../interface/item.interface';
 import { ImpuestoService } from '../../../services/impuesto.service';
+import { CurrencyInputComponent } from "@componentes/form/currency-input/currency-input.component";
 
 @Component({
   selector: 'app-item-formulario',
@@ -41,7 +42,8 @@ import { ImpuestoService } from '../../../services/impuesto.service';
     InputComponent,
     MultiSelectComponent,
     RouterModule,
-  ],
+    CurrencyInputComponent
+],
 })
 export default class ItemFormularioComponent
   implements OnInit, OnDestroy, AfterViewInit, OnChanges
@@ -175,7 +177,7 @@ export default class ItemFormularioComponent
         Validators.compose([Validators.required, Validators.maxLength(200)]),
       ],
       referencia: [null, Validators.compose([Validators.maxLength(50)])],
-      precio: [0, Validators.compose([Validators.pattern(/^[0-9.]+$/)])],
+      precio: [0, Validators.compose([Validators.min(0)])],
       costo: [0, Validators.compose([Validators.pattern(/^[0-9.]+$/)])],
       productoServicio: ['producto'],
       producto: [true],
