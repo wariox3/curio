@@ -20,6 +20,7 @@ export class HistorialApiService {
   };
 
   public arrFacturasSignal = signal<any[]>([]);
+  public cantidadItemsSignal = signal(0);
   public facturaSignal = signal<DocumentoFactura>(facturaInit);
 
   constructor() { }
@@ -45,13 +46,17 @@ export class HistorialApiService {
       .pipe(tap((respuesta) => this.facturaSignal.set(respuesta.documento)));
   }
 
-  historial() {
+  historial(parametros?: Record<string, any>) {
     return this._generalService
       .consultaApi(`${API_ENDPOINTS.GENERAL.DOCUMENTO}`, {
         documento_tipo__pos: 'True',
         ordering: 'estado_aprobado,-fecha,-numero,-id',
-        serializador: 'lista'
+        serializador: 'lista',
+        ...parametros
       })
-      .pipe(tap((response) => this.arrFacturasSignal.set(response.results)));
+      .pipe(tap((response) => {
+        this.arrFacturasSignal.set(response.results);
+        this.cantidadItemsSignal.set(response.count);
+      }));
   }
 }

@@ -12,6 +12,12 @@
         <div class="card-header">
           <h3 class="card-title">Historial</h3>
         </div>
+        <div class="card-body">
+          <app-paginador
+            [totalItems]="cantidadItemsSignal()"
+            (pageChange)="onPageChange($event)"
+          ></app-paginador>
+        </div>
         <div class="card-table scrollable-x-auto">
           <div class="scrollable-auto">
             <table
