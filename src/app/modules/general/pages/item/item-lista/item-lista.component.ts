@@ -1,19 +1,17 @@
-import { DecimalPipe } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { API_ENDPOINTS } from '@constantes/api-endpoints.const';
-import { SiNoPipe } from '@pipe/si-no.pipe';
-import { GeneralApiService } from 'src/app/shared/services/general.service';
-import { Item } from '../../../interface/item.interface';
 import { Router, RouterModule } from '@angular/router';
 import { TablaComponent } from "@componentes/ui/tablas/tabla/tabla.component";
+import { API_ENDPOINTS } from '@constantes/api-endpoints.const';
+import { forkJoin } from 'rxjs';
+import { GeneralApiService } from 'src/app/shared/services/general.service';
+import { Item } from '../../../interface/item.interface';
 import { columnasItemLista } from '../../../mapeo/item-lista.mapeo';
 import { ItemApiService } from '../../../services/item.service';
-import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-item-lista',
   standalone: true,
-  imports: [SiNoPipe, DecimalPipe, RouterModule, TablaComponent],
+  imports: [RouterModule, TablaComponent],
   templateUrl: './item-lista.component.html',
 })
 export default class ItemListaComponent implements OnInit {

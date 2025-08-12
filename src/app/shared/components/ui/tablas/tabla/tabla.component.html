@@ -1,5 +1,8 @@
 <!-- Contenedor con scrollbar personalizada -->
-<div class="overflow-x-auto" [ngClass]="{ 'custom-scrollbar': true }">
+<div
+  class="overflow-x-auto rounded-xl bg-white border border-gray-200"
+  [ngClass]="{ 'custom-scrollbar': true }"
+>
   <!-- La clase custom-scrollbar se define en el archivo .ts del componente -->
   <table class="min-w-full divide-y divide-gray-200">
     <!-- Encabezado de la tabla con gradiente sutil -->
@@ -21,7 +24,7 @@
 
         <!-- Columnas de acciones -->
         <th *ngIf="mostrarAcciones" class="px-6 py-3 text-center" colspan="2">
-          <span class="text-xs font-semibold text-black"></span>
+          <span class="text-xs font-semibold text-black">Acciones</span>
         </th>
 
         <!-- Checkbox principal con estado indeterminado -->
@@ -75,8 +78,8 @@
         class="hover:bg-gray-50 transition-colors duration-150 ease-in-out"
       >
         <!-- Celdas de datos -->
-        <td
-          *ngFor="let columna of columnas"
+        <td 
+          *ngFor="let columna of columnas" 
           class="px-6 whitespace-nowrap text-sm text-gray-800"
           [ngClass]="obtenerClasesAlineacion(columna.alineacion)"
         >

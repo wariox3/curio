@@ -35,5 +35,7 @@ export function formatearMoneda(
     style: 'currency',
     currency: moneda,
     currencyDisplay: 'symbol',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   }).format(valor);
 }

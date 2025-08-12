@@ -1,20 +1,16 @@
-<div class="w-full h-full p-2">
+<div class="w-full h-full p-4">
   <div class="card">
     <div class="card-header">
       <h3 class="card-title">Item</h3>
-    </div>
-    <div class="card-body">
-      <div class="flex justify-end">
+
+      <div class="flex justify-end gap-2">
         <button class="btn btn-primary" routerLink="/administracion/item/nuevo">
           Nuevo
         </button>
-        <button class="btn btn-danger" (click)="eliminar()">Eliminar</button>
+        <button class="btn btn-danger" (click)="eliminar()" [disabled]="itemSeleccionados().length === 0">Eliminar</button>
       </div>
     </div>
-    <div class="card-table scrollable-x-auto">
-
-
-      <div class="scrollable-auto">
+    <div class="card-body">
       <app-tabla
         [columnas]="columnas"
         [datos]="arrItemsSignal()"
@@ -24,7 +20,6 @@
         }"
         (seleccionCambiada)="onSeleccionItems($event)"
       ></app-tabla>
-      </div>
     </div>
   </div>
 </div>
