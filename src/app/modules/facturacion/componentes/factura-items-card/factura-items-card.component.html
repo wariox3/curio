@@ -3,7 +3,9 @@
   <!-- Badge cantidad (fuera del contenedor principal) -->
   @if (cantidadSignal() >= 1) {
     <div class="absolute -top-2 -right-3 z-30">
-      <span class="inline-flex items-center justify-center w-7 h-7 text-xs font-bold text-white bg-gradient-to-r from-teal-500 to-teal-600 rounded-full shadow-lg shadow-teal-500/40 ring-2 ring-white ">
+      <span
+        class="inline-flex items-center justify-center w-7 h-7 text-xs font-bold text-white bg-gradient-to-r from-teal-500 to-teal-600 rounded-full shadow-lg shadow-teal-500/40 ring-2 ring-white"
+      >
         {{ cantidadSignal() > 99 ? "99+" : cantidadSignal() }}
       </span>
     </div>
@@ -13,24 +15,31 @@
   <div
     class="group relative bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 ease-out cursor-pointer overflow-hidden"
     [ngClass]="{
-      'ring-2 ring-teal-500 shadow-lg shadow-teal-500/20 scale-[1.02]': cantidadSignal() >= 1,
-      'hover:scale-[1.01]': cantidadSignal() < 1  
+      'ring-2 ring-teal-500 shadow-lg shadow-teal-500/20 scale-[1.02]':
+        cantidadSignal() >= 1,
+      'hover:scale-[1.01]': cantidadSignal() < 1,
     }"
     (click)="seleccionarProducto(item)"
   >
     <!-- Badges superiores -->
-    <div class="absolute top-3 left-3 right-3 flex justify-between items-start z-10">
+    <div
+      class="absolute top-3 left-3 right-3 flex justify-between items-start z-10"
+    >
       <!-- Badge código -->
-      <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-white/90 backdrop-blur-sm text-teal-700 border border-teal-200 shadow-sm">
+      <span
+        class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-white/90 backdrop-blur-sm text-teal-700 border border-teal-200 shadow-sm"
+      >
         {{ item.codigo | truncate: 8 }}
       </span>
-      
+
       <!-- Badge favorito -->
       <button
         class="w-8 h-8 flex items-center justify-center rounded-full transition-all duration-200 backdrop-blur-sm"
         [ngClass]="{
-          'bg-amber-500 text-white shadow-lg shadow-amber-500/30': item.favorito,
-          'bg-white/80 text-gray-400 hover:text-amber-500 hover:bg-white': !item.favorito
+          'bg-amber-500 text-white shadow-lg shadow-amber-500/30':
+            item.favorito,
+          'bg-white/80 text-gray-400 hover:text-amber-500 hover:bg-white':
+            !item.favorito,
         }"
         (click)="seleccionarFavorito(item); $event.stopPropagation()"
       >
@@ -42,62 +51,84 @@
       </button>
     </div>
 
-  <!-- Contenedor de imagen con overlay -->
-  <div class="relative aspect-[4/3] overflow-hidden">
-    <!-- Gradiente overlay sutil -->
-    <div class="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent z-[1]"></div>
-    
-    <!-- Imagen responsiva -->
-    <img
-      [src]="item.imagen || 'https://semantica.sfo3.digitaloceanspaces.com/renio/images/placeholder.jpg'"
-      [alt]="item.nombre"
-      class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-      loading="lazy"
-    />
-    
-    <!-- Indicador de stock -->
-    <div class="absolute bottom-3 left-3 z-[2]">
-      @if (item.disponible > 0) {
-        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 border border-emerald-200">
-          <div class="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-1.5 animate-pulse"></div>
-          {{ item.disponible }} disponibles
-        </span>
-      } @else {
-        <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 border border-red-200">
-          <div class="w-1.5 h-1.5 bg-red-500 rounded-full mr-1.5"></div>
-          Agotado
-        </span>
+    <!-- Contenedor de imagen con overlay -->
+    <div class="relative aspect-[4/3] overflow-hidden">
+      <!-- Gradiente overlay sutil -->
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent z-[1]"
+      ></div>
+
+      <!-- Imagen responsiva -->
+      <img
+        [src]="
+          item.imagen ||
+          'https://semantica.sfo3.digitaloceanspaces.com/renio/images/placeholder.jpg'
+        "
+        [alt]="item.nombre"
+        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        loading="lazy"
+      />
+
+      <!-- Indicador de stock -->
+      @if (item.inventario) {
+        <div class="absolute bottom-3 left-3 z-[2]">
+          @if (item.disponible > 0) {
+            <span
+              class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 border border-emerald-200"
+            >
+              <div
+                class="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-1.5 animate-pulse"
+              ></div>
+              {{ item.disponible }} disponibles
+            </span>
+          } @else {
+            <span
+              class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 border border-red-200"
+            >
+              <div class="w-1.5 h-1.5 bg-red-500 rounded-full mr-1.5"></div>
+              Agotado
+            </span>
+          }
+        </div>
       }
     </div>
-  </div>
 
-  <!-- Contenido de la card -->
-  <div class="p-4 space-y-2">
-    <!-- Nombre del producto -->
-    <h3 class="font-semibold text-gray-900 text-sm leading-tight line-clamp-2 group-hover:text-teal-700 transition-colors duration-200">
-      {{ item.nombre }}
-    </h3>
-    
-    <!-- Precio -->
-    <div class="flex items-center justify-between">
-      <div class="flex flex-col">
-        <span class="text-xl font-bold text-gray-900 group-hover:text-teal-600 transition-colors duration-200">
-          $ {{ item.precio | number: "1.0-0" }}
-        </span>
-      </div>
-      
-      <!-- Indicador visual de selección -->
-      <div class="flex items-center justify-center w-8 h-8 rounded-full transition-all duration-200"
-           [ngClass]="{
-             'bg-teal-100 text-teal-600': cantidadSignal() >= 1,
-             'bg-gray-100 text-gray-400 group-hover:bg-teal-50 group-hover:text-teal-500': cantidadSignal() < 1
-           }">
-        <i class="ki-duotone ki-plus text-sm"></i>
+    <!-- Contenido de la card -->
+    <div class="p-4 space-y-2">
+      <!-- Nombre del producto -->
+      <h3
+        class="font-semibold text-gray-900 text-sm leading-tight line-clamp-2 group-hover:text-teal-700 transition-colors duration-200"
+      >
+        {{ item.nombre }}
+      </h3>
+
+      <!-- Precio -->
+      <div class="flex items-center justify-between">
+        <div class="flex flex-col">
+          <span
+            class="text-xl font-bold text-gray-900 group-hover:text-teal-600 transition-colors duration-200"
+          >
+            $ {{ item.precio | number: "1.0-0" }}
+          </span>
+        </div>
+
+        <!-- Indicador visual de selección -->
+        <div
+          class="flex items-center justify-center w-8 h-8 rounded-full transition-all duration-200"
+          [ngClass]="{
+            'bg-teal-100 text-teal-600': cantidadSignal() >= 1,
+            'bg-gray-100 text-gray-400 group-hover:bg-teal-50 group-hover:text-teal-500':
+              cantidadSignal() < 1,
+          }"
+        >
+          <i class="ki-duotone ki-plus text-sm"></i>
+        </div>
       </div>
     </div>
-  </div>
 
     <!-- Efecto hover sutil -->
-    <div class="absolute inset-0 bg-gradient-to-t from-teal-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-xl"></div>
+    <div
+      class="absolute inset-0 bg-gradient-to-t from-teal-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-xl"
+    ></div>
   </div>
 </div>
