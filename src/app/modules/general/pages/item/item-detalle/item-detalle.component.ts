@@ -51,8 +51,6 @@ export default class ItemDetalleComponent implements OnInit, OnDestroy {
     return obtenerCamposItemDetalle(this.itemSignal());
   });
 
-
-
   ngOnInit(): void {
     this.consultarInformacion();
   }

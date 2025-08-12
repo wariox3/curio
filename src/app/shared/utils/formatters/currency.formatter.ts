@@ -8,7 +8,6 @@ export function formatearMonedaCOP(valor: number): string {
     return '';
   }
   return new Intl.NumberFormat('es-CO', {
-    style: 'currency',
     currency: 'COP',
     currencyDisplay: 'symbol',
     minimumFractionDigits: 0,
