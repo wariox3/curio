@@ -53,13 +53,13 @@
           <span class="path1"></span>
           <span class="path2"></span>
         </i>
-        Editar Producto
+        Editar producto
       </h3>
       
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <!-- Campo Precio -->
         <div class="space-y-2">
-          <app-label class="text-sm font-medium text-gray-700">Precio Unitario</app-label>
+          <app-label class="text-sm font-medium text-gray-700">Precio unitario</app-label>
           <app-currency-input
             [control]="formularioVenta.controls.precio"
             formControlName="precio"
@@ -101,7 +101,7 @@
               <span class="path5"></span>
               <span class="path6"></span>
             </i>
-            Resumen del Ítem
+            Resumen del ítem
           </h3>
         </div>
 
@@ -167,10 +167,6 @@
         class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-150"
         (click)="cancelar()"
       >
-        <i class="ki-duotone ki-cross text-sm mr-1">
-          <span class="path1"></span>
-          <span class="path2"></span>
-        </i>
         Cancelar
       </button>
       <button 
@@ -178,11 +174,7 @@
         class="px-4 py-2 text-sm font-medium text-white bg-emerald-600 border border-transparent rounded-lg hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors duration-150 shadow-sm"
         (click)="guardar()"
       >
-        <i class="ki-duotone ki-check text-sm mr-1">
-          <span class="path1"></span>
-          <span class="path2"></span>
-        </i>
-        Guardar Cambios
+        Guardar
       </button>
     </div>
   </div>
