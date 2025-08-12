@@ -55,6 +55,7 @@ export class FacturaEditarItemComponent implements OnInit, OnChanges {
 
   inicializarFormulario() {
     const subTotal = this.item?.precio * this.item?.cantidad;
+    console.log(this.item?.precio);
     return new FormGroup({
       precio: new FormControl(this.item?.precio, [
         Validators.required,
