@@ -13,7 +13,7 @@
 
   <!-- Card principal -->
   <div
-    class="group relative bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 ease-out cursor-pointer overflow-hidden"
+    class="group relative bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-xl hover:shadow-teal-500/10 transition-all duration-300 ease-out cursor-pointer overflow-hidden h-full flex flex-col"
     [ngClass]="{
       'ring-2 ring-teal-500 shadow-lg shadow-teal-500/20 scale-[1.02]':
         cantidadSignal() >= 1,
@@ -94,16 +94,18 @@
     </div>
 
     <!-- Contenido de la card -->
-    <div class="p-4 space-y-2">
-      <!-- Nombre del producto -->
-      <h3
-        class="font-semibold text-gray-900 text-sm leading-tight line-clamp-2 group-hover:text-teal-700 transition-colors duration-200"
-      >
-        {{ item.nombre }}
-      </h3>
+    <div class="p-4 flex flex-col flex-1">
+      <!-- Nombre del producto con altura fija -->
+      <div class="h-10 mb-2">
+        <h3
+          class="font-semibold text-gray-900 text-sm leading-tight line-clamp-2 group-hover:text-teal-700 transition-colors duration-200"
+        >
+          {{ item.nombre }}
+        </h3>
+      </div>
 
-      <!-- Precio -->
-      <div class="flex items-center justify-between">
+      <!-- Precio - siempre al final -->
+      <div class="flex items-center justify-between mt-auto">
         <div class="flex flex-col">
           <span
             class="text-xl font-bold text-gray-900 group-hover:text-teal-600 transition-colors duration-200"
