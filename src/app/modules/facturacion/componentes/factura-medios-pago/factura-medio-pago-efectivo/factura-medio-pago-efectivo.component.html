@@ -1,72 +1,80 @@
-<form [formGroup]="formularioMedioPagoEfectivo" (ngSubmit)="submit()">
-  <div class="flex items-center justify-center px-2">
-    <div class="w-full">
-      <button class="btn btn-link mt-2" (click)="regresarAmedioPagos()">
-        <i class="ki-filled ki-arrow-left"></i>
-        Seleccionar otro medio de pago
-      </button>
-      <div class="flex justify-center items-center mb-4">
-        <svg
-          width="120"
-          height="120"
-          viewBox="0 0 120 120"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <!-- Círculo animado -->
-          <circle
-            class="circle"
-            cx="60"
-            cy="60"
-            r="45"
-            stroke="#4CAF50"
-            stroke-width="5"
-            fill="none"
-          />
-          <text
-            x="50%"
-            y="50%"
-            font-size="50"
-            fill="#4CAF50"
-            font-family="Arial"
-            font-weight="bold"
-            text-anchor="middle"
-            dominant-baseline="middle"
-          >
-            $
-          </text>
-        </svg>
+<form [formGroup]="formularioMedioPagoEfectivo" (ngSubmit)="submit()" class="flex flex-col h-full">
+  <!-- Header con botón de regreso -->
+  <div class=" pb-3">
+    <button 
+      class="flex items-center text-gray-600 hover:text-emerald-600 transition-colors text-sm font-medium" 
+      type="button"
+      (click)="regresarAmedioPagos()"
+    >
+      <i class="ki-duotone ki-arrow-left text-xs mr-1">
+        <span class="path1"></span>
+        <span class="path2"></span>
+      </i>
+      Seleccionar otro medio de pago
+    </button>
+  </div>
+  
+  <!-- Contenido principal -->
+  <div class="flex-1 overflow-y-auto py-4">
+    <!-- Ícono y total -->
+    <div class="flex flex-col items-center mb-6">
+      <!-- Ícono de efectivo -->
+      <div class="w-20 h-20 rounded-full bg-emerald-50 flex items-center justify-center mb-4 shadow-sm">
+        <div class="w-16 h-16 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center shadow-md">
+          <i class="ki-duotone ki-dollar text-white text-3xl">
+            <span class="path1"></span>
+            <span class="path2"></span>
+            <span class="path3"></span>
+          </i>
+        </div>
       </div>
-
-      <div class="mb-6">
-        <p class="text-center text-4xl font-extrabold text-gray-800 mb-4">
-          Total
-          <span class="text-gray-800">
-            $ {{ totalGeneralSignal() | number: "1.0" }}</span
-          >
+      
+      <!-- Total a pagar -->
+      <div class="text-center">
+        <p class="text-sm font-medium text-gray-500 mb-1">Total a pagar</p>
+        <p class="text-4xl font-bold text-gray-800 mb-2">
+          ${{ totalGeneralSignal() | number: "1.0-0" }}
         </p>
+        
+        <!-- Estados de pago -->
         @if (valorRestante() > 0) {
-          <p class="text-center text-sm text-red-500 bg-red-50 py-2">
-            Por cobrar $ {{ valorRestante() | number: "1.0-0" }}
-          </p>
+          <div class="flex items-center gap-1.5 px-3 py-1.5 bg-red-50 text-red-700 rounded-lg text-sm font-medium">
+            <i class="ki-duotone ki-information-5 text-red-500">
+              <span class="path1"></span>
+              <span class="path2"></span>
+              <span class="path3"></span>
+            </i>
+            Pendiente: ${{ valorRestante() | number: "1.0-0" }}
+          </div>
         }
         @if (valorDevolder() > 0) {
-          <p class="text-center text-sm text-blue-500 bg-blue-50 py-2">
-            Por devolder $ {{ valorDevolder() | number: "1.0-0" }}
-          </p>
+          <div class="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium mt-2">
+            <i class="ki-duotone ki-arrow-down-right text-blue-500">
+              <span class="path1"></span>
+              <span class="path2"></span>
+            </i>
+            Cambio: ${{ valorDevolder() | number: "1.0-0" }}
+          </div>
         }
       </div>
-      <p class="text-center text-4xl font-extrabold text-gray-800 mb-4"></p>
-      <div class="flex flex-col mb-2">
-        <label class="form-label font-normal text-gray-900">
-          Valor <span class="text-red-800 ms-1 relative">*</span>
+    </div>
+    
+    <!-- Formulario de pago -->
+    <div class="space-y-4 px-1">
+      <!-- Campo valor -->
+      <div class="space-y-1.5">
+        <label class="text-sm font-medium text-gray-700 flex items-center gap-1">
+          Valor
+          <span class="text-red-500">*</span>
         </label>
-        <div class="input">
-          <i class="ki-filled ki-dollar"></i>
+        <div class="relative">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <i class="ki-filled ki-dollar"></i>
+          </div>
           <input
             type="text"
             formControlName="valor"
-            class="bg-white"
+            class="w-full text-sm pl-10 pr-4 py-2.5 bg-white border border-gray-300 rounded-md focus:border-emerald-500 text-gray-900"
             autocomplete="off"
             mask="separator.2"
             [thousandSeparator]="','"
@@ -78,14 +86,17 @@
           [errors]="[
             {
               validacionTipo: 'required',
-              mensaje: 'Este campo es obligatorio',
+              mensaje: 'El valor es obligatorio',
             },
           ]"
         ></app-form-error>
       </div>
-      <div class="flex flex-col mb-2">
-        <label class="form-label font-normal text-gray-900"> Asesor </label>
-
+      
+      <!-- Campo asesor -->
+      <div class="space-y-1.5">
+        <label class="text-sm font-medium text-gray-700 flex items-center gap-1">
+          Asesor
+        </label>
         <ng-select
           [items]="arrAsesores()"
           bindLabel="nombre_corto"
@@ -97,15 +108,16 @@
         </ng-select>
       </div>
 
-      <div class="flex flex-col mb-2">
-        <label class="form-label font-normal text-gray-900">
-          Cuenta banco
+      <!-- Campo cuenta banco -->
+      <div class="space-y-1.5">
+        <label class="text-sm font-medium text-gray-700 flex items-center gap-1">
+          Cuenta bancaria
         </label>
         <ng-select
           [items]="arrCuentasBancarias()"
           bindLabel="nombre"
           bindValue="id"
-          placeholder="Selecciona una cuenta banco"
+          placeholder="Selecciona una cuenta bancaria"
           class="select2Custom"
           formControlName="cuenta_banco"
         >
@@ -113,24 +125,28 @@
       </div>
     </div>
   </div>
-  <div class="modal-footer justify-end mt-2">
-    <div class="flex gap-4">
-      <button (click)="limpiarPagos()" class="btn btn-light" data-modal-dismiss="true" type="button">
+  
+  <!-- Footer con botones -->
+  <div class="border-t border-gray-200 pt-4 mt-4">
+    <div class="flex justify-end gap-3">
+      <button 
+        data-modal-dismiss="true" 
+        type="button" 
+        (click)="limpiarPagos()" 
+        class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-150"
+      >
         Cancelar
       </button>
       <button
-        [disabled]="
-          textoBtn() !== 'Guardar' ||
-          !formularioMedioPagoEfectivo.valid
-        "
         type="submit"
-        class="btn btn-success"
+        [disabled]="textoBtn() !== 'Guardar' || !formularioMedioPagoEfectivo.valid"
+        class="px-4 py-2 text-sm font-medium text-white bg-emerald-600 border border-transparent rounded-lg hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors duration-150 shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
       >
         @if (textoBtn() !== "Guardar") {
           <svg
             aria-hidden="true"
             role="status"
-            class="inline w-4 h-4 me-3 text-white animate-spin"
+            class="inline w-4 h-4 mr-2 text-white animate-spin"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

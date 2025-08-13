@@ -40,6 +40,7 @@ import { FacturaApiService } from '../../../services/factura-api.service';
 import { FacturaService } from '../../../services/facutra.service';
 import { InventarioApiService } from '../../../services/inventario-api.service';
 import { FechasService } from 'src/app/shared/services/fechas.service';
+import { CurrencyInputComponent } from "@componentes/form/currency-input/currency-input.component";
 
 @Component({
   selector: 'app-factura-medio-pago-efectivo',
@@ -51,7 +52,8 @@ import { FechasService } from 'src/app/shared/services/fechas.service';
     FormErrorComponent,
     NgSelectModule,
     NgxMaskDirective,
-  ],
+    CurrencyInputComponent
+],
   providers: [provideNgxMask()],
   templateUrl: './factura-medio-pago-efectivo.component.html',
   styleUrl: './factura-medio-pago-efectivo.component.scss',
