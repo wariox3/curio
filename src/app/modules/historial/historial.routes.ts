@@ -9,7 +9,7 @@ export const  routes: Route[] = [
   {
     path: '',
     loadComponent: () =>
-      import('./components/historial-base/historial-base.component'),
+      import('./components/historial-lista/historial-lista.component'),
   },
   { path: '', redirectTo: 'lista', pathMatch: 'full' },
   { path: '**', redirectTo: 'lista', pathMatch: 'full' },

@@ -1,19 +1,19 @@
+import { DecimalPipe } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
+import { PaginadorComponent } from '@componentes/ui/paginador/paginador.component';
 import { SiNoPipe } from '@pipe/si-no.pipe';
-import { catchError, of, pipe, Subject, takeUntil, tap } from 'rxjs';
+import { catchError, of, Subject, takeUntil, tap } from 'rxjs';
+import { GeneralApiService } from 'src/app/shared/services/general.service';
 import { LoaderComponent } from '../../../../shared/components/ui/loader/loader.component';
 import { HistorialApiService } from '../../services/historial-api.service';
-import { DecimalPipe } from '@angular/common';
-import { GeneralApiService } from 'src/app/shared/services/general.service';
-import { PaginadorComponent } from '@componentes/ui/paginador/paginador.component';
 
 @Component({
-  selector: 'app-cuadre-caja-lista',
+  selector: 'app-historial-lista',
   standalone: true,
   imports: [LoaderComponent, SiNoPipe, DecimalPipe, PaginadorComponent],
   templateUrl: './historial-lista.component.html',
 })
-export class HistorialListaComponent {
+export default class HistorialListaComponent {
   private _historialApiService = inject(HistorialApiService);
   private _generalApiService = inject(GeneralApiService);
   private _destroy$ = new Subject<void>();
