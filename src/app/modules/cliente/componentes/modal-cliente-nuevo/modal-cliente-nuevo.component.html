@@ -18,961 +18,1006 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="flex flex-row gap-4 mb-2">
-          <div class="w-full">
-            <label class="form-label font-normal text-gray-900 required"
-              >Persona tipo <span class="text-red-800 me-2"> *</span></label
-            >
-            <select
-              class="select"
-              formControlName="tipo_persona"
-              (change)="tipoPersonaSeleccionado($event)"
-              [ngClass]="{
-                'is-invalid':
-                  formularioContacto.controls['tipo_persona'].touched &&
-                  formularioContacto.controls['tipo_persona'].invalid,
-                'is-valid':
-                  formularioContacto.controls['tipo_persona'].touched &&
-                  formularioContacto.controls['tipo_persona'].valid,
-              }"
-            >
-              <option value="">Seleccionar...</option>
-              @for (tipoPersona of arrTipoPersonaSignal(); track $index) {
-                <option
-                  [value]="tipoPersona.id"
-                  [selected]="
-                    tipoPersona.id === formularioContacto.value.tipo_persona
-                  "
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="card-title text-sm">Información contacto</h5>
+          </div>
+          <div class="card-body">
+            <div class="flex flex-row gap-4 mb-2">
+              <div class="w-full">
+                <label class="form-label font-normal text-gray-900 required"
+                  >Persona tipo <span class="text-red-800 me-2"> *</span></label
                 >
-                  {{ tipoPersona.nombre }}
-                </option>
-              }
-            </select>
-            <app-form-error
-              [control]="formularioContacto.get('tipo_persona')"
-              [errors]="[
-                {
-                  validacionTipo: 'required',
-                  mensaje: 'Este campo es obligatorio',
-                },
-              ]"
-            ></app-form-error>
-          </div>
-          <div class="w-full">
-            <label class="form-label required"
-              >Regimen <span class="text-red-800 me-2"> *</span></label
-            >
-            <select
-              class="select"
-              formControlName="regimen"
-              [ngClass]="{
-                'is-invalid':
-                  formularioContacto.controls['regimen'].touched &&
-                  formularioContacto.controls['regimen'].invalid,
-                'is-valid':
-                  formularioContacto.controls['regimen'].touched &&
-                  formularioContacto.controls['regimen'].valid,
-              }"
-            >
-              <option value="">Seleccionar...</option>
-              @for (regimen of arrRegimenSignal(); track $index) {
-                <option
-                  [value]="regimen.id"
-                  [selected]="regimen.id === formularioContacto.value.regimen"
+                <select
+                  class="select"
+                  formControlName="tipo_persona"
+                  (change)="tipoPersonaSeleccionado($event)"
+                  [ngClass]="{
+                    'is-invalid':
+                      formularioContacto.controls['tipo_persona'].touched &&
+                      formularioContacto.controls['tipo_persona'].invalid,
+                    'is-valid':
+                      formularioContacto.controls['tipo_persona'].touched &&
+                      formularioContacto.controls['tipo_persona'].valid,
+                  }"
                 >
-                  {{ regimen.nombre }}
-                </option>
-              }
-            </select>
-            <app-form-error
-              [control]="formularioContacto.get('regimen')"
-              [errors]="[
-                {
-                  validacionTipo: 'required',
-                  mensaje: 'Este campo es obligatorio',
-                },
-              ]"
-            ></app-form-error>
-          </div>
-        </div>
-        <div class="flex flex-row gap-4 mb-2">
-          <div class="w-full">
-            <label class="form-label required"
-              >Identificación tipo
-              <span class="text-red-800 me-2"> *</span></label
-            >
-            <select
-              class="select"
-              formControlName="identificacion"
-              [ngClass]="{
-                'is-invalid':
-                  formularioContacto.controls['identificacion'].touched &&
-                  formularioContacto.controls['identificacion'].invalid,
-                'is-valid':
-                  formularioContacto.controls['identificacion'].touched &&
-                  formularioContacto.controls['identificacion'].valid,
-              }"
-            >
-              <option value="">Seleccionar...</option>
-              @for (identificacion of filteredIdentificacionSignal(); track $index) {
-                <option
-                  [value]="identificacion.id"
-                  [selected]="
-                    identificacion.id ===
-                    formularioContacto.value.identificacion
-                  "
+                  <option value="">Seleccionar...</option>
+                  @for (tipoPersona of arrTipoPersonaSignal(); track $index) {
+                    <option
+                      [value]="tipoPersona.id"
+                      [selected]="
+                        tipoPersona.id === formularioContacto.value.tipo_persona
+                      "
+                    >
+                      {{ tipoPersona.nombre }}
+                    </option>
+                  }
+                </select>
+                <app-form-error
+                  [control]="formularioContacto.get('tipo_persona')"
+                  [errors]="[
+                    {
+                      validacionTipo: 'required',
+                      mensaje: 'Este campo es obligatorio',
+                    },
+                  ]"
+                ></app-form-error>
+              </div>
+              <div class="w-full">
+                <label class="form-label required"
+                  >Regimen <span class="text-red-800 me-2"> *</span></label
                 >
-                  {{ identificacion.nombre }}
-                </option>
-              }
-            </select>
-            <app-form-error
-              [control]="formularioContacto.get('identificacion')"
-              [errors]="[
-                {
-                  validacionTipo: 'required',
-                  mensaje: 'Este campo es obligatorio',
-                },
-              ]"
-            ></app-form-error>
-          </div>
-          <div class="w-full">
-            <label
-              translate="FORMULARIOS.CAMPOS.COMUNES.NUMEROIDENTIFICACION"
-              class="form-label required"
-              >Número identificación
-              <span class="text-red-800 me-2"> *</span></label
-            >
+                <select
+                  class="select"
+                  formControlName="regimen"
+                  [ngClass]="{
+                    'is-invalid':
+                      formularioContacto.controls['regimen'].touched &&
+                      formularioContacto.controls['regimen'].invalid,
+                    'is-valid':
+                      formularioContacto.controls['regimen'].touched &&
+                      formularioContacto.controls['regimen'].valid,
+                  }"
+                >
+                  <option value="">Seleccionar...</option>
+                  @for (regimen of arrRegimenSignal(); track $index) {
+                    <option
+                      [value]="regimen.id"
+                      [selected]="
+                        regimen.id === formularioContacto.value.regimen
+                      "
+                    >
+                      {{ regimen.nombre }}
+                    </option>
+                  }
+                </select>
+                <app-form-error
+                  [control]="formularioContacto.get('regimen')"
+                  [errors]="[
+                    {
+                      validacionTipo: 'required',
+                      mensaje: 'Este campo es obligatorio',
+                    },
+                  ]"
+                ></app-form-error>
+              </div>
+            </div>
+            <div class="flex flex-row gap-4 mb-2">
+              <div class="w-full">
+                <label class="form-label required"
+                  >Identificación tipo
+                  <span class="text-red-800 me-2"> *</span></label
+                >
+                <select
+                  class="select"
+                  formControlName="identificacion"
+                  [ngClass]="{
+                    'is-invalid':
+                      formularioContacto.controls['identificacion'].touched &&
+                      formularioContacto.controls['identificacion'].invalid,
+                    'is-valid':
+                      formularioContacto.controls['identificacion'].touched &&
+                      formularioContacto.controls['identificacion'].valid,
+                  }"
+                >
+                  <option value="">Seleccionar...</option>
+                  @for (
+                    identificacion of filteredIdentificacionSignal();
+                    track $index
+                  ) {
+                    <option
+                      [value]="identificacion.id"
+                      [selected]="
+                        identificacion.id ===
+                        formularioContacto.value.identificacion
+                      "
+                    >
+                      {{ identificacion.nombre }}
+                    </option>
+                  }
+                </select>
+                <app-form-error
+                  [control]="formularioContacto.get('identificacion')"
+                  [errors]="[
+                    {
+                      validacionTipo: 'required',
+                      mensaje: 'Este campo es obligatorio',
+                    },
+                  ]"
+                ></app-form-error>
+              </div>
+              <div class="w-full">
+                <label
+                  translate="FORMULARIOS.CAMPOS.COMUNES.NUMEROIDENTIFICACION"
+                  class="form-label required"
+                  >Número identificación
+                  <span class="text-red-800 me-2"> *</span></label
+                >
 
-            <div class="input-group">
-              <input
-                formControlName="numero_identificacion"
-                class="input"
-                type="number"
-                autocomplete="off"
-                (blur)="calcularDigitoVerificacion()"
-                [ngClass]="{
-                  'is-invalid':
-                    formularioContacto.controls['numero_identificacion']
-                      .touched &&
-                    formularioContacto.controls['numero_identificacion']
-                      .invalid,
-                  'is-valid':
-                    formularioContacto.controls['numero_identificacion']
-                      .touched &&
-                    formularioContacto.controls['numero_identificacion'].valid,
-                }"
-              />
-              <button
-                type="button"
-                (click)="autocompletar()"
-                class="text-blue-600 border border-dashed border-blue-400 px-4 py-2 ml-2 rounded bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                title="Autocompletar"
-              >
-                Autocompletar
-              </button>
-            </div>
+                <div class="input-group">
+                  <input
+                    formControlName="numero_identificacion"
+                    class="input"
+                    type="number"
+                    autocomplete="off"
+                    (blur)="calcularDigitoVerificacion()"
+                    [ngClass]="{
+                      'is-invalid':
+                        formularioContacto.controls['numero_identificacion']
+                          .touched &&
+                        formularioContacto.controls['numero_identificacion']
+                          .invalid,
+                      'is-valid':
+                        formularioContacto.controls['numero_identificacion']
+                          .touched &&
+                        formularioContacto.controls['numero_identificacion']
+                          .valid,
+                    }"
+                  />
+                  <button
+                    type="button"
+                    (click)="autocompletar()"
+                    class="text-blue-600 border border-dashed border-blue-400 px-4 py-2 ml-2 rounded bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    title="Autocompletar"
+                  >
+                    Autocompletar
+                  </button>
+                </div>
 
-            <app-form-error
-              [control]="formularioContacto.get('numero_identificacion')"
-              [errors]="[
-                {
-                  validacionTipo: 'required',
-                  mensaje: 'Este campo es obligatorio',
-                },
-                {
-                  validacionTipo: 'maxlength',
-                  mensaje: 'Caracteres máximo es de',
-                  cantidadCaracteres: 20,
-                },
-                {
-                  validacionTipo: 'pattern',
-                  mensaje: 'Caracteres no válidos',
-                  cantidadCaracteres: 20,
-                },
-              ]"
-            ></app-form-error>
-            @if (
-              formularioContacto.controls["numero_identificacion"]?.touched &&
-              formularioContacto.controls["numero_identificacion"]?.hasError(
-                "numeroIdentificacionExistente"
-              )
-            ) {
-              <p class="mt-2 text-xs text-red-600 dark:text-red-500 b-1">
-                Número de identificación existente
-              </p>
-            }
-          </div>
-          <div class="w-full">
-            <label class="form-label required"
-              >DV <span class="text-red-800 me-2"> *</span></label
-            >
-            <input
-              formControlName="digito_verificacion"
-              class="input"
-              type="text"
-              autocomplete="off"
-              readonly
-              [ngClass]="{
-                'is-invalid':
-                  formularioContacto.controls['digito_verificacion'].touched &&
-                  formularioContacto.controls['digito_verificacion'].invalid,
-                'is-valid':
-                  formularioContacto.controls['digito_verificacion'].touched &&
-                  formularioContacto.controls['digito_verificacion'].valid,
-              }"
-              appSoloNumeros
-            />
-            <app-form-error
-              [control]="formularioContacto.get('digito_verificacion')"
-              [errors]="[
-                {
-                  validacionTipo: 'required',
-                  mensaje: 'Este campo es obligatorio',
-                },
-                {
-                  validacionTipo: 'maxlength',
-                  mensaje: 'Caracteres máximo es de',
-                  cantidadCaracteres: 20,
-                },
-                {
-                  validacionTipo: 'pattern',
-                  mensaje: 'Caracteres no válidos',
-                },
-              ]"
-            ></app-form-error>
-          </div>
-        </div>
-        <div *ngIf="formularioContacto.value.tipo_persona === 1">
-          <div class="flex flex-row gap-4 mb-2">
-            <div class="w-full">
-              <label class="form-label required"
-                >Nombre corto <span class="text-red-800 me-2"> *</span></label
-              >
-              <input
-                class="input"
-                #inputNombreCorto
-                formControlName="nombre_corto"
-                type="text"
-                autocomplete="off"
-                [ngClass]="{
-                  'is-invalid':
-                    formularioContacto.controls['nombre_corto'].touched &&
-                    formularioContacto.controls['nombre_corto'].invalid,
-                  'is-valid':
-                    formularioContacto.controls['nombre_corto'].touched &&
-                    formularioContacto.controls['nombre_corto'].valid,
-                }"
-              />
-              <app-form-error
-                [control]="formularioContacto.get('nombre_corto')"
-                [errors]="[
-                  {
-                    validacionTipo: 'required',
-                    mensaje: 'Este campo es obligatorio',
-                  },
-                  {
-                    validacionTipo: 'maxlength',
-                    mensaje: 'Caracteres máximo es de',
-                    cantidadCaracteres: 200,
-                  },
-                  {
-                    validacionTipo: 'pattern',
-                    mensaje: 'Caracteres no válidos',
-                  },
-                ]"
-              ></app-form-error>
+                <app-form-error
+                  [control]="formularioContacto.get('numero_identificacion')"
+                  [errors]="[
+                    {
+                      validacionTipo: 'required',
+                      mensaje: 'Este campo es obligatorio',
+                    },
+                    {
+                      validacionTipo: 'maxlength',
+                      mensaje: 'Caracteres máximo es de',
+                      cantidadCaracteres: 20,
+                    },
+                    {
+                      validacionTipo: 'pattern',
+                      mensaje: 'Caracteres no válidos',
+                      cantidadCaracteres: 20,
+                    },
+                  ]"
+                ></app-form-error>
+                @if (
+                  formularioContacto.controls["numero_identificacion"]
+                    ?.touched &&
+                  formularioContacto.controls[
+                    "numero_identificacion"
+                  ]?.hasError("numeroIdentificacionExistente")
+                ) {
+                  <p class="mt-2 text-xs text-red-600 dark:text-red-500 b-1">
+                    Número de identificación existente
+                  </p>
+                }
+              </div>
+              <div class="w-full">
+                <label class="form-label required"
+                  >DV <span class="text-red-800 me-2"> *</span></label
+                >
+                <input
+                  formControlName="digito_verificacion"
+                  class="input"
+                  type="text"
+                  autocomplete="off"
+                  readonly
+                  [ngClass]="{
+                    'is-invalid':
+                      formularioContacto.controls['digito_verificacion']
+                        .touched &&
+                      formularioContacto.controls['digito_verificacion']
+                        .invalid,
+                    'is-valid':
+                      formularioContacto.controls['digito_verificacion']
+                        .touched &&
+                      formularioContacto.controls['digito_verificacion'].valid,
+                  }"
+                  appSoloNumeros
+                />
+                <app-form-error
+                  [control]="formularioContacto.get('digito_verificacion')"
+                  [errors]="[
+                    {
+                      validacionTipo: 'required',
+                      mensaje: 'Este campo es obligatorio',
+                    },
+                    {
+                      validacionTipo: 'maxlength',
+                      mensaje: 'Caracteres máximo es de',
+                      cantidadCaracteres: 20,
+                    },
+                    {
+                      validacionTipo: 'pattern',
+                      mensaje: 'Caracteres no válidos',
+                    },
+                  ]"
+                ></app-form-error>
+              </div>
             </div>
-          </div>
-        </div>
-        <div *ngIf="formularioContacto.value.tipo_persona === 2">
-          <div class="flex flex-row gap-4 mb-2">
-            <div class="w-full">
-              <label class="form-label required"
-                >Nombre 1 <span class="text-red-800 me-2"> *</span></label
-              >
-              <input
-                #inputNombre1
-                formControlName="nombre1"
-                class="input"
-                type="text"
-                autocomplete="off"
-                [ngClass]="{
-                  'is-invalid':
-                    formularioContacto.controls['nombre1'].touched &&
-                    formularioContacto.controls['nombre1'].invalid,
-                  'is-valid':
-                    formularioContacto.controls['nombre1'].touched &&
-                    formularioContacto.controls['nombre1'].valid,
-                }"
-              />
-              <app-form-error
-                [control]="formularioContacto.get('nombre1')"
-                [errors]="[
-                  {
-                    validacionTipo: 'required',
-                    mensaje: 'Este campo es obligatorio',
-                  },
-                  {
-                    validacionTipo: 'maxlength',
-                    mensaje: 'Caracteres máximo es de',
-                    cantidadCaracteres: 50,
-                  },
-                  {
-                    validacionTipo: 'pattern',
-                    mensaje: 'Caracteres no válidos',
-                  },
-                ]"
-              ></app-form-error>
+            <div *ngIf="formularioContacto.value.tipo_persona === 1">
+              <div class="flex flex-row gap-4 mb-2">
+                <div class="w-full">
+                  <label class="form-label required"
+                    >Nombre corto
+                    <span class="text-red-800 me-2"> *</span></label
+                  >
+                  <input
+                    class="input"
+                    #inputNombreCorto
+                    formControlName="nombre_corto"
+                    type="text"
+                    autocomplete="off"
+                    [ngClass]="{
+                      'is-invalid':
+                        formularioContacto.controls['nombre_corto'].touched &&
+                        formularioContacto.controls['nombre_corto'].invalid,
+                      'is-valid':
+                        formularioContacto.controls['nombre_corto'].touched &&
+                        formularioContacto.controls['nombre_corto'].valid,
+                    }"
+                  />
+                  <app-form-error
+                    [control]="formularioContacto.get('nombre_corto')"
+                    [errors]="[
+                      {
+                        validacionTipo: 'required',
+                        mensaje: 'Este campo es obligatorio',
+                      },
+                      {
+                        validacionTipo: 'maxlength',
+                        mensaje: 'Caracteres máximo es de',
+                        cantidadCaracteres: 200,
+                      },
+                      {
+                        validacionTipo: 'pattern',
+                        mensaje: 'Caracteres no válidos',
+                      },
+                    ]"
+                  ></app-form-error>
+                </div>
+              </div>
             </div>
-            <div class="w-full">
-              <label class="form-label">Nombre 2</label>
-              <input
-                formControlName="nombre2"
-                class="input"
-                type="text"
-                autocomplete="off"
-                (blur)="modificarCampoFormulario('nombre2', null)"
-                [ngClass]="{
-                  'is-invalid':
-                    formularioContacto.controls['nombre2'].touched &&
-                    formularioContacto.controls['nombre2'].invalid,
-                  'is-valid':
-                    formularioContacto.controls['nombre2'].touched &&
-                    formularioContacto.controls['nombre2'].valid,
-                }"
-              />
-              <app-form-error
-                [control]="formularioContacto.get('nombre2')"
-                [errors]="[
-                  {
-                    validacionTipo: 'required',
-                    mensaje: 'Este campo es obligatorio',
-                  },
-                  {
-                    validacionTipo: 'minlength',
-                    mensaje: 'Caracteres minimo es de',
-                    cantidadCaracteres: 3,
-                  },
-                  {
-                    validacionTipo: 'maxlength',
-                    mensaje: 'Caracteres máximo es de',
-                    cantidadCaracteres: 50,
-                  },
-                  {
-                    validacionTipo: 'pattern',
-                    mensaje: 'Caracteres no válidos',
-                  },
-                ]"
-              ></app-form-error>
+            <div *ngIf="formularioContacto.value.tipo_persona === 2">
+              <div class="flex flex-row gap-4 mb-2">
+                <div class="w-full">
+                  <label class="form-label required"
+                    >Nombre 1 <span class="text-red-800 me-2"> *</span></label
+                  >
+                  <input
+                    #inputNombre1
+                    formControlName="nombre1"
+                    class="input"
+                    type="text"
+                    autocomplete="off"
+                    [ngClass]="{
+                      'is-invalid':
+                        formularioContacto.controls['nombre1'].touched &&
+                        formularioContacto.controls['nombre1'].invalid,
+                      'is-valid':
+                        formularioContacto.controls['nombre1'].touched &&
+                        formularioContacto.controls['nombre1'].valid,
+                    }"
+                  />
+                  <app-form-error
+                    [control]="formularioContacto.get('nombre1')"
+                    [errors]="[
+                      {
+                        validacionTipo: 'required',
+                        mensaje: 'Este campo es obligatorio',
+                      },
+                      {
+                        validacionTipo: 'maxlength',
+                        mensaje: 'Caracteres máximo es de',
+                        cantidadCaracteres: 50,
+                      },
+                      {
+                        validacionTipo: 'pattern',
+                        mensaje: 'Caracteres no válidos',
+                      },
+                    ]"
+                  ></app-form-error>
+                </div>
+                <div class="w-full">
+                  <label class="form-label">Nombre 2</label>
+                  <input
+                    formControlName="nombre2"
+                    class="input"
+                    type="text"
+                    autocomplete="off"
+                    (blur)="modificarCampoFormulario('nombre2', null)"
+                    [ngClass]="{
+                      'is-invalid':
+                        formularioContacto.controls['nombre2'].touched &&
+                        formularioContacto.controls['nombre2'].invalid,
+                      'is-valid':
+                        formularioContacto.controls['nombre2'].touched &&
+                        formularioContacto.controls['nombre2'].valid,
+                    }"
+                  />
+                  <app-form-error
+                    [control]="formularioContacto.get('nombre2')"
+                    [errors]="[
+                      {
+                        validacionTipo: 'required',
+                        mensaje: 'Este campo es obligatorio',
+                      },
+                      {
+                        validacionTipo: 'minlength',
+                        mensaje: 'Caracteres minimo es de',
+                        cantidadCaracteres: 3,
+                      },
+                      {
+                        validacionTipo: 'maxlength',
+                        mensaje: 'Caracteres máximo es de',
+                        cantidadCaracteres: 50,
+                      },
+                      {
+                        validacionTipo: 'pattern',
+                        mensaje: 'Caracteres no válidos',
+                      },
+                    ]"
+                  ></app-form-error>
+                </div>
+              </div>
+              <div class="flex flex-row gap-4 mb-2">
+                <div class="w-full">
+                  <label class="form-label required"
+                    >Apellido 1 <span class="text-red-800 me-2"> *</span></label
+                  >
+                  <input
+                    formControlName="apellido1"
+                    class="input"
+                    type="text"
+                    autocomplete="off"
+                    [ngClass]="{
+                      'is-invalid':
+                        formularioContacto.controls['apellido1'].touched &&
+                        formularioContacto.controls['apellido1'].invalid,
+                      'is-valid':
+                        formularioContacto.controls['apellido1'].touched &&
+                        formularioContacto.controls['apellido1'].valid,
+                    }"
+                  />
+                  <app-form-error
+                    [control]="formularioContacto.get('apellido1')"
+                    [errors]="[
+                      {
+                        validacionTipo: 'required',
+                        mensaje: 'Este campo es obligatorio',
+                      },
+                      {
+                        validacionTipo: 'minlength',
+                        mensaje: 'Caracteres minimo es de',
+                        cantidadCaracteres: 3,
+                      },
+                      {
+                        validacionTipo: 'pattern',
+                        mensaje: 'Caracteres no válidos',
+                      },
+                    ]"
+                  ></app-form-error>
+                </div>
+                <div class="w-full">
+                  <label class="form-label">Apellido 2</label>
+                  <input
+                    formControlName="apellido2"
+                    class="input"
+                    type="text"
+                    autocomplete="off"
+                    [ngClass]="{
+                      'is-invalid':
+                        formularioContacto.controls['apellido2'].touched &&
+                        formularioContacto.controls['apellido2'].invalid,
+                      'is-valid':
+                        formularioContacto.controls['apellido2'].touched &&
+                        formularioContacto.controls['apellido2'].valid,
+                    }"
+                  />
+                  <app-form-error
+                    [control]="formularioContacto.get('apellido2')"
+                    [errors]="[
+                      {
+                        validacionTipo: 'required',
+                        mensaje: 'Este campo es obligatorio',
+                      },
+                      {
+                        validacionTipo: 'maxlength',
+                        mensaje: 'Caracteres minimo es de',
+                        cantidadCaracteres: 50,
+                      },
+                      {
+                        validacionTipo: 'pattern',
+                        mensaje: 'Caracteres no válidos',
+                      },
+                    ]"
+                  ></app-form-error>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="flex flex-row gap-4 mb-2">
-            <div class="w-full">
-              <label class="form-label required"
-                >Apellido 1 <span class="text-red-800 me-2"> *</span></label
-              >
-              <input
-                formControlName="apellido1"
-                class="input"
-                type="text"
-                autocomplete="off"
-                [ngClass]="{
-                  'is-invalid':
-                    formularioContacto.controls['apellido1'].touched &&
-                    formularioContacto.controls['apellido1'].invalid,
-                  'is-valid':
-                    formularioContacto.controls['apellido1'].touched &&
-                    formularioContacto.controls['apellido1'].valid,
-                }"
-              />
-              <app-form-error
-                [control]="formularioContacto.get('apellido1')"
-                [errors]="[
-                  {
-                    validacionTipo: 'required',
-                    mensaje: 'Este campo es obligatorio',
-                  },
-                  {
-                    validacionTipo: 'minlength',
-                    mensaje: 'Caracteres minimo es de',
-                    cantidadCaracteres: 3,
-                  },
-                  {
-                    validacionTipo: 'pattern',
-                    mensaje: 'Caracteres no válidos',
-                  },
-                ]"
-              ></app-form-error>
+            <div class="flex flex-row gap-4 mb-2">
+              <div class="w-full">
+                <label class="form-label required"
+                  >Teléfono <span class="text-red-800 me-2"> *</span></label
+                >
+                <input
+                  formControlName="telefono"
+                  class="input"
+                  type="text"
+                  autocomplete="off"
+                  [ngClass]="{
+                    'is-invalid':
+                      formularioContacto.controls['telefono'].touched &&
+                      formularioContacto.controls['telefono'].invalid,
+                    'is-valid':
+                      formularioContacto.controls['telefono'].touched &&
+                      formularioContacto.controls['telefono'].valid,
+                  }"
+                />
+                <app-form-error
+                  [control]="formularioContacto.get('telefono')"
+                  [errors]="[
+                    {
+                      validacionTipo: 'required',
+                      mensaje: 'Este campo es obligatorio',
+                    },
+                    {
+                      validacionTipo: 'maxlength',
+                      mensaje: 'Caracteres minimo es de',
+                      cantidadCaracteres: 50,
+                    },
+                  ]"
+                ></app-form-error>
+              </div>
+              <div class="w-full">
+                <label class="form-label required"
+                  >Celular <span class="text-red-800 me-2"> *</span></label
+                >
+                <input
+                  formControlName="celular"
+                  class="input"
+                  autocomplete="off"
+                  [ngClass]="{
+                    'is-invalid':
+                      formularioContacto.controls['celular'].touched &&
+                      formularioContacto.controls['celular'].invalid,
+                    'is-valid':
+                      formularioContacto.controls['celular'].touched &&
+                      formularioContacto.controls['celular'].valid,
+                  }"
+                />
+                <app-form-error
+                  [control]="formularioContacto.get('celular')"
+                  [errors]="[
+                    {
+                      validacionTipo: 'required',
+                      mensaje: 'Este campo es obligatorio',
+                    },
+                    {
+                      validacionTipo: 'maxlength',
+                      mensaje: 'Caracteres minimo es de',
+                      cantidadCaracteres: 50,
+                    },
+                  ]"
+                ></app-form-error>
+              </div>
             </div>
-            <div class="w-full">
-              <label class="form-label">Apellido 2</label>
-              <input
-                formControlName="apellido2"
-                class="input"
-                type="text"
-                autocomplete="off"
-                [ngClass]="{
-                  'is-invalid':
-                    formularioContacto.controls['apellido2'].touched &&
-                    formularioContacto.controls['apellido2'].invalid,
-                  'is-valid':
-                    formularioContacto.controls['apellido2'].touched &&
-                    formularioContacto.controls['apellido2'].valid,
-                }"
-              />
-              <app-form-error
-                [control]="formularioContacto.get('apellido2')"
-                [errors]="[
-                  {
-                    validacionTipo: 'required',
-                    mensaje: 'Este campo es obligatorio',
-                  },
-                  {
-                    validacionTipo: 'maxlength',
-                    mensaje: 'Caracteres minimo es de',
-                    cantidadCaracteres: 50,
-                  },
-                  {
-                    validacionTipo: 'pattern',
-                    mensaje: 'Caracteres no válidos',
-                  },
-                ]"
-              ></app-form-error>
-            </div>
-          </div>
-        </div>
-        <div class="flex flex-row gap-4 mb-2">
-          <div class="w-full">
-            <label class="form-label required"
-              >Teléfono <span class="text-red-800 me-2"> *</span></label
-            >
-            <input
-              formControlName="telefono"
-              class="input"
-              type="text"
-              autocomplete="off"
-              [ngClass]="{
-                'is-invalid':
-                  formularioContacto.controls['telefono'].touched &&
-                  formularioContacto.controls['telefono'].invalid,
-                'is-valid':
-                  formularioContacto.controls['telefono'].touched &&
-                  formularioContacto.controls['telefono'].valid,
-              }"
-            />
-            <app-form-error
-              [control]="formularioContacto.get('telefono')"
-              [errors]="[
-                {
-                  validacionTipo: 'required',
-                  mensaje: 'Este campo es obligatorio',
-                },
-                {
-                  validacionTipo: 'maxlength',
-                  mensaje: 'Caracteres minimo es de',
-                  cantidadCaracteres: 50,
-                },
-              ]"
-            ></app-form-error>
-          </div>
-          <div class="w-full">
-            <label class="form-label required"
-              >Celular <span class="text-red-800 me-2"> *</span></label
-            >
-            <input
-              formControlName="celular"
-              class="input"
-              autocomplete="off"
-              [ngClass]="{
-                'is-invalid':
-                  formularioContacto.controls['celular'].touched &&
-                  formularioContacto.controls['celular'].invalid,
-                'is-valid':
-                  formularioContacto.controls['celular'].touched &&
-                  formularioContacto.controls['celular'].valid,
-              }"
-            />
-            <app-form-error
-              [control]="formularioContacto.get('celular')"
-              [errors]="[
-                {
-                  validacionTipo: 'required',
-                  mensaje: 'Este campo es obligatorio',
-                },
-                {
-                  validacionTipo: 'maxlength',
-                  mensaje: 'Caracteres minimo es de',
-                  cantidadCaracteres: 50,
-                },
-              ]"
-            ></app-form-error>
-          </div>
-        </div>
-        <div class="flex flex-row gap-4 mb-2">
-          <div class="w-full" ngbDropdown>
-            <label class="form-label required"
-              >Ciudad <span class="text-red-800 me-2"> *</span></label
-            >
-            <ng-select
-              [items]="arrCiudadesSignal()"
-              bindLabel="nombreCompleto"
-              bindValue="id"
-              placeholder="Selecciona un ciudad"
-              class="select2Custom"
-              (search)="consultarCiudad($event)"
-              (clear)="consultarCiudad($event)"
-              formControlName="ciudad"
-            >
-            </ng-select>
+            <div class="flex flex-row gap-4 mb-2">
+              <div class="w-full" ngbDropdown>
+                <label class="form-label required"
+                  >Ciudad <span class="text-red-800 me-2"> *</span></label
+                >
+                <ng-select
+                  [items]="arrCiudadesSignal()"
+                  bindLabel="nombreCompleto"
+                  bindValue="id"
+                  placeholder="Selecciona un ciudad"
+                  class="select2Custom"
+                  (search)="consultarCiudad($event)"
+                  (clear)="consultarCiudad($event)"
+                  formControlName="ciudad"
+                >
+                </ng-select>
 
-            <app-form-error
-              [control]="formularioContacto.get('celular')"
-              [errors]="[
-                {
-                  validacionTipo: 'required',
-                  mensaje: 'Este campo es obligatorio',
-                },
-              ]"
-            ></app-form-error>
-          </div>
-          <div class="w-full">
-            <label class="form-label required"
-              >Dirección <span class="text-red-800 me-2"> *</span></label
-            >
-            <input
-              formControlName="direccion"
-              class="input"
-              type="text"
-              autocomplete="off"
-              [ngClass]="{
-                'is-invalid':
-                  formularioContacto.controls['direccion'].touched &&
-                  formularioContacto.controls['direccion'].invalid,
-                'is-valid':
-                  formularioContacto.controls['direccion'].touched &&
-                  formularioContacto.controls['direccion'].valid,
-              }"
-            />
-            <app-form-error
-              [control]="formularioContacto.get('direccion')"
-              [errors]="[
-                {
-                  validacionTipo: 'required',
-                  mensaje: 'Este campo es obligatorio',
-                },
-                {
-                  validacionTipo: 'maxlength',
-                  mensaje: 'Caracteres minimo es de',
-                  cantidadCaracteres: 255,
-                },
-              ]"
-            ></app-form-error>
-          </div>
-        </div>
-        <div class="flex flex-row gap-4 mb-2">
-          <div class="w-full">
-            <label class="form-label">Barrio</label>
-            <input
-              formControlName="barrio"
-              class="input"
-              type="text"
-              autocomplete="off"
-              (blur)="modificarCampoFormulario('barrio', null)"
-              [ngClass]="{
-                'is-invalid':
-                  formularioContacto.controls['barrio'].touched &&
-                  formularioContacto.controls['barrio'].invalid,
-                'is-valid':
-                  formularioContacto.controls['barrio'].touched &&
-                  formularioContacto.controls['barrio'].valid,
-              }"
-            />
-            <app-form-error
-              [control]="formularioContacto.get('barrio')"
-              [errors]="[
-                {
-                  validacionTipo: 'required',
-                  mensaje: 'Este campo es obligatorio',
-                },
-                {
-                  validacionTipo: 'maxlength',
-                  mensaje: 'Caracteres minimo es de',
-                  cantidadCaracteres: 50,
-                },
-              ]"
-            ></app-form-error>
-          </div>
-          <div class="w-full">
-            <label class="form-label required"
-              >Correo <span class="text-red-800 me-2"> *</span></label
-            >
-            <input
-              formControlName="correo"
-              class="input"
-              type="email"
-              autocomplete="off"
-              [ngClass]="{
-                'is-invalid':
-                  formularioContacto.controls['correo'].touched &&
-                  formularioContacto.controls['correo'].invalid,
-                'is-valid':
-                  formularioContacto.controls['correo'].touched &&
-                  formularioContacto.controls['correo'].valid,
-              }"
-              appInputValuecaseDirective
-              [appInputValueCase]="'minuscula'"
-            />
-            <app-form-error
-              [control]="formularioContacto.get('correo')"
-              [errors]="[
-                {
-                  validacionTipo: 'required',
-                  mensaje: 'Este campo es obligatorio',
-                },
-                {
-                  validacionTipo: 'maxlength',
-                  mensaje: 'Caracteres minimo es de',
-                  cantidadCaracteres: 100,
-                },
-                {
-                  validacionTipo: 'pattern',
-                  mensaje: 'Caracteres no válidos',
-                },
-              ]"
-            ></app-form-error>
-          </div>
-        </div>
-        <div class="flex flex-row mb-8">
-          <div>
-            <div class="form-check form-check-custom form-check-solid mb-2">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value="1"
-                id="cliente"
-                formControlName="cliente"
-                [ngClass]="{
-                  'is-invalid':
-                    formularioContacto.controls['cliente'].touched &&
-                    formularioContacto.controls['cliente'].invalid,
-                  'is-valid':
-                    formularioContacto.controls['cliente'].touched &&
-                    formularioContacto.controls['cliente'].valid,
-                }"
-              />
-              <label class="form-check-label text-gray-700" for="cliente">
-                Cliente
-              </label>
+                <app-form-error
+                  [control]="formularioContacto.get('celular')"
+                  [errors]="[
+                    {
+                      validacionTipo: 'required',
+                      mensaje: 'Este campo es obligatorio',
+                    },
+                  ]"
+                ></app-form-error>
+              </div>
+              <div class="w-full">
+                <label class="form-label required"
+                  >Dirección <span class="text-red-800 me-2"> *</span></label
+                >
+                <input
+                  formControlName="direccion"
+                  class="input"
+                  type="text"
+                  autocomplete="off"
+                  [ngClass]="{
+                    'is-invalid':
+                      formularioContacto.controls['direccion'].touched &&
+                      formularioContacto.controls['direccion'].invalid,
+                    'is-valid':
+                      formularioContacto.controls['direccion'].touched &&
+                      formularioContacto.controls['direccion'].valid,
+                  }"
+                />
+                <app-form-error
+                  [control]="formularioContacto.get('direccion')"
+                  [errors]="[
+                    {
+                      validacionTipo: 'required',
+                      mensaje: 'Este campo es obligatorio',
+                    },
+                    {
+                      validacionTipo: 'maxlength',
+                      mensaje: 'Caracteres minimo es de',
+                      cantidadCaracteres: 255,
+                    },
+                  ]"
+                ></app-form-error>
+              </div>
             </div>
-            <div class="form-check form-check-custom form-check-solid mb-2">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value="1"
-                id="proveedor"
-                formControlName="proveedor"
-                [ngClass]="{
-                  'is-invalid':
-                    formularioContacto.controls['proveedor'].touched &&
-                    formularioContacto.controls['proveedor'].invalid,
-                  'is-valid':
-                    formularioContacto.controls['proveedor'].touched &&
-                    formularioContacto.controls['proveedor'].valid,
-                }"
-              />
-              <label class="form-check-label text-gray-700" for="proveedor">
-                Proveedor
-              </label>
+            <div class="flex flex-row gap-4 mb-2">
+              <div class="w-full">
+                <label class="form-label">Barrio</label>
+                <input
+                  formControlName="barrio"
+                  class="input"
+                  type="text"
+                  autocomplete="off"
+                  (blur)="modificarCampoFormulario('barrio', null)"
+                  [ngClass]="{
+                    'is-invalid':
+                      formularioContacto.controls['barrio'].touched &&
+                      formularioContacto.controls['barrio'].invalid,
+                    'is-valid':
+                      formularioContacto.controls['barrio'].touched &&
+                      formularioContacto.controls['barrio'].valid,
+                  }"
+                />
+                <app-form-error
+                  [control]="formularioContacto.get('barrio')"
+                  [errors]="[
+                    {
+                      validacionTipo: 'required',
+                      mensaje: 'Este campo es obligatorio',
+                    },
+                    {
+                      validacionTipo: 'maxlength',
+                      mensaje: 'Caracteres minimo es de',
+                      cantidadCaracteres: 50,
+                    },
+                  ]"
+                ></app-form-error>
+              </div>
+              <div class="w-full">
+                <label class="form-label required"
+                  >Correo <span class="text-red-800 me-2"> *</span></label
+                >
+                <input
+                  formControlName="correo"
+                  class="input"
+                  type="email"
+                  autocomplete="off"
+                  [ngClass]="{
+                    'is-invalid':
+                      formularioContacto.controls['correo'].touched &&
+                      formularioContacto.controls['correo'].invalid,
+                    'is-valid':
+                      formularioContacto.controls['correo'].touched &&
+                      formularioContacto.controls['correo'].valid,
+                  }"
+                  appInputValuecaseDirective
+                  [appInputValueCase]="'minuscula'"
+                />
+                <app-form-error
+                  [control]="formularioContacto.get('correo')"
+                  [errors]="[
+                    {
+                      validacionTipo: 'required',
+                      mensaje: 'Este campo es obligatorio',
+                    },
+                    {
+                      validacionTipo: 'maxlength',
+                      mensaje: 'Caracteres minimo es de',
+                      cantidadCaracteres: 100,
+                    },
+                    {
+                      validacionTipo: 'pattern',
+                      mensaje: 'Caracteres no válidos',
+                    },
+                  ]"
+                ></app-form-error>
+              </div>
             </div>
-            <div class="form-check form-check-custom form-check-solid">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value="1"
-                id="empleado"
-                formControlName="empleado"
-                [ngClass]="{
-                  'is-invalid':
-                    formularioContacto.controls['empleado'].touched &&
-                    formularioContacto.controls['empleado'].invalid,
-                  'is-valid':
-                    formularioContacto.controls['empleado'].touched &&
-                    formularioContacto.controls['empleado'].valid,
-                }"
-              />
-              <label class="form-check-label text-gray-700" for="empleado">
-                Empleado
-              </label>
+            <div class="flex flex-row">
+              <div>
+                <div class="checkbox-group mb-2">
+                  <input
+                    class="checkbox checkbox-sm"
+                    type="checkbox"
+                    value="1"
+                    id="cliente"
+                    formControlName="cliente"
+                    [ngClass]="{
+                      'is-invalid':
+                        formularioContacto.controls['cliente'].touched &&
+                        formularioContacto.controls['cliente'].invalid,
+                      'is-valid':
+                        formularioContacto.controls['cliente'].touched &&
+                        formularioContacto.controls['cliente'].valid,
+                    }"
+                  />
+                  <label class="checkbox-label text-gray-700" for="cliente">
+                    Cliente
+                  </label>
+                </div>
+                <div class="checkbox-group mb-2">
+                  <input
+                    class="checkbox checkbox-sm"
+                    type="checkbox"
+                    value="1"
+                    id="proveedor"
+                    formControlName="proveedor"
+                    [ngClass]="{
+                      'is-invalid':
+                        formularioContacto.controls['proveedor'].touched &&
+                        formularioContacto.controls['proveedor'].invalid,
+                      'is-valid':
+                        formularioContacto.controls['proveedor'].touched &&
+                        formularioContacto.controls['proveedor'].valid,
+                    }"
+                  />
+                  <label class="checkbox-label text-gray-700" for="proveedor">
+                    Proveedor
+                  </label>
+                </div>
+                <div class="checkbox-group">
+                  <input
+                    class="checkbox checkbox-sm"
+                    type="checkbox"
+                    value="1"
+                    id="empleado"
+                    formControlName="empleado"
+                    [ngClass]="{
+                      'is-invalid':
+                        formularioContacto.controls['empleado'].touched &&
+                        formularioContacto.controls['empleado'].invalid,
+                      'is-valid':
+                        formularioContacto.controls['empleado'].touched &&
+                        formularioContacto.controls['empleado'].valid,
+                    }"
+                  />
+                  <label class="checkbox-label text-gray-700" for="empleado">
+                    Empleado
+                  </label>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-
-        <h5>Información cliente</h5>
-        <div class="flex flex-row gap-4 mb-2">
-          <div class="w-full">
-            <label class="form-label required">Plazo de pago</label>
-            <select
-              class="select"
-              formControlName="plazo_pago"
-              [ngClass]="{
-                'is-invalid':
-                  formularioContacto.controls['plazo_pago'].touched &&
-                  formularioContacto.controls['plazo_pago'].invalid,
-                'is-valid':
-                  formularioContacto.controls['plazo_pago'].touched &&
-                  formularioContacto.controls['plazo_pago'].valid,
-              }"
-            >
-              <option value="">Seleccionar...</option>
-              <option
-                *ngFor="let pago of arrPagosSignal()"
-                [value]="pago.id"
-                [selected]="pago.id === formularioContacto.value.plazo_pago_id"
-              >
-                {{ pago.nombre }}
-              </option>
-            </select>
-            <app-form-error
-              [control]="formularioContacto.get('barrio')"
-              [errors]="[
-                {
-                  validacionTipo: 'required',
-                  mensaje: 'Este campo es obligatorio',
-                },
-              ]"
-            ></app-form-error>
-          </div>
-          <div class="w-full">
-            <label class="form-label">Lista de precio</label>
-            <select
-              class="select"
-              formControlName="precio"
-              [ngClass]="{
-                'is-invalid':
-                  formularioContacto.controls['precio'].touched &&
-                  formularioContacto.controls['precio'].invalid,
-                'is-valid':
-                  formularioContacto.controls['precio'].touched &&
-                  formularioContacto.controls['precio'].valid,
-              }"
-            >
-              <option value="">Seleccionar...</option>
-              <option
-                *ngFor="let precio of arrPreciosSignal()"
-                [value]="precio.id"
-                [selected]="precio.id === formularioContacto.value.precio_id"
-              >
-                {{ precio.nombre }}
-              </option>
-            </select>
-          </div>
-        </div>
-        <div class="flex flex-row gap-4 mb-2">
-          <div class="w-full">
-            <label class="form-label">Asesor</label>
-            <select
-              class="select"
-              formControlName="asesor"
-              [ngClass]="{
-                'is-invalid':
-                  formularioContacto.controls['asesor'].touched &&
-                  formularioContacto.controls['asesor'].invalid,
-                'is-valid':
-                  formularioContacto.controls['asesor'].touched &&
-                  formularioContacto.controls['asesor'].valid,
-              }"
-            >
-              <option value="">Seleccionar...</option>
-              <option
-                *ngFor="let asesor of arrAsesoresSignal()"
-                [value]="asesor.id"
-                [selected]="asesor.id === formularioContacto.value.asesor_id"
-              >
-                {{ asesor.nombre_corto }}
-              </option>
-            </select>
-          </div>
-          <div class="w-full">
-            <label class="form-label">Correo factura electronica</label>
-            <input
-              formControlName="correo_facturacion_electronica"
-              class="input"
-              type="email"
-              autocomplete="off"
-              [ngClass]="{
-                'is-invalid':
-                  formularioContacto.controls['correo_facturacion_electronica']
-                    .touched &&
-                  formularioContacto.controls['correo_facturacion_electronica']
-                    .invalid,
-                'is-valid':
-                  formularioContacto.controls['correo_facturacion_electronica']
-                    .touched &&
-                  formularioContacto.controls['correo_facturacion_electronica']
-                    .valid,
-              }"
-            />
-            <app-form-error
-              [control]="formularioContacto.get('barrio')"
-              [errors]="[
-                {
-                  validacionTipo: 'pattern',
-                  mensaje: 'Caracteres no válidos',
-                },
-                {
-                  validacionTipo: 'maxlength',
-                  mensaje: 'Caracteres minimo es de',
-                  cantidadCaracteres: 100,
-                },
-              ]"
-            ></app-form-error>
           </div>
         </div>
 
-        <h5>Información proveedor</h5>
-        <div class="flex flex-row gap-4 mb-2">
-          <div class="w-full">
-            <label
-              translate="FORMULARIOS.CAMPOS.COMUNES.BANCO"
-              class="form-label"
-              >Banco</label
-            >
-            <select
-              class="select"
-              formControlName="banco"
-              [ngClass]="{
-                'is-invalid':
-                  formularioContacto.controls['banco'].touched &&
-                  formularioContacto.controls['banco'].invalid,
-                'is-valid':
-                  formularioContacto.controls['banco'].touched &&
-                  formularioContacto.controls['banco'].valid,
-              }"
-            >
-              <option value="">Seleccionar...</option>
-              <ng-container *ngFor="let banco of arrBancosSignal()">
-                <option
-                  [value]="banco.id"
-                  [selected]="banco.id === formularioContacto.value.banco"
-                >
-                  {{ banco.nombre }}
-                </option>
-              </ng-container>
-            </select>
-            <app-form-error
-              [control]="formularioContacto.get('barrio')"
-              [errors]="[
-                {
-                  validacionTipo: 'required',
-                  mensaje: 'Este campo es obligatorio',
-                },
-              ]"
-            ></app-form-error>
+        <div class="card mb-4">
+          <div class="card-header">
+            <h5 class="card-title text-sm">Información cliente</h5>
           </div>
-          <div class="w-full">
-            <label class="form-label">Número de cuenta </label>
-            <input
-              formControlName="numero_cuenta"
-              class="input"
-              type="text"
-              autocomplete="off"
-              [ngClass]="{
-                'is-invalid':
-                  formularioContacto.controls['numero_cuenta'].touched &&
-                  formularioContacto.controls['numero_cuenta'].invalid,
-                'is-valid':
-                  formularioContacto.controls['numero_cuenta'].touched &&
-                  formularioContacto.controls['numero_cuenta'].valid,
-              }"
-            />
-            <app-form-error
-              [control]="formularioContacto.get('barrio')"
-              [errors]="[
-                {
-                  validacionTipo: 'required',
-                  mensaje: 'Este campo es obligatorio',
-                },
-                {
-                  validacionTipo: 'maxlength',
-                  mensaje: 'Caracteres minimo es de',
-                  cantidadCaracteres: 20,
-                },
-              ]"
-            ></app-form-error>
+          <div class="card-body">
+            <div class="flex flex-row gap-4 mb-2">
+              <div class="w-full">
+                <label class="form-label required">Plazo de pago</label>
+                <select
+                  class="select"
+                  formControlName="plazo_pago"
+                  [ngClass]="{
+                    'is-invalid':
+                      formularioContacto.controls['plazo_pago'].touched &&
+                      formularioContacto.controls['plazo_pago'].invalid,
+                    'is-valid':
+                      formularioContacto.controls['plazo_pago'].touched &&
+                      formularioContacto.controls['plazo_pago'].valid,
+                  }"
+                >
+                  <option value="">Seleccionar...</option>
+                  <option
+                    *ngFor="let pago of arrPagosSignal()"
+                    [value]="pago.id"
+                    [selected]="
+                      pago.id === formularioContacto.value.plazo_pago_id
+                    "
+                  >
+                    {{ pago.nombre }}
+                  </option>
+                </select>
+                <app-form-error
+                  [control]="formularioContacto.get('barrio')"
+                  [errors]="[
+                    {
+                      validacionTipo: 'required',
+                      mensaje: 'Este campo es obligatorio',
+                    },
+                  ]"
+                ></app-form-error>
+              </div>
+              <div class="w-full">
+                <label class="form-label">Lista de precio</label>
+                <select
+                  class="select"
+                  formControlName="precio"
+                  [ngClass]="{
+                    'is-invalid':
+                      formularioContacto.controls['precio'].touched &&
+                      formularioContacto.controls['precio'].invalid,
+                    'is-valid':
+                      formularioContacto.controls['precio'].touched &&
+                      formularioContacto.controls['precio'].valid,
+                  }"
+                >
+                  <option value="">Seleccionar...</option>
+                  <option
+                    *ngFor="let precio of arrPreciosSignal()"
+                    [value]="precio.id"
+                    [selected]="
+                      precio.id === formularioContacto.value.precio_id
+                    "
+                  >
+                    {{ precio.nombre }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="flex flex-row gap-4 mb-2">
+              <div class="w-full">
+                <label class="form-label">Asesor</label>
+                <select
+                  class="select"
+                  formControlName="asesor"
+                  [ngClass]="{
+                    'is-invalid':
+                      formularioContacto.controls['asesor'].touched &&
+                      formularioContacto.controls['asesor'].invalid,
+                    'is-valid':
+                      formularioContacto.controls['asesor'].touched &&
+                      formularioContacto.controls['asesor'].valid,
+                  }"
+                >
+                  <option value="">Seleccionar...</option>
+                  <option
+                    *ngFor="let asesor of arrAsesoresSignal()"
+                    [value]="asesor.id"
+                    [selected]="
+                      asesor.id === formularioContacto.value.asesor_id
+                    "
+                  >
+                    {{ asesor.nombre_corto }}
+                  </option>
+                </select>
+              </div>
+              <div class="w-full">
+                <label class="form-label">Correo factura electronica</label>
+                <input
+                  formControlName="correo_facturacion_electronica"
+                  class="input"
+                  type="email"
+                  autocomplete="off"
+                  [ngClass]="{
+                    'is-invalid':
+                      formularioContacto.controls[
+                        'correo_facturacion_electronica'
+                      ].touched &&
+                      formularioContacto.controls[
+                        'correo_facturacion_electronica'
+                      ].invalid,
+                    'is-valid':
+                      formularioContacto.controls[
+                        'correo_facturacion_electronica'
+                      ].touched &&
+                      formularioContacto.controls[
+                        'correo_facturacion_electronica'
+                      ].valid,
+                  }"
+                />
+                <app-form-error
+                  [control]="formularioContacto.get('barrio')"
+                  [errors]="[
+                    {
+                      validacionTipo: 'pattern',
+                      mensaje: 'Caracteres no válidos',
+                    },
+                    {
+                      validacionTipo: 'maxlength',
+                      mensaje: 'Caracteres minimo es de',
+                      cantidadCaracteres: 100,
+                    },
+                  ]"
+                ></app-form-error>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="flex flex-row gap-4 mb-2">
-          <div class="w-full">
-            <label class="form-label">Clase cuenta banco</label>
-            <select
-              formControlName="cuenta_banco_clase"
-              class="select"
-              [ngClass]="{
-                'is-invalid':
-                  formularioContacto.controls['cuenta_banco_clase'].touched &&
-                  formularioContacto.controls['cuenta_banco_clase'].invalid,
-                'is-valid':
-                  formularioContacto.controls['cuenta_banco_clase'].touched &&
-                  formularioContacto.controls['cuenta_banco_clase'].valid,
-              }"
-            >
-              @for (item of arrCuentasBancosSignal(); track $index) {
-                <option
-                  [value]="item.id"
-                  [selected]="
-                    item.id === formularioContacto.value.cuenta_banco_clase
-                  "
-                >
-                  {{ item.nombre }}
-                </option>
-              }
-            </select>
-            <app-form-error
-              [control]="formularioContacto.get('barrio')"
-              [errors]="[
-                {
-                  validacionTipo: 'required',
-                  mensaje: 'Este campo es obligatorio',
-                },
-                {
-                  validacionTipo: 'maxlength',
-                  mensaje: 'Caracteres minimo es de',
-                  cantidadCaracteres: 100,
-                },
-                {
-                  validacionTipo: 'pattern',
-                  mensaje: 'Carecteres no validos',
-                },
-              ]"
-            ></app-form-error>
+
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title text-sm">Información proveedor</h5>
           </div>
-          <div class="w-full">
-            <label class="form-label required">Plazo de pago</label>
-            <select
-              class="select"
-              formControlName="plazo_pago_proveedor"
-              [ngClass]="{
-                'is-invalid':
-                  formularioContacto.controls['plazo_pago_proveedor'].touched &&
-                  formularioContacto.controls['plazo_pago_proveedor'].invalid,
-                'is-valid':
-                  formularioContacto.controls['plazo_pago_proveedor'].touched &&
-                  formularioContacto.controls['plazo_pago_proveedor'].valid,
-              }"
-            >
-              <option value="">Seleccionar...</option>
-              @for (pago of arrPagosSignal(); track $index) {
-                <option
-                  [value]="pago.id"
-                  [selected]="
-                    pago.id === formularioContacto.value.plazo_pago_id
-                  "
+          <div class="card-body">
+            <div class="flex flex-row gap-4 mb-2">
+              <div class="w-full">
+                <label
+                  translate="FORMULARIOS.CAMPOS.COMUNES.BANCO"
+                  class="form-label"
+                  >Banco</label
                 >
-                  {{ pago.nombre }}
-                </option>
-              }
-            </select>
+                <select
+                  class="select"
+                  formControlName="banco"
+                  [ngClass]="{
+                    'is-invalid':
+                      formularioContacto.controls['banco'].touched &&
+                      formularioContacto.controls['banco'].invalid,
+                    'is-valid':
+                      formularioContacto.controls['banco'].touched &&
+                      formularioContacto.controls['banco'].valid,
+                  }"
+                >
+                  <option value="">Seleccionar...</option>
+                  <ng-container *ngFor="let banco of arrBancosSignal()">
+                    <option
+                      [value]="banco.id"
+                      [selected]="banco.id === formularioContacto.value.banco"
+                    >
+                      {{ banco.nombre }}
+                    </option>
+                  </ng-container>
+                </select>
+                <app-form-error
+                  [control]="formularioContacto.get('barrio')"
+                  [errors]="[
+                    {
+                      validacionTipo: 'required',
+                      mensaje: 'Este campo es obligatorio',
+                    },
+                  ]"
+                ></app-form-error>
+              </div>
+              <div class="w-full">
+                <label class="form-label">Número de cuenta </label>
+                <input
+                  formControlName="numero_cuenta"
+                  class="input"
+                  type="text"
+                  autocomplete="off"
+                  [ngClass]="{
+                    'is-invalid':
+                      formularioContacto.controls['numero_cuenta'].touched &&
+                      formularioContacto.controls['numero_cuenta'].invalid,
+                    'is-valid':
+                      formularioContacto.controls['numero_cuenta'].touched &&
+                      formularioContacto.controls['numero_cuenta'].valid,
+                  }"
+                />
+                <app-form-error
+                  [control]="formularioContacto.get('barrio')"
+                  [errors]="[
+                    {
+                      validacionTipo: 'required',
+                      mensaje: 'Este campo es obligatorio',
+                    },
+                    {
+                      validacionTipo: 'maxlength',
+                      mensaje: 'Caracteres minimo es de',
+                      cantidadCaracteres: 20,
+                    },
+                  ]"
+                ></app-form-error>
+              </div>
+            </div>
+            <div class="flex flex-row gap-4 mb-2">
+              <div class="w-full">
+                <label class="form-label">Clase cuenta banco</label>
+                <select
+                  formControlName="cuenta_banco_clase"
+                  class="select"
+                  [ngClass]="{
+                    'is-invalid':
+                      formularioContacto.controls['cuenta_banco_clase']
+                        .touched &&
+                      formularioContacto.controls['cuenta_banco_clase'].invalid,
+                    'is-valid':
+                      formularioContacto.controls['cuenta_banco_clase']
+                        .touched &&
+                      formularioContacto.controls['cuenta_banco_clase'].valid,
+                  }"
+                >
+                  @for (item of arrCuentasBancosSignal(); track $index) {
+                    <option
+                      [value]="item.id"
+                      [selected]="
+                        item.id === formularioContacto.value.cuenta_banco_clase
+                      "
+                    >
+                      {{ item.nombre }}
+                    </option>
+                  }
+                </select>
+                <app-form-error
+                  [control]="formularioContacto.get('barrio')"
+                  [errors]="[
+                    {
+                      validacionTipo: 'required',
+                      mensaje: 'Este campo es obligatorio',
+                    },
+                    {
+                      validacionTipo: 'maxlength',
+                      mensaje: 'Caracteres minimo es de',
+                      cantidadCaracteres: 100,
+                    },
+                    {
+                      validacionTipo: 'pattern',
+                      mensaje: 'Carecteres no validos',
+                    },
+                  ]"
+                ></app-form-error>
+              </div>
+              <div class="w-full">
+                <label class="form-label required">Plazo de pago</label>
+                <select
+                  class="select"
+                  formControlName="plazo_pago_proveedor"
+                  [ngClass]="{
+                    'is-invalid':
+                      formularioContacto.controls['plazo_pago_proveedor']
+                        .touched &&
+                      formularioContacto.controls['plazo_pago_proveedor']
+                        .invalid,
+                    'is-valid':
+                      formularioContacto.controls['plazo_pago_proveedor']
+                        .touched &&
+                      formularioContacto.controls['plazo_pago_proveedor'].valid,
+                  }"
+                >
+                  <option value="">Seleccionar...</option>
+                  @for (pago of arrPagosSignal(); track $index) {
+                    <option
+                      [value]="pago.id"
+                      [selected]="
+                        pago.id === formularioContacto.value.plazo_pago_id
+                      "
+                    >
+                      {{ pago.nombre }}
+                    </option>
+                  }
+                </select>
+              </div>
+            </div>
           </div>
         </div>
       </div>
