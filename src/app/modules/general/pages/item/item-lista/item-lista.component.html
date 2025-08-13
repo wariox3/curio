@@ -2,15 +2,29 @@
   <div class="card">
     <div class="card-header">
       <h3 class="card-title">Item</h3>
-
-      <div class="flex justify-end gap-2">
-        <button class="btn btn-primary" routerLink="/administracion/item/nuevo">
-          Nuevo
-        </button>
-        <button class="btn btn-danger" (click)="eliminar()" [disabled]="itemSeleccionados().length === 0">Eliminar</button>
-      </div>
     </div>
     <div class="card-body">
+      <div class="flex justify-between mb-2">
+        <app-paginador
+          [totalItems]="cantidadItemsSignal()"
+          (pageChange)="onPageChange($event)"
+        ></app-paginador>
+        <div class="flex gap-2">
+          <button
+            class="btn btn-primary"
+            routerLink="/administracion/item/nuevo"
+          >
+            Nuevo
+          </button>
+          <button
+            class="btn btn-danger"
+            (click)="eliminar()"
+            [disabled]="itemSeleccionados().length === 0"
+          >
+            Eliminar
+          </button>
+        </div>
+      </div>
       <app-tabla
         [columnas]="columnas"
         [datos]="arrItemsSignal()"

@@ -7,11 +7,12 @@ import { GeneralApiService } from 'src/app/shared/services/general.service';
 import { Item } from '../../../interface/item.interface';
 import { columnasItemLista } from '../../../mapeo/item-lista.mapeo';
 import { ItemApiService } from '../../../services/item.service';
+import { PaginadorComponent } from "@componentes/ui/paginador/paginador.component";
 
 @Component({
   selector: 'app-item-lista',
   standalone: true,
-  imports: [RouterModule, TablaComponent],
+  imports: [RouterModule, TablaComponent, PaginadorComponent],
   templateUrl: './item-lista.component.html',
 })
 export default class ItemListaComponent implements OnInit {
@@ -22,6 +23,7 @@ export default class ItemListaComponent implements OnInit {
 
   public arrItemsSignal = signal<Item[]>([]);
   public itemSeleccionados = signal<Item[]>([]);
+  public cantidadItemsSignal = signal(0);
 
   public columnas = columnasItemLista;
   ngOnInit(): void {
@@ -39,6 +41,11 @@ export default class ItemListaComponent implements OnInit {
   onSeleccionItems(items: Item[]) {
     this.itemSeleccionados.set(items);
   }
+
+ onPageChange(page: number): void {
+    this._consultarLista({ page });
+  }
+
 
   eliminar() {
     const eliminaciones$ = this.itemSeleccionados().map(conductor =>
@@ -62,17 +69,15 @@ export default class ItemListaComponent implements OnInit {
   }
 
 
-  private _consultarLista() {
+  private _consultarLista(params?: any) {
     this._generalService
       .consultaApi<Item>(`${API_ENDPOINTS.GENERAL.ITEM.LISTA}`, {
         venta: 'True',
         inactivo: 'False',
+        ...params,
       }).subscribe((respuesta) => {
+        this.cantidadItemsSignal.set(respuesta.count);
         this.arrItemsSignal.set(respuesta.results);
       });
   }
-
-
-
-
 }
