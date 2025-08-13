@@ -1,58 +1,121 @@
-<div class="flex items-center justify-center">
-  <div class="">
-    <div class="w-full">
-      <h2 class="text-center text-2xl font-bold mb-6 dark-mode:text-gray-800">
-        TOTAL
-      </h2>
-      <p class="text-center text-4xl font-extrabold text-gray-800 mb-8">
-        $ {{ totalGeneralSignal() | number: "1.0-0" }}
-      </p>
-      <div class="grid grid-cols-2 gap-4">
-        <div
-          class="group flex flex-col items-center bg-gray-200 p-4 rounded-lg cursor-pointer text-center hover:bg-teal-500 hover:text-white dark:text-gray-800 dark:hover:text-white"
-          (click)="selecionarMedio('efectivo')"
-        >
-          <i
-            class="ki-outline ki-wallet text-2xl text-gray-800 dark:text-gray-800 group-hover:text-white"
-          ></i>
-
-          Efectivo
+<div class="flex flex-col items-center p-4">
+  <!-- Header con total -->
+  <div class="w-full mb-6">
+    <!-- Icono de factura -->
+    <div class="flex justify-center mb-4">
+      <div class="w-16 h-16 rounded-full bg-gradient-to-br from-teal-50 to-teal-100 flex items-center justify-center shadow-sm">
+        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-teal-400 to-teal-600 flex items-center justify-center shadow-md">
+          <i class="ki-duotone ki-bill text-white text-xl">
+            <span class="path1"></span>
+            <span class="path2"></span>
+            <span class="path3"></span>
+            <span class="path4"></span>
+            <span class="path5"></span>
+            <span class="path6"></span>
+          </i>
         </div>
-        <button
-          class="flex flex-col items-center bg-gray-100 p-4 rounded-lg text-gray-400 cursor-not-allowed text-center"
-          (click)="selecionarMedio('tarjetaCredito')"
-          [disabled]="true"
-        >
-          <i class="ki-outline ki-credit-cart text-2xl text-gray-400"></i>
-
-          Tarjeta de crédito
-        </button>
-        <button
-          class="flex flex-col items-center bg-gray-100 p-4 rounded-lg text-gray-400 cursor-not-allowed text-center"
-          (click)="selecionarMedio('tranferencia')"
-          [disabled]="true"
-        >
-          <i class="ki-outline ki-credit-cart text-2xl text-gray-400"></i>
-          Transferencia
-        </button>
-        <button
-          class="flex flex-col items-center bg-gray-100 p-4 rounded-lg text-gray-400 cursor-not-allowed text-center"
-          (click)="selecionarMedio('tarjetaDebito')"
-          [disabled]="true"
-        >
-          <i class="ki-outline ki-credit-cart text-2xl text-gray-400"></i>
-
-          Tarjeta débito
-        </button>
-        <button
-          class="flex flex-col items-center bg-gray-100 p-4 rounded-lg text-gray-400 cursor-not-allowed text-center"
-          (click)="selecionarMedio('combinado')"
-          [disabled]="true"
-        >
-          <i class="ki-outline ki-credit-cart text-2xl text-gray-400"></i>
-
-          Combinado
-        </button>
+      </div>
+    </div>
+    
+    <!-- Etiqueta de total -->
+    <div class="text-center">
+      <h2 class="text-sm font-medium text-gray-500 mb-1">Total a pagar</h2>
+      <p class="text-4xl font-bold text-gray-800">
+        ${{ totalGeneralSignal() | number: "1.0-0" }}
+      </p>
+    </div>
+  </div>
+  
+  <!-- Separador -->
+  <div class="w-full border-t border-gray-200 mb-6"></div>
+  
+  <!-- Instrucciones -->
+  
+  <!-- Grid de opciones de pago -->
+  <div class="grid grid-cols-2 gap-4 w-full">
+    <!-- Efectivo (habilitado) -->
+    <div
+      class="group relative flex flex-col items-center justify-center p-5 rounded-xl cursor-pointer text-center transition-all duration-200 ease-out border-2 border-transparent hover:border-emerald-400 bg-gradient-to-br from-emerald-50 to-teal-50 shadow-sm hover:shadow-md"
+      (click)="selecionarMedio('efectivo')"
+    >
+      <div class="w-12 h-12 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center mb-3 shadow-sm group-hover:shadow-md transition-all duration-200">
+        <i class="ki-duotone ki-wallet text-white text-xl">
+          <span class="path1"></span>
+          <span class="path2"></span>
+        </i>
+      </div>
+      <span class="font-medium text-gray-800">Efectivo</span>
+      <div class="absolute top-2 right-2">
+        <span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
+          Disponible
+        </span>
+      </div>
+    </div>
+    
+    <!-- Tarjeta de crédito (deshabilitado) -->
+    <div class="relative flex flex-col items-center justify-center p-5 rounded-xl text-center bg-gray-50 border border-gray-200">
+      <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center mb-3">
+        <i class="ki-duotone ki-credit-cart text-gray-400 text-xl">
+          <span class="path1"></span>
+          <span class="path2"></span>
+        </i>
+      </div>
+      <span class="font-medium text-gray-400">Tarjeta de crédito</span>
+      <div class="absolute top-2 right-2">
+        <span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-500">
+          Próximamente
+        </span>
+      </div>
+    </div>
+    
+    <!-- Transferencia (deshabilitado) -->
+    <div class="relative flex flex-col items-center justify-center p-5 rounded-xl text-center bg-gray-50 border border-gray-200">
+      <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center mb-3">
+        <i class="ki-duotone ki-bank text-gray-400 text-xl">
+          <span class="path1"></span>
+          <span class="path2"></span>
+          <span class="path3"></span>
+        </i>
+      </div>
+      <span class="font-medium text-gray-400">Transferencia</span>
+      <div class="absolute top-2 right-2">
+        <span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-500">
+          Próximamente
+        </span>
+      </div>
+    </div>
+    
+    <!-- Tarjeta débito (deshabilitado) -->
+    <div class="relative flex flex-col items-center justify-center p-5 rounded-xl text-center bg-gray-50 border border-gray-200">
+      <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center mb-3">
+        <i class="ki-duotone ki-credit-cart text-gray-400 text-xl">
+          <span class="path1"></span>
+          <span class="path2"></span>
+        </i>
+      </div>
+      <span class="font-medium text-gray-400">Tarjeta débito</span>
+      <div class="absolute top-2 right-2">
+        <span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-500">
+          Próximamente
+        </span>
+      </div>
+    </div>
+    
+    <!-- Combinado (deshabilitado) -->
+    <div class="relative flex flex-col items-center justify-center p-5 rounded-xl text-center bg-gray-50 border border-gray-200 col-span-2">
+      <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center mb-3">
+        <i class="ki-duotone ki-arrows-circle text-gray-400 text-xl">
+          <span class="path1"></span>
+          <span class="path2"></span>
+          <span class="path3"></span>
+          <span class="path4"></span>
+        </i>
+      </div>
+      <span class="font-medium text-gray-400">Pago combinado</span>
+      <div class="absolute top-2 right-2">
+        <span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-500">
+          Próximamente
+        </span>
       </div>
     </div>
   </div>
