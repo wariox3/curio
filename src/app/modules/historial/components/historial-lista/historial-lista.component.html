@@ -13,71 +13,93 @@
           <h3 class="card-title">Historial</h3>
         </div>
         <div class="card-body">
-          <app-paginador
-            [totalItems]="cantidadItemsSignal()"
-            (pageChange)="onPageChange($event)"
-          ></app-paginador>
-        </div>
-        <div class="card-table scrollable-x-auto">
-          <div class="scrollable-auto">
-            <table
-              class="table table-border align-middle text-gray-700 font-medium text-sm"
-            >
+          <div class="mb-2">
+            <app-paginador
+              [totalItems]="cantidadItemsSignal()"
+              (pageChange)="onPageChange($event)"
+            ></app-paginador>
+          </div>
+          <div class="overflow-x-auto rounded-xl bg-white border border-gray-200 custom-scrollbar">
+            <table class="min-w-full divide-y divide-gray-200">
               <thead>
-                <tr class="text-center">
-                  <th>Id</th>
-                  <th>Tipo</th>
-                  <th>Número</th>
-                  <th>Fecha</th>
-                  <th>Contacto</th>
-                  <th>Subtotal</th>
-                  <th>Impuesto</th>
-                  <th>Total</th>
-                  <th>Apr</th>
-                  <th>Anu</th>
-                  <th>Ele</th>
-                  <th>Con</th>
-                  <th></th>
+                <tr>
+                  <th class="px-6 py-1 text-left text-xs font-semibold text-black">Id</th>
+                  <th class="px-6 py-1 text-left text-xs font-semibold text-black">Tipo</th>
+                  <th class="px-6 py-1 text-left text-xs font-semibold text-black">Número</th>
+                  <th class="px-6 py-1 text-left text-xs font-semibold text-black">Fecha</th>
+                  <th class="px-6 py-1 text-left text-xs font-semibold text-black">Contacto</th>
+                  <th class="px-6 py-1 text-right text-xs font-semibold text-black">Subtotal</th>
+                  <th class="px-6 py-1 text-right text-xs font-semibold text-black">Impuesto</th>
+                  <th class="px-6 py-1 text-right text-xs font-semibold text-black">Total</th>
+                  <th class="px-6 py-1 text-center text-xs font-semibold text-black">Apr</th>
+                  <th class="px-6 py-1 text-center text-xs font-semibold text-black">Anu</th>
+                  <th class="px-6 py-1 text-center text-xs font-semibold text-black">Ele</th>
+                  <th class="px-6 py-1 text-center text-xs font-semibold text-black">Con</th>
+                  <th class="px-6 py-1 text-center text-xs font-semibold text-black"></th>
                 </tr>
               </thead>
-              @for (factura of arrFacturasSignal(); track $index) {
-                <tr class="py-2 border-2">
-                  <td>{{ factura.id }}</td>
-                  <td>{{ factura.documento_tipo__nombre }}</td>
-                  <td>{{ factura.numero }}</td>
-                  <td>{{ factura.fecha }}</td>
-                  <td>{{ factura.contacto__nombre_corto }}</td>
-                  <td class="text-end">
-                    {{ factura.subtotal | number: "1.0-0" }}
-                  </td>
-                  <td class="text-end">
-                    {{ factura.impuesto | number: "1.0-0" }}
-                  </td>
-                  <td class="text-end">
-                    {{ factura.total | number: "1.0-0" }}
-                  </td>
-                  <td class="text-center">
-                    {{ factura.estado_aprobado | siNo }}
-                  </td>
-                  <td class="text-center">
-                    {{ factura.estado_anulado | siNo }}
-                  </td>
-                  <td class="text-center">
-                    {{ factura.estado_electronico | siNo }}
-                  </td>
-                  <td class="text-center">
-                    {{ factura.estado_contabilizado | siNo }}
-                  </td>
-                  <td class="text-center">
-                    <i
-                      class="ki-filled ki-printer cursor-pointer"
-                      (click)="
-                        descargarPDF(factura.id, factura.documento_tipo_id)
-                      "
-                    ></i>
-                  </td>
-                </tr>
-              }
+              <tbody class="bg-white divide-y divide-gray-200">
+                @for (factura of arrFacturasSignal(); track $index) {
+                  <tr class="hover:bg-gray-50 transition-colors duration-150 ease-in-out">
+                    <td class="px-6 whitespace-nowrap text-sm text-gray-800">{{ factura.id }}</td>
+                    <td class="px-6 whitespace-nowrap text-sm text-gray-800">{{ factura.documento_tipo__nombre }}</td>
+                    <td class="px-6 whitespace-nowrap text-sm text-gray-800">{{ factura.numero }}</td>
+                    <td class="px-6 whitespace-nowrap text-sm text-gray-800">{{ factura.fecha }}</td>
+                    <td class="px-6 whitespace-nowrap text-sm text-gray-800">{{ factura.contacto__nombre_corto }}</td>
+                    <td class="px-6 whitespace-nowrap text-sm text-gray-800 text-right">
+                      {{ factura.subtotal | number: "1.0-0" }}
+                    </td>
+                    <td class="px-6 whitespace-nowrap text-sm text-gray-800 text-right">
+                      {{ factura.impuesto | number: "1.0-0" }}
+                    </td>
+                    <td class="px-6 whitespace-nowrap text-sm text-gray-800 text-right">
+                      {{ factura.total | number: "1.0-0" }}
+                    </td>
+                    <td class="px-6 whitespace-nowrap text-sm text-gray-800 text-center">
+                      {{ factura.estado_aprobado | siNo }}
+                    </td>
+                    <td class="px-6 whitespace-nowrap text-sm text-gray-800 text-center">
+                      {{ factura.estado_anulado | siNo }}
+                    </td>
+                    <td class="px-6 whitespace-nowrap text-sm text-gray-800 text-center">
+                      {{ factura.estado_electronico | siNo }}
+                    </td>
+                    <td class="px-6 whitespace-nowrap text-sm text-gray-800 text-center">
+                      {{ factura.estado_contabilizado | siNo }}
+                    </td>
+                    <td class="px-6 whitespace-nowrap text-sm text-gray-800 text-center">
+                      <i
+                        class="ki-filled ki-printer cursor-pointer hover:text-blue-800 p-2 rounded-full hover:bg-blue-100 transition-colors duration-150"
+                        (click)="descargarPDF(factura.id, factura.documento_tipo_id)"
+                      ></i>
+                    </td>
+                  </tr>
+                }
+                <!-- Mensaje cuando no hay datos -->
+                @if (!arrFacturasSignal() || arrFacturasSignal().length === 0) {
+                  <tr class="hover:bg-gray-50">
+                    <td colspan="13" class="px-6 py-10 text-center">
+                      <div class="flex flex-col items-center justify-center text-gray-500">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-12 w-12 mb-2 text-gray-300"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="1"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                          />
+                        </svg>
+                        <p>No hay registros disponibles</p>
+                      </div>
+                    </td>
+                  </tr>
+                }
+              </tbody>
             </table>
           </div>
         </div>
