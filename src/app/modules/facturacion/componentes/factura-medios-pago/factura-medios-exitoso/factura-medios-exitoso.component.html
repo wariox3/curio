@@ -1,27 +1,60 @@
-<section class="flex items-center ">
-  <div class=" p-8  w-full ">
-      <div class="flex justify-center items-center mb-4">
-        <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle class="circle" cx="60" cy="60" r="45" stroke="#4CAF50" stroke-width="5" fill="none" />
-          <path class="checkmark" d="M40 60 L52 72 L80 45" stroke="#4CAF50" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round" />
-      </svg>
-
+<section class="flex flex-col items-center px-4">
+  <!-- Animación de éxito -->
+  <div class="relative mb-6">
+    <!-- Círculo exterior con gradiente -->
+    <div class="w-24 h-24 rounded-full bg-gradient-to-br from-emerald-50 to-emerald-100 flex items-center justify-center shadow-sm">
+      <!-- Círculo interior con gradiente -->
+      <div class="w-16 h-16 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center shadow-md">
+        <!-- Icono de check -->
+        <i class="ki-duotone ki-check text-white text-4xl">
+          <span class="path1"></span>
+          <span class="path2"></span>
+        </i>
       </div>
-      <div class="text-center">
-        <h2 class="text-2xl font-bold mb-2 dark-mode:text-gray-800">¡Muy bien! 🎉</h2>
-        <p class="text-gray-600 mb-6 dark-mode:text-gray-800">Tu venta se guardó con éxito</p>
-      </div>
+    </div>
+    
+    <!-- Efecto de pulso -->
+    <div class="absolute inset-0 rounded-full bg-emerald-400 opacity-20 animate-ping"></div>
   </div>
+  
+  <!-- Mensaje de éxito -->
+  <div class="text-center mb-4">
+    <h2 class="text-2xl font-bold text-gray-800 mb-2">¡Venta exitosa! 🎉</h2>
+    <p class="text-gray-600 text-base">Tu factura se ha guardado correctamente</p>
+  </div>
+  
+  <!-- Línea divisoria -->
+  <div class="w-full border-t border-gray-200 mb-4"></div>
 </section>
-<div class="modal-footer justify-end mt-2">
-  <div class="flex gap-4">
-    <button class="btn btn-light" data-modal-dismiss="true" (click)="imprimirFactura()">
-      <i class="ki-filled ki-printer"></i>
-      Imprimir
-    </button>
-    <button class="btn btn-primary" data-modal-dismiss="true" (click)="gestionNuevaFactura()" type="button">
-      <i class="ki-filled ki-document"></i>
-      Nueva
-    </button>
-  </div>
+
+<!-- Botones de acción -->
+<div class="flex justify-end gap-3 px-4 pb-4">
+  <!-- Botón imprimir -->
+  <button 
+    class="px-4 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-150 flex items-center gap-2 shadow-sm"
+    data-modal-dismiss="true" 
+    (click)="imprimirFactura()"
+  >
+    <i class="ki-duotone ki-printer text-gray-600">
+      <span class="path1"></span>
+      <span class="path2"></span>
+      <span class="path3"></span>
+    </i>
+    Imprimir
+  </button>
+  
+  <!-- Botón nueva factura -->
+  <button 
+    class="px-4 py-2.5 text-sm font-medium text-white bg-primary border border-transparent rounded-lg hover:bg-primary-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-150 flex items-center gap-2 shadow-sm"
+    data-modal-dismiss="true" 
+    (click)="gestionNuevaFactura()" 
+    type="button"
+  >
+    <i class="ki-duotone ki-document text-white">
+      <span class="path1"></span>
+      <span class="path2"></span>
+      <span class="path3"></span>
+    </i>
+    Nueva factura
+  </button>
 </div>
