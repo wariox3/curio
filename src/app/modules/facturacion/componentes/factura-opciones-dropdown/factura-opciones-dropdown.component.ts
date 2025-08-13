@@ -60,8 +60,44 @@ export class FacturaOpcionesDropdownComponent {
   }
 
   retirarFactura() {
-    this._facturaReduxService.retirarFactura(this.tabActivo());
+    // Guardamos el índice de la tab activa
+    const tabActivaActual = this.tabActivo();
+    
+    // Obtenemos todas las facturas antes de eliminar
+    const facturasActuales = this._facturaReduxService.arrFacturasSignal();
+    
+    // Encontramos el índice de la factura actual en el array
+    const indiceActual = facturasActuales.findIndex(f => f.uuid === tabActivaActual);
+    
+    // Eliminamos la factura
+    this._facturaReduxService.retirarFactura(tabActivaActual);
     this._facturaReduxService.obtenerReduxFacturas();
+    
+    // Cerramos el modal
     this._toggleModal(this.modalConfirmacionEliminar);
+    
+    // Seleccionamos la siguiente tab disponible después de un pequeño delay
+    // para asegurar que el estado de Redux se ha actualizado
+    setTimeout(() => {
+      const facturasRestantes = this._facturaReduxService.arrFacturasSignal();
+      
+      if (facturasRestantes.length > 0) {
+        // Si hay facturas restantes, seleccionamos la siguiente o la anterior
+        let nuevaTabIndex = indiceActual;
+        
+        // Si estábamos en la última tab, seleccionamos la anterior
+        if (nuevaTabIndex >= facturasRestantes.length) {
+          nuevaTabIndex = facturasRestantes.length - 1;
+        }
+        
+        // Seleccionamos la nueva tab
+        const nuevaTabId = facturasRestantes[nuevaTabIndex].uuid;
+        this._facturaReduxService.seleccionarTabActivoFactura(nuevaTabId);
+      } else {
+        // Si no quedan facturas, podríamos crear una nueva automáticamente
+        // o simplemente dejar que la UI muestre el estado vacío
+        // Opcional: this._facturaReduxService.nuevaFactura();
+      }
+    }, 100);
   }
 }
