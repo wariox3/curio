@@ -17,8 +17,6 @@ export interface CampoDetalle {
   anchoValor?: string;
   /** Si el campo debe ocupar una fila completa (para comentarios largos) */
   filaCompleta?: boolean;
-  /** Alineación del valor en la celda */
-  alineacion?: 'left' | 'center' | 'right';
 }
 
 @Component({
@@ -40,12 +38,13 @@ export class TablaDetallesComponent {
   @Input() campos: CampoDetalle[] = [];
 
   /**
-   * Número de columnas para mostrar (2, 4 o 6)
+   * Número de columnas para mostrar (2, 4, 6 u 8)
    * - 2: Una etiqueta y un valor por fila
    * - 4: Dos pares de etiqueta-valor por fila
    * - 6: Tres pares de etiqueta-valor por fila
+   * - 8: Cuatro pares de etiqueta-valor por fila
    */
-  @Input() columnas: 2 | 4 | 6 = 4;
+  @Input() columnas: 2 | 4 | 6 | 8 = 4;
 
   /**
    * Texto a mostrar cuando no hay datos
@@ -115,21 +114,68 @@ export class TablaDetallesComponent {
    * Obtener el número de campos por fila según la configuración de columnas
    */
   get camposPorFila(): number {
-    return this.columnas === 2 ? 1 : this.columnas === 4 ? 2 : 3;
+    return this.columnas === 2 ? 1 : this.columnas === 4 ? 2 : this.columnas === 6 ? 3 : 4;
   }
 
   /**
-   * Obtener las clases CSS para la alineación del valor
+   * Separar campos de fila completa de campos normales
    */
-  obtenerClasesAlineacion(alineacion?: 'left' | 'center' | 'right'): string {
-    switch (alineacion) {
-      case 'center':
-        return 'text-center';
-      case 'right':
-        return 'text-right';
-      case 'left':
-      default:
-        return 'text-left';
+  get camposFilaCompleta(): CampoDetalle[] {
+    return this.campos.filter(campo => campo.filaCompleta);
+  }
+
+  /**
+   * Obtener campos normales (no de fila completa)
+   */
+  get camposNormales(): CampoDetalle[] {
+    return this.campos.filter(campo => !campo.filaCompleta);
+  }
+
+  /**
+   * Agrupar campos normales en filas según la configuración de columnas
+   */
+  get camposAgrupados(): CampoDetalle[][] {
+    const camposNormales = this.camposNormales;
+    const grupos: CampoDetalle[][] = [];
+
+    for (let i = 0; i < camposNormales.length; i += this.camposPorFila) {
+      grupos.push(camposNormales.slice(i, i + this.camposPorFila));
     }
+
+    return grupos;
+  }
+
+  /**
+   * Obtener todos los campos organizados para renderizado
+   * Combina campos de fila completa y grupos de campos normales en el orden original
+   */
+  get camposOrganizados(): Array<{
+    tipo: 'filaCompleta' | 'grupo';
+    campo?: CampoDetalle;
+    grupo?: CampoDetalle[];
+  }> {
+    const resultado: Array<{
+      tipo: 'filaCompleta' | 'grupo';
+      campo?: CampoDetalle;
+      grupo?: CampoDetalle[];
+    }> = [];
+    let indiceNormales = 0;
+
+    for (const campo of this.campos) {
+      if (campo.filaCompleta) {
+        resultado.push({ tipo: 'filaCompleta', campo });
+      } else {
+        // Si es el primer campo normal de un grupo, agregar el grupo completo
+        if (indiceNormales % this.camposPorFila === 0) {
+          const grupoActual = this.camposAgrupados[Math.floor(indiceNormales / this.camposPorFila)];
+          if (grupoActual) {
+            resultado.push({ tipo: 'grupo', grupo: grupoActual });
+          }
+        }
+        indiceNormales++;
+      }
+    }
+
+    return resultado;
   }
 }

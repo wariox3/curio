@@ -21,126 +21,162 @@
   <!-- Tabla de detalles -->
   <table *ngIf="hayDatos" class="w-full text-sm">
     <tbody>
-      <!-- Campos normales (en pares o individuales según configuración) -->
-      <ng-container *ngFor="let campo of campos; let i = index">
+      <!-- Renderizado usando la nueva lógica organizada -->
+      <ng-container *ngFor="let item of camposOrganizados">
         <!-- Campos que ocupan fila completa -->
-        <ng-container *ngIf="campo.filaCompleta">
-          <tr class="border-b border-gray-200">
-            <td [class]="clasesEtiqueta" [style.width]="campo.anchoEtiqueta">
-              {{ campo.etiqueta }}
+        <tr *ngIf="item.tipo === 'filaCompleta'" class="border-b border-gray-200">
+          <td [class]="clasesEtiqueta" [style.width]="item.campo!.anchoEtiqueta">
+            {{ item.campo!.etiqueta }}
+          </td>
+          <td
+            [attr.colspan]="columnas === 2 ? 1 : columnas === 4 ? 3 : columnas === 6 ? 5 : 7"
+            class="px-4 py-3 text-gray-800"
+            [style.width]="item.campo!.anchoValor"
+          >
+            {{ obtenerValor(item.campo!) }}
+          </td>
+        </tr>
+
+        <!-- Grupos de campos normales -->
+        <tr *ngIf="item.tipo === 'grupo'" class="border-b border-gray-200">
+          <!-- Campos individuales (2 columnas) -->
+          <ng-container *ngIf="columnas === 2">
+            <td [class]="clasesEtiqueta" [style.width]="item.grupo![0].anchoEtiqueta || 'w-1/3'">
+              {{ item.grupo![0].etiqueta }}
             </td>
             <td
-              [attr.colspan]="columnas === 2 ? 1 : columnas === 4 ? 3 : 5"
               class="px-4 py-3 text-gray-800"
-              [ngClass]="obtenerClasesAlineacion(campo.alineacion)"
-              [style.width]="campo.anchoValor"
+              [style.width]="item.grupo![0].anchoValor || 'w-2/3'"
             >
-              {{ obtenerValor(campo) }}
+              {{ obtenerValor(item.grupo![0]) }}
             </td>
-          </tr>
-        </ng-container>
+          </ng-container>
 
-        <!-- Campos en pares (4 columnas) o tríos (6 columnas) -->
-        <ng-container *ngIf="!campo.filaCompleta && (columnas === 4 || columnas === 6)">
-          <tr *ngIf="i % camposPorFila === 0" class="border-b border-gray-200">
-            <!-- Primera etiqueta-valor -->
+          <!-- Campos en pares, tríos o cuartetos (4, 6, 8 columnas) -->
+          <ng-container *ngIf="columnas === 4 || columnas === 6 || columnas === 8">
+            <!-- Primer campo (siempre existe) -->
             <td
               [class]="clasesEtiqueta"
-              [style.width]="campos[i].anchoEtiqueta || (columnas === 4 ? 'w-1/4' : 'w-1/6')"
+              [style.width]="
+                item.grupo![0].anchoEtiqueta ||
+                (columnas === 4 ? 'w-1/4' : columnas === 6 ? 'w-1/6' : 'w-1/8')
+              "
             >
-              {{ campos[i].etiqueta }}
+              {{ item.grupo![0].etiqueta }}
             </td>
             <td
               class="px-4 py-3 text-gray-800 border-r border-gray-200"
-              [ngClass]="obtenerClasesAlineacion(campos[i].alineacion)"
-              [style.width]="campos[i].anchoValor || (columnas === 4 ? 'w-1/4' : 'w-1/6')"
+              [style.width]="
+                item.grupo![0].anchoValor ||
+                (columnas === 4 ? 'w-1/4' : columnas === 6 ? 'w-1/6' : 'w-1/8')
+              "
             >
-              {{ obtenerValor(campos[i]) }}
+              {{ obtenerValor(item.grupo![0]) }}
             </td>
 
-            <!-- Segunda etiqueta-valor (si existe) -->
-            <ng-container *ngIf="i + 1 < campos.length && !campos[i + 1].filaCompleta">
+            <!-- Segundo campo (si existe) -->
+            <ng-container *ngIf="item.grupo!.length > 1">
               <td
                 [class]="clasesEtiqueta"
-                [style.width]="campos[i + 1].anchoEtiqueta || (columnas === 4 ? 'w-1/4' : 'w-1/6')"
+                [style.width]="
+                  item.grupo![1].anchoEtiqueta ||
+                  (columnas === 4 ? 'w-1/4' : columnas === 6 ? 'w-1/6' : 'w-1/8')
+                "
               >
-                {{ campos[i + 1].etiqueta }}
+                {{ item.grupo![1].etiqueta }}
               </td>
               <td
                 class="px-4 py-3 text-gray-800"
-                [ngClass]="[
-                  obtenerClasesAlineacion(campos[i + 1].alineacion),
-                  columnas === 6 ? 'border-r border-gray-200' : ''
-                ]"
-                [style.width]="campos[i + 1].anchoValor || (columnas === 4 ? 'w-1/4' : 'w-1/6')"
+                [ngClass]="{ 'border-r border-gray-200': columnas === 6 || columnas === 8 }"
+                [style.width]="
+                  item.grupo![1].anchoValor ||
+                  (columnas === 4 ? 'w-1/4' : columnas === 6 ? 'w-1/6' : 'w-1/8')
+                "
               >
-                {{ obtenerValor(campos[i + 1]) }}
+                {{ obtenerValor(item.grupo![1]) }}
               </td>
             </ng-container>
 
-            <!-- Tercera etiqueta-valor (solo para 6 columnas y si existe) -->
-            <ng-container
-              *ngIf="columnas === 6 && i + 2 < campos.length && !campos[i + 2].filaCompleta"
-            >
-              <td [class]="clasesEtiqueta" [style.width]="campos[i + 2].anchoEtiqueta || 'w-1/6'">
-                {{ campos[i + 2].etiqueta }}
+            <!-- Tercer campo (para 6 y 8 columnas, si existe) -->
+            <ng-container *ngIf="(columnas === 6 || columnas === 8) && item.grupo!.length > 2">
+              <td
+                [class]="clasesEtiqueta"
+                [style.width]="item.grupo![2].anchoEtiqueta || (columnas === 6 ? 'w-1/6' : 'w-1/8')"
+              >
+                {{ item.grupo![2].etiqueta }}
               </td>
               <td
                 class="px-4 py-3 text-gray-800"
-                [ngClass]="obtenerClasesAlineacion(campos[i + 2].alineacion)"
-                [style.width]="campos[i + 2].anchoValor || 'w-1/6'"
+                [ngClass]="{ 'border-r border-gray-200': columnas === 8 }"
+                [style.width]="item.grupo![2].anchoValor || (columnas === 6 ? 'w-1/6' : 'w-1/8')"
               >
-                {{ obtenerValor(campos[i + 2]) }}
+                {{ obtenerValor(item.grupo![2]) }}
               </td>
             </ng-container>
 
-            <!-- Celdas vacías si no hay segundo campo (para 4 columnas) -->
-            <ng-container
-              *ngIf="columnas === 4 && (i + 1 >= campos.length || campos[i + 1].filaCompleta)"
-            >
+            <!-- Cuarto campo (solo para 8 columnas, si existe) -->
+            <ng-container *ngIf="columnas === 8 && item.grupo!.length > 3">
+              <td [class]="clasesEtiqueta" [style.width]="item.grupo![3].anchoEtiqueta || 'w-1/8'">
+                {{ item.grupo![3].etiqueta }}
+              </td>
+              <td
+                class="px-4 py-3 text-gray-800"
+                [style.width]="item.grupo![3].anchoValor || 'w-1/8'"
+              >
+                {{ obtenerValor(item.grupo![3]) }}
+              </td>
+            </ng-container>
+
+            <!-- Celdas vacías si faltan campos -->
+
+            <!-- Para 4 columnas: si falta el segundo campo -->
+            <ng-container *ngIf="columnas === 4 && item.grupo!.length < 2">
               <td [class]="clasesEtiqueta + ' opacity-0'">-</td>
               <td class="px-4 py-3 text-gray-800 opacity-0">-</td>
             </ng-container>
 
-            <!-- Celdas vacías si no hay segundo o tercer campo (para 6 columnas) -->
+            <!-- Para 6 columnas: celdas vacías según campos faltantes -->
             <ng-container *ngIf="columnas === 6">
               <!-- Si falta el segundo campo -->
-              <ng-container *ngIf="i + 1 >= campos.length || campos[i + 1].filaCompleta">
+              <ng-container *ngIf="item.grupo!.length < 2">
                 <td [class]="clasesEtiqueta + ' opacity-0'">-</td>
                 <td class="px-4 py-3 text-gray-800 border-r border-gray-200 opacity-0">-</td>
                 <td [class]="clasesEtiqueta + ' opacity-0'">-</td>
                 <td class="px-4 py-3 text-gray-800 opacity-0">-</td>
               </ng-container>
               <!-- Si hay segundo campo pero falta el tercero -->
-              <ng-container
-                *ngIf="
-                  i + 1 < campos.length &&
-                  !campos[i + 1].filaCompleta &&
-                  (i + 2 >= campos.length || campos[i + 2].filaCompleta)
-                "
-              >
+              <ng-container *ngIf="item.grupo!.length === 2">
                 <td [class]="clasesEtiqueta + ' opacity-0'">-</td>
                 <td class="px-4 py-3 text-gray-800 opacity-0">-</td>
               </ng-container>
             </ng-container>
-          </tr>
-        </ng-container>
 
-        <!-- Campos individuales (2 columnas) -->
-        <ng-container *ngIf="!campo.filaCompleta && columnas === 2">
-          <tr class="border-b border-gray-200">
-            <td [class]="clasesEtiqueta" [style.width]="campo.anchoEtiqueta || 'w-1/3'">
-              {{ campo.etiqueta }}
-            </td>
-            <td 
-              class="px-4 py-3 text-gray-800" 
-              [ngClass]="obtenerClasesAlineacion(campo.alineacion)"
-              [style.width]="campo.anchoValor || 'w-2/3'"
-            >
-              {{ obtenerValor(campo) }}
-            </td>
-          </tr>
-        </ng-container>
+            <!-- Para 8 columnas: celdas vacías según campos faltantes -->
+            <ng-container *ngIf="columnas === 8">
+              <!-- Si falta el segundo campo -->
+              <ng-container *ngIf="item.grupo!.length < 2">
+                <td [class]="clasesEtiqueta + ' opacity-0'">-</td>
+                <td class="px-4 py-3 text-gray-800 border-r border-gray-200 opacity-0">-</td>
+                <td [class]="clasesEtiqueta + ' opacity-0'">-</td>
+                <td class="px-4 py-3 text-gray-800 border-r border-gray-200 opacity-0">-</td>
+                <td [class]="clasesEtiqueta + ' opacity-0'">-</td>
+                <td class="px-4 py-3 text-gray-800 opacity-0">-</td>
+              </ng-container>
+              <!-- Si hay segundo campo pero falta el tercero -->
+              <ng-container *ngIf="item.grupo!.length === 2">
+                <td [class]="clasesEtiqueta + ' opacity-0'">-</td>
+                <td class="px-4 py-3 text-gray-800 border-r border-gray-200 opacity-0">-</td>
+                <td [class]="clasesEtiqueta + ' opacity-0'">-</td>
+                <td class="px-4 py-3 text-gray-800 opacity-0">-</td>
+              </ng-container>
+              <!-- Si hay segundo y tercer campo pero falta el cuarto -->
+              <ng-container *ngIf="item.grupo!.length === 3">
+                <td [class]="clasesEtiqueta + ' opacity-0'">-</td>
+                <td class="px-4 py-3 text-gray-800 opacity-0">-</td>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </tr>
       </ng-container>
     </tbody>
   </table>
