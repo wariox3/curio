@@ -30,7 +30,7 @@
           </td>
           <td
             [attr.colspan]="columnas === 2 ? 1 : columnas === 4 ? 3 : columnas === 6 ? 5 : 7"
-            class="px-4 py-3 text-gray-800"
+            [class]="'px-4 py-3 text-gray-800 ' + obtenerClasesAlineacion(item.campo!.alineacion)"
             [style.width]="item.campo!.anchoValor"
           >
             {{ obtenerValor(item.campo!) }}
@@ -45,7 +45,7 @@
               {{ item.grupo![0].etiqueta }}
             </td>
             <td
-              class="px-4 py-3 text-gray-800"
+              [class]="'px-4 py-3 text-gray-800 ' + obtenerClasesAlineacion(item.grupo![0].alineacion)"
               [style.width]="item.grupo![0].anchoValor || 'w-2/3'"
             >
               {{ obtenerValor(item.grupo![0]) }}
@@ -65,7 +65,7 @@
               {{ item.grupo![0].etiqueta }}
             </td>
             <td
-              class="px-4 py-3 text-gray-800 border-r border-gray-200"
+              [class]="'px-4 py-3 text-gray-800 border-r border-gray-200 ' + obtenerClasesAlineacion(item.grupo![0].alineacion)"
               [style.width]="
                 item.grupo![0].anchoValor ||
                 (columnas === 4 ? 'w-1/4' : columnas === 6 ? 'w-1/6' : 'w-1/8')
@@ -86,7 +86,7 @@
                 {{ item.grupo![1].etiqueta }}
               </td>
               <td
-                class="px-4 py-3 text-gray-800"
+                [class]="'px-4 py-3 text-gray-800 ' + obtenerClasesAlineacion(item.grupo![1].alineacion)"
                 [ngClass]="{ 'border-r border-gray-200': columnas === 6 || columnas === 8 }"
                 [style.width]="
                   item.grupo![1].anchoValor ||
@@ -106,7 +106,7 @@
                 {{ item.grupo![2].etiqueta }}
               </td>
               <td
-                class="px-4 py-3 text-gray-800"
+                [class]="'px-4 py-3 text-gray-800 ' + obtenerClasesAlineacion(item.grupo![2].alineacion)"
                 [ngClass]="{ 'border-r border-gray-200': columnas === 8 }"
                 [style.width]="item.grupo![2].anchoValor || (columnas === 6 ? 'w-1/6' : 'w-1/8')"
               >
@@ -120,7 +120,7 @@
                 {{ item.grupo![3].etiqueta }}
               </td>
               <td
-                class="px-4 py-3 text-gray-800"
+                [class]="'px-4 py-3 text-gray-800 ' + obtenerClasesAlineacion(item.grupo![3].alineacion)"
                 [style.width]="item.grupo![3].anchoValor || 'w-1/8'"
               >
                 {{ obtenerValor(item.grupo![3]) }}
