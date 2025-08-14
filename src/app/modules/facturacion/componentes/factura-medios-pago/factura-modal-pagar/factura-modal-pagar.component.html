@@ -3,7 +3,7 @@
   data-modal-toggle="#modal_pagar_items"
   (click)="mostrarTemplate(null)"
   [disabled]="totalProductosSignal() === 0 || !documentoTipo"
-  [ngClass]="{ 'cursor-not-allowed opacity-50': totalProductosSignal() === 0 }"
+  [ngClass]="{ 'cursor-not-allowed opacity-50': totalProductosSignal() === 0 || !documentoTipo }"
 >
   Pagar
 </Button>

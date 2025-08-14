@@ -19,6 +19,8 @@ export class FacturaItemsListaComponent implements OnInit {
     this._mostrarLoader();
     this.consultarLista();
   }
+  
+
 
   consultarLista() {
     this._cargarLista();
