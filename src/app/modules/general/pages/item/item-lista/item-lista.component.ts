@@ -74,7 +74,6 @@ export default class ItemListaComponent implements OnInit {
       .consultaApi<Item>(`${API_ENDPOINTS.GENERAL.ITEM.LISTA}`, {
         venta: 'True',
         inactivo: 'False',
-        page: 1,
         ...params,
       }).subscribe((respuesta) => {
         this.cantidadItemsSignal.set(respuesta.count);
