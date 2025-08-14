@@ -14,7 +14,7 @@ export function obtenerCamposItemDetalle(datos: Item): CampoDetalle[] {
   return [
    { clave: 'nombre', etiqueta: 'Nombre' },
    { clave: 'referencia', etiqueta: 'Referencia' },
-   { clave: 'precio', etiqueta: 'Precio', formato: (valor: number) => formatearMonedaCOP(valor), alineacion: 'right' },
+   { clave: 'precio', etiqueta: 'Precio', formato: (valor: number) => formatearMonedaCOP(valor), alineacion: 'derecha' },
    { clave: 'costo', etiqueta: 'Costo' },
    { clave: 'inventario', etiqueta: 'Inventario', formato: (valor: boolean) => siNoPipe.transform(valor) },
    { clave: 'venta', etiqueta: 'Venta',  formato: (valor: boolean) => siNoPipe.transform(valor) },
