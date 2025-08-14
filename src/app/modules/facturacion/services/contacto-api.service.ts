@@ -16,7 +16,6 @@ export class ContactoApiService {
     return this._generalService
       .consultaApi(`${API_ENDPOINTS.GENERAL.CONTACTO.LISTA}`, {
         serializador: 'lista',
-        page_size: 100,
         nombre__icontains: nombre
       })
       .pipe(tap((respuesta) => this.arrContactosSignal.set(respuesta.results)));
