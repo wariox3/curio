@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { API_ENDPOINTS } from '@constantes/api-endpoints.const';
 import { DocumentoTipo } from '@interfaces/documento-tipo.interface';
 import { GeneralApiService } from 'src/app/shared/services/general.service';
-import { environment } from 'src/environment/environment';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',

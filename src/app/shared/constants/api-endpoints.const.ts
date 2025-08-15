@@ -1,4 +1,4 @@
-import { environment } from 'src/environment/environment';
+import { environment } from 'src/environments/environment';
 
 export const API_BASE_URL = environment.url_api;
 export const URL_API_SUBDOMINIO = environment.url_api_subdominio;

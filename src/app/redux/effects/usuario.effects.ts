@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { tap } from 'rxjs/operators';
-import { environment } from 'src/environment/environment';
+import { environment } from 'src/environments/environment';
 import { setCookie } from 'typescript-cookie';
 
 @Injectable()

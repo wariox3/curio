@@ -1,4 +1,4 @@
-import { environment } from 'src/environment/environment';
+import { environment } from 'src/environments/environment';
 import { Component, HostBinding, inject } from '@angular/core';
 import { FechasService } from 'src/app/shared/services/fechas.service';
 
