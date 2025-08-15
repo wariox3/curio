@@ -19,9 +19,9 @@ export const columnasItemLista: ColumnaTabla[] = [
   { clave: 'codigo', nombre: 'Código' },
   { clave: 'nombre', nombre: 'Nombre' },
   { clave: 'referencia', nombre: 'Referencia' },
-  { clave: 'precio', nombre: 'Precio', alineacion: 'right', formato: (valor: number) => formatearMonedaCOP(valor) },
-  { clave: 'existencia', nombre: 'Exi' , alineacion: 'right' },
-  { clave: 'disponible', nombre: 'Dis' , alineacion: 'right' },
+  { clave: 'precio', nombre: 'Precio', alineacion: 'derecha', formato: (valor: number) => formatearMonedaCOP(valor) },
+  { clave: 'existencia', nombre: 'Exi' , alineacion: 'derecha' },
+  { clave: 'disponible', nombre: 'Dis' , alineacion: 'derecha' },
   {
     clave: 'inventario',
     nombre: 'Inv',

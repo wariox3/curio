@@ -12,11 +12,10 @@
         <th
           *ngFor="let columna of columnas"
           class="px-6 py-1 text-left text-xs font-semibold text-black"
-          [ngClass]="obtenerClasesAlineacion(columna.alineacion)"
           [style.width]="columna.ancho || 'auto'"
         >
           <div class="flex items-center space-x-1">
-            <span [title]="columna.tooltip || ''">
+            <span [appTooltip]="columna.tooltip || ''" tooltipPosition="top" [tooltipDelay]="300">
               {{ columna.nombre }}
             </span>
           </div>
@@ -30,6 +29,7 @@
         <!-- Checkbox principal con estado indeterminado -->
         <th *ngIf="mostrarCheckbox" class="px-6 py-3 text-center">
           <input
+            #checkboxGlobal
             type="checkbox"
             [checked]="seleccionTodos"
             [indeterminate]="estadoIndeterminado"
@@ -45,11 +45,7 @@
       <!-- Mensaje cuando no hay datos -->
       <tr *ngIf="!datos || datos.length === 0" class="hover:bg-gray-50">
         <td
-          [attr.colspan]="
-            (mostrarCheckbox ? 1 : 0) +
-            columnas.length +
-            (mostrarAcciones ? 2 : 0)
-          "
+          [attr.colspan]="(mostrarCheckbox ? 1 : 0) + columnas.length + (mostrarAcciones ? 2 : 0)"
           class="px-6 py-10 text-center"
         >
           <div class="flex flex-col items-center justify-center text-gray-500">
@@ -78,19 +74,17 @@
         class="hover:bg-gray-50 transition-colors duration-150 ease-in-out"
       >
         <!-- Celdas de datos -->
-        <td 
-          *ngFor="let columna of columnas" 
-          class="px-6 whitespace-nowrap text-sm text-gray-800"
-          [ngClass]="obtenerClasesAlineacion(columna.alineacion)"
-        >
-          {{ formatearValor(columna, item[columna.clave]) }}
-        </td>
+        @for (columna of columnas; track $index) {
+          <td
+            class="px-6 whitespace-nowrap text-sm text-gray-800"
+            [ngClass]="getClaseAlineacion(columna)"
+          >
+            {{ formatearValor(columna, item[columna.clave]) }}
+          </td>
+        }
 
         <!-- Acciones -->
-        <td
-          *ngIf="mostrarAcciones"
-          class="px-4 whitespace-nowrap text-center w-[60px]"
-        >
+        <td *ngIf="mostrarAcciones" class="px-4 whitespace-nowrap text-center w-[60px]">
           <a
             class="inline-flex items-center justify-center p-2 rounded-full hover:text-blue-800 hover:bg-blue-100 transition-colors duration-150"
             [routerLink]="[rutas.editar, item[claveCheckbox]]"
@@ -100,10 +94,7 @@
           </a>
         </td>
 
-        <td
-          *ngIf="mostrarAcciones"
-          class="px-6 py-4 whitespace-nowrap text-center"
-        >
+        <td *ngIf="mostrarAcciones" class="px-6 py-4 whitespace-nowrap text-center">
           <a
             class="inline-flex items-center justify-center p-2 rounded-full hover:text-indigo-800 hover:bg-indigo-100 transition-colors duration-150"
             [routerLink]="[rutas.detalle, item[claveCheckbox]]"
@@ -114,10 +105,7 @@
         </td>
 
         <!-- Checkbox individual -->
-        <td
-          *ngIf="mostrarCheckbox"
-          class="px-6 py-4 whitespace-nowrap text-center"
-        >
+        <td *ngIf="mostrarCheckbox" class="px-6 py-4 whitespace-nowrap text-center">
           <input
             type="checkbox"
             [checked]="estaSeleccionado(item)"

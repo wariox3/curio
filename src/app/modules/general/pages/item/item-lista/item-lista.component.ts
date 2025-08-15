@@ -1,13 +1,13 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { TablaComponent } from "@componentes/ui/tablas/tabla/tabla.component";
+import { TablaComponent } from '@componentes/ui/tablas/tabla/tabla.component';
 import { API_ENDPOINTS } from '@constantes/api-endpoints.const';
 import { finalize, forkJoin } from 'rxjs';
 import { GeneralApiService } from 'src/app/shared/services/general.service';
 import { Item } from '../../../interface/item.interface';
 import { columnasItemLista } from '../../../mapeo/item-lista.mapeo';
 import { ItemApiService } from '../../../services/item.service';
-import { PaginadorComponent } from "@componentes/ui/paginador/paginador.component";
+import { PaginadorComponent } from '@componentes/ui/paginador/paginador.component';
 
 @Component({
   selector: 'app-item-lista',
@@ -16,7 +16,6 @@ import { PaginadorComponent } from "@componentes/ui/paginador/paginador.componen
   templateUrl: './item-lista.component.html',
 })
 export default class ItemListaComponent implements OnInit {
-
   private _router = inject(Router);
   private _generalService = inject(GeneralApiService);
   private _itemService = inject(ItemApiService);
@@ -42,32 +41,30 @@ export default class ItemListaComponent implements OnInit {
     this.itemSeleccionados.set(items);
   }
 
- onPageChange(page: number): void {
+  onPageChange(page: number): void {
     this._consultarLista({ page });
   }
 
-
   eliminar() {
-    const eliminaciones$ = this.itemSeleccionados().map(conductor =>
-      this._itemService.eliminar(conductor.id)
+    const eliminaciones$ = this.itemSeleccionados().map((conductor) =>
+      this._itemService.eliminar(conductor.id),
     );
 
     forkJoin(eliminaciones$)
-    .pipe(
-     finalize(() => {
-      this._consultarLista();
-      this.itemSeleccionados.set([]);
-    })
-    )
-    .subscribe({
-      next: () => {
-      },
-      error: err => {
-        console.error('Error al eliminar conductor:', err);
-      },
-    });
+      .pipe(
+        finalize(() => {
+          this._consultarLista();
+        }),
+      )
+      .subscribe({
+        next: () => {
+          this.itemSeleccionados.set([]);
+        },
+        error: (err) => {
+          console.error('Error al eliminar conductor:', err);
+        },
+      });
   }
-
 
   private _consultarLista(params?: any) {
     this._generalService
@@ -75,7 +72,8 @@ export default class ItemListaComponent implements OnInit {
         venta: 'True',
         inactivo: 'False',
         ...params,
-      }).subscribe((respuesta) => {
+      })
+      .subscribe((respuesta) => {
         this.cantidadItemsSignal.set(respuesta.count);
         this.arrItemsSignal.set(respuesta.results);
       });
