@@ -1,17 +1,27 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ElementRef,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { TooltipDirective } from 'src/app/shared/directive/tooltip';
 import { ColumnaTabla } from '@interfaces/comun/columnas-lista.interface';
 
 @Component({
   selector: 'app-tabla',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule, RouterModule, TooltipDirective],
   templateUrl: './tabla.component.html',
   styleUrls: ['./tabla.component.scss'],
 })
-export class TablaComponent {
+export class TablaComponent implements OnChanges {
   // Propiedades de entrada
   @Input() columnas: ColumnaTabla[] = [];
   @Input() datos: any[] = [];
@@ -28,7 +38,25 @@ export class TablaComponent {
   seleccionTodos: boolean = false;
   registrosSeleccionados: any[] = [];
 
-  // Alternar selección de todos los registros - CORRECCIÓN PRINCIPAL
+  @ViewChild('checkboxGlobal', { static: false })
+  checkboxGlobal: ElementRef<HTMLInputElement>;
+
+  // Implementación del ciclo de vida OnChanges
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['datos'] && !changes['datos'].firstChange) {
+      // Reiniciar registrosSeleccionados si los datos cambian
+      this.registrosSeleccionados = [];
+      this.seleccionCambiada.emit(this.registrosSeleccionados);
+
+      if (this.checkboxGlobal) {
+        this.checkboxGlobal.nativeElement.checked = false;
+      }
+
+      this.seleccionTodos = false;
+    }
+  }
+
+  // Alternar selección de todos los registros
   alternarSeleccionTodos(): void {
     const nuevoEstado = !this.seleccionTodos;
     this.seleccionTodos = nuevoEstado;
@@ -45,7 +73,7 @@ export class TablaComponent {
     this.notificarSeleccion();
   }
 
-  // Alternar selección individual - CORRECCIÓN ADICIONAL
+  // Alternar selección individual
   alternarSeleccion(registro: any, event: Event): void {
     event.stopPropagation();
 
@@ -76,25 +104,24 @@ export class TablaComponent {
     return columna.formato ? columna.formato(valor) : valor;
   }
 
-  // Obtener clases CSS para alineación de texto
-  obtenerClasesAlineacion(alineacion?: 'left' | 'center' | 'right'): string {
-    switch (alineacion) {
-      case 'center':
-        return 'text-center';
-      case 'right':
-        return 'text-right';
-      case 'left':
-      default:
-        return 'text-left';
-    }
-  }
-
   // Estado indeterminado para mejor UX
   get estadoIndeterminado(): boolean {
     return (
       this.registrosSeleccionados.length > 0 &&
       this.registrosSeleccionados.length < this.datos.length
     );
+  }
+
+  getClaseAlineacion(columna: ColumnaTabla): string {
+    switch (columna.alineacion) {
+      case 'derecha':
+        return 'text-end';
+      case 'centro':
+        return 'text-center';
+      case 'izquierda':
+      default:
+        return 'text-start'; // valor por defecto
+    }
   }
 
   private notificarSeleccion(): void {
