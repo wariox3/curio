@@ -14,7 +14,7 @@ import { catchError, of, tap } from 'rxjs';
 import { FormErrorComponent } from '../../../../shared/components/form/form-error/form-error.component';
 import { AuthService } from '../../services/auth.service';
 import { NgxTurnstileModule } from 'ngx-turnstile';
-import { environment } from 'src/environment/environment';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',

@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { TablaComponent } from "@componentes/ui/tablas/tabla/tabla.component";
 import { API_ENDPOINTS } from '@constantes/api-endpoints.const';
-import { forkJoin } from 'rxjs';
+import { finalize, forkJoin } from 'rxjs';
 import { GeneralApiService } from 'src/app/shared/services/general.service';
 import { Item } from '../../../interface/item.interface';
 import { columnasItemLista } from '../../../mapeo/item-lista.mapeo';
@@ -52,15 +52,15 @@ export default class ItemListaComponent implements OnInit {
       this._itemService.eliminar(conductor.id)
     );
 
-    forkJoin(eliminaciones$).subscribe({
+    forkJoin(eliminaciones$)
+    .pipe(
+     finalize(() => {
+      this._consultarLista();
+      this.itemSeleccionados.set([]);
+    })
+    )
+    .subscribe({
       next: () => {
-        // Después de eliminar, volver a la primera página y recargar
-        // this.estadoPaginacion.update(estado => ({
-        //   ...estado,
-        //   paginaActual: 1,
-        // }));
-        this._consultarLista();
-        this.itemSeleccionados.set([]);
       },
       error: err => {
         console.error('Error al eliminar conductor:', err);
