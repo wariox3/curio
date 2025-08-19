@@ -440,7 +440,7 @@ export const facturaReducer = createReducer(
       factura.uuid === state.facturaActiva
         ? {
             ...factura,
-            afectado: Math.round(
+            pago: Math.round(
               factura.pagos?.reduce((total, detalle) => total + (detalle.pago || 0), 0) * 100
             ) / 100,
           }

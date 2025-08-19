@@ -16,6 +16,7 @@ export interface DocumentoFactura {
   base_impuesto: number;
   subtotal: number;
   afectado: number;
+  pago: number;
   pendiente: number;
   impuesto: number;
   total: number;
