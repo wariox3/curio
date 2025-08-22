@@ -36,11 +36,12 @@ import { ContenedorReduxService } from '../../../../redux/services/contenedor-re
 import { ContenedorApiService } from '../../services/contenedor-api.service';
 import { environment } from 'src/environments/environment';
 import { FormsModule } from '@angular/forms';
+import { PaginadorComponent } from "@componentes/ui/paginador/paginador.component";
 
 @Component({
   selector: 'app-contenedor-lista',
   standalone: true,
-  imports: [ButtonComponent, FormsModule],
+  imports: [ButtonComponent, FormsModule, PaginadorComponent],
   templateUrl: './contenedor-lista.component.html',
 })
 export default class ContenedorListaComponent implements OnInit, OnDestroy {
@@ -54,8 +55,9 @@ export default class ContenedorListaComponent implements OnInit, OnDestroy {
     ConfiguracionGeneralApiService,
   );
   private _ConfiguracionReduxService = inject(ConfiguracionReduxService);
-
   private searchTerms = new Subject<string>();
+
+  public currentPage = signal<number>(1);
   public searchTerm: string = '';
   public digitalOceanUrl = environment.digitalOceanUrl;
   public arrConectando: boolean[] = [];
@@ -110,7 +112,7 @@ export default class ContenedorListaComponent implements OnInit, OnDestroy {
         switchMap((respuestaUsuarioId) => {
           const params: Record<string, any> = {
             usuario_id: respuestaUsuarioId,
-            // page: this.currentPage(),
+            page: this.currentPage(),
           };
 
           // Agregar el parámetro de búsqueda solo si hay un término
@@ -182,8 +184,17 @@ export default class ContenedorListaComponent implements OnInit, OnDestroy {
     this.filtroNombre.set(valor.value);
   }
 
+  cambiarPaginacion(page: number) {
+    this.currentPage.set(page);
+    this.consultarLista();
+  }
+
   onSearchChange(term: string) {
-    // this.currentPage.set(1);
+    this.currentPage.set(1);
     this.searchTerms.next(term);
+  }
+
+  get totalItems(): number {
+    return this._contenedorService.totalItems || 0;
   }
 }

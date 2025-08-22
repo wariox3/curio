@@ -17,7 +17,6 @@ import { FilterTransformerService } from 'src/app/shared/services/filter-transfo
 export class ContenedorApiService {
   private _cookieService = inject(CookieService);
   private _filterTransformService = inject(FilterTransformerService);
-  public itemsPerPage = 6;
   public totalItems = 0;
 
   constructor(private http: HttpClient) {}
@@ -27,7 +26,6 @@ export class ContenedorApiService {
       ...parametros,
       serializador: 'lista',
       contenedor__ruteo: 'True',
-      page_size: this.itemsPerPage,
     });
 
 
