@@ -63,7 +63,7 @@ export const API_ENDPOINTS = {
 
   },
   CONTENEDORES: {
-    LISTA: `${API_BASE_URL}/contenedor/usuariocontenedor/consulta-usuario/`,
+    LISTA: `${API_BASE_URL}/contenedor/usuariocontenedor/`,
     DETALLE: `${API_BASE_URL}/contenedor/contenedor/`,
   },
   INVENTARIO: {
