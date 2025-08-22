@@ -25,7 +25,7 @@ export class ContenedorApiService {
     const params = this._filterTransformService.toQueryString({
       ...parametros,
       serializador: 'lista',
-      contenedor__ruteo: 'True',
+      contenedor__reddoc: 'True',
     });
 
 
