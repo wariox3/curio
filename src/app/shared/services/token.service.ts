@@ -1,6 +1,7 @@
 import { jwtDecode, JwtPayload } from "jwt-decode";
 import { Injectable } from '@angular/core';
 import { getCookie, setCookie, removeCookie } from 'typescript-cookie';
+import { cookieKey } from "src/app/core/enums/cookie-key.enum";
 // import { environment } from '@env/environment';
 
 @Injectable({
@@ -8,22 +9,24 @@ import { getCookie, setCookie, removeCookie } from 'typescript-cookie';
 })
 export class TokenService {
 
-  guardarToken(token: string) {
-    let calcularTresHoras = new Date(new Date().getTime() + 3 * 60 * 60 * 1000);
-    setCookie('token', token, {
-      expires: calcularTresHoras,
+  guardarToken(token: string, tiempoCookie: Date) {
+    setCookie(cookieKey.ACCESS_TOKEN, token, { 
+      expires: tiempoCookie,
       path: '/',
-      //domain: environment.dominioApp,
     });
   }
 
   obtenerToken() {
-    return getCookie('token');
+    return getCookie(cookieKey.ACCESS_TOKEN);
   }
 
   eliminarToken() {
-    // removeCookie('token', { path: '/', domain: environment.dominioApp });
-    removeCookie('token', { path: '/' });
+    removeCookie(cookieKey.ACCESS_TOKEN, { path: '/' });
+  }
+
+  eliminarTokens() {
+    this.eliminarToken();
+    this.eliminarRefreshToken();
   }
 
   guardarRefreshToken(RefreshToken: string, calcularTresHoras: Date) {

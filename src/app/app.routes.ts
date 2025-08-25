@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AutentificacionGuard } from '@guardias/auth.guard';
+import { cookieRequiredGuard } from '@guardias/cookie-required.guard';
 
 export const routes: Routes = [
   {
@@ -13,7 +14,7 @@ export const routes: Routes = [
   },
   {
     path: '',
-    canActivate: [AutentificacionGuard],
+    canActivate: [AutentificacionGuard, cookieRequiredGuard],
     loadChildren: () => import('./modules/pages.routes'),
   },
   { path: '**', redirectTo: 'auth' },
