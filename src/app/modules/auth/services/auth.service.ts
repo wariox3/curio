@@ -10,26 +10,8 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { usuarioActionClear } from '@redux/actions/usuario.actions';
 import { configuracionActionClear } from '@redux/actions/configuracion.actions';
-// import { Router } from '@angular/router';
-// import { noRequiereToken } from '@interceptores/token.interceptor';
-// import { Usuario } from '@interfaces/usuario/usuario';
-// import { Store } from '@ngrx/store';
-// import { configuracionVisualizarAction } from '@redux/actions/configuracion.actions';
-// import { asignarDocumentacion } from '@redux/actions/documentacion.actions';
-// import { usuarioActionInit } from '@redux/actions/usuario.actions';
-// import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-// import { tap } from 'rxjs/operators';
-// import { environment } from 'src/environments/environment';
-// import { removeCookie } from 'typescript-cookie';
-// import { RecuperarClaveVerificacion } from '../interfaces/recuperacion-clave-verificacion.interface';
-// import { TokenReenviarValidacion } from '../interfaces/token-reenviar-validacion.interface';
-// import { TokenVerificacion } from '../interfaces/token-verificacion.interface';
-// import { ConfimarcionClaveReinicio } from '../models/confimarcion-clave-reinicio';
-// import { UserModel } from '../models/user.model';
-// import { TokenService } from './token.service';
-// import { ConfirmarInivitacion } from '../interfaces/confirmar-inivitacion.interface';
-// import { ConsultarEstadoVerificado } from '../interfaces/consultar-estado-verificado';
-//export type UserType = UserModel | undefined;
+import { CookieService } from 'src/app/shared/services/cookie.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +20,8 @@ export class AuthService implements OnDestroy {
   private _http = inject(HttpClient);
   private _tokenService = inject(TokenService);
   private _router = inject(Router);
-  // private tokenService = inject(TokenService);
+  private _cookieService = inject(CookieService);
+  private _cookieLifetime = environment.sessionLifeTime;
   private _store = inject(Store);
   private keyLocalStorage = ['contenedor', 'configuracion'];
 
@@ -58,11 +41,8 @@ export class AuthService implements OnDestroy {
       )
       .pipe(
         tap((respuesta) => {
-          this._tokenService.guardarToken(respuesta.token);
-          //    this.tokenService.guardarRefreshToken(
-          //      respuesta['refresh-token'],
-          //      calcularTresHoras
-          //    );
+          const tiempo = this._cookieService.calcularTiempoCookie(this._cookieLifetime);
+          this._tokenService.guardarToken(respuesta.token, tiempo);
         }),
       );
   }

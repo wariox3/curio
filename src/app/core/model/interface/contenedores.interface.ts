@@ -29,6 +29,26 @@ export interface Contenedor extends BaseContenedor, BaseUsuarioAcceso, BasePlanU
   seleccion?: boolean;
 }
 
+export interface ContenedorLista {
+  id: number;
+  rol: string;
+  contenedor: string;
+  contenedor_id: number;
+  contenedor__nombre: string;
+  contenedor__usuarios: number;
+  contenedor__imagen: string;
+  contenedor__schema_name: string;
+  contenedor__reddoc: boolean;
+  contenedor__ruteo: boolean;
+  contenedor__plan_id: number;
+  contenedor__plan__nombre: string;
+  contenedor__plan__usuarios_base: number;
+  usuario_id: number;
+  seleccion?: boolean;
+  acceso_restringido: boolean;
+}
+
+
 export interface ContenedorDetalle extends BaseContenedor, BaseUsuarioAcceso {
   plan_usuarios_base: number;
   plan_limite_usuarios: number;

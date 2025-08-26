@@ -156,6 +156,7 @@ export class FacturaReduxService {
       facturaNuevaAction({
         factura: {
           ...facturaInit,
+          pago: 0,
           afectado: 0,
           sede: this._configuracionReduxService.obtenerSede(),
           almacen: 1,

@@ -9,9 +9,9 @@
         <input 
           placeholder="Buscar por nombre" 
           type="text" 
-          [value]="filtroNombre()" 
-          (input)="buscarContendor($event)" 
-          class="pl-10 border-gray-300 focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-20 transition-all duration-200"
+          [(ngModel)]="searchTerm"
+          (ngModelChange)="onSearchChange($event)"
+          class="pl-10 border-gray-300 transition-all duration-200"
         />
       </div>
     </div>
@@ -31,10 +31,10 @@
             <tr class="hover:bg-gray-50 transition-colors duration-150">
               <td class="py-4 px-4">
                 <div class="flex items-start">
-                  @if (contenedor.imagen) {
+                  @if (contenedor.contenedor__imagen) {
                     <img
-                      [src]="contenedor.imagen"
-                      [alt]="'Logo ' + contenedor.nombre"
+                      [src]="digitalOceanUrl + contenedor.contenedor__imagen"
+                      [alt]="'Logo ' + contenedor.contenedor__nombre"
                       width="100"
                       height="100"
                       class="rounded-lg border border-gray-200 object-cover shadow-sm"
@@ -46,7 +46,7 @@
                   }
                   <div class="flex flex-col justify-center ml-4 flex-1">
                     <span class="text-dark font-bold text-base mb-1">
-                      {{ contenedor.nombre }}
+                      {{ contenedor.contenedor__nombre }}
                     </span>
                     @if (contenedor.acceso_restringido) {
                       <div class="bg-red-50 text-red-600 border border-red-100 rounded-md py-2 px-3 text-xs mt-1 max-w-[35rem] inline-block">
@@ -62,12 +62,12 @@
               <td class="py-4 px-4">
                 <span class="badge badge-outline badge-success py-2 px-3 inline-flex items-center">
                   <i class="ki-outline ki-check-circle me-1"></i>
-                  {{ contenedor.plan_nombre }}
+                  {{ contenedor.contenedor__plan__nombre }}
                 </span>
               </td>
               <td class="py-4 px-4">
                 <div class="flex items-center">
-                  <span class="text-sm font-medium">{{ contenedor.usuarios }} / {{ contenedor.usuarios_base }}</span>
+                  <span class="text-sm font-medium">{{ contenedor.contenedor__usuarios }} / {{ contenedor.contenedor__plan__usuarios_base }}</span>
                   <!-- <div class="ml-2 w-16 bg-gray-200 rounded-full h-2">
                     <div 
                       class="bg-primary h-2 rounded-full" 
@@ -78,7 +78,7 @@
               </td>
               <td class="py-4 px-4 text-center">
                 <app-button
-                  (emitirBotonClicked)="seleccionarEmpresa(contenedor.contenedor_id, idx)"
+                  (emitirBotonClicked)="seleccionarEmpresa(contenedor.contenedor_id.toString(), idx)"
                   [texto]="'Conectar'"
                   textoCargando="Espere..."
                   [estaCargando]="arrConectando[idx]"
@@ -99,6 +99,17 @@
           }
         </tbody>
       </table>
+
+       <!-- Paginador component -->
+        @if(contenedoresFiltrados().length > 0){
+       <div class="flex justify-center my-4">
+        <app-paginador
+          (pageChange)="cambiarPaginacion($event)"
+          [totalItems]="totalItems"
+          [currentPage]="currentPage()"
+        ></app-paginador>
+      </div>
+    }
     </div>
   </div>
 </div>

@@ -20,6 +20,7 @@ export const facturaInit: DocumentoFactura = {
   afectado: 0,
   pendiente: 0,
   impuesto: 0,
+  pago: 0,
   total: 0,
   devengado: 0,
   deduccion: 0,
