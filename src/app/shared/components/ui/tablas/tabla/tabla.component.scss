@@ -3,6 +3,23 @@
   font-family: "Geist", "Geist Fallback", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+/* Contenedor de tabla con scroll en ambos ejes */
+.tabla-container {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  position: relative;
+}
+
+/* Fijar el encabezado de la tabla cuando hay scroll vertical */
+.tabla-container thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: white;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
 /* Estilos para scrollbar delgada y discreta */
 .custom-scrollbar {
   &::-webkit-scrollbar {

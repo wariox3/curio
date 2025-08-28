@@ -26,6 +26,7 @@ export class TablaComponent implements OnChanges {
   @Input() columnas: ColumnaTabla[] = [];
   @Input() datos: any[] = [];
   @Input() claveCheckbox: string = 'id';
+  @Input() maxHeight: string = '';
   @Input() mostrarAcciones: boolean = true;
   @Input() mostrarCheckbox: boolean = true;
   @Input() textoVacio: string = 'No hay datos disponibles';

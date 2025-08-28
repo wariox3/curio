@@ -12,6 +12,7 @@ import { HistorialApiService } from '../../services/historial-api.service';
   standalone: true,
   imports: [LoaderComponent, SiNoPipe, DecimalPipe, PaginadorComponent],
   templateUrl: './historial-lista.component.html',
+  styleUrls: ['./historial-lista.component.scss'],
 })
 export default class HistorialListaComponent {
   private _historialApiService = inject(HistorialApiService);
