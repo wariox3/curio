@@ -1,7 +1,7 @@
 <!-- Contenedor con scrollbar personalizada -->
 <div
-  class="overflow-x-auto rounded-xl bg-white border border-gray-200"
-  [ngClass]="{ 'custom-scrollbar': true }"
+  class="rounded-xl bg-white border border-gray-200 tabla-container custom-scrollbar"
+  [ngStyle]="{ 'max-height': maxHeight ? maxHeight : 'none' }"
 >
   <!-- La clase custom-scrollbar se define en el archivo .ts del componente -->
   <table class="min-w-full divide-y divide-gray-200">

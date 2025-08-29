@@ -1,0 +1,43 @@
+/* Contenedor de tabla con scroll en ambos ejes */
+.tabla-container {
+  display: block;
+  width: 100%;
+  overflow: auto;
+  position: relative;
+}
+
+/* Fijar el encabezado de la tabla cuando hay scroll vertical */
+.tabla-container thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: white;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Estilos para scrollbar delgada y discreta */
+.custom-scrollbar {
+    &::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+  
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(156, 163, 175, 0.25);
+      border-radius: 20px;
+      transition: background-color 0.2s ease;
+  
+      &:hover {
+        background-color: rgba(107, 114, 128, 0.4);
+      }
+    }
+  
+    /* Para Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(156, 163, 175, 0.25) transparent;
+  }
+  
