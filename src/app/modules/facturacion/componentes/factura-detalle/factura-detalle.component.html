@@ -192,10 +192,14 @@
           </div>
         </div>
 
-        <!-- Botones de acción compactos -->
-        <div class="space-y-1.5">
-          <app-factura-modal-pagar></app-factura-modal-pagar>
-          <app-factura-btn-retirar-items></app-factura-btn-retirar-items>
+        <!-- Botones de acción en layout horizontal -->
+        <div class="flex gap-2">
+          <div class="flex-grow">
+            <app-factura-modal-pagar></app-factura-modal-pagar>
+          </div>
+          <div class="w-1/3">
+            <app-factura-btn-retirar-items></app-factura-btn-retirar-items>
+          </div>
         </div>
       </div>
     </div>
