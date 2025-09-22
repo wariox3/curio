@@ -41,6 +41,7 @@ import { FacturaService } from '../../../services/facutra.service';
 import { InventarioApiService } from '../../../services/inventario-api.service';
 import { FechasService } from 'src/app/shared/services/fechas.service';
 import { CurrencyInputComponent } from "@componentes/form/currency-input/currency-input.component";
+import { ItemApiService } from 'src/app/modules/general/services/item.service';
 
 @Component({
   selector: 'app-factura-medio-pago-efectivo',
@@ -67,6 +68,7 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
   private _alertaService = inject(AlertaService);
   private _facturaService = inject(FacturaService);
   private _fechaService = inject(FechasService);
+  private _itemApiService = inject(ItemApiService);
 
   private _formBuilder = inject(FormBuilder);
   private destroy$ = new Subject<void>();
@@ -236,6 +238,7 @@ export class FacturaMedioPagoEfectivoComponent implements OnInit, OnDestroy {
       switchMap((data) => this.crearFacturaSiValida(data)),
       switchMap((response) => this.aprobarFacturaSiCreada(response)),
       tap((response) => this.handleRespuestaAprobacion(response)),
+      switchMap(() => this._itemApiService.lista()),
       catchError((error) => this.handleRespuestaError(error)),
     );
   }
