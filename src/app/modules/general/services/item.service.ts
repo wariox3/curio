@@ -36,7 +36,7 @@ export class ItemApiService {
 
   public arrItemsSignal = signal<any[]>([]);
 
-  constructor() { }
+  constructor() {}
 
   lista() {
     return this._generalService
@@ -46,7 +46,11 @@ export class ItemApiService {
         ordering: '-favorito',
         //serializador: 'lista',
       })
-      .pipe(tap((respuesta) => this.arrItemsSignal.set(respuesta.results)));
+      .pipe(
+        tap((respuesta) => {
+          this.arrItemsSignal.set(respuesta.results);
+        }),
+      );
   }
 
   busqueda(valor: ValorFiltro, filtros: any) {
@@ -55,7 +59,7 @@ export class ItemApiService {
         venta: true,
         inactivo: false,
         ordering: '-favorito',
-        ...filtros
+        ...filtros,
       })
       .pipe(tap((respuesta) => this.arrItemsSignal.set(respuesta.results)));
   }
@@ -80,20 +84,28 @@ export class ItemApiService {
   }
 
   editarItem(data: any, id: number) {
-    return this._http.put<Item>(`${API_ENDPOINTS.GENERAL.ITEM.LISTA}${id}/`, data);
+    return this._http.put<Item>(
+      `${API_ENDPOINTS.GENERAL.ITEM.LISTA}${id}/`,
+      data,
+    );
   }
 
   cargarImagen(itemId: number, base64: string) {
-    return this._http.post<{ mensaje: string }>(API_ENDPOINTS.GENERAL.ITEM.CARGAR_IMAGEN, {
-      base64,
-      id: itemId,
-    });
+    return this._http.post<{ mensaje: string }>(
+      API_ENDPOINTS.GENERAL.ITEM.CARGAR_IMAGEN,
+      {
+        base64,
+        id: itemId,
+      },
+    );
   }
 
   validarUso(id: number) {
-    return this._http.post<{uso: boolean}>(`${API_ENDPOINTS.GENERAL.ITEM.VALIDAR_USO}`, {id});
+    return this._http.post<{ uso: boolean }>(
+      `${API_ENDPOINTS.GENERAL.ITEM.VALIDAR_USO}`,
+      { id },
+    );
   }
-
 
   eliminar(id: number) {
     return this._http.delete(`${API_ENDPOINTS.GENERAL.ITEM.LISTA}${id}/`);
