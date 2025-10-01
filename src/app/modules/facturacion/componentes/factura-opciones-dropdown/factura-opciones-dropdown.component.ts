@@ -2,6 +2,7 @@ import {
   Component,
   ElementRef,
   inject,
+  Input,
   QueryList,
   ViewChild,
   ViewChildren,
@@ -26,6 +27,7 @@ export class FacturaOpcionesDropdownComponent {
   public inputCambiarNombre: string = '';
   public nombre = this._facturaReduxService.facturaActivaNombre;
 
+  @Input() visualizarBtnImprimir: boolean = true;
   @ViewChild('modalCambiarNombreTab') modalCambiarNombreTab!: ElementRef;
   @ViewChild('modalConfirmacionEliminar')
   modalConfirmacionEliminar!: ElementRef;

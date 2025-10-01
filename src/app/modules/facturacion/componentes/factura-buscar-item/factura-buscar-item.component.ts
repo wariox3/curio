@@ -118,7 +118,7 @@ export class FacturaBuscarItemComponent {
             const nuevaCantidad = cantidadActual + 1;
             this._facturaReduxService.actualizarCantidadItem(
               respuestaValidacion.item,
-              parseInt(nuevaCantidad),
+              nuevaCantidad,
             );
           } else {
             this._facturaReduxService.agregarItem(respuestaDetalle.item);
