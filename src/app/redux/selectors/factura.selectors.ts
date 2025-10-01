@@ -23,7 +23,9 @@ export const obtenerDetalleItemFacturaPorContenedor = (
     );
 
     // Obtener la factura activa
-    const facturaActiva = state.facturas[state.facturaActiva];
+    const facturaActiva = state.facturas.find(
+      (factura) => factura.uuid === state.facturaActiva,
+    );
 
     // Si no hay factura activa o detalles, devolver null
     if (!facturaActiva || !facturaActiva.detalles) {
