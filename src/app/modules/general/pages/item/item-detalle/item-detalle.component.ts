@@ -9,6 +9,7 @@ import { obtenerCamposItemDetalle } from '../../../mapeo/item-detalle.mapeo';
 import { CargarImagenComponent } from '@componentes/ui/cargar-imagen/cargar-imagen.component';
 import { Store } from '@ngrx/store';
 import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-item-detalle',
@@ -21,6 +22,8 @@ export default class ItemDetalleComponent implements OnInit, OnDestroy {
   private _activatedRoute = inject(ActivatedRoute);
   private _itemApiService = inject(ItemApiService);
   private _store = inject(Store);
+  public digitalOceanUrl = environment.digitalOceanUrl;
+  public placeholderImage = 'assets/media/custom/placeholder-image.png';
 
   public itemSignal = signal<Item>({
     id: 0,

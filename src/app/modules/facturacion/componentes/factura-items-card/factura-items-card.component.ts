@@ -5,6 +5,7 @@ import { FacturaReduxService } from '../../../../redux/services/factura-redux.se
 import { tap } from 'rxjs';
 import { TruncatePipe } from '@pipe/truncate.pipe';
 import { ItemApiService } from 'src/app/modules/general/services/item.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-factura-items-card',
@@ -17,6 +18,8 @@ export class FacturaItemsCardComponent implements OnInit {
   private _itemApiService = inject(ItemApiService);
   public cantidadSignal = signal(0);
   public emirtFavorito = output<number>()
+  public digitalOceanUrl = environment.digitalOceanUrl;
+  public placeholderImage = '/assets/media/custom/placeholder-image.png';
 
   @Input() item: Item;
 

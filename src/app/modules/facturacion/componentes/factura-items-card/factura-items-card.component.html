@@ -60,10 +60,7 @@
 
       <!-- Imagen responsiva -->
       <img
-        [src]="
-          item.imagen ||
-          'https://semantica.sfo3.digitaloceanspaces.com/renio/images/placeholder.jpg'
-        "
+        [src]="item.imagen && item.imagen !== '' ? digitalOceanUrl + item.imagen : placeholderImage"
         [alt]="item.nombre"
         class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         loading="lazy"
