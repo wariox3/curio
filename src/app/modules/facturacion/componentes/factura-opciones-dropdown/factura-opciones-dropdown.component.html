@@ -18,14 +18,16 @@
       </div>
       }
 
-      <div class="menu-item">
-        <section class="menu-link">
-          <span class="menu-icon">
-            <i class="ki-filled ki-printer"></i>
-          </span>
-          <span class="menu-title"> Imprimir </span>
-        </section>
-      </div>
+      @if (visualizarBtnImprimir) {
+        <div class="menu-item">
+          <section class="menu-link">
+            <span class="menu-icon">
+              <i class="ki-filled ki-printer"></i>
+            </span>
+            <span class="menu-title"> Imprimir </span>
+          </section>
+        </div>
+      }
 
       @if(nombre() !== 'Factura principal'){
       <div class="border-b border-b-gray-200"></div>
