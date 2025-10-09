@@ -152,4 +152,5 @@ export interface DocumentoImpuestoFacturaRespuesta {
   compra: boolean;
   total: number;
   total_operado: number;
+  impuesto_impuesto_tipo_id?: number;
 }

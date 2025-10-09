@@ -86,6 +86,10 @@ export class FacturaBuscarItemComponent {
       .subscribe();
   }
 
+  filtrarImpuestosTipoIVA(impuestos: any[]) {
+    return impuestos.filter((impuesto) => impuesto.impuesto_impuesto_tipo_id === 1);
+  }
+
   private _buscarPorCodigo() {
     this._itemApi
       .busqueda(this.inputBusqueda, {
@@ -94,7 +98,18 @@ export class FacturaBuscarItemComponent {
       .pipe(
         switchMap((items: any) => {
           if (items.count === 1) {
-            return this._itemApi.detalle(items.results[0].id);
+            return this._itemApi.detalle(items.results[0].id).pipe(
+              map((respuestaDetalle) => {
+                const impuestosFiltrados = this.filtrarImpuestosTipoIVA(respuestaDetalle.item.impuestos);
+                return {
+                  ...respuestaDetalle,
+                  item: {
+                    ...respuestaDetalle.item,
+                    impuestos: impuestosFiltrados
+                  }
+                }
+              })
+            )
           }
           return of(null);
         }),
