@@ -42,4 +42,16 @@ export class GeneralApiService {
     return this._http.get<RespuestaApi<T>>(endpoint, {params});
   }
 
+  consultaSeleccionar<T>(endpoint: string, queryParams: { [key: string]: any } = {}) {
+    let params = new HttpParams();
+
+    Object.keys(queryParams).forEach((key) => {
+      if (queryParams[key] !== null && queryParams[key] !== undefined) {
+        params = params.append(key, queryParams[key].toString());
+      }
+    });
+
+    return this._http.get<T>(endpoint, {params});
+  }
+
 }

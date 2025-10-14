@@ -37,6 +37,7 @@
         @for (item of arrItemsSignal(); track item.id) {
           <app-factura-items-card
             [item]="item"
+            [contactoPrecioId]="contactoPrecioId()"
             (emirtFavorito)="ordenarPorFavorito($event)"
           >
           </app-factura-items-card>

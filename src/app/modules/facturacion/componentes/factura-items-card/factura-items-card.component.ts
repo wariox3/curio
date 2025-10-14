@@ -15,6 +15,8 @@ import { map, switchMap, tap } from 'rxjs';
 import { TruncatePipe } from '@pipe/truncate.pipe';
 import { ItemApiService } from 'src/app/modules/general/services/item.service';
 import { environment } from 'src/environments/environment';
+import { Store } from '@ngrx/store';
+import { obtenerClienteFacturaActiva, obtenerContactoPrecioId } from '@redux/selectors/factura.selectors';
 
 @Component({
   selector: 'app-factura-items-card',
@@ -25,12 +27,14 @@ import { environment } from 'src/environments/environment';
 export class FacturaItemsCardComponent implements OnInit {
   private _facturaReduxService = inject(FacturaReduxService);
   private _itemApiService = inject(ItemApiService);
+  private _store = inject(Store);
   public cantidadSignal = signal(0);
   public emirtFavorito = output<number>();
   public digitalOceanUrl = environment.digitalOceanUrl;
   public placeholderImage = '/assets/media/custom/placeholder-image.png';
 
   @Input() item: Item;
+  @Input() contactoPrecioId: number;
 
   ngOnInit(): void {
     this._itemCantidad(this.item.id);
@@ -40,15 +44,40 @@ export class FacturaItemsCardComponent implements OnInit {
     this._itemApiService
       .detalle(item.id)
       .pipe(
-        map((respuesta) => {
+        switchMap((respuesta) => {
           const impuestosFiltrados = this.filtrarImpuestosTipoIVA(respuesta.item.impuestos);
-          return {
+          const itemConImpuestosFiltrados = {
             ...respuesta,
             item: {
               ...respuesta.item,
               impuestos: impuestosFiltrados
             }
+          };
+
+          // Si existe contactoPrecioId, consultar el precio específico
+          if (this.contactoPrecioId) {
+            return this._itemApiService
+              .consultarPrecioLista(this.contactoPrecioId, item.id)
+              .pipe(
+                map((respuestaPrecio) => {
+                  // Si vr_precio no es null, actualizar el precio del item
+                  if (respuestaPrecio.vr_precio !== null) {
+                    return {
+                      ...itemConImpuestosFiltrados,
+                      item: {
+                        ...itemConImpuestosFiltrados.item,
+                        precio: respuestaPrecio.vr_precio
+                      }
+                    };
+                  }
+                  // Si vr_precio es null, mantener el precio existente
+                  return itemConImpuestosFiltrados;
+                })
+              );
           }
+          
+          // Si no hay contactoPrecioId, retornar el item con impuestos filtrados
+          return [itemConImpuestosFiltrados];
         }),
         tap((respuestaItemDetalle) => {
           if (this.cantidadSignal() === 0) {
@@ -66,6 +95,8 @@ export class FacturaItemsCardComponent implements OnInit {
       )
       .subscribe();
   }
+
+
 
   filtrarImpuestosTipoIVA(impuestos: any[]) {
     return impuestos.filter((impuesto) => impuesto.impuesto_impuesto_tipo_id === 1);

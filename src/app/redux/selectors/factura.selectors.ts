@@ -104,6 +104,16 @@ export const obtenerClienteFacturaActiva = createSelector(
   },
 );
 
+export const obtenerContactoPrecioId = createSelector(
+  Facturacion,
+  (state) => {
+    const facturaActiva = state.facturas.find(
+      (factura) => factura.uuid === state.facturaActiva,
+    );
+    return facturaActiva ? facturaActiva.precio_id : null;
+  },
+);
+
 export const obtenerTotalFacturaActiva = createSelector(
   Facturacion,
   (state) => {

@@ -5,7 +5,7 @@ import { API_ENDPOINTS } from '@constantes/api-endpoints.const';
 import { Filtros } from '@interfaces/filtros.interface';
 import { Item } from '@interfaces/item.interface';
 import { ValorFiltro } from '@type/valor-filtro.type';
-import { tap } from 'rxjs';
+import { takeUntil, tap } from 'rxjs';
 import { GeneralApiService } from 'src/app/shared/services/general.service';
 
 @Injectable({
@@ -51,6 +51,13 @@ export class ItemApiService {
           this.arrItemsSignal.set(respuesta.results);
         }),
       );
+  }
+
+  consultarPrecioLista(precioId: number, itemId: number) {
+    return this._generalService.consultaSeleccionar<{ vr_precio: number }>(
+      API_ENDPOINTS.GENERAL.ITEM.CONSULTAR_PRECIO,
+      { item_id: itemId, precio_id: precioId },
+    );
   }
 
   busqueda(valor: ValorFiltro, filtros: any) {

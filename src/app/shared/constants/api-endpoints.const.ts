@@ -20,6 +20,7 @@ export const API_ENDPOINTS = {
       NUEVO: `${URL_API_SUBDOMINIO}/general/item/`,
       CARGAR_IMAGEN: `${URL_API_SUBDOMINIO}/general/item/cargar-imagen/`,
       VALIDAR_USO: `${URL_API_SUBDOMINIO}/general/item/validar-uso/`,
+      CONSULTAR_PRECIO: `${URL_API_SUBDOMINIO}/general/precio_detalle/consultar_precio/`,
     },
     CONTACTO: {
       NUEVO: `${URL_API_SUBDOMINIO}/general/contacto/`,
@@ -27,6 +28,7 @@ export const API_ENDPOINTS = {
       LISTA: `${URL_API_SUBDOMINIO}/general/contacto/`,
       VALIDAR: `${URL_API_SUBDOMINIO}/general/contacto/validar/`,
       CONSULTA_DIAN: `${URL_API_SUBDOMINIO}/general/contacto/consulta-dian/`,
+      SELECCIONAR: `${URL_API_SUBDOMINIO}/general/contacto/seleccionar/`,
     },
     ASESOR: {
       DETALLE: `${URL_API_SUBDOMINIO}/general/asesor/detalle/`,

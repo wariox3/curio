@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Contacto } from '@interfaces/contacto';
+import { Contacto, ContactoSeleccionar } from '@interfaces/contacto';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FacturaReduxService } from '../../../../redux/services/factura-redux.service';
 import { FormsModule } from '@angular/forms';
@@ -20,19 +20,19 @@ export class SeleccionarClienteComponent {
   public contactoFactura = this._facturaReduxService.facturaActivaContacto;
 
   ngOnInit(): void {
-    this._contactoApiService.lista('').subscribe();
+    this._contactoApiService.seleccionar({ cliente: 'True' }).subscribe();
   }
 
-  actualizarCliente(contacto: Contacto) {
+  actualizarCliente(contacto: ContactoSeleccionar) {
     this._facturaReduxService.actualizarConctato(contacto);
   }
 
   consultarCliente(event: any) {
     this._contactoApiService
-      .lista(event?.term ?? '')
-      .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-      )
+      .seleccionar({
+        cliente: 'True',
+        nombre_corto__icontains: event?.term ?? '',
+      })
       .subscribe();
   }
 }

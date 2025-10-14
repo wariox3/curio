@@ -9,6 +9,7 @@ export interface DocumentoFactura {
   fecha_vence: string;
   fecha_hasta: any;
   impuesto_operado: number;
+  precio_id: number | null;
   contacto_id: number;
   contacto_numero_identificacion: string;
   contacto_nombre_corto: string;

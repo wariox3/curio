@@ -236,6 +236,7 @@ export const facturaReducer = createReducer(
               contacto_id: contacto.id,
               contacto_nombre_corto: contacto.nombre_corto,
               contacto_numero_identificacion: contacto.numero_identificacion,
+              precio_id: contacto.precio_id,
             },
           }
         : factura,

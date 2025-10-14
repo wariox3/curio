@@ -4,3 +4,7 @@ export interface RespuestaApi<T> {
     previous: string | null;
     results: T[];
 }
+
+export interface QueryParams {
+    [key: string]: any
+}
