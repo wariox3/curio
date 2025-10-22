@@ -185,10 +185,12 @@ export const facturaReducer = createReducer(
       factura.uuid === state.facturaActiva
         ? {
             ...factura,
-            subtotal: factura.detalles.reduce(
-              (total, detalle) => total + (detalle.subtotal || 0),
-              0,
-            ),
+            subtotal: Math.round(
+              factura.detalles.reduce(
+                (total, detalle) => total + (detalle.subtotal || 0),
+                0,
+              ) * 100
+            ) / 100,
           }
         : factura,
     ),
