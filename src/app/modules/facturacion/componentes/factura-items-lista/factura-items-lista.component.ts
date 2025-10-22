@@ -2,6 +2,8 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { FacturaItemsCardComponent } from '../factura-items-card/factura-items-card.component';
 import { catchError, of, tap } from 'rxjs';
 import { ItemApiService } from 'src/app/modules/general/services/item.service';
+import { Store } from '@ngrx/store';
+import { obtenerContactoPrecioId } from '@redux/selectors/factura.selectors';
 
 @Component({
   selector: 'app-factura-items-lista',
@@ -12,15 +14,24 @@ import { ItemApiService } from 'src/app/modules/general/services/item.service';
 })
 export class FacturaItemsListaComponent implements OnInit {
   private _itemApi = inject(ItemApiService);
+  private _store = inject(Store);
   public visualizarLoader = signal(false);
   public arrItemsSignal = this._itemApi.arrItemsSignal;
+  public contactoPrecioId = signal(0);
 
   ngOnInit(): void {
+    this.obtenerInfoCliente();
     this._mostrarLoader();
     this.consultarLista();
   }
-  
 
+  obtenerInfoCliente() {
+    this._store
+      .select(obtenerContactoPrecioId)
+      .subscribe((contactoPrecioId) => {
+        this.contactoPrecioId.set(contactoPrecioId);
+      });
+  }
 
   consultarLista() {
     this._cargarLista();
@@ -42,7 +53,7 @@ export class FacturaItemsListaComponent implements OnInit {
         catchError((error) => {
           this._manejarError(error);
           return of(null);
-        })
+        }),
       )
       .subscribe();
   }
@@ -58,11 +69,11 @@ export class FacturaItemsListaComponent implements OnInit {
 
     // Actualizar la propiedad 'favorito' del item correspondiente
     const itemsActualizados = items.map((item) =>
-      item.id === itemId ? { ...item, favorito: !item.favorito } : item
+      item.id === itemId ? { ...item, favorito: !item.favorito } : item,
     );
     // Ordenar los items por 'favorito'
     const itemsOrdenados = itemsActualizados.sort(
-      (a, b) => (b.favorito ? 1 : 0) - (a.favorito ? 1 : 0)
+      (a, b) => (b.favorito ? 1 : 0) - (a.favorito ? 1 : 0),
     );
 
     this.arrItemsSignal.set([]);

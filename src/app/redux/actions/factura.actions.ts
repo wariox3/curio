@@ -1,4 +1,4 @@
-import { Contacto } from '@interfaces/contacto';
+import { Contacto, ContactoSeleccionar } from '@interfaces/contacto';
 import {
   DocumentoFactura,
   DocumentoFacturaDetalleRespuesta,
@@ -64,7 +64,7 @@ export const actualizarTotalItemFacturaActiva = createAction(
 
 export const actualizarClienteFacturaActiva = createAction(
   '[Factura] Actualizar Cliente de Factura Activa',
-  props<{ contacto: Contacto }>(),
+  props<{ contacto: ContactoSeleccionar }>(),
 );
 
 export const actualizarImpuestoOperadoFacturaActiva = createAction(

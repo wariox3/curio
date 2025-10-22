@@ -5,13 +5,16 @@ import {
   inject,
   signal,
   ViewChild,
+  OnInit,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ModalStandardComponent } from '@componentes/ui/modal/modal-standard.component';
 import { ModalService } from '@componentes/ui/modal/modal.service';
 import { Item } from '@interfaces/item.interface';
 import { KTModal } from '@metronic/components/modal';
+import { Store } from '@ngrx/store';
 import { FacturaReduxService } from '@redux/services/factura-redux.service';
+import { obtenerContactoPrecioId } from '@redux/selectors/factura.selectors';
 import { FacturaTiposBusqueda } from '@type/factura-tipos-busqueda.type';
 import { map, Observable, of, switchMap, take, tap } from 'rxjs';
 import { ItemApiService } from 'src/app/modules/general/services/item.service';
@@ -30,16 +33,22 @@ import { ItemModalComponent } from 'src/app/modules/item/components/item-modal/i
   templateUrl: './factura-buscar-item.component.html',
   styleUrl: './factura-buscar-item.component.scss',
 })
-export class FacturaBuscarItemComponent {
+export class FacturaBuscarItemComponent implements OnInit {
   private _itemApi = inject(ItemApiService);
   private _facturaReduxService = inject(FacturaReduxService);
   private _modalService = inject(ModalService);
+  private _store = inject(Store);
 
   public tipoBusqueda = signal<FacturaTiposBusqueda>('nombre');
+  public contactoPrecioId = signal<number | null>(null);
   public inputBusqueda: string | null = null;
   @ViewChild('campoBusqueda') campoBusqueda: ElementRef;
   inputNombre: ElementRef<HTMLInputElement>;
   @ViewChild('modalFormulario') modalFormulario!: ElementRef;
+
+  ngOnInit(): void {
+    this._obtenerContactoPrecioId();
+  }
 
   seleccionarTipoBusqueda(tipoBusqueda: FacturaTiposBusqueda) {
     this._actualizarTipoBusqueda(tipoBusqueda);
@@ -90,6 +99,14 @@ export class FacturaBuscarItemComponent {
     return impuestos.filter((impuesto) => impuesto.impuesto_impuesto_tipo_id === 1);
   }
 
+  private _obtenerContactoPrecioId() {
+    this._store
+      .select(obtenerContactoPrecioId)
+      .subscribe((contactoPrecioId) => {
+        this.contactoPrecioId.set(contactoPrecioId);
+      });
+  }
+
   private _buscarPorCodigo() {
     this._itemApi
       .busqueda(this.inputBusqueda, {
@@ -108,6 +125,31 @@ export class FacturaBuscarItemComponent {
                     impuestos: impuestosFiltrados
                   }
                 }
+              }),
+              switchMap((itemConImpuestosFiltrados) => {
+                // Si existe contactoPrecioId, consultar el precio específico
+                if (this.contactoPrecioId()) {
+                  return this._itemApi
+                    .consultarPrecioLista(this.contactoPrecioId()!, items.results[0].id)
+                    .pipe(
+                      map((respuestaPrecio) => {
+                        // Si vr_precio no es null, actualizar el precio del item
+                        if (respuestaPrecio.vr_precio !== null) {
+                          return {
+                            ...itemConImpuestosFiltrados,
+                            item: {
+                              ...itemConImpuestosFiltrados.item,
+                              precio: respuestaPrecio.vr_precio
+                            }
+                          };
+                        }
+                        // Si vr_precio es null, mantener el precio existente
+                        return itemConImpuestosFiltrados;
+                      })
+                    );
+                }
+                // Si no hay contactoPrecioId, retornar el item con impuestos filtrados
+                return of(itemConImpuestosFiltrados);
               })
             )
           }

@@ -3,7 +3,7 @@ import {
   documentoFacturaDetalleInit,
   facturaInit,
 } from '@constantes/factura.const';
-import { Contacto } from '@interfaces/contacto';
+import { Contacto, ContactoSeleccionar } from '@interfaces/contacto';
 import {
   DocumentoFactura,
   DocumentoFacturaDetalleRespuesta,
@@ -206,7 +206,7 @@ export class FacturaReduxService {
     this._store.dispatch(actualizarPrecioItemFacturaActiva({ itemId, precio }));
   }
 
-  actualizarConctato(contacto: Contacto) {
+  actualizarConctato(contacto: ContactoSeleccionar) {
     this._store.dispatch(actualizarClienteFacturaActiva({ contacto }));
   }
 
