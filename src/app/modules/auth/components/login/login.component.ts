@@ -1,5 +1,5 @@
 import { NgIf } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -13,7 +13,7 @@ import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { catchError, of, tap } from 'rxjs';
 import { FormErrorComponent } from '../../../../shared/components/form/form-error/form-error.component';
 import { AuthService } from '../../services/auth.service';
-import { NgxTurnstileModule } from 'ngx-turnstile';
+import { NgxTurnstileModule, NgxTurnstileComponent } from 'ngx-turnstile';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -30,11 +30,13 @@ import { environment } from 'src/environments/environment';
   ],
 })
 export default class LoginComponent implements OnInit {
+  @ViewChild(NgxTurnstileComponent) turnstileComponent!: NgxTurnstileComponent;
   loginForm: FormGroup;
   visualizarLoader = signal(false);
   cambiarTipoCampoClave = signal<'text' | 'password'>('password');
   turnstileSiteKey: string = environment.turnstileSiteKey;
   isProduction: boolean = environment.production;
+  enableTurnstile: boolean = environment.enableTurnstile;
 
   private _formBuilder = inject(FormBuilder);
   private _authService = inject(AuthService);
@@ -81,7 +83,7 @@ export default class LoginComponent implements OnInit {
       ],
     });
 
-    if (this.isProduction) {
+    if (this.enableTurnstile) {
       this.loginForm
         .get('turnstileToken')
         ?.addValidators([Validators.required]);
@@ -95,7 +97,7 @@ export default class LoginComponent implements OnInit {
         .login(
           this.loginForm.get('email')?.value,
           this.loginForm.get('password')?.value,
-          this.loginForm.get('turnstileToken')?.value,
+          this.enableTurnstile ? this.loginForm.get('turnstileToken')?.value : undefined,
         )
         .pipe(
           tap((respuestaLogin) => {
@@ -129,6 +131,10 @@ export default class LoginComponent implements OnInit {
           tap(() => this._router.navigate(['/contenedor'])),
           catchError(() => {
             this.visualizarLoader.set(false);
+            if (this.enableTurnstile && this.turnstileComponent) {
+              this.turnstileComponent.reset();
+              this.loginForm.get('turnstileToken')?.setValue('');
+            }
             return of(null);
           }),
         )

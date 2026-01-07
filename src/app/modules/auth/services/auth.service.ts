@@ -27,16 +27,22 @@ export class AuthService implements OnDestroy {
 
   constructor() {}
 
-  login(email: string, password: string, captchaToken: string) {
+  login(email: string, password: string, captchaToken?: string) {
+    const payload: any = {
+      username: email,
+      password: password,
+      proyecto: 'POS',
+    };
+
+    // Solo agregar cf_turnstile_response si captchaToken tiene valor
+    if (captchaToken) {
+      payload.cf_turnstile_response = captchaToken;
+    }
+
     return this._http
       .post<Token>(
         API_ENDPOINTS.SEGURIDAD.LOGIN,
-        {
-          username: email,
-          password: password,
-          cf_turnstile_response: captchaToken,
-          proyecto: 'POS',
-        },
+        payload,
         { context: noRequiereToken() },
       )
       .pipe(
